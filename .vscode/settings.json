@@ -1,6 +1,7 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "volar.tsPlugin": true,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "volar.tsPlugin": false,
   "volar.tsPluginStatus": false,
   "npm.packageManager": "pnpm",
   "editor.tabSize": 2,
