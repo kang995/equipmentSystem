@@ -81,6 +81,7 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
         'alert-error-border-color': '#58181c',
         'alert-error-bg-color': '#2a1215',
         'alert-error-icon-color': '#a61d24',
+        'layout-body-background': '#000000',
       },
     }),
   ];

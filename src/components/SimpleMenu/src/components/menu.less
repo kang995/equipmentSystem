@@ -6,16 +6,17 @@
 @menu-dark-subsidiary-color: rgba(255, 255, 255, 0.7);
 
 .light-border {
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    display: block;
-    width: 2px;
-    content: '';
-    background-color: @primary-color;
-  }
+  // 去除菜单栏选中时右侧的竖线
+  //&::after {
+  //  position: absolute;
+  //  top: 0;
+  //  right: 0;
+  //  bottom: 0;
+  //  display: block;
+  //  width: 2px;
+  //  content: '';
+  //  background-color: @primary-color;
+  //}
 }
 
 .@{menu-prefix-cls}-menu-popover {
@@ -97,7 +98,7 @@
     padding: 0;
     margin: 0;
     font-size: @font-size-base;
-    color: @text-color-base;
+    color: @text-color-secondary; // 菜单文字颜色
     list-style: none;
     outline: none;
 
@@ -107,7 +108,7 @@
     // }
 
     &-light {
-      background-color: #fff;
+      //background-color: #fff; // 取消light主题下侧边栏背景色，默认使用Layout.Slider背景色
 
       .@{menu-prefix-cls}-submenu-active {
         color: @primary-color !important;
@@ -149,13 +150,24 @@
     &-submenu-title span > i {
       margin-right: 8px;
     }
-
+    //collapse
+    &-collapse {
+      // 折叠菜单时去除左右内边距
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
     // vertical
+    &-vertical {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+
     &-vertical &-item,
     &-vertical &-submenu-title {
       position: relative;
       z-index: 1;
-      padding: 14px 24px;
+      padding: 10px 24px;
+      margin-bottom: 8px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -170,6 +182,7 @@
         padding: 12px 0;
         text-align: center;
       }
+
       .@{menu-prefix-cls}-submenu-popup {
         padding: 12px 0;
       }
@@ -181,6 +194,7 @@
         align-items: center;
         justify-content: center;
       }
+
       .@{menu-prefix-cls}-submenu-collapsed-show-tit {
         flex-direction: column;
       }
@@ -210,6 +224,7 @@
       &-nested {
         padding-left: 20px;
       }
+
       .@{menu-prefix-cls}-item {
         padding-left: 43px;
       }
@@ -218,12 +233,30 @@
     &-light&-vertical &-item {
       &-active:not(.@{menu-prefix-cls}-submenu) {
         z-index: 2;
-        color: @primary-color;
-        background-color: fade(@primary-color, 10);
+        color: @text-color;
+        font-weight: bold;
+        background-color: #e2e4ea;
+        border-radius: 6px;
 
         .light-border();
       }
+
+      &:hover {
+        color: @text-color;
+        font-weight: bold;
+        background-color: #e2e4ea;
+        border-radius: 6px;
+      }
+
+      // 选中的菜单父级菜单颜色
       &-active.@{menu-prefix-cls}-submenu {
+        color: @text-color;
+      }
+    }
+
+    // 鼠标滑过菜单栏带子选项的标题时的颜色
+    &-light&-vertical &-submenu-title {
+      &:hover {
         color: @primary-color;
       }
     }
@@ -253,13 +286,25 @@
     &-dark&-vertical &-item,
     &-dark&-vertical &-submenu-title {
       color: @menu-dark-subsidiary-color;
+
       &-active:not(.@{menu-prefix-cls}-submenu) {
         color: #fff !important;
+        //font-weight: bold;
         background-color: @primary-color !important;
+        border-radius: 6px;
       }
 
       &:hover {
         color: #fff;
+      }
+    }
+
+    &-dark&-vertical &-item {
+      &:hover {
+        color: #fff;
+        //font-weight: bold;
+        background-color: @primary-color !important;
+        border-radius: 6px;
       }
     }
 

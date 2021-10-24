@@ -4,7 +4,7 @@
 -->
 <template>
   <div class="anticon" :class="getAppLogoClass" @click="goHome">
-    <img src="../../../assets/images/logo.png" />
+    <img src="../../../assets/images/logo.png" alt="" />
     <div class="ml-2 truncate md:opacity-100" :class="getTitleClass" v-show="showTitle">
       {{ title }}
     </div>
@@ -68,7 +68,7 @@
     transition: all 0.2s ease;
 
     &.light {
-      border-bottom: 1px solid @border-color-base;
+      //border-bottom: 1px solid @border-color-base; // 修改Logo底部边框
     }
 
     &.collapsed-show-title {
@@ -76,7 +76,7 @@
     }
 
     &.light &__title {
-      color: @primary-color;
+      color: @heading-color; // 修改Logo文字标题色
     }
 
     &.dark &__title {
