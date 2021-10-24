@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'AltinnDINExp';
+  src: url('./AltinnDINExp.eot');
+  src: url('./AltinnDINExp.eot') format('embedded-opentype'),
+    url('./AltinnDINExp.woff2') format('woff2'), url('./AltinnDINExp.woff') format('woff'),
+    url('./AltinnDINExp.ttf') format('truetype'),
+    url('./AltinnDINExp.svg#AltinnDINExp') format('svg');
+}
