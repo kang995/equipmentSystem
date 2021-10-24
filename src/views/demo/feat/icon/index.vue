@@ -1,5 +1,12 @@
 <template>
   <PageWrapper title="Icon组件示例">
+    <CollapseContainer title="阿里巴巴矢量图标库" class="my-5">
+      <div class="flex justify-around flex-wrap">
+        <SvgIcon name="gonggong_logo" size="48" style="color: red" />
+        <Icon :icon="`gonggong_logo|svg`" :size="30" style="color: blue" />
+      </div>
+    </CollapseContainer>
+
     <CollapseContainer title="Antv Icon使用 (直接按需引入相应组件即可)">
       <div class="flex justify-around">
         <GithubFilled :style="{ fontSize: '30px' }" />
@@ -47,7 +54,7 @@
       message="推荐使用Iconify组件"
       description="Icon组件基本包含所有的图标,在下面网址内你可以查询到你想要的任何图标。并且打包只会打包所用到的图标。"
     />
-    <a-button type="link" @click="toIconify"> Iconify 图标大全 </a-button>
+    <a-button type="link" @click="toIconify"> Iconify 图标大全</a-button>
   </PageWrapper>
 </template>
 <script lang="ts">
