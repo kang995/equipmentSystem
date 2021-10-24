@@ -5,6 +5,14 @@
   &-number {
     min-width: 110px;
   }
+
+  &:hover:not(&-disabled) {
+    background: white;
+  }
+
+  &:focus:not(&-disabled) {
+    background: white;
+  }
 }
 
 .ant-input-affix-wrapper .ant-input-suffix {
@@ -20,5 +28,19 @@
 
   textarea.ant-input {
     padding: 4px;
+  }
+}
+
+.ant-input-affix-wrapper {
+  &:hover:not(&-disabled) {
+    background: white;
+
+    .ant-input {
+      background: white;
+    }
+  }
+
+  &-focused:not(&-disabled) {
+    background: white !important;
   }
 }

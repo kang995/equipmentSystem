@@ -8,6 +8,16 @@ import { resolve } from 'path';
 export function generateModifyVars(dark = false) {
   const palettes = generateAntColors(primaryColor);
   const primary = palettes[5];
+  // 蓝湖设计图规定的颜色
+  const Title = '#171b25';
+  const Body1 = '#414960';
+  const Body2 = '#61687c';
+  const Body3 = '#9fa3b0';
+  // const Gray1 = '#b5b5be';
+  // const Gray2 = '#d5d5dc';
+  // const Gray3 = '#e2e2ea';
+  const Gray4 = '#f1f2f5';
+  const Gray5 = '#fafafb';
 
   const primaryColorObj: Record<string, string> = {};
 
@@ -33,11 +43,18 @@ export function generateModifyVars(dark = false) {
     'border-radius-base': '6px', //  Component/float fillet
     'link-color': primary, //   Link color
     'app-content-background': '#fafafa', //   Link color
-    'heading-color': '#171b25', // 标题色 Title
-    'text-color': '#414960', // 主文本色 Body-1
-    'text-color-secondary': '#61687C', // 次文本色 Body-2
-    'disabled-color': '#9FA3B0', // 失效色 Body-3
-    'layout-sider-background-light': '#F1F2F5', // 左侧菜单栏背景 Gray-4
-    'layout-body-background': '#FAFAFB', // 页面主体背景色 Gray-5
+    'heading-color': Title, // 标题色 Title
+    'text-color': Body1, // 主文本色 Body-1
+    'text-color-secondary': Body2, // 次文本色 Body-2
+    'disabled-color': Body3, // 失效色 Body-3
+    'layout-sider-background-light': Gray4, // 左侧菜单栏背景 Gray-4
+    'layout-body-background': Gray5, // 页面主体背景色 Gray-5
+    'input-bg': Gray5, // input默认背景色
+    'input-disabled-bg': Gray4, // input disabled背景色
+    'input-placeholder-color': Body3, // placeholder颜色
+    'input-padding-vertical-base': '6px', // 正常input框高度
+    'input-padding-vertical-sm': '4px', // small input高度
+    'input-height-base': '36px', // 实际整个input框高度，用于表单label对齐
+    'input-height-sm': '32px', // 实际整个input框高度，用于表单label对齐
   };
 }
