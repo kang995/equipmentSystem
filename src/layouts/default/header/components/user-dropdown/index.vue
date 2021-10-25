@@ -122,7 +122,7 @@
   });
 </script>
 <style lang="less">
-  @prefix-cls: ~'@{namespace}-header-user-dropdown';
+  @prefix-cls: ~'@{name-space}-header-user-dropdown';
 
   .@{prefix-cls} {
     height: @header-height;

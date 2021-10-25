@@ -116,7 +116,7 @@
 </script>
 
 <style lang="less" scoped>
-  @prefix-cls: ~'@{namespace}-cropper-avatar';
+  @prefix-cls: ~'@{name-space}-cropper-avatar';
 
   .@{prefix-cls} {
     display: inline-block;
