@@ -18,7 +18,7 @@ html[data-theme='dark'] {
       .ant-pagination-item-active {
         background-color: @primary-color !important;
         border: none;
-        border-radius: none !important;
+        border-radius: 6px !important;
 
         a {
           color: @white !important;
@@ -49,10 +49,11 @@ html[data-theme='dark'] {
     .ant-pagination-prev,
     .ant-pagination-next,
     .ant-pagination-item {
+      font-family: AltinnDINExp, serif;
       margin: 0 4px !important;
       background-color: #f4f4f5 !important;
       border: none;
-      border-radius: none !important;
+      border-radius: 6px !important;
 
       a {
         margin-top: 1px;
@@ -67,7 +68,7 @@ html[data-theme='dark'] {
     .ant-pagination-item-active {
       background-color: @primary-color !important;
       border: none;
-      border-radius: none !important;
+      border-radius: 6px !important;
 
       a {
         color: @white !important;
@@ -75,18 +76,22 @@ html[data-theme='dark'] {
     }
 
     .ant-pagination-options {
-      margin-left: 12px;
+      margin-left: 12px !important;
     }
 
     .ant-pagination-options-quick-jumper input {
-      height: 22px;
+      height: 32px;
       margin: 0 6px;
-      line-height: 22px;
+      line-height: 32px;
       text-align: center;
     }
 
     .ant-select-arrow {
       color: @border-color-shallow-dark;
+    }
+
+    .ant-pagination-options-size-changer.ant-select {
+      margin-right: 16px !important;
     }
   }
 

@@ -56,5 +56,8 @@ export function generateModifyVars(dark = false) {
     'input-padding-vertical-sm': '4px', // small input高度
     'input-height-base': '36px', // 实际整个input框高度，用于表单label对齐
     'input-height-sm': '32px', // 实际整个input框高度，用于表单label对齐
+    'select-background': Gray5, // 下拉框背景色
+    'cascader-bg': Gray5, // 级联选择器
+    'pagination-item-size-sm': '32px', // 分页高度
   };
 }

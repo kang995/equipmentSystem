@@ -70,7 +70,7 @@ export default {
 
     index: '序号',
 
-    total: '共 {total} 条数据',
+    total: '共 {total} 条',
   },
   time: {
     before: '前',

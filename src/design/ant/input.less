@@ -4,6 +4,14 @@
 .ant-input {
   &-number {
     min-width: 110px;
+
+    &:hover:not(&-disabled) {
+      background: white;
+    }
+
+    &-focused:not(&-disabled) {
+      background: white;
+    }
   }
 
   &:hover:not(&-disabled) {
@@ -42,5 +50,14 @@
 
   &-focused:not(&-disabled) {
     background: white !important;
+  }
+}
+
+.ant-input-group-wrapper {
+  .ant-input-group {
+    .ant-input-affix-wrapper {
+      border-radius: 0 !important;
+      z-index: 1;
+    }
   }
 }
