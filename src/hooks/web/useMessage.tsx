@@ -74,6 +74,7 @@ const getBaseOptions = () => {
   return {
     okText: t('common.okText'),
     centered: true,
+    autoFocusButton: null,
   };
 };
 
