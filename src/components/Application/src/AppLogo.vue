@@ -4,7 +4,7 @@
 -->
 <template>
   <div class="anticon" :class="getAppLogoClass" @click="goHome">
-    <img src="../../../assets/images/logo.png" alt="" />
+    <SvgIcon name="gonggong_logo" size="32" :class="getLogoSvgClass" />
     <div class="ml-2 truncate md:opacity-100" :class="getTitleClass" v-show="showTitle">
       {{ title }}
     </div>
@@ -18,6 +18,7 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { PageEnum } from '/@/enums/pageEnum';
   import { useUserStore } from '/@/store/modules/user';
+  import { SvgIcon } from '/@/components/Icon';
 
   const props = defineProps({
     /**
@@ -52,6 +53,8 @@
       'xs:opacity-0': !props.alwaysShowTitle,
     },
   ]);
+
+  const getLogoSvgClass = computed(() => [`${prefixCls}__svg`]);
 
   function goHome() {
     go(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
@@ -88,6 +91,14 @@
       font-weight: 700;
       transition: all 0.5s;
       line-height: normal;
+    }
+
+    &.light &__svg {
+      color: @primary-color;
+    }
+
+    &.dark &__svg {
+      color: @white;
     }
   }
 </style>
