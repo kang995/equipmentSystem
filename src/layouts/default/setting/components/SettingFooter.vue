@@ -1,9 +1,9 @@
 <template>
   <div :class="prefixCls">
-    <a-button type="primary" block @click="handleCopy">
-      <CopyOutlined class="mr-2" />
-      {{ t('layout.setting.copyBtn') }}
-    </a-button>
+    <!--    <a-button type="primary" block @click="handleCopy">-->
+    <!--      <CopyOutlined class="mr-2" />-->
+    <!--      {{ t('layout.setting.copyBtn') }}-->
+    <!--    </a-button>-->
 
     <a-button color="warning" block @click="handleResetSetting" class="my-3">
       <RedoOutlined class="mr-2" />
@@ -19,7 +19,7 @@
 <script lang="ts">
   import { defineComponent, unref } from 'vue';
 
-  import { CopyOutlined, RedoOutlined } from '@ant-design/icons-vue';
+  import { RedoOutlined } from '@ant-design/icons-vue';
 
   import { useAppStore } from '/@/store/modules/app';
   import { usePermissionStore } from '/@/store/modules/permission';
@@ -34,10 +34,15 @@
   import { updateColorWeak } from '/@/logics/theme/updateColorWeak';
   import { updateGrayMode } from '/@/logics/theme/updateGrayMode';
   import defaultSetting from '/@/settings/projectSetting';
+  import { changeTheme } from '/@/logics/theme';
+  import { updateHeaderBgColor, updateSidebarBgColor } from '/@/logics/theme/updateBackground';
+  import { ThemeEnum } from '/@/enums/appEnum';
+  import { updateDarkTheme } from '/@/logics/theme/dark';
+  import { useRootSetting } from '/@/hooks/setting/useRootSetting';
 
   export default defineComponent({
     name: 'SettingFooter',
-    components: { CopyOutlined, RedoOutlined },
+    components: { RedoOutlined },
     setup() {
       const permissionStore = usePermissionStore();
       const { prefixCls } = useDesign('setting-footer');
@@ -60,10 +65,20 @@
       function handleResetSetting() {
         try {
           appStore.setProjectConfig(defaultSetting);
-          const { colorWeak, grayMode } = defaultSetting;
-          // updateTheme(themeColor);
+          const { themeColor, colorWeak, grayMode } = defaultSetting;
+          const { bgColor } = defaultSetting.menuSetting;
+          const { setDarkMode } = useRootSetting();
+          // 重置主题色
+          changeTheme(themeColor);
+          updateSidebarBgColor(bgColor);
           updateColorWeak(colorWeak);
           updateGrayMode(grayMode);
+          // 重置黑夜模式
+          const darkMode = ThemeEnum.LIGHT;
+          setDarkMode(darkMode);
+          updateDarkTheme(darkMode);
+          updateHeaderBgColor();
+          updateSidebarBgColor();
           createMessage.success(t('layout.setting.resetSuccess'));
         } catch (error: any) {
           createMessage.error(error);
