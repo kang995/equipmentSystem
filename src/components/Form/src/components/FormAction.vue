@@ -17,6 +17,7 @@
         <Button
           type="primary"
           class="mr-2"
+          :size="submitButtonSize"
           v-bind="getSubmitBtnOptions"
           @click="submitAction"
           v-if="showSubmitButton"
@@ -80,6 +81,8 @@
       actionSpan: propTypes.number.def(6),
       isAdvanced: propTypes.bool,
       hideAdvanceBtn: propTypes.bool,
+      //自定义按钮参数
+      submitButtonSize: propTypes.string.def('middle'),
     },
     emits: ['toggle-advanced'],
     setup(props, { emit }) {

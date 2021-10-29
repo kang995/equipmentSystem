@@ -24,7 +24,11 @@
         </FormItem>
       </template>
 
-      <FormAction v-bind="getFormActionBindProps" @toggle-advanced="handleToggleAdvanced">
+      <FormAction
+        v-bind="getFormActionBindProps"
+        @toggle-advanced="handleToggleAdvanced"
+        :submitButtonSize="submitButtonSize"
+      >
         <template
           #[item]="data"
           v-for="item in ['resetBefore', 'submitBefore', 'advanceBefore', 'advanceAfter']"
@@ -91,6 +95,9 @@
       const getProps = computed((): FormProps => {
         return { ...props, ...unref(propsRef) } as FormProps;
       });
+
+      //自定义按钮参数
+      const { submitButtonSize } = unref(props);
 
       const getFormClass = computed(() => {
         return [
@@ -296,6 +303,8 @@
           (): Recordable => ({ ...getProps.value, ...advanceState }),
         ),
         ...formActionType,
+        //提交按钮size
+        submitButtonSize,
       };
     },
   });

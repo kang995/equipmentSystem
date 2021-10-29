@@ -100,4 +100,6 @@ export const basicProps = {
   labelAlign: propTypes.string,
 
   rowProps: Object as PropType<RowProps>,
+  // 提交按钮size
+  submitButtonSize: propTypes.string,
 };
