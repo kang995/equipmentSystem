@@ -62,6 +62,7 @@ function createConfirm(options: ModalOptionsEx): ConfirmOptions {
   Reflect.deleteProperty(options, 'iconType');
   const opt: ModalFuncProps = {
     centered: true,
+    autoFocusButton: null,
     icon: getIcon(iconType),
     ...options,
     content: renderContent(options),
