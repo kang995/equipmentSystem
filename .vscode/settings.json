@@ -135,6 +135,7 @@
     "tailwindcss",
     "sider",
     "pnpm",
-    "antd"
+    "antd",
+    "unref"
   ]
 }
