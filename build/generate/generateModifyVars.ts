@@ -54,6 +54,8 @@ export function generateModifyVars(dark = false) {
     'input-placeholder-color': Body3, // placeholder颜色
     'input-padding-vertical-base': '6px', // 正常input框高度
     'input-padding-vertical-sm': '4px', // small input高度
+    'btn-height-base': '36px', // 按钮默认高度
+    'btn-height-sm': '32px', // small按钮高度
     'input-height-base': '36px', // 实际整个input框高度，用于表单label对齐
     'input-height-sm': '32px', // 实际整个input框高度，用于表单label对齐
     'select-background': Gray5, // 下拉框背景色
