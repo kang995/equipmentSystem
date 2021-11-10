@@ -11,7 +11,7 @@
       <div :class="getInputSearchCls" v-if="search">
         <InputSearch
           :placeholder="t('common.searchText')"
-          size="small"
+          :size="inputSearchSize"
           allowClear
           v-model:value="searchValue"
         />
@@ -78,6 +78,10 @@
     expandAll: {
       type: Function,
       default: undefined,
+    },
+    inputSearchSize: {
+      type: String,
+      default: 'default',
     },
   } as const);
   const emit = defineEmits(['strictly-change', 'search']);
