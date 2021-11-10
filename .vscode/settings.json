@@ -136,6 +136,7 @@
     "sider",
     "pnpm",
     "antd",
-    "unref"
+    "unref",
+    "AltinnDINExp"
   ]
 }
