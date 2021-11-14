@@ -59,7 +59,7 @@
       FormItem: Form.Item,
       Button,
       BasicArrow,
-      [Col.name]: Col,
+      ACol: Col,
     },
     props: {
       showActionButtonGroup: propTypes.bool.def(true),
@@ -112,7 +112,7 @@
         );
       });
 
-      const getSubmitBtnOptions = computed(() => {
+      const getSubmitBtnOptions = computed((): ButtonOptions => {
         return Object.assign(
           {
             text: t('common.queryText'),
