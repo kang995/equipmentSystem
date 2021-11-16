@@ -9,7 +9,7 @@
   const A_MAP_URL = 'https://webapi.amap.com/maps?v=2.0&key=d7bb98e7185300250dd5f918c12f484b';
 
   export default defineComponent({
-    name: 'AMap',
+    name: 'GaodeMap',
     props: {
       width: {
         type: String,
