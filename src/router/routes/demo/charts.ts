@@ -22,14 +22,14 @@ const charts: AppRouteModule = {
       },
       component: () => import('/@/views/demo/charts/map/Baidu.vue'),
     },
-    {
-      path: 'gaode-map',
-      name: 'GaodeMap',
-      meta: {
-        title: t('routes.demo.charts.aMap'),
-      },
-      component: () => import('/@/views/demo/charts/map/Gaode.vue'),
-    },
+    // {
+    //   path: 'gaode-map',
+    //   name: 'GaodeMap',
+    //   meta: {
+    //     title: t('routes.demo.charts.aMap'),
+    //   },
+    //   component: () => import('/@/views/demo/charts/map/Gaode.vue'),
+    // },
     {
       path: 'gaode-map2',
       name: 'GaodeMap2',
