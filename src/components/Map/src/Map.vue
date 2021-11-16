@@ -28,7 +28,7 @@
         return;
       }
       map = new AMap.Map(containerEl!, { zoom: 11, viewMode: '3D' });
-      const styleName = 'amap://styles/grey';
+      const styleName = 'amap://styles/085c77e7cdeb03e460ee4a51f485735d';
       map.setMapStyle(styleName);
       // 地图标尺
       map.addControl(new AMap.Scale());
