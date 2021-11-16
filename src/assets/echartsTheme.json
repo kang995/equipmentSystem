@@ -293,11 +293,11 @@
   "tooltip": {
     "axisPointer": {
       "lineStyle": {
-        "color": "#e2e2ea",
+        "color": "#9fa3b0",
         "width": 1
       },
       "crossStyle": {
-        "color": "#e2e2ea",
+        "color": "#9fa3b0",
         "width": 1
       }
     }
