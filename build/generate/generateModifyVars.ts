@@ -73,6 +73,10 @@ export function generateModifyVars(dark = false) {
     'pagination-item-size-sm': '32px', // 分页高度
     'select-item-selected-bg': Gray4, // 下拉框选中背景色
     'cascader-item-selected-bg': Gray4, // 级联
-    'item-hover-bg': Gray4,
+    'item-hover-bg': Gray4, // 供其他变量引用的变量
+    'radio-button-bg': Gray5,
+    // 'radio-button-hover-color': '@primary-color',
+    // 'radio-button-active-color': '@primary-color',
+    'radio-button-checked-bg': '@primary-2',
   };
 }
