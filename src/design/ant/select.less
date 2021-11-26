@@ -1,5 +1,6 @@
 @import (reference) '../color.less';
 
+// 下拉选择
 .ant-select {
   &:not(&-disabled):hover &-selector {
     background: white;
@@ -7,5 +8,24 @@
 
   &-focused:not(&-disabled) &-selector {
     background: white !important;
+  }
+
+  &-item {
+    margin: auto 4px 4px 4px;
+    border-radius: 6px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// 级联下拉选择
+.ant-cascader-menu-item {
+  margin: auto 4px 4px 4px;
+  border-radius: 6px;
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }

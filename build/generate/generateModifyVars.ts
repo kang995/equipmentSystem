@@ -13,9 +13,9 @@ export function generateModifyVars(dark = false) {
   const Body1 = '#414960';
   const Body2 = '#61687c';
   const Body3 = '#9fa3b0';
-  // const Gray1 = '#b5b5be';
-  // const Gray2 = '#d5d5dc';
-  // const Gray3 = '#e2e2ea';
+  const Gray1 = '#b5b5be';
+  const Gray2 = '#d5d5dc';
+  const Gray3 = '#e2e2ea';
   const Gray4 = '#f1f2f5';
   const Gray5 = '#fafafb';
 
@@ -38,6 +38,16 @@ export function generateModifyVars(dark = false) {
     'success-color': '#00ba7c', //  Success color
     'error-color': '#ed6f6f', //  False color
     'warning-color': '#ffaa00', //   Warning color
+    // UI设计师自定义的颜色
+    'custom-title': Title,
+    'custom-body1': Body1,
+    'custom-body2': Body2,
+    'custom-body3': Body3,
+    'custom-gray1': Gray1,
+    'custom-gray2': Gray2,
+    'custom-gray3': Gray3,
+    'custom-gray4': Gray4,
+    'custom-gray5': Gray5,
     //'border-color-base': '#EEEEEE',
     'font-size-base': '14px', //  Main font size
     'border-radius-base': '6px', //  Component/float fillet
@@ -61,5 +71,8 @@ export function generateModifyVars(dark = false) {
     'select-background': Gray5, // 下拉框背景色
     'cascader-bg': Gray5, // 级联选择器
     'pagination-item-size-sm': '32px', // 分页高度
+    'select-item-selected-bg': Gray4, // 下拉框选中背景色
+    'cascader-item-selected-bg': Gray4, // 级联
+    'item-hover-bg': Gray4,
   };
 }
