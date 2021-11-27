@@ -1,5 +1,9 @@
 <template>
-  <a-tree-select v-bind="getAttrs" @change="handleChange">
+  <a-tree-select
+    v-bind="getAttrs"
+    @change="handleChange"
+    :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+  >
     <template #[item]="data" v-for="item in Object.keys($slots)">
       <slot :name="item" v-bind="data || {}"></slot>
     </template>
