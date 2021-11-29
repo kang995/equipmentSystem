@@ -66,17 +66,18 @@
   @prefix-cls: ~'@{name-space}-basic-modal-close';
   .@{prefix-cls} {
     display: flex;
+    justify-content: flex-end;
     height: 95%;
     align-items: center;
 
     > span {
-      margin-left: 48px;
+      margin-right: 12px;
       font-size: 16px;
     }
 
     &--can-full {
       > span {
-        margin-left: 12px;
+        //margin-left: 12px;
       }
     }
 
@@ -90,15 +91,21 @@
 
     & span:nth-child(1) {
       display: inline-block;
-      padding: 10px;
+      padding: 6px;
 
       &:hover {
+        background: @custom-gray4;
+        border-radius: 4px;
         color: @primary-color;
       }
     }
 
     & span:last-child {
+      padding: 6px;
+
       &:hover {
+        background: @custom-gray4;
+        border-radius: 4px;
         color: @error-color;
       }
     }
