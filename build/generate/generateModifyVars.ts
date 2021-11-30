@@ -78,5 +78,8 @@ export function generateModifyVars(dark = false) {
     // 'radio-button-hover-color': '@primary-color',
     // 'radio-button-active-color': '@primary-color',
     'radio-button-checked-bg': '@primary-2',
+    'label-color': Body2, // Form label color
+    'table-header-bg': Gray4,
+    // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
   };
 }
