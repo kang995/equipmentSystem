@@ -4,10 +4,10 @@ import { getParentLayout, LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const permission: AppRouteModule = {
-  path: '/level',
-  name: 'Level',
+  path: 'level',
+  name: 'LevelDemo',
   component: LAYOUT,
-  redirect: '/level/menu1/menu1-1/menu1-1-1',
+  redirect: '/demo/level/menu1/menu1-1/menu1-1-1',
   meta: {
     orderNo: 2000,
     icon: 'ion:menu-outline',
@@ -22,7 +22,7 @@ const permission: AppRouteModule = {
       meta: {
         title: 'Menu1',
       },
-      redirect: '/level/menu1/menu1-1/menu1-1-1',
+      redirect: '/demo/level/menu1/menu1-1/menu1-1-1',
       children: [
         {
           path: 'menu1-1',
@@ -31,7 +31,7 @@ const permission: AppRouteModule = {
           meta: {
             title: 'Menu1-1',
           },
-          redirect: '/level/menu1/menu1-1/menu1-1-1',
+          redirect: '/demo/level/menu1/menu1-1/menu1-1-1',
           children: [
             {
               path: 'menu1-1-1',

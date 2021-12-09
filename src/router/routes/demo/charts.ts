@@ -4,10 +4,10 @@ import { getParentLayout, LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const charts: AppRouteModule = {
-  path: '/charts',
-  name: 'Charts',
+  path: 'charts',
+  name: 'DemoCharts',
   component: LAYOUT,
-  redirect: '/charts/echarts/map',
+  redirect: '/demo/charts/echarts/map',
   meta: {
     orderNo: 500,
     icon: 'ion:bar-chart-outline',
@@ -16,7 +16,7 @@ const charts: AppRouteModule = {
   children: [
     {
       path: 'baiduMap',
-      name: 'BaiduMap',
+      name: 'DemoBaiduMap',
       meta: {
         title: t('routes.demo.charts.baiduMap'),
       },
@@ -24,7 +24,7 @@ const charts: AppRouteModule = {
     },
     // {
     //   path: 'gaode-map',
-    //   name: 'GaodeMap',
+    //   name: 'DemoGaodeMap',
     //   meta: {
     //     title: t('routes.demo.charts.aMap'),
     //   },
@@ -32,7 +32,7 @@ const charts: AppRouteModule = {
     // },
     {
       path: 'gaode-map2',
-      name: 'GaodeMap2',
+      name: 'DemoGaodeMap2',
       meta: {
         title: '高德地图2',
       },
@@ -40,7 +40,7 @@ const charts: AppRouteModule = {
     },
     {
       path: 'googleMap',
-      name: 'GoogleMap',
+      name: 'DemoGoogleMap',
       meta: {
         title: t('routes.demo.charts.googleMap'),
       },
@@ -49,16 +49,16 @@ const charts: AppRouteModule = {
 
     {
       path: 'echarts',
-      name: 'Echarts',
+      name: 'DemoEcharts',
       component: getParentLayout('Echarts'),
       meta: {
         title: 'Echarts',
       },
-      redirect: '/charts/echarts/map',
+      redirect: '/demo/charts/echarts/map',
       children: [
         {
           path: 'map',
-          name: 'Map',
+          name: 'DemoMap',
           component: () => import('/@/views/demo/charts/Map.vue'),
           meta: {
             title: t('routes.demo.charts.map'),
@@ -66,7 +66,7 @@ const charts: AppRouteModule = {
         },
         {
           path: 'line',
-          name: 'Line',
+          name: 'DemoLine',
           component: () => import('/@/views/demo/charts/Line.vue'),
           meta: {
             title: t('routes.demo.charts.line'),
@@ -74,7 +74,7 @@ const charts: AppRouteModule = {
         },
         {
           path: 'pie',
-          name: 'Pie',
+          name: 'DemoPie',
           component: () => import('/@/views/demo/charts/Pie.vue'),
           meta: {
             title: t('routes.demo.charts.pie'),

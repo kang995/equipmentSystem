@@ -4,10 +4,10 @@ import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const charts: AppRouteModule = {
-  path: '/flow',
+  path: 'flow',
   name: 'FlowDemo',
   component: LAYOUT,
-  redirect: '/flow/flowChart',
+  redirect: '/demo/flow/flowChart',
   meta: {
     orderNo: 5000,
     icon: 'tabler:chart-dots',

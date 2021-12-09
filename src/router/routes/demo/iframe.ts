@@ -5,10 +5,10 @@ const IFrame = () => import('/@/views/sys/iframe/FrameBlank.vue');
 import { t } from '/@/hooks/web/useI18n';
 
 const iframe: AppRouteModule = {
-  path: '/frame',
-  name: 'Frame',
+  path: 'frame',
+  name: 'FrameDemo',
   component: LAYOUT,
-  redirect: '/frame/doc',
+  redirect: '/demo/frame/doc',
   meta: {
     orderNo: 1000,
     icon: 'ion:tv-outline',

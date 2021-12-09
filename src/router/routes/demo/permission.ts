@@ -5,10 +5,10 @@ import { RoleEnum } from '/@/enums/roleEnum';
 import { t } from '/@/hooks/web/useI18n';
 
 const permission: AppRouteModule = {
-  path: '/permission',
-  name: 'Permission',
+  path: 'permission',
+  name: 'PermissionDemo',
   component: LAYOUT,
-  redirect: '/permission/front/page',
+  redirect: '/demo/permission/front/page',
   meta: {
     orderNo: 15,
     icon: 'ion:key-outline',

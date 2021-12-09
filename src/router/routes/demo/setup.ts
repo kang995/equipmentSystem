@@ -4,10 +4,10 @@ import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const setup: AppRouteModule = {
-  path: '/setup',
+  path: 'setup',
   name: 'SetupDemo',
   component: LAYOUT,
-  redirect: '/setup/index',
+  redirect: '/demo/setup/index',
   meta: {
     orderNo: 90000,
     hideChildrenInMenu: true,

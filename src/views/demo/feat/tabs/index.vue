@@ -51,7 +51,7 @@
       }
 
       function toDetail(index: number) {
-        go(`/feat/tabs/detail/${index}`);
+        go(`/demo/feat/tabs/detail/${index}`);
       }
       return {
         closeAll,

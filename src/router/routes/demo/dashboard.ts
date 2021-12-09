@@ -4,10 +4,10 @@ import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const dashboard: AppRouteModule = {
-  path: '/dashboard',
-  name: 'Dashboard',
+  path: 'demo-dashboard',
+  name: 'DemoDashboard',
   component: LAYOUT,
-  redirect: '/dashboard/analysis',
+  redirect: '/demo/dashboard/demo-analysis',
   meta: {
     orderNo: 10,
     icon: 'ion:grid-outline',
@@ -15,8 +15,8 @@ const dashboard: AppRouteModule = {
   },
   children: [
     {
-      path: 'analysis',
-      name: 'Analysis',
+      path: 'demo-analysis',
+      name: 'DemoAnalysis',
       component: () => import('/@/views/dashboard/analysis/index.vue'),
       meta: {
         // affix: true,
@@ -24,8 +24,8 @@ const dashboard: AppRouteModule = {
       },
     },
     {
-      path: 'workbench',
-      name: 'Workbench',
+      path: 'demo-workbench',
+      name: 'DemoWorkbench',
       component: () => import('/@/views/dashboard/workbench/index.vue'),
       meta: {
         title: t('routes.dashboard.workbench'),

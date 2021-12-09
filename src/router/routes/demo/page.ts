@@ -7,10 +7,10 @@ import { t } from '/@/hooks/web/useI18n';
 const ExceptionPage = () => import('/@/views/sys/exception/Exception.vue');
 
 const page: AppRouteModule = {
-  path: '/page-demo',
+  path: 'page-demo',
   name: 'PageDemo',
   component: LAYOUT,
-  redirect: '/page-demo/form/basic',
+  redirect: '/demo/page-demo/form/basic',
   meta: {
     orderNo: 20,
     icon: 'ion:aperture-outline',
@@ -21,7 +21,7 @@ const page: AppRouteModule = {
     {
       path: 'form',
       name: 'FormPage',
-      redirect: '/page-demo/form/basic',
+      redirect: '/demo/page-demo/form/basic',
       component: getParentLayout('FormPage'),
       meta: {
         title: t('routes.demo.page.form'),
@@ -59,7 +59,7 @@ const page: AppRouteModule = {
       path: 'desc',
       name: 'DescPage',
       component: getParentLayout('DescPage'),
-      redirect: '/page-demo/desc/basic',
+      redirect: '/demo/page-demo/desc/basic',
       meta: {
         title: t('routes.demo.page.desc'),
       },
@@ -88,7 +88,7 @@ const page: AppRouteModule = {
     {
       path: 'result',
       name: 'ResultPage',
-      redirect: '/page-demo/result/success',
+      redirect: '/demo/page-demo/result/success',
       component: getParentLayout('ResultPage'),
 
       meta: {
@@ -120,7 +120,7 @@ const page: AppRouteModule = {
       path: 'account',
       name: 'AccountPage',
       component: getParentLayout('AccountPage'),
-      redirect: '/page-demo/account/setting',
+      redirect: '/demo/page-demo/account/setting',
       meta: {
         title: t('routes.demo.page.account'),
       },
@@ -149,7 +149,7 @@ const page: AppRouteModule = {
       path: 'exception',
       name: 'ExceptionPage',
       component: getParentLayout('ExceptionPage'),
-      redirect: '/page-demo/exception/404',
+      redirect: '/demo/page-demo/exception/404',
       meta: {
         title: t('routes.demo.page.exception'),
       },
@@ -217,7 +217,7 @@ const page: AppRouteModule = {
       path: 'list',
       name: 'ListPage',
       component: getParentLayout('ListPage'),
-      redirect: '/page-demo/list/card',
+      redirect: '/demo/page-demo/list/card',
       meta: {
         title: t('routes.demo.page.list'),
       },

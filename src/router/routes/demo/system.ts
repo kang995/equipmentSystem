@@ -4,10 +4,10 @@ import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const system: AppRouteModule = {
-  path: '/system',
-  name: 'System',
+  path: 'system',
+  name: 'SystemDemo',
   component: LAYOUT,
-  redirect: '/system/account',
+  redirect: '/demo/system/account',
   meta: {
     orderNo: 2000,
     icon: 'ion:settings-outline',
@@ -16,7 +16,7 @@ const system: AppRouteModule = {
   children: [
     {
       path: 'account',
-      name: 'AccountManagement',
+      name: 'AccountManagementDemo',
       meta: {
         title: t('routes.demo.system.account'),
         ignoreKeepAlive: false,
@@ -25,19 +25,19 @@ const system: AppRouteModule = {
     },
     {
       path: 'account_detail/:id',
-      name: 'AccountDetail',
+      name: 'AccountDetailDemo',
       meta: {
         hideMenu: true,
         title: t('routes.demo.system.account_detail'),
         ignoreKeepAlive: true,
         showMenu: false,
-        currentActiveMenu: '/system/account',
+        currentActiveMenu: '/demo/system/account',
       },
       component: () => import('/@/views/demo/system/account/AccountDetail.vue'),
     },
     {
       path: 'role',
-      name: 'RoleManagement',
+      name: 'RoleManagementDemo',
       meta: {
         title: t('routes.demo.system.role'),
         ignoreKeepAlive: true,
@@ -47,7 +47,7 @@ const system: AppRouteModule = {
 
     {
       path: 'menu',
-      name: 'MenuManagement',
+      name: 'MenuManagementDemo',
       meta: {
         title: t('routes.demo.system.menu'),
         ignoreKeepAlive: true,
@@ -56,7 +56,7 @@ const system: AppRouteModule = {
     },
     {
       path: 'dept',
-      name: 'DeptManagement',
+      name: 'DeptManagementDemo',
       meta: {
         title: t('routes.demo.system.dept'),
         ignoreKeepAlive: true,
@@ -65,7 +65,7 @@ const system: AppRouteModule = {
     },
     {
       path: 'changePassword',
-      name: 'ChangePassword',
+      name: 'ChangePasswordDemo',
       meta: {
         title: t('routes.demo.system.password'),
         ignoreKeepAlive: true,

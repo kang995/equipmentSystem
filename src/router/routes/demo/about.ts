@@ -4,10 +4,10 @@ import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const dashboard: AppRouteModule = {
-  path: '/about',
-  name: 'About',
+  path: 'about',
+  name: 'DemoAbout',
   component: LAYOUT,
-  redirect: '/about/index',
+  redirect: '/demo/about/index',
   meta: {
     hideChildrenInMenu: true,
     icon: 'simple-icons:about-dot-me',
@@ -17,7 +17,7 @@ const dashboard: AppRouteModule = {
   children: [
     {
       path: 'index',
-      name: 'AboutPage',
+      name: 'DemoAboutPage',
       component: () => import('/@/views/sys/about/index.vue'),
       meta: {
         title: t('routes.dashboard.about'),

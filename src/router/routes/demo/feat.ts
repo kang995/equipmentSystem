@@ -4,10 +4,10 @@ import { getParentLayout, LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const feat: AppRouteModule = {
-  path: '/feat',
+  path: 'feat',
   name: 'FeatDemo',
   component: LAYOUT,
-  redirect: '/feat/icon',
+  redirect: '/demo/feat/icon',
   meta: {
     orderNo: 19,
     icon: 'ion:git-compare-outline',
@@ -25,7 +25,7 @@ const feat: AppRouteModule = {
     },
     {
       path: 'ws',
-      name: 'WebSocket',
+      name: 'WebSocketDemo',
       component: () => import('/@/views/demo/feat/ws/index.vue'),
       meta: {
         title: t('routes.demo.feat.ws'),
@@ -42,7 +42,7 @@ const feat: AppRouteModule = {
     },
     {
       path: 'session-timeout',
-      name: 'SessionTimeout',
+      name: 'SessionTimeoutDemo',
       component: () => import('/@/views/demo/feat/session-timeout/index.vue'),
       meta: {
         title: t('routes.demo.feat.sessionTimeout'),
@@ -50,7 +50,7 @@ const feat: AppRouteModule = {
     },
     {
       path: 'print',
-      name: 'Print',
+      name: 'PrintDemo',
       component: () => import('/@/views/demo/feat/print/index.vue'),
       meta: {
         title: t('routes.demo.feat.print'),
@@ -70,7 +70,7 @@ const feat: AppRouteModule = {
           name: 'TabDetail',
           component: () => import('/@/views/demo/feat/tabs/TabDetail.vue'),
           meta: {
-            currentActiveMenu: '/feat/tabs',
+            currentActiveMenu: '/demo/feat/tabs',
             title: t('routes.demo.feat.tabDetail'),
             hideMenu: true,
             dynamicLevel: 3,
@@ -82,7 +82,7 @@ const feat: AppRouteModule = {
     {
       path: 'breadcrumb',
       name: 'BreadcrumbDemo',
-      redirect: '/feat/breadcrumb/flat',
+      redirect: '/demo/feat/breadcrumb/flat',
       component: getParentLayout('BreadcrumbDemo'),
       meta: {
         title: t('routes.demo.feat.breadcrumb'),
@@ -105,7 +105,7 @@ const feat: AppRouteModule = {
             title: t('routes.demo.feat.breadcrumbFlatDetail'),
             hideMenu: true,
             hideTab: true,
-            currentActiveMenu: '/feat/breadcrumb/flat',
+            currentActiveMenu: '/demo/feat/breadcrumb/flat',
           },
         },
         {
@@ -121,7 +121,6 @@ const feat: AppRouteModule = {
               name: 'BreadcrumbChildrenDetailDemo',
               component: () => import('/@/views/demo/feat/breadcrumb/ChildrenListDetail.vue'),
               meta: {
-                currentActiveMenu: '/feat/breadcrumb/children',
                 title: t('routes.demo.feat.breadcrumbChildrenDetail'),
                 //hideTab: true,
                 // hideMenu: true,
@@ -158,7 +157,7 @@ const feat: AppRouteModule = {
     },
     {
       path: 'img-preview',
-      name: 'ImgPreview',
+      name: 'ImgPreviewDemo',
       component: () => import('/@/views/demo/feat/img-preview/index.vue'),
       meta: {
         title: t('routes.demo.feat.imgPreview'),
@@ -215,7 +214,7 @@ const feat: AppRouteModule = {
     {
       path: 'excel',
       name: 'Excel',
-      redirect: '/feat/excel/customExport',
+      redirect: '/demo/feat/excel/customExport',
       component: getParentLayout('Excel'),
       meta: {
         // icon: 'mdi:microsoft-excel',
