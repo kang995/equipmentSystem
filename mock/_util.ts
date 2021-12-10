@@ -5,7 +5,7 @@ export function resultSuccess<T = Recordable>(data: T, { msg = 'ok' } = {}) {
     code: 200,
     data,
     msg,
-    type: 'success',
+    success: true,
   };
 }
 
@@ -31,7 +31,7 @@ export function resultError(msg = 'Request failed', { code = -1, data = null } =
     code,
     data,
     msg,
-    type: 'error',
+    success: false,
   };
 }
 

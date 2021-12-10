@@ -11,7 +11,7 @@ export function createFakeUserList() {
       desc: 'manager',
       password: '123456',
       token: 'fakeToken1',
-      homePath: '/dashboard/analysis',
+      homePath: '/demo/demo-dashboard/demo-analysis',
       roles: [
         {
           roleName: 'Super Admin',
@@ -27,7 +27,7 @@ export function createFakeUserList() {
       avatar: 'https://q1.qlogo.cn/g?b=qq&nk=339449197&s=640',
       desc: 'tester',
       token: 'fakeToken2',
-      homePath: '/dashboard/workbench',
+      homePath: '/demo/demo-dashboard/demo-workbench',
       roles: [
         {
           roleName: 'Tester',
@@ -46,7 +46,7 @@ const fakeCodeList: any = {
 export default [
   // mock user login
   {
-    url: '/basic-api/login',
+    url: '/api/login',
     timeout: 200,
     method: 'post',
     response: ({ body }) => {
@@ -69,7 +69,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/getUserInfo',
+    url: '/api/getUserInfo',
     method: 'get',
     response: (request: requestParams) => {
       const token = getRequestToken(request);
@@ -82,7 +82,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/getPermCode',
+    url: '/api/getPermCode',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
@@ -98,7 +98,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/logout',
+    url: '/api/logout',
     timeout: 200,
     method: 'get',
     response: (request: requestParams) => {
@@ -108,7 +108,7 @@ export default [
       if (!checkUser) {
         return resultError('Invalid token!');
       }
-      return resultSuccess(undefined, { message: 'Token has been destroyed' });
+      return resultSuccess(undefined, { msg: 'Token has been destroyed' });
     },
   },
   {

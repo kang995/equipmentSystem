@@ -4,10 +4,10 @@ import { createFakeUserList } from './user';
 
 // single
 const dashboardRoute = {
-  path: '/dashboard',
-  name: 'Dashboard',
+  path: '/demo/demo-dashboard',
+  name: 'DemoDashboard',
   component: 'LAYOUT',
-  redirect: '/dashboard/analysis',
+  redirect: '/demo/demo-dashboard/demo-analysis',
   meta: {
     title: 'routes.dashboard.dashboard',
     hideChildrenInMenu: true,
@@ -15,26 +15,26 @@ const dashboardRoute = {
   },
   children: [
     {
-      path: 'analysis',
-      name: 'Analysis',
+      path: 'demo-analysis',
+      name: 'DemoAnalysis',
       component: '/dashboard/analysis/index',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
         title: 'routes.dashboard.analysis',
-        currentActiveMenu: '/dashboard',
+        currentActiveMenu: '/demo/demo-dashboard',
         icon: 'bx:bx-home',
       },
     },
     {
-      path: 'workbench',
-      name: 'Workbench',
+      path: 'demo-workbench',
+      name: 'DemoWorkbench',
       component: '/dashboard/workbench/index',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
         title: 'routes.dashboard.workbench',
-        currentActiveMenu: '/dashboard',
+        currentActiveMenu: '/demo/demo-dashboard',
         icon: 'bx:bx-home',
       },
     },
@@ -69,10 +69,10 @@ const backRoute = {
 };
 
 const authRoute = {
-  path: '/permission',
-  name: 'Permission',
+  path: '/demo/demo-permission',
+  name: 'DemoPermission',
   component: 'LAYOUT',
-  redirect: '/permission/front/page',
+  redirect: '/demo/demo-permission/front/page',
   meta: {
     icon: 'carbon:user-role',
     title: 'routes.demo.permission.permission',
@@ -137,10 +137,10 @@ const levelRoute = {
 };
 
 const sysRoute = {
-  path: '/system',
-  name: 'System',
+  path: '/demo/demo-system',
+  name: 'DemoSystem',
   component: 'LAYOUT',
-  redirect: '/system/account',
+  redirect: '/demo/demo-system/account',
   meta: {
     icon: 'ion:settings-outline',
     title: 'routes.demo.system.moduleName',
@@ -237,7 +237,7 @@ const linkRoute = {
 
 export default [
   {
-    url: '/basic-api/getMenuList',
+    url: '/api/getMenuList',
     timeout: 1000,
     method: 'get',
     response: (request: requestParams) => {
