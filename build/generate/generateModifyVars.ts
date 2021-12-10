@@ -81,5 +81,6 @@ export function generateModifyVars(dark = false) {
     'label-color': Body2, // Form label color
     'table-header-bg': Gray4,
     // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
+    'picker-bg': Gray5, // 时间、日期选择器背景色
   };
 }
