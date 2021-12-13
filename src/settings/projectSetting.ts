@@ -21,7 +21,7 @@ const setting: ProjectConfig = {
   showDarkModeToggle: true,
 
   // `Settings` button position
-  settingButtonPosition: SettingButtonPositionEnum.AUTO,
+  settingButtonPosition: SettingButtonPositionEnum.HEADER,
 
   // Permission mode
   permissionMode: PermissionModeEnum.ROUTE_MAPPING,
@@ -124,9 +124,9 @@ const setting: ProjectConfig = {
     // Is it possible to drag and drop sorting tabs
     canDrag: true,
     // Turn on quick actions
-    showQuick: true,
+    showQuick: false,
     // Whether to show the refresh button
-    showRedo: true,
+    showRedo: false,
     // Whether to show the collapse button
     showFold: false,
   },
@@ -145,7 +145,7 @@ const setting: ProjectConfig = {
     openPageLoading: true,
 
     // Whether to open the top progress bar
-    openNProgress: false,
+    openNProgress: true,
   },
 
   // Whether to enable KeepAlive cache is best to close during development, otherwise the cache needs to be cleared every time
