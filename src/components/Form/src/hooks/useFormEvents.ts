@@ -19,6 +19,7 @@ interface UseFormActionContext {
   schemaRef: Ref<FormSchema[]>;
   handleFormValues: Fn;
 }
+
 export function useFormEvents({
   emit,
   getProps,
@@ -89,6 +90,7 @@ export function useFormEvents({
     });
     validateFields(validKeys).catch((_) => {});
   }
+
   /**
    * @description: Delete based on field name
    */
@@ -271,7 +273,7 @@ export function useFormEvents({
       const res = handleFormValues(values);
       emit('submit', res);
     } catch (error: any) {
-      throw new Error(error);
+      throw new Error('表单校验失败：' + JSON.stringify(error));
     }
   }
 
