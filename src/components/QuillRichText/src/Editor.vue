@@ -30,7 +30,7 @@
   import { QuillEditor, Quill, Delta } from '@vueup/vue-quill';
   import { Upload } from 'ant-design-vue';
   import '@vueup/vue-quill/dist/vue-quill.snow.css';
-  import { computed, nextTick, reactive, ref, toRaw } from 'vue';
+  import { computed, nextTick, reactive, ref, toRaw, watch } from 'vue';
   import { isNumber } from '/@/utils/is';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -96,15 +96,21 @@
   function onReady(_quill: Quill) {
     console.log('props.value', props.value);
     // 在Form表单中使用时，回显formModel值
-    nextTick(() => {
-      if (props.contentType === 'html') {
-        compEdit.value.setHTML(props.value);
-      } else if (props.contentType === 'text') {
-        compEdit.value.setText(props.value);
-      } else {
-        compEdit.value.setContents(props.value);
-      }
-    });
+    watch(
+      () => props.value,
+      (val: string, prevVal: string) => {
+        if (props.contentType === 'html') {
+          compEdit.value.setHTML(props.value);
+        } else if (props.contentType === 'text') {
+          compEdit.value.setText(props.value);
+        } else {
+          compEdit.value.setContents(props.value);
+        }
+      },
+      {
+        immediate: true,
+      },
+    );
   }
 
   // Embedded in the form, just use the hook binding to perform form verification

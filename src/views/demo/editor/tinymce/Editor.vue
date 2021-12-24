@@ -3,6 +3,7 @@
     <CollapseContainer title="富文本表单">
       <BasicForm
         :labelWidth="100"
+        ref="formElRef"
         :schemas="schemas"
         :actionColOptions="{ span: 24 }"
         @submit="handleSubmit"
@@ -11,8 +12,8 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, h } from 'vue';
-  import { BasicForm, FormSchema } from '/@/components/Form/index';
+  import { defineComponent, h, ref } from 'vue';
+  import { BasicForm, FormActionType, FormSchema } from '/@/components/Form/index';
   import { CollapseContainer } from '/@/components/Container';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { Tinymce } from '/@/components/Tinymce';
@@ -46,12 +47,20 @@
     components: { BasicForm, CollapseContainer, PageWrapper },
     setup() {
       const { createMessage } = useMessage();
-
+      const formElRef = ref<Nullable<FormActionType>>(null);
+      // setTimeout(() => {
+      //   formElRef.value!.setFieldsValue({
+      //     title: '这是标题',
+      //     tinymce: '这是标题',
+      //     quill: '这是标题',
+      //   });
+      // }, 3000);
       return {
         schemas,
         handleSubmit: (values: any) => {
           createMessage.success('click search,values:' + JSON.stringify(values));
         },
+        formElRef,
       };
     },
   });
