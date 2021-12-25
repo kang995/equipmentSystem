@@ -29,7 +29,8 @@ export const basicProps = {
   },
   showTableSetting: Boolean,
   autoCreateKey: { type: Boolean, default: true },
-  striped: { type: Boolean, default: true },
+  // 是否显示斑马纹
+  striped: { type: Boolean, default: false },
   showSummary: Boolean,
   summaryFunc: {
     type: [Function, Array] as PropType<(...arg: any[]) => any[]>,
@@ -87,7 +88,8 @@ export const basicProps = {
     type: [Array] as PropType<BasicColumn[]>,
     default: () => [],
   },
-  showIndexColumn: { type: Boolean, default: true },
+  // 是否显示序列号
+  showIndexColumn: { type: Boolean, default: false },
   indexColumnProps: {
     type: Object as PropType<BasicColumn>,
     default: null,
@@ -98,7 +100,8 @@ export const basicProps = {
   },
   ellipsis: { type: Boolean, default: true },
   isCanResizeParent: { type: Boolean, default: false },
-  canResize: { type: Boolean, default: true },
+  // 是否自适应高度
+  canResize: { type: Boolean, default: false },
   clearSelectOnPageChange: propTypes.bool,
   resizeHeightOffset: propTypes.number.def(0),
   rowSelection: {
@@ -121,7 +124,8 @@ export const basicProps = {
     type: [String, Function] as PropType<string | ((record: Recordable) => string)>,
     default: '',
   },
-  bordered: propTypes.bool,
+  // 是否显示边框
+  bordered: propTypes.bool.def(false),
   pagination: {
     type: [Object, Boolean] as PropType<PaginationProps | boolean>,
     default: null,
