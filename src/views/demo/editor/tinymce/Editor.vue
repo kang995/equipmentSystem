@@ -12,11 +12,10 @@
   </PageWrapper>
 </template>
 <script lang="ts">
-  import { defineComponent, h, ref } from 'vue';
+  import { defineComponent, ref } from 'vue';
   import { BasicForm, FormActionType, FormSchema } from '/@/components/Form/index';
   import { CollapseContainer } from '/@/components/Container';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { Tinymce } from '/@/components/Tinymce';
   import { PageWrapper } from '/@/components/Page';
 
   const schemas: FormSchema[] = [
@@ -29,18 +28,20 @@
     },
     {
       field: 'tinymce',
-      component: 'Input',
+      component: 'Tinymce',
       label: 'tinymce',
-      defaultValue: 'defaultValue',
+      defaultValue: null,
       rules: [{ required: true }],
-      render: ({ model, field }) => {
-        return h(Tinymce, {
-          value: model[field],
-          onChange: (value: string) => {
-            model[field] = value;
-          },
-        });
-      },
+      // render: ({ model, field }) => {
+      //   return h(Tinymce, {
+      //     value: model[field],
+      //     onChange: (value: string) => {
+      //       model[field] = value;
+      //     },
+      //     height: 400,
+      //     width: '100%',
+      //   });
+      // },
     },
   ];
   export default defineComponent({
@@ -48,13 +49,6 @@
     setup() {
       const { createMessage } = useMessage();
       const formElRef = ref<Nullable<FormActionType>>(null);
-      // setTimeout(() => {
-      //   formElRef.value!.setFieldsValue({
-      //     title: '这是标题',
-      //     tinymce: '这是标题',
-      //     quill: '这是标题',
-      //   });
-      // }, 3000);
       return {
         schemas,
         handleSubmit: (values: any) => {
