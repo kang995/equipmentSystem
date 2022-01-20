@@ -50,9 +50,10 @@
       });
 
       function handleChange(info: Recordable) {
+        console.log('info', info);
         const file = info.file;
         const status = file?.status;
-        const url = file?.response?.url;
+        const url = file?.response?.data;
         const name = file?.name;
 
         if (status === 'uploading') {
