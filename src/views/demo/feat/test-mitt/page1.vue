@@ -16,12 +16,17 @@
 <script lang="ts" setup>
   import { Input } from 'ant-design-vue';
   import emitter from '/@/utils/emitter';
-  import { ref } from 'vue';
+  import { onUnmounted, ref } from 'vue';
   const AInput = Input;
   const mValue = ref();
-  emitter.on('page2event', (e) => {
-    console.log('接收到的page2event', e);
-    mValue.value = e;
+  function receiveData(data) {
+    console.log('接收到的page2event', data);
+    mValue.value = data;
+  }
+  emitter.on('page2event', receiveData);
+
+  onUnmounted(() => {
+    emitter.off('page2event', receiveData); // <--关键代码，第二个参数要传入订阅时的回调函数
   });
 </script>
 
