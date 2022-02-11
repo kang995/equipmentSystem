@@ -317,6 +317,32 @@ const feat: AppRouteModule = {
         },
       ],
     },
+    {
+      path: 'test-mitt',
+      name: 'TestMittMenu',
+      component: getParentLayout('TestMitt'),
+      meta: {
+        title: '测试Mitt',
+      },
+      children: [
+        {
+          path: 'page1',
+          name: 'TestMittPage1',
+          component: () => import('/@/views/demo/feat/test-mitt/page1.vue'),
+          meta: {
+            title: 'Mitt页面1',
+          },
+        },
+        {
+          path: 'page2',
+          name: 'TestMittPage2',
+          component: () => import('/@/views/demo/feat/test-mitt/page2.vue'),
+          meta: {
+            title: 'Mitt页面2',
+          },
+        },
+      ],
+    },
   ],
 };
 
