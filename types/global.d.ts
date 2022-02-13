@@ -56,6 +56,10 @@ declare global {
     __: unknown;
   }
 
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
+
   declare interface ViteEnv {
     VITE_PORT: number;
     VITE_USE_MOCK: boolean;
