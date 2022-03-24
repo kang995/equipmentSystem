@@ -42,6 +42,7 @@
         showIndexColumn: false,
         isCanResizeParent: true,
         rowKey: 'id',
+        canResize: true,
       });
 
       const [registerTable1] = useTable({
@@ -54,6 +55,7 @@
         isCanResizeParent: true,
         useSearchForm: false,
         rowKey: 'id',
+        canResize: true,
       });
 
       const [registerTable2] = useTable({
@@ -67,6 +69,7 @@
         useSearchForm: false,
         pagination: false,
         rowKey: 'id',
+        canResize: true,
       });
 
       return {
