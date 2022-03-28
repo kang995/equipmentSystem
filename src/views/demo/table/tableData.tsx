@@ -120,16 +120,16 @@ export function getCustomHeaderColumns(): BasicColumn[] {
       width: 200,
     },
     {
-      // title: '姓名',
+      title: '姓名',
       dataIndex: 'name',
       width: 120,
-      // slots: { title: 'customTitle' },
+      slots: { title: 'customTitle' },
     },
     {
-      // title: '地址',
+      title: '地址',
       dataIndex: 'address',
       width: 120,
-      // slots: { title: 'customAddress' },
+      slots: { title: 'customAddress' },
       sorter: true,
     },
 
