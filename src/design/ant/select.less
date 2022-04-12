@@ -2,14 +2,12 @@
 
 // 下拉选择
 html[data-theme='light'] {
-  .ant-select {
-    &:not(&-disabled):hover &-selector {
-      background: white !important;
-    }
+  .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+    background: white !important;
+  }
 
-    &-focused:not(&-disabled) &-selector {
-      background: white !important;
-    }
+  .ant-select-focused:not(.ant-select-disabled) .ant-select-selector {
+    background: white !important;
   }
 }
 
