@@ -82,5 +82,6 @@ export function generateModifyVars(dark = false) {
     'table-header-bg': Gray4,
     // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
     'picker-bg': Gray5, // 时间、日期选择器背景色
+    'checkbox-check-bg': Gray5, // checkbox背景色
   };
 }

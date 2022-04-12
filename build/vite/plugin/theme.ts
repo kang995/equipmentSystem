@@ -134,6 +134,7 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
         'table-header-bg': darkBG,
         // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
         'picker-bg': darkBG, // 时间、日期选择器背景色
+        'checkbox-check-bg': darkBG, // checkbox背景色
       },
     }),
   ];
