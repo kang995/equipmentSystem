@@ -48,7 +48,7 @@ export function generateModifyVars(dark = false) {
     'custom-gray3': Gray3,
     'custom-gray4': Gray4,
     'custom-gray5': Gray5,
-    //'border-color-base': '#EEEEEE',
+    'border-color-base': Gray4,
     'font-size-base': '14px', //  Main font size
     'border-radius-base': '6px', //  Component/float fillet
     'link-color': primary, //   Link color
