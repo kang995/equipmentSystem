@@ -112,7 +112,7 @@ export default [
     },
   },
   {
-    url: '/basic-api/testRetry',
+    url: '/api/testRetry',
     statusCode: 405,
     method: 'get',
     response: () => {
