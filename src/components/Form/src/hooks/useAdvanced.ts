@@ -114,7 +114,7 @@ export default function ({
   function updateAdvanced() {
     let itemColSum = 0;
     let realItemColSum = 0;
-    const { baseColProps = {} } = unref(getProps);
+    const { baseColProps = { span: 24 } } = unref(getProps);
 
     for (const schema of unref(getSchema)) {
       const { show, colProps } = schema;
