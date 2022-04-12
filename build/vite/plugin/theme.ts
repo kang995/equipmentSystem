@@ -58,6 +58,20 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
     }
   });
   //console.log('vite_theme_plugin后:'+JSON.stringify(vite_theme_plugin));
+  // 蓝湖设计图规定的颜色
+  // const Title = '#171b25';
+  // const Body1 = '#414960';
+  const Body2 = '#61687c';
+
+  // const Body3 = '#9fa3b0';
+  // const Gray1 = '#b5b5be';
+  // const Gray2 = '#d5d5dc';
+  // const Gray3 = '#e2e2ea';
+  // const Gray4 = '#f1f2f5';
+  // const Gray5 = '#fafafb';
+
+  const darkBG = '#303030';
+
   const plugin = [
     vite_theme_plugin,
     // 黑暗模式，颜色层穿透bug较多
@@ -97,8 +111,29 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
         'alert-error-border-color': '#58181c',
         'alert-error-bg-color': '#2a1215',
         'alert-error-icon-color': '#a61d24',
-        // 修改系统主题样式
-        'layout-body-background': '#000000',
+        // 修改系统主题样式，黑暗模式定制
+        // 'heading-color': Title, // 标题色 Title
+        // 'text-color': Body1, // 主文本色 Body-1
+        // 'text-color-secondary': Body2, // 次文本色 Body-2
+        'disabled-color': Body2, // 失效色 Body-3
+        // 'layout-sider-background-light': Gray4, // 左侧菜单栏背景 Gray-4
+        'layout-body-background': '#000000', // 页面主体背景色
+        'input-bg': darkBG, // input默认背景色
+        'input-disabled-bg': Body2, // input disabled背景色
+        'input-placeholder-color': '#8b949e', // placeholder颜色
+        'select-background': darkBG, // 下拉框背景色
+        'cascader-bg': darkBG, // 级联选择器
+        'select-item-selected-bg': Body2, // 下拉框选中背景色
+        'cascader-item-selected-bg': Body2, // 级联
+        'item-hover-bg': Body2, // 供其他变量引用的变量
+        'radio-button-bg': darkBG,
+        // 'radio-button-hover-color': '@primary-color',
+        // 'radio-button-active-color': '@primary-color',
+        'radio-button-checked-bg': '@primary-2',
+        'label-color': '#8b949e', // Form label color
+        'table-header-bg': darkBG,
+        // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
+        'picker-bg': darkBG, // 时间、日期选择器背景色
       },
     }),
   ];

@@ -1,25 +1,27 @@
 @import (reference) '../color.less';
 
 // input
-.ant-input {
-  &-number {
-    min-width: 110px;
+html[data-theme='light'] {
+  .ant-input {
+    &-number {
+      min-width: 110px;
+
+      &:hover:not(&-disabled) {
+        background: white !important;
+      }
+
+      &-focused:not(&-disabled) {
+        background: white !important;
+      }
+    }
 
     &:hover:not(&-disabled) {
       background: white !important;
     }
 
-    &-focused:not(&-disabled) {
+    &:focus:not(&-disabled) {
       background: white !important;
     }
-  }
-
-  &:hover:not(&-disabled) {
-    background: white !important;
-  }
-
-  &:focus:not(&-disabled) {
-    background: white !important;
   }
 }
 
@@ -39,17 +41,19 @@
   }
 }
 
-.ant-input-affix-wrapper {
-  &:hover:not(&-disabled) {
-    background: white !important;
+html[data-theme='light'] {
+  .ant-input-affix-wrapper {
+    &:hover:not(&-disabled) {
+      background: white !important;
 
-    .ant-input {
+      .ant-input {
+        background: white !important;
+      }
+    }
+
+    &-focused:not(&-disabled) {
       background: white !important;
     }
-  }
-
-  &-focused:not(&-disabled) {
-    background: white !important;
   }
 }
 

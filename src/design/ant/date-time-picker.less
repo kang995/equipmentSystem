@@ -11,10 +11,16 @@
 //}
 
 // 日期选择
-.ant-picker:hover:not(.ant-picker-disabled) {
-  background: white !important;
+html[data-theme='light'] {
+  .ant-picker:hover:not(.ant-picker-disabled) {
+    background: white !important;
+  }
+
+  .ant-picker-focused:not(.ant-picker-disabled) {
+    background: white !important;
+  }
 }
 
-.ant-picker-focused:not(.ant-picker-disabled) {
-  background: white !important;
+[data-theme="dark"] .ant-picker-input > input {
+  border: 0 !important;
 }

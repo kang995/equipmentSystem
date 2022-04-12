@@ -1,25 +1,27 @@
 @import (reference) '../color.less';
 
 // 下拉选择
-.ant-select {
-  &:not(&-disabled):hover &-selector {
-    background: white !important;
-  }
+html[data-theme='light'] {
+  .ant-select {
+    &:not(&-disabled):hover &-selector {
+      background: white !important;
+    }
 
-  &-focused:not(&-disabled) &-selector {
-    background: white !important;
+    &-focused:not(&-disabled) &-selector {
+      background: white !important;
+    }
   }
+}
 
-  &-item {
-    //  margin: auto 4px 4px 4px;
-    margin-left: 4px;
-    margin-right: 4px;
-    border-radius: 6px;
+.ant-select-item {
+  //  margin: auto 4px 4px 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  border-radius: 6px;
 
-    //  &:last-child {
-    //    //margin-bottom: 0;
-    //  }
-  }
+  //  &:last-child {
+  //    //margin-bottom: 0;
+  //  }
 }
 
 // 级联下拉选择

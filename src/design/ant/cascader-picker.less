@@ -1,15 +1,17 @@
 @import (reference) '../color.less';
 
-.ant-cascader-picker:not(.ant-cascader-picker-disabled) {
-  .ant-cascader-picker-label:hover + .ant-cascader-input {
+html[data-theme='light'] {
+  .ant-cascader-picker:not(.ant-cascader-picker-disabled) {
+    .ant-cascader-picker-label:hover + .ant-cascader-input {
+      background: white !important;
+    }
+  }
+
+  .ant-cascader-picker-focused:not(.ant-cascader-picker-disabled) {
     background: white !important;
   }
-}
 
-.ant-cascader-picker-focused:not(.ant-cascader-picker-disabled) {
-  background: white !important;
-}
-
-.ant-cascader-picker:not(.ant-cascader-picker-disabled):focus .ant-cascader-input {
-  background: white !important;
+  .ant-cascader-picker:not(.ant-cascader-picker-disabled):focus .ant-cascader-input {
+    background: white !important;
+  }
 }
