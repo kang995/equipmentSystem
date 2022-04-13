@@ -9,7 +9,7 @@
     @change="handleChange"
   >
     <RadioButton value="chart">
-      <Tooltip title="图表" color="rgba(65, 73, 96, 0.8)" placement="bottom">
+      <Tooltip title="图表" placement="bottom">
         <SvgIcon
           name="gonggong_tubiao"
           size="20"
@@ -18,7 +18,7 @@
       </Tooltip>
     </RadioButton>
     <RadioButton value="table">
-      <Tooltip title="表格" color="rgba(65, 73, 96, 0.8)" placement="bottom">
+      <Tooltip title="表格" placement="bottom">
         <SvgIcon
           name="gonggong_biaoge"
           size="20"
