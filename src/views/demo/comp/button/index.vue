@@ -99,25 +99,24 @@
           </div>
         </a-card>
       </a-col>
-    </a-row>
-    <a-row>
-      <a-col :xl="14" :lg="24">
+      <a-col :xl="12" :lg="12">
         <a-card title="自定义组件 RadioButtonGroup">
           <div> 值：{{ value }}</div>
           <div class="my-4">
+            按钮类型：
             <RadioButtonGroup :options="options" v-model:value="value" buttonStyle="button" />
           </div>
           <div class="my-4">
+            实底类型：
             <RadioButtonGroup :options="options" v-model:value="value" buttonStyle="outline" />
           </div>
           <div class="my-4">
+            纯文本型：
             <RadioButtonGroup :options="options" v-model:value="value" buttonStyle="text" />
           </div>
         </a-card>
       </a-col>
-    </a-row>
-    <a-row>
-      <a-col :xl="14" :lg="24">
+      <a-col :xl="12" :lg="12">
         <a-card title="自定义组件 ApiRadioGroup">
           <div> 值：{{ apiRadioGroupValue }}</div>
           <div>
@@ -134,6 +133,14 @@
           </div>
         </a-card>
       </a-col>
+      <a-col :xl="12" :lg="12">
+        <a-card title="自定义组件 表格图表切换">
+          <div> 值：{{ switchChartTableValue }}</div>
+          <div>
+            <SwitchChartTable v-model:value="switchChartTableValue" />
+          </div>
+        </a-card>
+      </a-col>
     </a-row>
   </PageWrapper>
 </template>
@@ -141,15 +148,24 @@
   import { defineComponent, ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { Card, Row, Col } from 'ant-design-vue';
-  import { RadioButtonGroup, ApiRadioGroup } from '/@/components/Form';
+  import { RadioButtonGroup, ApiRadioGroup, SwitchChartTable } from '/@/components/Form';
   import { optionsListApi } from '/@/api/demo/select';
 
   export default defineComponent({
-    components: { PageWrapper, ACard: Card, ARow: Row, ACol: Col, RadioButtonGroup, ApiRadioGroup },
+    components: {
+      PageWrapper,
+      ACard: Card,
+      ARow: Row,
+      ACol: Col,
+      RadioButtonGroup,
+      ApiRadioGroup,
+      SwitchChartTable,
+    },
     setup() {
       const value = ref<string>('1');
       const apiRadioGroupValue = ref<string>('0');
       const params = { count: 3 };
+      const switchChartTableValue = ref('chart');
       const options = [
         {
           label: '选项1',
@@ -164,7 +180,7 @@
           value: '3',
         },
       ];
-      return { options, value, optionsListApi, apiRadioGroupValue, params };
+      return { options, value, optionsListApi, apiRadioGroupValue, params, switchChartTableValue };
     },
   });
 </script>
