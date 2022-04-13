@@ -32,6 +32,7 @@
       background-color: @button-cancel-hover-bg-color;
       border-color: @button-cancel-hover-border-color;
     }
+
     //
     //&[disabled],
     //&[disabled]:hover {
@@ -281,5 +282,14 @@
       color: @button-ghost-hover-color;
       border-color: transparent;
     }
+  }
+}
+
+.ant-btn:not(.ant-btn-primary):not(.is-disabled):not(.ant-btn-dangerous):not(.ant-btn-link):not(.ant-btn-success):not(.ant-btn-warning):not(.ant-btn-error):not(.ant-btn-dashed):not(.ant-btn-background-ghost) {
+  &:hover,
+  &:focus {
+    border-color: @border-color-base;
+    color: @text-color;
+    background: @input-bg;
   }
 }
