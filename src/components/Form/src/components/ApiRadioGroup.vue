@@ -2,7 +2,7 @@
  * @Description:It is troublesome to implement radio button group in the form. So it is extracted independently as a separate component
 -->
 <template>
-  <RadioGroup v-bind="attrs" v-model:value="state" button-style="solid" @change="handleChange">
+  <RadioGroup v-bind="attrs" v-model:value="state" @change="handleChange" :class="radioGroupStyle">
     <template v-for="item in getOptions" :key="`${item.value}`">
       <RadioButton v-if="props.isBtn" :value="item.value" :disabled="item.disabled">
         {{ item.label }}
@@ -52,8 +52,12 @@
       labelField: propTypes.string.def('label'),
       valueField: propTypes.string.def('value'),
       immediate: propTypes.bool.def(true),
+      buttonStyle: {
+        type: String as PropType<'button' | 'outline' | 'text'>,
+        default: 'button',
+      },
     },
-    emits: ['options-change', 'change'],
+    emits: ['options-change', 'change', 'update:value'],
     setup(props, { emit }) {
       const options = ref<OptionsItem[]>([]);
       const loading = ref(false);
@@ -122,9 +126,22 @@
 
       function handleChange(_, ...args) {
         emitData.value = args;
+        emit('update:value', state.value);
       }
 
-      return { state, getOptions, attrs, loading, t, handleChange, props };
+      const radioGroupStyle = computed(() => {
+        const { buttonStyle } = props;
+        return buttonStyle === 'button'
+          ? 'radio_group_button_style'
+          : buttonStyle === 'outline'
+          ? 'radio_group_outline_style'
+          : buttonStyle === 'text'
+          ? 'radio_group_text_style'
+          : 'radio_group_button_style';
+      });
+
+      return { state, getOptions, attrs, loading, t, handleChange, props, radioGroupStyle };
     },
   });
 </script>
+<style lang="less" scoped src="./radio-group-button.less"></style>

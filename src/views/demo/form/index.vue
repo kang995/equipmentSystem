@@ -350,9 +350,11 @@
       component: 'RadioButtonGroup',
       label: '字段10',
       colProps: {
-        span: 8,
+        span: 12,
       },
+      defaultValue: '1',
       componentProps: {
+        buttonStyle: 'button',
         options: [
           {
             label: '选项1',
@@ -361,6 +363,62 @@
           {
             label: '选项2',
             value: '2',
+          },
+          {
+            label: '选项3',
+            value: '3',
+          },
+        ],
+      },
+    },
+    {
+      field: 'field10_outline',
+      component: 'RadioButtonGroup',
+      label: '字段10_outline',
+      colProps: {
+        span: 12,
+      },
+      defaultValue: '2',
+      componentProps: {
+        buttonStyle: 'outline',
+        options: [
+          {
+            label: '选项1',
+            value: '1',
+          },
+          {
+            label: '选项2',
+            value: '2',
+          },
+          {
+            label: '选项3',
+            value: '3',
+          },
+        ],
+      },
+    },
+    {
+      field: 'field10_text',
+      component: 'RadioButtonGroup',
+      label: '字段10_text',
+      colProps: {
+        span: 12,
+      },
+      defaultValue: '3',
+      componentProps: {
+        buttonStyle: 'text',
+        options: [
+          {
+            label: '选项1',
+            value: '1',
+          },
+          {
+            label: '选项2',
+            value: '2',
+          },
+          {
+            label: '选项3',
+            value: '3',
           },
         ],
       },
@@ -515,9 +573,10 @@
       helpMessage: ['ApiRadioGroup组件', '使用接口提供的数据生成选项'],
       required: true,
       componentProps: {
+        buttonStyle: 'outline',
         api: optionsListApi,
         params: {
-          count: 2,
+          count: 4,
         },
         resultField: 'list',
         // use name as label
@@ -527,7 +586,7 @@
         isBtn: true,
       },
       colProps: {
-        span: 8,
+        span: 16,
       },
     },
     {

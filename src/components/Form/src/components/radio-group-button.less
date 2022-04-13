@@ -1,0 +1,94 @@
+.radio_group_button_style {
+  // 消除中间细线
+  ::v-deep(.ant-radio-button-wrapper:not(:first-child)::before) {
+    content: none !important;
+  }
+
+  ::v-deep(.ant-radio-button-wrapper:first-child) {
+    padding-left: 3px;
+  }
+
+  ::v-deep(.ant-radio-button-wrapper:last-child) {
+    padding-right: 3px;
+  }
+
+  // 普通状态效果
+  ::v-deep(.ant-radio-button-wrapper) {
+    border-color: @border-color-base;
+    box-shadow: none;
+    padding-left: 2px;
+    padding-right: 2px;
+    background: @input-bg;
+
+    span:nth-last-child(1) {
+      border-radius: 4px;
+      padding: 6px 16px;
+    }
+
+    span:nth-last-child(1):hover {
+      background: @item-hover-bg;
+      color: @text-color;
+    }
+
+    .ant-radio-button-inner {
+      visibility: hidden;
+    }
+
+    &:not(:last-child) {
+      border-right: 0 !important;
+    }
+  }
+
+  // 选中的效果
+  ::v-deep(.ant-radio-button-wrapper-checked) {
+    span:nth-last-child(1) {
+      box-shadow: 0 0 8px 0 rgb(28 28 32 / 12%);
+      background: @app-content-background !important;
+      color: @primary-color !important;
+    }
+  }
+}
+
+.radio_group_outline_style {
+  // 普通状态效果
+  ::v-deep(.ant-radio-button-wrapper) {
+    box-shadow: none;
+  }
+
+  // 鼠标移入效果
+  ::v-deep(.ant-radio-button-wrapper:not(.ant-radio-button-wrapper-checked):hover) {
+    background: @item-hover-bg;
+    color: @text-color;
+  }
+}
+
+.radio_group_text_style {
+  // 消除中间细线
+  ::v-deep(.ant-radio-button-wrapper:not(:first-child)::before) {
+    content: none !important;
+  }
+
+  // 普通状态效果
+  ::v-deep(.ant-radio-button-wrapper) {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    border-radius: 6px;
+  }
+
+  ::v-deep(.ant-radio-button-wrapper:not(:last-child)) {
+    margin-right: 16px;
+  }
+
+  // 选中的效果
+  ::v-deep(.ant-radio-button-wrapper-checked) {
+    background: @border-color-base !important;
+    color: @primary-color !important;
+  }
+
+  // 鼠标移入效果
+  ::v-deep(.ant-radio-button-wrapper:not(.ant-radio-button-wrapper-checked):hover) {
+    background: @item-hover-bg;
+    color: @text-color;
+  }
+}
