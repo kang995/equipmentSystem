@@ -159,6 +159,7 @@
     showTotal: (total) => `总 ${total} 条`,
     onChange: pageChange,
     onShowSizeChange: pageSizeChange,
+    size: 'small',
   });
 
   function pageChange(p, pz) {
