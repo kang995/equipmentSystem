@@ -62,12 +62,12 @@ export function generateModifyVars(dark = false) {
     'input-bg': Gray5, // input默认背景色
     'input-disabled-bg': Gray4, // input disabled背景色
     'input-placeholder-color': Body3, // placeholder颜色
-    'input-padding-vertical-base': '6px', // 正常input框高度
-    'input-padding-vertical-sm': '4px', // small input高度
-    'btn-height-base': '36px', // 按钮默认高度
-    'btn-height-sm': '32px', // small按钮高度
-    'input-height-base': '36px', // 实际整个input框高度，用于表单label对齐
-    'input-height-sm': '32px', // 实际整个input框高度，用于表单label对齐
+    // 'input-padding-vertical-base': '6px', // 正常input框高度
+    // 'input-padding-vertical-sm': '4px', // small input高度
+    // 'btn-height-base': '36px', // 按钮默认高度
+    // 'btn-height-sm': '32px', // small按钮高度
+    // 'input-height-base': '36px', // 实际整个input框高度，用于表单label对齐
+    // 'input-height-sm': '32px', // 实际整个input框高度，用于表单label对齐
     'select-background': Gray5, // 下拉框背景色
     'cascader-bg': Gray5, // 级联选择器
     'pagination-item-size-sm': '32px', // 分页高度
@@ -84,5 +84,8 @@ export function generateModifyVars(dark = false) {
     'picker-bg': Gray5, // 时间、日期选择器背景色
     'checkbox-check-bg': Gray5, // checkbox背景色
     'tooltip-bg': 'rgba(65, 73, 96, 0.8)', // tooltip背景色
+    'height-base': '36px',
+    'height-sm': '32px',
+    'pagination-font-family': 'AltinnDINExp',
   };
 }
