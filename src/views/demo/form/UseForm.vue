@@ -224,6 +224,12 @@
           span: 24,
         },
         fieldMapToTime: [['fieldTime', ['startTime', 'endTime'], 'YYYY-MM']],
+        resetButtonOptions: {
+          preIcon: 'gonggong_zhongzhi|svg',
+        },
+        submitButtonOptions: {
+          preIcon: 'gonggong_sousuo|svg',
+        },
       });
 
       async function handleLoad() {
