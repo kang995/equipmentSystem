@@ -84,7 +84,7 @@
 
   .@{prefix-cls} {
     background-color: @component-background;
-    border-radius: 2px;
+    border-radius: 6px;
     transition: all 0.3s ease-in-out;
 
     &__header {

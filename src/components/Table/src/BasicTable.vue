@@ -374,7 +374,7 @@
         padding: 12px 10px 6px;
         margin-bottom: 16px;
         background-color: @component-background;
-        border-radius: 2px;
+        border-radius: 6px;
       }
     }
 
@@ -385,7 +385,7 @@
     .ant-table-wrapper {
       padding: 6px;
       background-color: @component-background;
-      border-radius: 2px;
+      border-radius: 6px;
 
       .ant-table-title {
         min-height: 40px;

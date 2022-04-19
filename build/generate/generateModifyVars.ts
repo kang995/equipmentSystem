@@ -87,5 +87,8 @@ export function generateModifyVars(dark = false) {
     'height-base': '36px',
     'height-sm': '32px',
     'pagination-font-family': 'AltinnDINExp',
+    'checkbox-border-radius': '2px',
+    'border-radius-sm': '2px',
+    'table-sticky-scroll-bar-radius': '6px',
   };
 }
