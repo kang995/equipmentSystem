@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" ref="wrapperRef">
+  <div :class="getClass" ref="wrapperRef" style="border-radius: 6px">
     <PageHeader
       :ghost="ghost"
       :title="title"
