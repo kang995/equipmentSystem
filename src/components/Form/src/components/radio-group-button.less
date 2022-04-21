@@ -14,8 +14,8 @@
 
   // 普通状态效果
   ::v-deep(.ant-radio-button-wrapper) {
-    border-color: @border-color-base;
-    box-shadow: none;
+    border-color: @border-color-base !important;
+    box-shadow: none !important;
     padding-left: 2px;
     padding-right: 2px;
     background: @input-bg;
@@ -31,7 +31,7 @@
     }
 
     .ant-radio-button-inner {
-      visibility: hidden;
+      visibility: hidden !important;
     }
 
     &:not(:last-child) {
@@ -52,7 +52,7 @@
 .radio_group_outline_style {
   // 普通状态效果
   ::v-deep(.ant-radio-button-wrapper) {
-    box-shadow: none;
+    box-shadow: none !important;
   }
 
   // 鼠标移入效果
@@ -70,8 +70,8 @@
 
   // 普通状态效果
   ::v-deep(.ant-radio-button-wrapper) {
-    border: none;
-    box-shadow: none;
+    border: none !important;
+    box-shadow: none !important;
     background: transparent;
     border-radius: 6px;
   }
