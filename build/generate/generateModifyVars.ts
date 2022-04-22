@@ -90,5 +90,7 @@ export function generateModifyVars(dark = false) {
     'checkbox-border-radius': '2px',
     'border-radius-sm': '2px',
     'table-sticky-scroll-bar-radius': '6px',
+    'table-header-color': Body2,
+    'table-footer-color': Body2,
   };
 }
