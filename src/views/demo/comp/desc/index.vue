@@ -1,11 +1,13 @@
 <template>
   <PageWrapper title="详情组件示例">
+    <p>labelStyle width设计稿基本就三个数,144px、158px、162px,最大162px,字数少就根据字数长度设置</p>
     <Description
       title="基础示例"
       :collapseOptions="{ canExpand: true, helpMessage: 'help me' }"
-      :column="3"
+      :column="2"
       :data="mockData"
       :schema="schema"
+      :labelStyle="{ width: '100px' }"
     />
 
     <Description
@@ -68,6 +70,8 @@
     setup() {
       const [register] = useDescription({
         title: 'useDescription',
+        column: 2,
+        labelStyle: { width: '150px' },
         data: mockData,
         schema: schema,
       });
@@ -83,3 +87,8 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  ::v-deep(.ant-descriptions-bordered .ant-descriptions-view > table) {
+    table-layout: fixed;
+  }
+</style>
