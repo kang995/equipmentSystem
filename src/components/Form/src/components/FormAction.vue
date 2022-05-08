@@ -18,7 +18,6 @@
         <slot name="resetBefore"></slot>
         <Button
           type="default"
-          class="mr-2"
           v-bind="getResetBtnOptions"
           @click="resetAction"
           v-if="showResetButton"
@@ -28,6 +27,7 @@
 
         <slot name="advanceBefore"></slot>
         <Button
+          class="ml-2"
           type="link"
           size="small"
           @click="toggleAdvanced"
@@ -96,7 +96,7 @@
           ? { span: actionSpan < 6 ? 24 : actionSpan }
           : {};
         const actionColOpt: Partial<ColEx> = {
-          style: { textAlign: 'right' },
+          style: { textAlign: 'left' },
           span: showAdvancedButton ? 6 : 4,
           ...advancedSpanObj,
           ...actionColOptions,
