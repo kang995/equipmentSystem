@@ -61,7 +61,8 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
   // 蓝湖设计图规定的颜色
   const Title = '#ffffff';
   const Body1 = 'rgba(255, 255, 255, 0.95)';
-  const Body2 = 'rgba(255, 255, 255, 0.75)';
+  // const Body2 = 'rgba(255, 255, 255, 0.75)';
+  const Body2 = '#61687c';
   const Body3 = 'rgba(255, 255, 255, 0.65)';
   const Gray1 = 'rgba(255, 255, 255, 0.25)';
   const Gray2 = 'rgba(255, 255, 255, 0.2)';
