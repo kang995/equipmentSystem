@@ -59,16 +59,15 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
   });
   //console.log('vite_theme_plugin后:'+JSON.stringify(vite_theme_plugin));
   // 蓝湖设计图规定的颜色
-  // const Title = '#171b25';
-  // const Body1 = '#414960';
-  const Body2 = '#61687c';
-
-  // const Body3 = '#9fa3b0';
-  // const Gray1 = '#b5b5be';
-  // const Gray2 = '#d5d5dc';
-  // const Gray3 = '#e2e2ea';
-  // const Gray4 = '#f1f2f5';
-  // const Gray5 = '#fafafb';
+  const Title = '#ffffff';
+  const Body1 = 'rgba(255, 255, 255, 0.95)';
+  const Body2 = 'rgba(255, 255, 255, 0.75)';
+  const Body3 = 'rgba(255, 255, 255, 0.65)';
+  const Gray1 = 'rgba(255, 255, 255, 0.25)';
+  const Gray2 = 'rgba(255, 255, 255, 0.2)';
+  const Gray3 = 'rgba(255, 255, 255, 0.15)';
+  const Gray4 = 'rgba(255, 255, 255, 0.1)';
+  const Gray5 = 'rgba(255, 255, 255, 0.05)';
 
   const darkBG = '#303030';
 
@@ -135,6 +134,16 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
         // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
         'picker-bg': darkBG, // 时间、日期选择器背景色
         'checkbox-check-bg': darkBG, // checkbox背景色
+        // UI设计师自定义的颜色
+        'custom-title': Title,
+        'custom-body1': Body1,
+        'custom-body2': Body2,
+        'custom-body3': Body3,
+        'custom-gray1': Gray1,
+        'custom-gray2': Gray2,
+        'custom-gray3': Gray3,
+        'custom-gray4': Gray4,
+        'custom-gray5': Gray5,
       },
     }),
   ];
