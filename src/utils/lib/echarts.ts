@@ -11,6 +11,7 @@ import {
   MapChart,
   PictorialBarChart,
   RadarChart,
+  ScatterChart,
 } from 'echarts/charts';
 
 import {
@@ -54,6 +55,7 @@ echarts.use([
   TimelineComponent,
   CalendarComponent,
   GraphicComponent,
+  ScatterChart,
 ]);
 
 export default echarts;
