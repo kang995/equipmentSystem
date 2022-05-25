@@ -36,6 +36,7 @@
     position: relative;
     flex: 1 1 auto;
     min-height: 0;
+    overflow: auto;
 
     &.fixed {
       width: 1200px;

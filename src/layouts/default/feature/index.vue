@@ -1,3 +1,10 @@
+<template>
+  <LayoutLockPage />
+  <BackTop v-if="getUseOpenBackTop" :target="getTarget" :visibilityHeight="800" />
+  <SettingDrawer v-if="getIsFixedSettingDrawer" :class="prefixCls" />
+  <SessionTimeoutLogin v-if="getIsSessionTimeout" />
+</template>
+
 <script lang="ts">
   import { defineComponent, computed, unref } from 'vue';
   import { BackTop } from 'ant-design-vue';
@@ -24,6 +31,8 @@
         useRootSetting();
       const userStore = useUserStoreWithOut();
       const { prefixCls } = useDesign('setting-drawer-feature');
+      const { prefixCls: prefixClsLayoutContent } = useDesign('layout-content');
+      const backTopParentCls = `.${prefixClsLayoutContent}`;
       const { getShowHeader } = useHeaderSetting();
 
       const getIsSessionTimeout = computed(() => userStore.getSessionTimeout);
@@ -41,7 +50,7 @@
       });
 
       return {
-        getTarget: () => document.body,
+        getTarget: () => document.querySelector(backTopParentCls),
         getUseOpenBackTop,
         getIsFixedSettingDrawer,
         prefixCls,
@@ -50,13 +59,6 @@
     },
   });
 </script>
-
-<template>
-  <LayoutLockPage />
-  <BackTop v-if="getUseOpenBackTop" :target="getTarget" />
-  <SettingDrawer v-if="getIsFixedSettingDrawer" :class="prefixCls" />
-  <SessionTimeoutLogin v-if="getIsSessionTimeout" />
-</template>
 
 <style lang="less">
   @prefix-cls: ~'@{name-space}-setting-drawer-feature';
