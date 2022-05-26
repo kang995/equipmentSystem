@@ -61,8 +61,7 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
   // 蓝湖设计图规定的颜色
   const Title = '#ffffff';
   const Body1 = 'rgba(255, 255, 255, 0.95)';
-  // const Body2 = 'rgba(255, 255, 255, 0.75)';
-  const Body2 = '#61687c';
+  const Body2 = 'rgba(255, 255, 255, 0.75)';
   const Body3 = 'rgba(255, 255, 255, 0.65)';
   const Gray1 = 'rgba(255, 255, 255, 0.25)';
   const Gray2 = 'rgba(255, 255, 255, 0.2)';
@@ -70,7 +69,8 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
   const Gray4 = 'rgba(255, 255, 255, 0.1)';
   const Gray5 = 'rgba(255, 255, 255, 0.05)';
 
-  const darkBG = '#303030';
+  const componentBg = '#303030';
+  const selectedBg = '#61687c';
 
   const plugin = [
     vite_theme_plugin,
@@ -115,26 +115,26 @@ export function configThemePlugin(isBuild: boolean): PluginOption[] {
         // 'heading-color': Title, // 标题色 Title
         // 'text-color': Body1, // 主文本色 Body-1
         // 'text-color-secondary': Body2, // 次文本色 Body-2
-        'disabled-color': Body2, // 失效色 Body-3
+        'disabled-color': selectedBg, // 失效色 Body-3
         // 'layout-sider-background-light': Gray4, // 左侧菜单栏背景 Gray-4
         'layout-body-background': '#000000', // 页面主体背景色
-        'input-bg': darkBG, // input默认背景色
-        'input-disabled-bg': Body2, // input disabled背景色
+        'input-bg': componentBg, // input默认背景色
+        'input-disabled-bg': selectedBg, // input disabled背景色
         'input-placeholder-color': '#8b949e', // placeholder颜色
-        'select-background': darkBG, // 下拉框背景色
-        'cascader-bg': darkBG, // 级联选择器
-        'select-item-selected-bg': Body2, // 下拉框选中背景色
-        'cascader-item-selected-bg': Body2, // 级联
-        'item-hover-bg': Body2, // 供其他变量引用的变量
-        'radio-button-bg': darkBG,
+        'select-background': componentBg, // 下拉框背景色
+        'cascader-bg': componentBg, // 级联选择器
+        'select-item-selected-bg': selectedBg, // 下拉框选中背景色
+        'cascader-item-selected-bg': selectedBg, // 级联
+        'item-hover-bg': selectedBg, // 供其他变量引用的变量
+        'radio-button-bg': componentBg,
         // 'radio-button-hover-color': '@primary-color',
         // 'radio-button-active-color': '@primary-color',
         'radio-button-checked-bg': '@primary-2',
         'label-color': '#8b949e', // Form label color
-        'table-header-bg': darkBG,
+        'table-header-bg': componentBg,
         // 'table-selected-row-hover-bg': darken('@table-selected-row-bg', 0.02),
-        'picker-bg': darkBG, // 时间、日期选择器背景色
-        'checkbox-check-bg': darkBG, // checkbox背景色
+        'picker-bg': componentBg, // 时间、日期选择器背景色
+        'checkbox-check-bg': componentBg, // checkbox背景色
         // UI设计师自定义的颜色
         'custom-title': Title,
         'custom-body1': Body1,
