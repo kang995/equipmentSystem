@@ -75,7 +75,7 @@
       });
 
       unref(statusMapRef).set(ExceptionEnum.PAGE_NOT_FOUND, {
-        title: '没有权限访问',
+        title: '无访问权限',
         status: `${ExceptionEnum.PAGE_NOT_FOUND}`,
         subTitle: t('sys.exception.subTitle404'),
         // btnText: props.full ? backLoginI18n : backHomeI18n,
