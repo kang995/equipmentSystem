@@ -71,7 +71,7 @@
       const [register] = useDescription({
         title: 'useDescription',
         column: 2,
-        labelStyle: { width: '150px' },
+        labelStyle: { width: '200px' },
         data: mockData,
         schema: schema,
       });

@@ -81,7 +81,19 @@
       });
 
       const getDescriptionsProps = computed(() => {
-        return { ...unref(attrs), ...unref(getProps) } as DescriptionsProps;
+        const opt = { ...unref(attrs), ...unref(getProps) };
+        // 有边框时默认宽度144px;
+        if (opt.bordered) {
+          if (!opt.labelStyle) {
+            opt.labelStyle = { width: '144px' };
+          }
+
+          if (opt.labelStyle && !opt.labelStyle.width) {
+            opt.labelStyle.width = '144px';
+          }
+        }
+
+        return opt as DescriptionsProps;
       });
 
       /**
