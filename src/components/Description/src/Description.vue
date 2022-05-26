@@ -18,7 +18,7 @@
     size: {
       type: String,
       validator: (v) => ['small', 'default', 'middle', undefined].includes(v),
-      default: 'small',
+      default: 'default',
     },
     bordered: { type: Boolean, default: true },
     column: {
@@ -182,3 +182,8 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  ::v-deep(.ant-descriptions-bordered .ant-descriptions-view > table) {
+    table-layout: fixed;
+  }
+</style>

@@ -92,5 +92,6 @@ export function generateModifyVars(dark = false) {
     'table-sticky-scroll-bar-radius': '6px',
     'table-header-color': Body2,
     'table-footer-color': Body2,
+    'descriptions-default-padding': '16px 16px',
   };
 }

@@ -87,8 +87,3 @@
     },
   });
 </script>
-<style lang="less" scoped>
-  ::v-deep(.ant-descriptions-bordered .ant-descriptions-view > table) {
-    table-layout: fixed;
-  }
-</style>
