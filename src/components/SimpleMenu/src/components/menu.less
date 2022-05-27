@@ -240,7 +240,7 @@
 
         .light-border();
       }
-
+      // 鼠标滑过菜单栏时的颜色背景
       &:hover {
         color: @text-color;
         font-weight: bold;
@@ -257,7 +257,10 @@
     // 鼠标滑过菜单栏带子选项的标题时的颜色
     &-light&-vertical &-submenu-title {
       &:hover {
-        color: @primary-color;
+        color: @text-color;
+        font-weight: bold;
+        background-color: #e2e4ea;
+        border-radius: 6px;
       }
     }
 
@@ -289,24 +292,27 @@
 
       &-active:not(.@{menu-prefix-cls}-submenu) {
         color: #fff !important;
-        //font-weight: bold;
+        font-weight: bold;
         background-color: @primary-color !important;
         border-radius: 6px;
       }
 
       &:hover {
         color: #fff;
-      }
-    }
-
-    &-dark&-vertical &-item {
-      &:hover {
-        color: #fff;
-        //font-weight: bold;
+        font-weight: bold;
         background-color: @primary-color !important;
         border-radius: 6px;
       }
     }
+
+    //&-dark&-vertical &-item {
+    //  &:hover {
+    //    color: #fff;
+    //    font-weight: bold;
+    //    background-color: @primary-color !important;
+    //    border-radius: 6px;
+    //  }
+    //}
 
     &-dark&-vertical&-collapse {
       > li.@{menu-prefix-cls}-item-active,
