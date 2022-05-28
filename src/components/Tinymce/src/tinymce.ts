@@ -3,11 +3,9 @@
 // Custom builds see https://www.tinymce.com/download/custom-builds/
 // colorpicker/contextmenu/textcolor plugin is now built in to the core editor, please remove it from your editor configuration
 
-export const plugins = [
-  'advlist anchor autolink autosave code codesample  directionality  fullscreen hr insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus  template  textpattern visualblocks visualchars wordcount',
-];
-
-export const toolbar = [
-  'fontsizeselect lineheight searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample',
-  'hr bullist numlist link  preview anchor pagebreak insertdatetime media  forecolor backcolor fullscreen',
-];
+export const plugins =
+  'print preview searchreplace autolink directionality visualblocks visualchars fullscreen link media template code codesample table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount textpattern help autosave';
+export const toolbar =
+  'undo redo | fontselect fontsizeselect formatselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | forecolor backcolor | \
+    outdent indent bullist numlist | blockquote subscript superscript removeformat cut copy|\
+    table media code hr pagebreak insertdatetime print preview | fullscreen';

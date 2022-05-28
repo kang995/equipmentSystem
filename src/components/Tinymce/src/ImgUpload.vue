@@ -8,7 +8,7 @@
       :showUploadList="false"
       accept=".jpg,.jpeg,.gif,.png,.webp"
     >
-      <a-button type="primary" v-bind="{ ...getButtonProps }">
+      <a-button type="primary" v-bind="{ ...getButtonProps }" :size="'small'">
         {{ t('component.upload.imgUpload') }}
       </a-button>
     </Upload>
@@ -85,7 +85,7 @@
 
   .@{prefix-cls} {
     position: absolute;
-    top: 4px;
+    top: 8px;
     right: 10px;
     z-index: 20;
 

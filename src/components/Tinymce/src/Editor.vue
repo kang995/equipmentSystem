@@ -39,19 +39,30 @@
   import 'tinymce/plugins/nonbreaking';
   import 'tinymce/plugins/noneditable';
   import 'tinymce/plugins/pagebreak';
-  import 'tinymce/plugins/paste';
+  // import 'tinymce/plugins/paste';
   import 'tinymce/plugins/preview';
   import 'tinymce/plugins/print';
   import 'tinymce/plugins/save';
   import 'tinymce/plugins/searchreplace';
   import 'tinymce/plugins/spellchecker';
   import 'tinymce/plugins/tabfocus';
-  // import 'tinymce/plugins/table';
+  import 'tinymce/plugins/table';
   import 'tinymce/plugins/template';
   import 'tinymce/plugins/textpattern';
   import 'tinymce/plugins/visualblocks';
   import 'tinymce/plugins/visualchars';
   import 'tinymce/plugins/wordcount';
+  // 未导入
+  // import 'tinymce/plugins/image';
+  import 'tinymce/plugins/charmap';
+  // import 'tinymce/plugins/imagetools';
+  import 'tinymce/plugins/help';
+  // import 'tinymce/plugins/emoticons';
+  // import 'tinymce/plugins/bdmap';
+  // import 'tinymce/plugins/indent2em';
+  // import 'tinymce/plugins/autoresize';
+  // import 'tinymce/plugins/formatpainter';
+  // import 'tinymce/plugins/axupimgs';
 
   import {
     defineComponent,
@@ -83,11 +94,11 @@
     },
 
     toolbar: {
-      type: Array as PropType<string[]>,
+      type: String as PropType<string>,
       default: toolbar,
     },
     plugins: {
-      type: Array as PropType<string[]>,
+      type: String as PropType<string>,
       default: plugins,
     },
     modelValue: {
@@ -151,6 +162,7 @@
           selector: `#${unref(tinymceId)}`,
           height,
           toolbar,
+          toolbar_mode: 'sliding',
           menubar: 'file edit insert view format table',
           plugins,
           language_url: publicPath + 'resource/tinymce/langs/' + langName.value + '.js',
