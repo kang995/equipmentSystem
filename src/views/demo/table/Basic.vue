@@ -13,6 +13,16 @@
       :pagination="pagination"
       @columns-change="handleColumnChange"
     >
+      <template #headerTop>
+        <div>headerTop插槽，定义了tableTitle插槽时，title不显示，此处可简单显示一段文字</div>
+      </template>
+      <template #tableTitle>
+        <a-button type="primary" class="mr-16px" preIcon="gonggong_tianjia_xianxing|svg"
+          >新建</a-button
+        >
+        <a-button class="mr-16px">批量删除</a-button>
+        <a-button>批量导出</a-button>
+      </template>
       <template #toolbar>
         <a-button type="primary" @click="toggleCanResize">
           {{ !canResize ? '自适应高度' : '取消自适应' }}
@@ -38,8 +48,8 @@
     setup() {
       const canResize = ref(false);
       const loading = ref(false);
-      const striped = ref(true);
-      const border = ref(true);
+      const striped = ref(false);
+      const border = ref(false);
       const pagination = ref<any>(false);
       function toggleCanResize() {
         canResize.value = !canResize.value;

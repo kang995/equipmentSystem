@@ -64,7 +64,7 @@
 </script>
 <style lang="less">
   .table-settings {
-    & > * {
+    & > *:not(:last-child) {
       margin-right: 12px;
     }
 
