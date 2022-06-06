@@ -67,7 +67,7 @@ const feat: AppRouteModule = {
       children: [
         {
           path: 'detail/:id',
-          name: 'TabDetail',
+          name: 'TabDetailDemo',
           component: () => import('/@/views/demo/feat/tabs/TabDetail.vue'),
           meta: {
             currentActiveMenu: '/demo/feat/tabs',

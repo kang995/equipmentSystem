@@ -4,10 +4,10 @@ import { createFakeUserList } from './user';
 
 // single
 const dashboardRoute = {
-  path: '/demo/demo-dashboard',
-  name: 'DemoDashboard',
+  path: '/permission-back/demo-dashboard',
+  name: 'PermissionBackDashboard',
   component: 'LAYOUT',
-  redirect: '/demo/demo-dashboard/demo-analysis',
+  redirect: '/permission-back/demo-dashboard/demo-analysis',
   meta: {
     title: 'routes.dashboard.dashboard',
     hideChildrenInMenu: true,
@@ -16,13 +16,13 @@ const dashboardRoute = {
   children: [
     {
       path: 'demo-analysis',
-      name: 'DemoAnalysis',
+      name: 'PermissionBackAnalysis',
       component: '/dashboard/analysis/index',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
         title: 'routes.dashboard.analysis',
-        currentActiveMenu: '/demo/demo-dashboard',
+        currentActiveMenu: '/permission-back/demo-dashboard',
         icon: 'bx:bx-home',
       },
     },
@@ -43,7 +43,7 @@ const dashboardRoute = {
 
 const backRoute = {
   path: 'back',
-  name: 'PermissionBackDemo',
+  name: 'PermissionBackDemo2',
   meta: {
     title: 'routes.demo.permission.back',
   },
@@ -51,7 +51,7 @@ const backRoute = {
   children: [
     {
       path: 'page',
-      name: 'BackAuthPage',
+      name: 'BackAuthPage2',
       component: '/demo/permission/back/index',
       meta: {
         title: 'routes.demo.permission.backPage',
@@ -59,7 +59,7 @@ const backRoute = {
     },
     {
       path: 'btn',
-      name: 'BackAuthBtn',
+      name: 'BackAuthBtn2',
       component: '/demo/permission/back/Btn',
       meta: {
         title: 'routes.demo.permission.backBtn',
@@ -69,10 +69,10 @@ const backRoute = {
 };
 
 const authRoute = {
-  path: '/demo/demo-permission',
-  name: 'DemoPermission',
+  path: '/permission-back/demo-permission',
+  name: 'DemoPermission2',
   component: 'LAYOUT',
-  redirect: '/demo/demo-permission/front/page',
+  redirect: '/permission-back/demo-permission/back/page',
   meta: {
     icon: 'carbon:user-role',
     title: 'routes.demo.permission.permission',
@@ -82,7 +82,7 @@ const authRoute = {
 
 const levelRoute = {
   path: '/level',
-  name: 'Level',
+  name: 'LevelDemo2',
   component: 'LAYOUT',
   redirect: '/level/menu1/menu1-1',
   meta: {
@@ -93,21 +93,21 @@ const levelRoute = {
   children: [
     {
       path: 'menu1',
-      name: 'Menu1Demo',
+      name: 'Menu1Demo2',
       meta: {
         title: 'Menu1',
       },
       children: [
         {
           path: 'menu1-1',
-          name: 'Menu11Demo',
+          name: 'Menu11Demo2',
           meta: {
             title: 'Menu1-1',
           },
           children: [
             {
               path: 'menu1-1-1',
-              name: 'Menu111Demo',
+              name: 'Menu111Demo2',
               component: '/demo/level/Menu111',
               meta: {
                 title: 'Menu111',
@@ -117,7 +117,7 @@ const levelRoute = {
         },
         {
           path: 'menu1-2',
-          name: 'Menu12Demo',
+          name: 'Menu12Demo2',
           component: '/demo/level/Menu12',
           meta: {
             title: 'Menu1-2',
@@ -127,7 +127,7 @@ const levelRoute = {
     },
     {
       path: 'menu2',
-      name: 'Menu2Demo',
+      name: 'Menu2Demo2',
       component: '/demo/level/Menu2',
       meta: {
         title: 'Menu2',
@@ -137,10 +137,10 @@ const levelRoute = {
 };
 
 const sysRoute = {
-  path: '/demo/demo-system',
-  name: 'DemoSystem',
+  path: '/permission-back/demo-system',
+  name: 'DemoSystem2',
   component: 'LAYOUT',
-  redirect: '/demo/demo-system/account',
+  redirect: '/permission-back/demo-system/account',
   meta: {
     icon: 'ion:settings-outline',
     title: 'routes.demo.system.moduleName',
@@ -148,7 +148,7 @@ const sysRoute = {
   children: [
     {
       path: 'account',
-      name: 'AccountManagement',
+      name: 'AccountManagementDemo2',
       meta: {
         title: 'routes.demo.system.account',
         ignoreKeepAlive: true,
@@ -157,19 +157,19 @@ const sysRoute = {
     },
     {
       path: 'account_detail/:id',
-      name: 'AccountDetail',
+      name: 'AccountDetailDemo2',
       meta: {
         hideMenu: true,
         title: 'routes.demo.system.account_detail',
         ignoreKeepAlive: true,
         showMenu: false,
-        currentActiveMenu: '/system/account',
+        currentActiveMenu: '/demo-system/account',
       },
       component: '/demo/system/account/AccountDetail',
     },
     {
       path: 'role',
-      name: 'RoleManagement',
+      name: 'RoleManagementDemo2',
       meta: {
         title: 'routes.demo.system.role',
         ignoreKeepAlive: true,
@@ -179,7 +179,7 @@ const sysRoute = {
 
     {
       path: 'menu',
-      name: 'MenuManagement',
+      name: 'MenuManagementDemo2',
       meta: {
         title: 'routes.demo.system.menu',
         ignoreKeepAlive: true,
@@ -188,7 +188,7 @@ const sysRoute = {
     },
     {
       path: 'dept',
-      name: 'DeptManagement',
+      name: 'DeptManagementDemo2',
       meta: {
         title: 'routes.demo.system.dept',
         ignoreKeepAlive: true,
@@ -197,7 +197,7 @@ const sysRoute = {
     },
     {
       path: 'changePassword',
-      name: 'ChangePassword',
+      name: 'ChangePasswordDemo2',
       meta: {
         title: 'routes.demo.system.password',
         ignoreKeepAlive: true,
@@ -208,8 +208,8 @@ const sysRoute = {
 };
 
 const linkRoute = {
-  path: '/link',
-  name: 'Link',
+  path: '/permission-back/link',
+  name: 'LinkDemo2',
   component: 'LAYOUT',
   meta: {
     icon: 'ion:tv-outline',
@@ -218,7 +218,7 @@ const linkRoute = {
   children: [
     {
       path: 'doc',
-      name: 'Doc',
+      name: 'DocDemo2',
       meta: {
         title: 'routes.demo.iframe.doc',
         frameSrc: 'https://vvbin.cn/doc-next/',
@@ -226,7 +226,7 @@ const linkRoute = {
     },
     {
       path: 'https://vvbin.cn/doc-next/',
-      name: 'DocExternal',
+      name: 'DocExternalDemo2',
       component: 'LAYOUT',
       meta: {
         title: 'routes.demo.iframe.docExternal',

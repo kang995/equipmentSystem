@@ -190,10 +190,21 @@ export const usePermissionStore = defineStore({
             console.error(error);
           }
 
-          // Dynamically introduce components
+          // Dynamically introduce components 动态引入组件
           routeList = transformObjToRoute(routeList);
 
-          //  Background routing to menu structure
+          // 引入demo示例路由 START
+          if (import.meta.env.DEV) {
+            let demoRoutes: AppRouteRecordRaw[] = [];
+            demoRoutes = filter(asyncRoutes, routeFilter);
+            demoRoutes = demoRoutes.filter(routeFilter);
+            demoRoutes = demoRoutes.filter((item) => item.path === '/demo' && item.name === 'Demo');
+            // 添加demo路由
+            routeList.push(demoRoutes[0]);
+          }
+          // 引入demo示例路由 END
+
+          // Background routing to menu structure 后台路由到菜单结构
           const backMenuList = transformRouteToMenu(routeList);
           this.setBackMenuList(backMenuList);
 

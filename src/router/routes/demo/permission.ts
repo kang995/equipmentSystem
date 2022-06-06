@@ -26,7 +26,7 @@ const permission: AppRouteModule = {
       children: [
         {
           path: 'page',
-          name: 'FrontPageAuth',
+          name: 'FrontPageAuthDemo',
           component: () => import('/@/views/demo/permission/front/index.vue'),
           meta: {
             title: t('routes.demo.permission.frontPage'),
@@ -34,7 +34,7 @@ const permission: AppRouteModule = {
         },
         {
           path: 'btn',
-          name: 'FrontBtnAuth',
+          name: 'FrontBtnAuthDemo',
           component: () => import('/@/views/demo/permission/front/Btn.vue'),
           meta: {
             title: t('routes.demo.permission.frontBtn'),
@@ -42,7 +42,7 @@ const permission: AppRouteModule = {
         },
         {
           path: 'auth-pageA',
-          name: 'FrontAuthPageA',
+          name: 'FrontAuthPageADemo',
           component: () => import('/@/views/demo/permission/front/AuthPageA.vue'),
           meta: {
             title: t('routes.demo.permission.frontTestA'),
@@ -51,7 +51,7 @@ const permission: AppRouteModule = {
         },
         {
           path: 'auth-pageB',
-          name: 'FrontAuthPageB',
+          name: 'FrontAuthPageBDemo',
           component: () => import('/@/views/demo/permission/front/AuthPageB.vue'),
           meta: {
             title: t('routes.demo.permission.frontTestB'),
@@ -70,7 +70,7 @@ const permission: AppRouteModule = {
       children: [
         {
           path: 'page',
-          name: 'BackAuthPage',
+          name: 'BackAuthPageDemo',
           component: () => import('/@/views/demo/permission/back/index.vue'),
           meta: {
             title: t('routes.demo.permission.backPage'),
@@ -78,7 +78,7 @@ const permission: AppRouteModule = {
         },
         {
           path: 'btn',
-          name: 'BackAuthBtn',
+          name: 'BackAuthBtnDemo',
           component: () => import('/@/views/demo/permission/back/Btn.vue'),
           meta: {
             title: t('routes.demo.permission.backBtn'),

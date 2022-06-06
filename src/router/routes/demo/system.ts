@@ -4,7 +4,7 @@ import { LAYOUT } from '/@/router/constant';
 import { t } from '/@/hooks/web/useI18n';
 
 const system: AppRouteModule = {
-  path: 'system',
+  path: 'demo-system',
   name: 'SystemDemo',
   component: LAYOUT,
   redirect: '/demo/system/account',
