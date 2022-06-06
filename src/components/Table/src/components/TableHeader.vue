@@ -73,7 +73,7 @@
       align-items: center;
       justify-content: flex-end;
 
-      > * {
+      > *:not(:last-child) {
         margin-right: 8px;
       }
     }
