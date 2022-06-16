@@ -80,7 +80,12 @@ export function useECharts(
   }
 
   function resize() {
-    chartInstance?.resize();
+    chartInstance?.resize({
+      animation: {
+        duration: 300,
+        easing: 'quadraticIn',
+      },
+    });
   }
 
   watch(
