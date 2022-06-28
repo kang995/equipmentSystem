@@ -167,3 +167,8 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  ::v-deep(.scrollbar__wrap) {
+    margin-bottom: 0 !important;
+  }
+</style>
