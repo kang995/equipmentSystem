@@ -13,6 +13,11 @@
     <a-button type="primary" class="my-4" @click="handleDownloadByOnlineUrl">
       图片Url下载
     </a-button>
+
+    <a-alert message="根据oss文件地址下载文件" />
+    <a-button type="primary" class="my-4" @click="handleDownloadByOssUrl">
+      oss文件地址下载
+    </a-button>
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -22,6 +27,7 @@
     downloadByData,
     downloadByBase64,
     downloadByOnlineUrl,
+    downloadByOssUrl,
   } from '/@/utils/file/download';
   import imgBase64 from './imgBase64';
   import { PageWrapper } from '/@/components/Page';
@@ -42,6 +48,7 @@
         downloadByUrl({
           url: 'https://vebn.oss-cn-beijing.aliyuncs.com/vben/logo.png',
           target: '_self',
+          fileName: '新logo.png',
         });
       }
 
@@ -55,11 +62,30 @@
           'logo.png',
         );
       }
+
+      function handleDownloadByOssUrl() {
+        downloadByOssUrl({
+          url: 'https://vebn.oss-cn-beijing.aliyuncs.com/vben/logo.png',
+          fileName: '新命名的文件.png',
+        });
+
+        // 异步变同步调用
+        // const res = await downloadByOssUrl({
+        //   url: 'https://vebn.oss-cn-beijing.aliyuncs.com/vben/logo.png',
+        //   fileName: '新命名的文件.png',
+        // });
+        // if (res) {
+        //   // 下载成功
+        // } else {
+        //   // 下载失败
+        // }
+      }
       return {
         handleDownloadByUrl,
         handleDownByData,
         handleDownloadByBase64,
         handleDownloadByOnlineUrl,
+        handleDownloadByOssUrl,
       };
     },
   });

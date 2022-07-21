@@ -1,5 +1,6 @@
 import { openWindow } from '..';
 import { dataURLtoBlob, urlToBase64 } from './base64Conver';
+import { defHttp } from '/@/utils/http/axios';
 
 /**
  * Download online pictures
@@ -94,3 +95,31 @@ export function downloadByUrl({
   openWindow(url, { target });
   return true;
 }
+
+/**
+ * Download file according to file address
+ * @param {*} url oss文件地址
+ * @param {*} fileName 下载后重命名的文件名
+ */
+export async function downloadByOssUrl({
+  url,
+  fileName,
+}: {
+  url: string;
+  fileName: string;
+}): Promise<boolean> {
+  try {
+    const blob = await getBlobByUrl(url);
+    downloadByData(blob, fileName);
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(false);
+  }
+}
+
+export const getBlobByUrl = (url: string) => {
+  return defHttp.get<BlobPart>(
+    { url, responseType: 'blob' },
+    { apiUrl: '', isTransformResponse: false, withToken: false },
+  );
+};
