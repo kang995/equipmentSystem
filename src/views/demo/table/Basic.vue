@@ -71,7 +71,6 @@
       function handleColumnChange(data: ColumnChangeParam[]) {
         console.log('ColumnChanged', data);
       }
-
       return {
         columns: getBasicColumns(),
         data: getBasicData(),
