@@ -42,7 +42,7 @@ specifiers:
   '@vueuse/core': ^8.3.0
   '@vueuse/shared': ^8.3.0
   '@zxcvbn-ts/core': ^2.0.1
-  ant-design-vue: ^3.2.5
+  ant-design-vue: 3.2.11
   autoprefixer: ^10.4.4
   axios: ^0.26.1
   codemirror: ^5.65.3
@@ -131,7 +131,7 @@ dependencies:
   '@vueuse/core': 8.3.0_vue@3.2.33
   '@vueuse/shared': 8.3.0_vue@3.2.33
   '@zxcvbn-ts/core': 2.0.1
-  ant-design-vue: 3.2.5_vue@3.2.33
+  ant-design-vue: 3.2.11_vue@3.2.33
   axios: 0.26.1
   codemirror: 5.65.3
   cropperjs: 1.5.12
@@ -2734,8 +2734,9 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /ant-design-vue/3.2.5_vue@3.2.33:
-    resolution: {integrity: sha512-O6nxTHkRgqI3zIZ702hfBM4pamsYJs5ey63DY3BAq5zy1thLxcjjx4K4V2Zf9QtVQgsD8bgf6qb605P14GIqAw==}
+  /ant-design-vue/3.2.11_vue@3.2.33:
+    resolution: {integrity: sha512-QKCAcOY5EJF0PepiVGA4X5PzUetYUvG5qALmA+2TON40pc2+brOEiVTwr3kjF9N+f7q4MpyiLPu4pIErwoajOQ==}
+    engines: {node: '>=12.22.0'}
     peerDependencies:
       vue: '>=3.2.0'
     dependencies:
