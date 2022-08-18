@@ -37,7 +37,8 @@
         rowSelection: { type: 'checkbox' },
         columns: getBasicColumns(),
         showSummary: true,
-        summaryFunc: handleSummary,
+        showIndexColumn: true,
+        // summaryFunc: handleSummary,
         scroll: { x: 2000 },
         canResize: false,
       });
