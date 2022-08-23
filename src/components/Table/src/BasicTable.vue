@@ -269,6 +269,7 @@
           {
             [`${prefixCls}-form-container`]: values.useSearchForm,
             [`${prefixCls}--inset`]: values.inset,
+            [`${prefixCls}--inTabs`]: values.inTabs,
           },
         ];
       });
@@ -345,6 +346,7 @@
         getFormSlotKeys,
         getWrapperClass,
         columns: getViewColumns,
+        prefixCls,
       };
     },
   });
@@ -372,12 +374,14 @@
     }
 
     &-form-container {
-      padding: 16px;
+      //padding: 16px;
 
       .ant-form {
-        padding: 12px 10px 6px;
+        //padding: 12px 10px 6px;
+        padding: 16px 16px 8px;
         margin-bottom: 16px;
         background-color: @component-background;
+        border: 1px solid @border-color-base;
         border-radius: 6px;
       }
     }
@@ -387,8 +391,9 @@
     }
 
     .ant-table-wrapper {
-      padding: 6px;
+      padding: 16px;
       background-color: @component-background;
+      border: 1px solid @border-color-base;
       border-radius: 6px;
 
       .ant-table-title {
@@ -446,6 +451,21 @@
     &--inset {
       .ant-table-wrapper {
         padding: 0;
+        border: none;
+      }
+
+      .ant-form {
+        padding-left: 0;
+        padding-right: 0;
+        border: none;
+      }
+    }
+
+    &--inTabs {
+      .ant-form {
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+        border-top: none;
       }
     }
   }

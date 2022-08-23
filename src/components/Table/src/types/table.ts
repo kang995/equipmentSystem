@@ -145,6 +145,8 @@ export interface BasicTableProps<T = any> {
   filterFn?: (data: Partial<Recordable<string[]>>) => any;
   // 取消表格的默认padding
   inset?: boolean;
+  // 是否在Tabs中，true则取消table搜索form顶部边框及圆角
+  inTabs?: boolean;
   // 显示表格设置
   showTableSetting?: boolean;
   tableSetting?: TableSetting;

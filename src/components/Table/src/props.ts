@@ -18,7 +18,7 @@ export const basicProps = {
   clickToRowSelect: { type: Boolean, default: false },
   isTreeTable: Boolean,
   tableSetting: propTypes.shape<TableSetting>({}),
-  inset: Boolean,
+  inset: { type: Boolean, default: false },
   sortFn: {
     type: Function as PropType<(sortInfo: SorterResult) => any>,
     default: DEFAULT_SORT_FN,
