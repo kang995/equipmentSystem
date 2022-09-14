@@ -149,6 +149,15 @@
         }
       });
 
+      const { handleToggleAdvanced } = useAdvanced({
+        advanceState,
+        emit,
+        getProps,
+        getSchema,
+        formModel,
+        defaultValueRef,
+      });
+
       const { handleFormValues, initDefault } = useFormValues({
         getProps,
         defaultValueRef,
@@ -185,16 +194,6 @@
         formElRef: formElRef as Ref<FormActionType>,
         schemaRef: schemaRef as Ref<FormSchema[]>,
         handleFormValues,
-      });
-
-      const { handleToggleAdvanced } = useAdvanced({
-        advanceState,
-        emit,
-        getProps,
-        getSchema,
-        resetSchema,
-        formModel,
-        defaultValueRef,
       });
 
       createFormContext({
