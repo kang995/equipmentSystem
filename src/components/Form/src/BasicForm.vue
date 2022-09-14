@@ -67,7 +67,6 @@
 
   import { basicProps } from './props';
   import { useDesign } from '/@/hooks/web/useDesign';
-  import { cloneDeep } from 'lodash-es';
 
   export default defineComponent({
     name: 'BasicForm',
@@ -141,11 +140,9 @@
           }
         }
         if (unref(getProps).showAdvancedButton) {
-          return cloneDeep(
-            schemas.filter((schema) => schema.component !== 'Divider') as FormSchema[],
-          );
+          return schemas.filter((schema) => schema.component !== 'Divider') as FormSchema[];
         } else {
-          return cloneDeep(schemas as FormSchema[]);
+          return schemas as FormSchema[];
         }
       });
 
