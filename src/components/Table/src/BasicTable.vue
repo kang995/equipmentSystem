@@ -36,6 +36,9 @@
       <!--        <HeaderCell :column="column" />-->
       <!--      </template>-->
     </Table>
+    <span v-if="getSelectRowKeys().length" style="position: relative; bottom: 42px; left: 16px"
+      >当前已选 {{ getSelectRowKeys().length }} 条</span
+    >
   </div>
 </template>
 <script lang="ts">
@@ -347,6 +350,7 @@
         getWrapperClass,
         columns: getViewColumns,
         prefixCls,
+        getSelectRowKeys,
       };
     },
   });
