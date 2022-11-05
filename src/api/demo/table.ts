@@ -10,11 +10,12 @@ enum Api {
  */
 
 export const demoListApi = (params: DemoParams) =>
-  defHttp.get<DemoListGetResultModel>({
-    url: Api.DEMO_LIST,
-    params,
-    headers: {
-      // @ts-ignore
-      ignoreCancelToken: true,
+  defHttp.get<DemoListGetResultModel>(
+    {
+      url: Api.DEMO_LIST,
+      params,
     },
-  });
+    {
+      ignoreCancelToken: false,
+    },
+  );
