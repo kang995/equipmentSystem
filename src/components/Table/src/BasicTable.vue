@@ -139,6 +139,7 @@
         getRowSelection,
         getRowSelectionRef,
         getSelectRows,
+        setSelectedRows,
         clearSelectedRowKeys,
         getSelectRowKeys,
         deleteSelectRowByKey,
