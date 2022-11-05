@@ -22,7 +22,7 @@ import axios from 'axios';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
-const { createMessage, createErrorModal } = useMessage();
+const { createMessage, createErrorModal, createSuccessModal } = useMessage();
 
 /**
  * @description: 数据处理，方便区分多种处理方式
@@ -57,6 +57,15 @@ const transform: AxiosTransform = {
     const hasSuccess =
       axiosResData && Reflect.has(axiosResData, 'code') && code === ResultEnum.SUCCESS;
     if (hasSuccess) {
+      let successMsg = msg;
+      if (successMsg === null || successMsg === undefined || successMsg === '') {
+        successMsg = '操作成功';
+      }
+      if (options.successMessageMode === 'modal') {
+        createSuccessModal({ title: t('sys.api.successTip'), content: successMsg });
+      } else if (options.successMessageMode === 'message') {
+        createMessage.success(successMsg);
+      }
       return data;
     }
 
@@ -193,7 +202,7 @@ const transform: AxiosTransform = {
         } else if (errorMessageMode === 'message') {
           createMessage.error(errMessage);
         }
-        return Promise.reject(errMessage);
+        return Promise.reject(error);
       }
     } catch (error) {
       throw new Error(error as unknown as string);
