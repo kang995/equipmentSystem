@@ -112,7 +112,11 @@ const transform: AxiosTransform = {
     } else {
       if (!isString(params)) {
         formatDate && formatRequestDate(params);
-        if (Reflect.has(config, 'data') && config.data && (Object.keys(config.data).length > 0 || config.data instanceof FormData)) {
+        if (
+          Reflect.has(config, 'data') &&
+          config.data &&
+          (Object.keys(config.data).length > 0 || config.data instanceof FormData)
+        ) {
           config.data = data;
           config.params = params;
         } else {
@@ -240,7 +244,9 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           urlPrefix: urlPrefix,
           //  是否加入时间戳
           joinTime: true,
-          // 忽略重复请求
+          // 忽略取消重复请求
+          // false：自动取消排在前面的重复请求
+          // true：不取消重复请求，重复请求会请求多次
           ignoreCancelToken: true,
           // 是否携带token
           withToken: true,
