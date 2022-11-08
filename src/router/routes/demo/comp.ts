@@ -128,6 +128,14 @@ const comp: AppRouteModule = {
           },
         },
         {
+          path: 'table-in-tabs',
+          name: 'TableTabsDemo',
+          component: () => import('/@/views/demo/table/table-in-tabs/index.vue'),
+          meta: {
+            title: t('与Tabs搭配使用'),
+          },
+        },
+        {
           path: 'treeTable',
           name: 'TreeTableDemo',
           component: () => import('/@/views/demo/table/TreeTable.vue'),
