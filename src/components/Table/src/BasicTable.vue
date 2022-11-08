@@ -293,6 +293,7 @@
       const tableAction: TableActionType = {
         reload,
         getSelectRows,
+        setSelectedRows,
         clearSelectedRowKeys,
         getSelectRowKeys,
         deleteSelectRowByKey,
