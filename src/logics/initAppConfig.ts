@@ -26,9 +26,10 @@ import { ThemeEnum } from '/@/enums/appEnum';
 export function initAppConfigStore() {
   const localeStore = useLocaleStore();
   const appStore = useAppStore();
-  let projCfg: ProjectConfig = Persistent.getLocal(PROJ_CFG_KEY) as ProjectConfig;
-  projCfg = deepMerge(projectSetting, projCfg || {});
+  const projCfg: ProjectConfig = Persistent.getLocal(PROJ_CFG_KEY) as ProjectConfig;
+  // projCfg = deepMerge(projectSetting, projCfg || {});
   const darkMode = appStore.getDarkMode;
+  const proConfig = projCfg ? projCfg : projectSetting;
   const {
     colorWeak,
     grayMode,
@@ -36,7 +37,7 @@ export function initAppConfigStore() {
 
     headerSetting: { bgColor: headerBgColor } = {},
     menuSetting: { bgColor } = {},
-  } = projCfg;
+  } = proConfig;
   try {
     if (themeColor && themeColor !== primaryColor) {
       changeTheme(themeColor);
@@ -47,7 +48,7 @@ export function initAppConfigStore() {
   } catch (error) {
     console.log(error);
   }
-  appStore.setProjectConfig(projCfg);
+  appStore.setProjectConfig(proConfig);
 
   // init dark mode
   updateDarkTheme(darkMode);
