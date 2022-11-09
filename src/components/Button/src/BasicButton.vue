@@ -1,9 +1,9 @@
 <template>
   <Button v-bind="getBindValue" :class="getButtonClass" @click="onClick">
     <template #default="data">
-      <Icon :icon="preIcon" v-if="preIcon" :size="iconSize" />
+      <Icon :icon="preIcon" v-if="preIcon" :size="iconSize" style="transform: scale(1.2, 1.2)" />
       <slot v-bind="data || {}"></slot>
-      <Icon :icon="postIcon" v-if="postIcon" :size="iconSize" />
+      <Icon :icon="postIcon" v-if="postIcon" :size="iconSize" style="transform: scale(1.2, 1.2)" />
     </template>
   </Button>
 </template>
