@@ -19,7 +19,6 @@ import { getCommonStoragePrefix, getStorageShortName } from '/@/utils/env';
 
 import { primaryColor } from '../../build/config/themeConfig';
 import { Persistent } from '/@/utils/cache/persistent';
-import { deepMerge } from '/@/utils';
 import { ThemeEnum } from '/@/enums/appEnum';
 
 // Initial project configuration
