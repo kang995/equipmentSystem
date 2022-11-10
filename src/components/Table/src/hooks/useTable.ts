@@ -68,6 +68,7 @@ export function useTable(tableProps?: Props): [
     getForm: () => FormActionType;
   } = {
     reload: async (opt?: FetchParams) => {
+      getTableInstance().clearSelectedRowKeys(); // 清除所有行的选中状态
       return await getTableInstance().reload(opt);
     },
     setProps: (props: Partial<BasicTableProps>) => {
@@ -77,7 +78,7 @@ export function useTable(tableProps?: Props): [
       getTableInstance().redoHeight();
     },
     setSelectedRows: (rows: Recordable[]) => {
-      return toRaw(getTableInstance().setSelectedRows(rows));
+      getTableInstance().setSelectedRows(rows);
     },
     setLoading: (loading: boolean) => {
       getTableInstance().setLoading(loading);
