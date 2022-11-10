@@ -353,7 +353,7 @@
 
     &--compact {
       .ant-form-item {
-        margin-bottom: 8px !important;
+        margin-bottom: 16px !important;
       }
     }
   }

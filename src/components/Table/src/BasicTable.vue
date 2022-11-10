@@ -385,7 +385,7 @@
       .ant-form {
         //width: 100%; // 表格查询条件下拉框文本超长显示错乱
         //padding: 12px 10px 6px;
-        padding: 16px 16px 8px;
+        padding: 16px 16px 0;
         margin-bottom: 16px;
         background-color: @component-background;
         border: 1px solid @border-color-base;
