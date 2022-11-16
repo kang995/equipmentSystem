@@ -86,6 +86,7 @@
     // rowKey: 'id',
     // inset: false,
     inTabs: true,
+    // showSelectedNumber: false,
     rowSelection: {
       type: 'checkbox',
       columnWidth: 50,

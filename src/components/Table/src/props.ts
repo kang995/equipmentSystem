@@ -152,4 +152,5 @@ export const basicProps = {
     type: String as PropType<SizeType>,
     default: DEFAULT_SIZE,
   },
+  showSelectedNumber: propTypes.bool.def(true),
 };

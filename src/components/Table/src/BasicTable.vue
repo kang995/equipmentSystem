@@ -36,7 +36,7 @@
       <!--        <HeaderCell :column="column" />-->
       <!--      </template>-->
     </Table>
-    <span v-if="getSelectRowKeys().length" style="position: relative; bottom: 42px; left: 16px"
+    <span v-if="showSelectedNumber" style="position: relative; bottom: 42px; left: 16px"
       >当前已选 {{ getSelectRowKeys().length }} 条</span
     >
   </div>
@@ -286,6 +286,11 @@
         return !!unref(getDataSourceRef).length;
       });
 
+      const showSelectedNumber = computed(() => {
+        const values = unref(getBindValues);
+        return values.showSelectedNumber && getSelectRowKeys().length;
+      });
+
       function setProps(props: Partial<BasicTableProps>) {
         innerPropsRef.value = { ...unref(innerPropsRef), ...props };
       }
@@ -353,6 +358,7 @@
         columns: getViewColumns,
         prefixCls,
         getSelectRowKeys,
+        showSelectedNumber,
       };
     },
   });
