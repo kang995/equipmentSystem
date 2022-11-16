@@ -47,7 +47,13 @@
           <template #extra>
             <a-button @click="loadTreeData2" :loading="treeLoading">请求数据</a-button>
           </template>
-          <BasicTree ref="loadTreeRef" :treeData="tree2" :loading="treeLoading" />
+          <BasicTree
+            ref="loadTreeRef"
+            :treeData="tree2"
+            checkable
+            v-model:checkedKeys="tree2CheckedKeys"
+            :loading="treeLoading"
+          />
         </Card>
       </Col>
     </Row>
@@ -70,6 +76,7 @@
       const loadTreeRef = ref<Nullable<TreeActionType>>(null);
       const tree2 = ref<TreeItem[]>([]);
       const treeLoading = ref(false);
+      const tree2CheckedKeys = ref<string[]>([]);
 
       function handleCheck(checkedKeys, e) {
         console.log('onChecked', checkedKeys, e);
@@ -89,12 +96,19 @@
           });
         }, 2000);
       }
+
       function loadTreeData2() {
         treeLoading.value = true;
         // 以下是模拟异步获取数据
         setTimeout(() => {
           // 设置数据源
           tree2.value = cloneDeep(treeData);
+          // 设置选中并展开全部
+          tree2CheckedKeys.value = ['0-0-1'];
+          // 展开全部
+          nextTick(() => {
+            unref(loadTreeRef)?.expandAll(true);
+          });
           treeLoading.value = false;
         }, 2000);
       }
@@ -130,6 +144,7 @@
           }, 300);
         });
       }
+
       return {
         treeData,
         handleCheck,
@@ -142,6 +157,7 @@
         loadTreeData,
         treeLoading,
         loadTreeData2,
+        tree2CheckedKeys,
       };
     },
   });
