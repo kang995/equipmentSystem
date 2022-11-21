@@ -19,6 +19,22 @@
                   confirm: handleOpen.bind(null, record),
                 },
               },
+              {
+                label: '禁用',
+                divider: true,
+                popConfirm: {
+                  title: '是否禁用？',
+                  confirm: handleOpen.bind(null, record),
+                },
+              },
+              {
+                label: '删除',
+                delBtn: true,
+                popConfirm: {
+                  title: '是否删除？',
+                  confirm: handleOpen.bind(null, record),
+                },
+              },
             ]"
           />
         </template>

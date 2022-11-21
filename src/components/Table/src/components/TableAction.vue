@@ -24,7 +24,7 @@
       v-if="dropDownActions && getDropdownList.length > 0"
     >
       <slot name="more"></slot>
-      <a-button type="link" size="small" v-if="!$slots.more">
+      <a-button type="text" size="small" v-if="!$slots.more" class="more_btn">
         <MoreOutlined class="icon-more" />
       </a-button>
     </Dropdown>
@@ -115,7 +115,10 @@
             onConfirm: popConfirm?.confirm,
             onCancel: popConfirm?.cancel,
             text: label,
-            divider: index < list.length - 1 ? props.divider : false,
+            // divider: index < list.length - 1 ? props.divider : false,
+            style: {
+              background: 'red',
+            },
           };
         });
       });
@@ -197,6 +200,19 @@
         font-size: 1.1em;
         font-weight: 700;
       }
+    }
+
+    .more_btn {
+      color: @primary-color;
+    }
+
+    .more_btn:hover {
+      background-color: @primary-3;
+    }
+
+    .more_btn:focus {
+      color: @primary-7;
+      //background-color: @primary-3;
     }
   }
 </style>

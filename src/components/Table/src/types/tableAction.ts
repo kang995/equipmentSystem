@@ -14,6 +14,8 @@ export interface ActionItem extends ButtonProps {
   // 业务控制是否显示
   ifShow?: boolean | ((action: ActionItem) => boolean);
   tooltip?: string | TooltipProps;
+  // 是否是删除按钮，删除按钮背景为红色
+  delBtn?: boolean;
 }
 
 export interface PopConfirm {

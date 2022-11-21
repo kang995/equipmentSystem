@@ -4,12 +4,14 @@
       <slot></slot>
     </span>
     <template #overlay>
-      <a-menu :selectedKeys="selectedKeys">
+      <a-menu :selectedKeys="selectedKeys" style="padding: 4px">
         <template v-for="item in dropMenuList" :key="`${item.event}`">
           <a-menu-item
             v-bind="getAttr(item.event)"
             @click="handleClickMenu(item)"
             :disabled="item.disabled"
+            style="border-radius: 4px"
+            :class="item.delBtn ? 'delBtn' : null"
           >
             <a-popconfirm
               v-if="popconfirm && item.popConfirm"
@@ -28,7 +30,7 @@
               <span class="ml-1">{{ item.text }}</span>
             </template>
           </a-menu-item>
-          <a-menu-divider v-if="item.divider" :key="`d-${item.event}`" />
+          <a-menu-divider v-if="item.divider" :key="`d-${item.event}`" style="margin: 2px" />
         </template>
       </a-menu>
     </template>
@@ -94,3 +96,13 @@
 
   const getAttr = (key: string | number) => ({ key });
 </script>
+<style lang="less" scoped>
+  ::v-deep(.delBtn) {
+    background-color: rgba(255, 91, 86, 0.1);
+    color: rgba(255, 91, 86, 1);
+  }
+
+  ::v-deep(.delBtn):hover {
+    background-color: rgba(255, 91, 86, 0.1);
+  }
+</style>
