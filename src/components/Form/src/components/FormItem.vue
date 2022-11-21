@@ -79,7 +79,7 @@
         if (schema.component === 'Divider') {
           componentProps = Object.assign({ type: 'horizontal' }, componentProps, {
             orientation: 'left',
-            plain: true,
+            // plain: true, // 注释掉，如需使用通过componentProps传入
           });
         }
         return componentProps as Recordable;
