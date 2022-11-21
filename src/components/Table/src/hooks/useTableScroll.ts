@@ -133,7 +133,7 @@ export function useTableScroll(
 
     let bottomIncludeBody = 0;
     if (unref(wrapRef) && isCanResizeParent) {
-      const tablePadding = 12;
+      const tablePadding = 32;
       const formMargin = 16;
       let paginationMargin = 10;
       const wrapHeight = unref(wrapRef)?.offsetHeight ?? 0;
