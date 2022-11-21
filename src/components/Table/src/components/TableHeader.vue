@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%">
-    <div v-if="$slots.headerTop" style="margin: 5px">
+    <div v-if="$slots.headerTop" style="margin-bottom: 16px">
       <slot name="headerTop"></slot>
     </div>
     <div class="flex items-center">
