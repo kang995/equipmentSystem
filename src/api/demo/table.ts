@@ -16,6 +16,6 @@ export const demoListApi = (params: DemoParams) =>
       params,
     },
     {
-      ignoreCancelToken: false,
+      ignoreCancelToken: true,
     },
   );
