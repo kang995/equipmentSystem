@@ -1,5 +1,5 @@
 <template>
-  <div :class="[`${prefixCls}__header px-2 py-5`, $attrs.class]">
+  <div :class="[`${prefixCls}__header px-4 py-6`, $attrs.class]">
     <BasicTitle :helpMessage="helpMessage" normal>
       <template v-if="title">
         {{ title }}
