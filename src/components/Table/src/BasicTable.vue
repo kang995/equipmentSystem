@@ -411,7 +411,7 @@
 
       .ant-table-title {
         min-height: 40px;
-        padding: 0 0 8px !important;
+        padding: 0 0 16px !important;
       }
 
       .ant-table.ant-table-bordered .ant-table-title {
