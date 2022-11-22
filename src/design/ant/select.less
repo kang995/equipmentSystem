@@ -9,6 +9,17 @@ html[data-theme='light'] {
   .ant-select-focused:not(.ant-select-disabled) .ant-select-selector {
     background: white !important;
   }
+
+  .ant-input-group-addon,
+  .ant-input-number-group-addon {
+    .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+      background: transparent !important;
+    }
+
+    .ant-select-focused:not(.ant-select-disabled) .ant-select-selector {
+      background: transparent !important;
+    }
+  }
 }
 
 .ant-select-item {
