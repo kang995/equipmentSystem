@@ -104,7 +104,7 @@
   import { optionsListApi } from '/@/api/demo/select';
   import { useDebounceFn } from '@vueuse/core';
   import { treeOptionsListApi } from '/@/api/demo/tree';
-  import { Select, InputNumber, InputGroup, FormItemRest } from 'ant-design-vue';
+  import { Select, InputNumber, InputGroup, Form } from 'ant-design-vue';
   import { cloneDeep } from 'lodash-es';
 
   const valueSelectA = ref<string[]>([]);
@@ -847,7 +847,7 @@
       ASelectOption: Select.Option,
       AInputNumber: InputNumber,
       AInputGroup: InputGroup,
-      AFormItemRest: FormItemRest,
+      AFormItemRest: Form.ItemRest,
     },
     setup() {
       const check = ref(null);
