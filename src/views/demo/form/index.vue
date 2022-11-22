@@ -2,13 +2,52 @@
   <PageWrapper title="表单基础示例" contentFullHeight>
     <CollapseContainer title="基础示例">
       <BasicForm
-        autoFocusFirstItem
+        :autoFocusFirstItem="false"
         :labelWidth="200"
         :schemas="schemas"
         :actionColOptions="{ span: 24 }"
         @submit="handleSubmit"
         @reset="handleReset"
       >
+        <template #combination1="{ model, field }">
+          <a-input-number
+            v-model:value="model[field]"
+            :min="0"
+            addonBefore="总阅读时间超过"
+            placeholder="请输入答题总时间"
+            style="width: 100%"
+          >
+            <template #addonAfter>
+              <a-select v-model:value="model['select1']" style="min-width: 100px">
+                <a-select-option value="jack">Jack</a-select-option>
+                <a-select-option value="lucy">Lucy</a-select-option>
+                <a-select-option value="Yiminghe">yiminghe</a-select-option>
+              </a-select>
+            </template>
+          </a-input-number>
+        </template>
+        <template #combination2="{ model, field }">
+          <a-input-group compact>
+            <a-input-number
+              v-model:value="model[field]"
+              :min="0"
+              placeholder="请输入答题总时间"
+              addonBefore="总阅读时间超过"
+              style="width: calc(100% - 120px)"
+              class="border_radius_0"
+            />
+            <a-form-item-rest>
+              <a-select
+                v-model:value="model['select2']"
+                style="width: 120px; border-right-width: 0"
+              >
+                <a-select-option value="jack">Jack</a-select-option>
+                <a-select-option value="lucy">Lucy</a-select-option>
+                <a-select-option value="Yiminghe">yiminghe</a-select-option>
+              </a-select>
+            </a-form-item-rest>
+          </a-input-group>
+        </template>
         <template #selectA="{ model, field }">
           <a-select
             :options="optionsA"
@@ -65,7 +104,7 @@
   import { optionsListApi } from '/@/api/demo/select';
   import { useDebounceFn } from '@vueuse/core';
   import { treeOptionsListApi } from '/@/api/demo/tree';
-  import { Select } from 'ant-design-vue';
+  import { Select, InputNumber, InputGroup, FormItemRest } from 'ant-design-vue';
   import { cloneDeep } from 'lodash-es';
 
   const valueSelectA = ref<string[]>([]);
@@ -138,6 +177,44 @@
   };
 
   const schemas: FormSchema[] = [
+    {
+      field: 'combination1',
+      label: '组合样式1',
+      component: 'Input',
+      required: true,
+      slot: 'combination1',
+      defaultValue: '',
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      field: 'select1',
+      label: '',
+      component: 'Input',
+      required: true,
+      defaultValue: 'jack',
+      show: false,
+    },
+    {
+      field: 'combination2',
+      label: '组合样式2',
+      component: 'Input',
+      required: true,
+      slot: 'combination2',
+      defaultValue: '',
+      colProps: {
+        span: 24,
+      },
+    },
+    {
+      field: 'select2',
+      label: '',
+      component: 'Input',
+      required: true,
+      defaultValue: 'jack',
+      show: false,
+    },
     {
       field: 'divider-basic',
       component: 'Divider',
@@ -761,7 +838,17 @@
   ];
 
   export default defineComponent({
-    components: { BasicForm, CollapseContainer, PageWrapper, ApiSelect, ASelect: Select },
+    components: {
+      BasicForm,
+      CollapseContainer,
+      PageWrapper,
+      ApiSelect,
+      ASelect: Select,
+      ASelectOption: Select.Option,
+      AInputNumber: InputNumber,
+      AInputGroup: InputGroup,
+      AFormItemRest: FormItemRest,
+    },
     setup() {
       const check = ref(null);
       const { createMessage } = useMessage();
@@ -773,6 +860,7 @@
       function onSearch(value: string) {
         keyword.value = value;
       }
+
       return {
         schemas,
         optionsListApi,
@@ -794,3 +882,8 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  ::v-deep(.border_radius_0) {
+    border-radius: 0 !important;
+  }
+</style>
