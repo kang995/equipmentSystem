@@ -23,6 +23,20 @@ html[data-theme='light'] {
       background: white !important;
     }
   }
+
+  .ant-input-affix-wrapper {
+    &:hover:not(&-disabled) {
+      background: white !important;
+
+      .ant-input {
+        background: white !important;
+      }
+    }
+
+    &-focused:not(&-disabled) {
+      background: white !important;
+    }
+  }
 }
 
 .ant-input-affix-wrapper .ant-input-suffix {
@@ -41,22 +55,6 @@ html[data-theme='light'] {
   }
 }
 
-html[data-theme='light'] {
-  .ant-input-affix-wrapper {
-    &:hover:not(&-disabled) {
-      background: white !important;
-
-      .ant-input {
-        background: white !important;
-      }
-    }
-
-    &-focused:not(&-disabled) {
-      background: white !important;
-    }
-  }
-}
-
 .ant-input-group-wrapper {
   .ant-input-group {
     .ant-input-affix-wrapper {
@@ -64,4 +62,9 @@ html[data-theme='light'] {
       z-index: 1;
     }
   }
+}
+
+.ant-input-group-addon:last-child,
+.ant-input-number-group-addon:last-child {
+  background-color: @custom-gray4;
 }
