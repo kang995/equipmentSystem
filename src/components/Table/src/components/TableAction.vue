@@ -116,9 +116,6 @@
             onCancel: popConfirm?.cancel,
             text: label,
             // divider: index < list.length - 1 ? props.divider : false,
-            style: {
-              background: 'red',
-            },
           };
         });
       });
