@@ -9,6 +9,7 @@
     :columns="getColumns"
     tableLayout="fixed"
     :scroll="scroll"
+    style="border-radius: 0; border-bottom: 0; border-left: 0; border-right: 0"
   />
 </template>
 <script lang="ts">
