@@ -10,7 +10,7 @@ import { checkStatus } from './checkStatus';
 import { useGlobSetting } from '/@/hooks/setting';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { RequestEnum, ResultEnum, ContentTypeEnum } from '/@/enums/httpEnum';
-import { isString } from '/@/utils/is';
+import { isString, isUnDef, isNull, isEmpty } from '/@/utils/is';
 import { getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
@@ -58,7 +58,7 @@ const transform: AxiosTransform = {
       axiosResData && Reflect.has(axiosResData, 'code') && code === ResultEnum.SUCCESS;
     if (hasSuccess) {
       let successMsg = msg;
-      if (successMsg === null || successMsg === undefined || successMsg === '') {
+      if (isNull(successMsg) || isUnDef(successMsg) || isEmpty(successMsg)) {
         successMsg = '操作成功';
       }
       if (options.successMessageMode === 'modal') {
