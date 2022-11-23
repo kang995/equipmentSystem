@@ -98,7 +98,6 @@
 </script>
 <style lang="less" scoped>
   ::v-deep(.delBtn) {
-    background-color: rgba(255, 91, 86, 0.1);
     color: rgba(255, 91, 86, 1);
   }
 
