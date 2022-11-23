@@ -5,6 +5,7 @@
   import { ExceptionEnum } from '/@/enums/exceptionEnum';
   import notDataSvg from '/@/assets/svg/no-data.svg';
   import netWorkSvg from '/@/assets/svg/net-error.svg';
+  import page404 from '/@/assets/images/page404.png';
   import { useRoute } from 'vue-router';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -75,11 +76,12 @@
       });
 
       unref(statusMapRef).set(ExceptionEnum.PAGE_NOT_FOUND, {
-        title: '无访问权限',
-        status: `${ExceptionEnum.PAGE_NOT_FOUND}`,
+        title: '您没有访问此页面的权限',
+        // status: `${ExceptionEnum.PAGE_NOT_FOUND}`,
         subTitle: t('sys.exception.subTitle404'),
         // btnText: props.full ? backLoginI18n : backHomeI18n,
         handler: () => (props.full ? go(PageEnum.BASE_LOGIN) : go()),
+        icon: page404,
       });
 
       unref(statusMapRef).set(ExceptionEnum.ERROR, {
@@ -122,7 +124,7 @@
                     {() => btnText}
                   </Button>
                 ),
-              icon: () => (icon ? <img src={icon} /> : null),
+              icon: () => (icon ? <img src={icon} style="width:220px; margin-top:80px" /> : null),
             }}
           </Result>
         );
