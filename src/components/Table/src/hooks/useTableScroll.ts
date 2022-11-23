@@ -17,11 +17,12 @@ export function useTableScroll(
   wrapRef: Ref<HTMLElement | null>,
   formRef: Ref<ComponentRef>,
 ) {
-  const tableHeightRef: Ref<Nullable<number | string>> = ref(167);
+  const tableHeightRef: Ref<Nullable<number | string>> = ref(0);
   const modalFn = useModalContext();
 
   // Greater than animation time 280
-  const debounceRedoHeight = useDebounceFn(redoHeight, 100);
+  // 避免重复计算，paginationHeight获取不正常
+  const debounceRedoHeight = useDebounceFn(redoHeight, 300);
 
   const getCanResize = computed(() => {
     const { canResize, scroll } = unref(propsRef);
@@ -31,7 +32,13 @@ export function useTableScroll(
   watch(
     () => [unref(getCanResize), unref(getDataSourceRef)?.length],
     () => {
-      debounceRedoHeight();
+      console.warn('执行watch');
+      const { isCanResizeParent } = unref(propsRef);
+      if (unref(wrapRef) && isCanResizeParent) {
+        debounceRedoHeight();
+      } else {
+        calcTableHeight();
+      }
     },
     {
       flush: 'post',
@@ -39,6 +46,7 @@ export function useTableScroll(
   );
 
   function redoHeight() {
+    // console.log('执行redoHeight');
     nextTick(() => {
       calcTableHeight();
     });
@@ -56,7 +64,8 @@ export function useTableScroll(
   let bodyEl: HTMLElement | null;
 
   async function calcTableHeight() {
-    const { resizeHeightOffset, pagination, maxHeight, isCanResizeParent, useSearchForm } =
+    // console.log('执行calcTableHeight');
+    const { resizeHeightOffset, pagination, maxHeight, isCanResizeParent, showSummary } =
       unref(propsRef);
     const tableData = unref(getDataSourceRef);
 
@@ -90,53 +99,54 @@ export function useTableScroll(
 
     bodyEl!.style.height = 'unset';
 
-    if (!unref(getCanResize) || !unref(tableData) || tableData.length === 0) return;
+    // 删除`|| tableData.length === 0`，有没有数据都计算高度
+    if (!unref(getCanResize) || !unref(tableData)) return;
 
     await nextTick();
-    // Add a delay to get the correct bottomIncludeBody paginationHeight footerHeight headerHeight
+    // Add a delay to get the correct bottomIncludeBody paginationHeight footerHeight tableHeaderHeight
 
-    const headEl = tableEl.querySelector('.ant-table-thead ');
+    const headEl = tableEl.querySelector('.ant-table-thead');
 
     if (!headEl) return;
 
     // Table height from bottom height-custom offset
-    let paddingHeight = 32;
-    // Pager height
-    let paginationHeight = 2;
+    // 表格底部内边距加跟下一个组件距离之和（下方没有组件则为跟window底部的距离）
+    const paddingHeight = 32;
+    const tableBottomBorderHeight = 1;
+    // Pagination height
+    let paginationHeight = 0;
+    // console.log('!isBoolean(pagination)', !isBoolean(pagination));
     if (!isBoolean(pagination)) {
       paginationEl = tableEl.querySelector('.ant-pagination') as HTMLElement;
       if (paginationEl) {
         const offsetHeight = paginationEl.offsetHeight;
         paginationHeight += offsetHeight || 0;
-      } else {
-        // TODO First fix 24
-        paginationHeight += 24;
       }
-    } else {
-      paginationHeight = -8;
     }
-
+    // console.log('paginationHeight1', paginationHeight);
     let footerHeight = 0;
-    if (!isBoolean(pagination)) {
-      if (!footerEl) {
-        footerEl = tableEl.querySelector('.ant-table-footer') as HTMLElement;
-      } else {
+    if (showSummary) {
+      footerEl = tableEl.querySelector('.ant-table-footer') as HTMLElement;
+      if (footerEl) {
         const offsetHeight = footerEl.offsetHeight;
         footerHeight += offsetHeight || 0;
       }
     }
 
-    let headerHeight = 0;
+    let tableHeaderHeight = 0;
     if (headEl) {
-      headerHeight = (headEl as HTMLElement).offsetHeight;
+      tableHeaderHeight = (headEl as HTMLElement).offsetHeight;
     }
 
-    let bottomIncludeBody = 0;
+    let bottomIncludeBody: number;
+    let height: number;
     if (unref(wrapRef) && isCanResizeParent) {
+      // console.log('paginationHeight2', paginationHeight);
       const tablePadding = 32;
       const formMargin = 16;
-      let paginationMargin = 10;
+      let paginationMargin = 0;
       const wrapHeight = unref(wrapRef)?.offsetHeight ?? 0;
+      // console.log('wrapHeight', wrapHeight);
 
       let formHeight = unref(formRef)?.$el.offsetHeight ?? 0;
       if (formHeight) {
@@ -145,39 +155,51 @@ export function useTableScroll(
       if (isBoolean(pagination) && !pagination) {
         paginationMargin = 0;
       }
-      if (isBoolean(useSearchForm) && !useSearchForm) {
-        paddingHeight = 0;
-      }
 
       const headerCellHeight =
         (tableEl.querySelector('.ant-table-title') as HTMLElement)?.offsetHeight ?? 0;
-
-      console.log(wrapHeight - formHeight - headerCellHeight - tablePadding - paginationMargin);
-      bottomIncludeBody =
-        wrapHeight - formHeight - headerCellHeight - tablePadding - paginationMargin;
+      height =
+        wrapHeight -
+        (resizeHeightOffset || 0) -
+        formHeight -
+        tablePadding -
+        headerCellHeight -
+        paginationHeight -
+        footerHeight -
+        tableHeaderHeight -
+        tableBottomBorderHeight * 2 -
+        paginationMargin;
     } else {
       // Table height from bottom
       bottomIncludeBody = getViewportOffset(headEl).bottomIncludeBody;
+      height =
+        bottomIncludeBody -
+        (resizeHeightOffset || 0) -
+        paddingHeight -
+        paginationHeight -
+        footerHeight -
+        tableHeaderHeight -
+        tableBottomBorderHeight;
     }
-
-    let height =
-      bottomIncludeBody -
-      (resizeHeightOffset || 0) -
-      paddingHeight -
-      paginationHeight -
-      footerHeight -
-      headerHeight;
     height = (height > maxHeight! ? (maxHeight as number) : height) ?? height;
+    // console.log('height', height);
+    // 重新获取一下dom，防止设置高度失效
+    bodyEl = tableEl.querySelector('.ant-table-body');
+    if (!bodyEl) return;
     setHeight(height);
 
     bodyEl!.style.height = `${height}px`;
   }
+
   useWindowSizeFn(calcTableHeight, 280);
   onMountedOrActivated(() => {
-    calcTableHeight();
-    nextTick(() => {
+    console.warn('执行onMountedOrActivated');
+    const { isCanResizeParent } = unref(propsRef);
+    if (unref(wrapRef) && isCanResizeParent) {
       debounceRedoHeight();
-    });
+    } else {
+      calcTableHeight();
+    }
   });
 
   const getScrollX = computed(() => {

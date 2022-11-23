@@ -50,7 +50,7 @@
       const loading = ref(false);
       const striped = ref(false);
       const border = ref(false);
-      const pagination = ref<any>(false);
+      const pagination = ref<any>({ pageSize: 20 });
       function toggleCanResize() {
         canResize.value = !canResize.value;
       }

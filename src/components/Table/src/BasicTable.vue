@@ -28,7 +28,7 @@
       <template #headerCell="{ column }">
         <HeaderCell :column="column" />
       </template>
-      <!-- 增加对antdv3.x兼容 -->
+      <!-- 增加对antd v3.x兼容 -->
       <template #bodyCell="data">
         <slot name="bodyCell" v-bind="data || {}"></slot>
       </template>
@@ -437,7 +437,8 @@
     }
 
     .ant-pagination {
-      margin: 10px 0 0;
+      margin: 0;
+      padding-top: 24px;
     }
 
     .ant-table-footer {

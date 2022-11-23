@@ -103,7 +103,7 @@ export const basicProps = {
   // 是否自适应高度
   canResize: { type: Boolean, default: false },
   clearSelectOnPageChange: propTypes.bool,
-  resizeHeightOffset: propTypes.number.def(9),
+  resizeHeightOffset: propTypes.number.def(0),
   rowSelection: {
     type: Object as PropType<TableRowSelection | null>,
     default: null,

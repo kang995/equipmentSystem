@@ -10,12 +10,14 @@
       </div>
     </div>
     <div class="flex-1 flex flex-col w-1/2 h-full">
-      <div class="h-1/3 mb-4">
+      <div class="h-1/3">
         <BasicTable @register="registerTable" />
       </div>
-      <div class="h-1/3 mb-4">
+      <div class="h-4"></div>
+      <div class="h-1/3">
         <BasicTable @register="registerTable2" />
       </div>
+      <div class="h-4"></div>
       <div class="h-1/3">
         <BasicTable @register="registerTable1" />
       </div>
