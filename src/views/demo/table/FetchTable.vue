@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper contentBackground contentClass="flex" dense contentFullHeight fixedHeight>
+  <PageWrapper>
     <BasicTable @register="registerTable">
       <template #toolbar>
         <a-button type="primary" @click="handleReloadCurrent"> 刷新当前页 </a-button>
