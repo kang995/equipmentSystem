@@ -3,7 +3,7 @@
     <Tabs
       v-model:activeKey="activeKey"
       class="basic-data-tab"
-      :tabBarStyle="{ margin: 0, paddingLeft: '16px', background: 'white' }"
+      :tabBarStyle="{ margin: 0, paddingLeft: '16px' }"
     >
       <template v-for="item in achieveList" :key="item.key">
         <TabPane :tab="item.name" />
@@ -33,5 +33,6 @@
     border-bottom: none;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    background-color: @component-background;
   }
 </style>
