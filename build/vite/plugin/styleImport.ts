@@ -57,6 +57,7 @@ export function configStyleImportPlugin(_isBuild: boolean) {
             'input-password': 'input',
             'input-search': 'input',
             'input-group': 'input',
+            'radio-button': 'radio',
             'radio-group': 'radio',
             'checkbox-group': 'checkbox',
             'layout-sider': 'layout',
