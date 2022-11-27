@@ -32,7 +32,7 @@ export function useTableScroll(
   watch(
     () => [unref(getCanResize), unref(getDataSourceRef)?.length],
     () => {
-      console.warn('执行watch');
+      // console.warn('执行watch');
       const { isCanResizeParent } = unref(propsRef);
       if (unref(wrapRef) && isCanResizeParent) {
         debounceRedoHeight();
@@ -193,7 +193,7 @@ export function useTableScroll(
 
   useWindowSizeFn(calcTableHeight, 280);
   onMountedOrActivated(() => {
-    console.warn('执行onMountedOrActivated');
+    // console.warn('执行onMountedOrActivated');
     const { isCanResizeParent } = unref(propsRef);
     if (unref(wrapRef) && isCanResizeParent) {
       debounceRedoHeight();
