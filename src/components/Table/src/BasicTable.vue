@@ -36,7 +36,7 @@
       <!--        <HeaderCell :column="column" />-->
       <!--      </template>-->
     </Table>
-    <span v-if="showSelectedNumber" style="position: absolute; bottom: 21px; left: 16px"
+    <span v-if="showSelectedNumber" class="selected_number"
       >当前已选 {{ getSelectRowKeys().length }} 条</span
     >
   </div>
@@ -481,6 +481,14 @@
         border-top-left-radius: 0;
         border-top: none;
       }
+    }
+
+    .selected_number {
+      padding-left: inherit;
+      padding-bottom: inherit;
+      position: absolute;
+      bottom: 21px;
+      left: 16px;
     }
   }
 </style>
