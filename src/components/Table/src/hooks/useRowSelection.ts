@@ -14,7 +14,7 @@ export function useRowSelection(
   const selectedRowRef = ref<Recordable[]>([]);
 
   const getRowSelectionRef = computed((): TableRowSelection | null => {
-    const { rowSelection } = unref(propsRef);
+    const { rowSelection, preserveSelectedRowKeys } = unref(propsRef);
     if (!rowSelection) {
       return null;
     }
@@ -24,6 +24,7 @@ export function useRowSelection(
       onChange: (selectedRowKeys: string[]) => {
         setSelectedRowKeys(selectedRowKeys);
       },
+      preserveSelectedRowKeys,
       ...omit(rowSelection, ['onChange']),
     };
   });

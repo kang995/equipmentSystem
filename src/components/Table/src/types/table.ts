@@ -203,6 +203,8 @@ export interface BasicTableProps<T = any> {
 
   // 在分页改变的时候清空选项
   clearSelectOnPageChange?: boolean;
+  // 当数据被删除时仍然保留选项的 key（跨页多选）
+  preserveSelectedRowKeys?: boolean;
   //
   rowKey?: string | ((record: Recordable) => string);
   // 数据

@@ -103,6 +103,8 @@ export const basicProps = {
   // 是否自适应高度
   canResize: { type: Boolean, default: false },
   clearSelectOnPageChange: propTypes.bool,
+  // 当数据被删除时仍然保留选项的 key（跨页多选）
+  preserveSelectedRowKeys: propTypes.bool.def(true),
   resizeHeightOffset: propTypes.number.def(0),
   rowSelection: {
     type: Object as PropType<TableRowSelection | null>,
