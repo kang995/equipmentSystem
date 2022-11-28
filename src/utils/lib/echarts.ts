@@ -2,7 +2,6 @@ import * as echarts from 'echarts/core';
 import echartsTheme from '/@/assets/echartsTheme.json';
 // 注册Echarts主题
 echarts.registerTheme('light', echartsTheme);
-console.log('echarts.registerTheme注册主题', 'light');
 
 import {
   BarChart,
