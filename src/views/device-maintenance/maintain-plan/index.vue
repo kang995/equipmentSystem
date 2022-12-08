@@ -82,7 +82,10 @@
   //详情
   function handleDetails() {
     router.push({
-      name: 'maintainDetails',
+      name: 'planDetails',
+      query: {
+        flag: 'plan',
+      },
     });
   }
 

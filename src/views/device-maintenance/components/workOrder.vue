@@ -27,7 +27,7 @@
 <script setup lang="ts">
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { tableColumns, getFormSchema } from './data';
+  import { tableColumns, getFormSchema } from './fileld';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
@@ -72,10 +72,7 @@
 
   function handleDetails() {
     router.push({
-      name: 'workOrderDetail',
-      query: {
-        status: '1', //待执行：1、延期审核：2、待验收：3、验收拒绝：4、验收通过：5、 重新下发：6
-      },
+      // name: 'MonitorSettings',
     });
   }
 

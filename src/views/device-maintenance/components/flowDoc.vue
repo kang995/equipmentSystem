@@ -1,5 +1,5 @@
 <template>
-  <div> 详情 </div>
+  <div> 流转记录 </div>
 </template>
 
 <script setup lang="ts"></script>

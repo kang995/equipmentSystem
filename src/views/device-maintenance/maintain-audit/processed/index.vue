@@ -58,7 +58,10 @@
 
   function handleAudit() {
     router.push({
-      // name: 'MonitorSettings',
+      name: 'maintainDetails',
+      query: {
+        flag: 'audit',
+      },
     });
   }
 </script>

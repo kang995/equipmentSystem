@@ -39,10 +39,10 @@ const setup: AppRouteModule = {
           },
         },
         {
-          path: 'maintain-details',
-          name: 'maintainDetails',
+          path: 'plan-details',
+          name: 'planDetails',
           component: () =>
-            import('../../../views/device-maintenance/maintain-plan/module/Details.vue'),
+            import('../../../views/device-maintenance/maintain-plan/module/planDetails.vue'),
           meta: {
             title: '保养计划详情',
           },
@@ -50,12 +50,24 @@ const setup: AppRouteModule = {
       ],
     },
     {
-      path: 'maintain-audit',
-      name: 'maintainAudit',
+      path: 'audit-detail',
+      name: 'auditDetail',
       component: () => import('../../../views/device-maintenance/maintain-audit/index.vue'),
       meta: {
         title: '保养计划审核',
+        hideChildrenInMenu: true,
       },
+      children: [
+        {
+          path: 'maintain-details',
+          name: 'maintainDetails',
+          component: () =>
+            import('../../../views/device-maintenance/maintain-audit/auditDetail.vue'),
+          meta: {
+            title: '保养计划审核详情',
+          },
+        },
+      ],
     },
     {
       path: 'maintain-workOrder',
@@ -63,7 +75,19 @@ const setup: AppRouteModule = {
       component: () => import('../../../views/device-maintenance/maintain-workOrder/index.vue'),
       meta: {
         title: '保养工单',
+        hideChildrenInMenu: true,
       },
+      children: [
+        {
+          path: 'workOrder-details',
+          name: 'workOrderDetail',
+          component: () =>
+            import('../../../views/device-maintenance/maintain-workOrder/workOrderDetail.vue'),
+          meta: {
+            title: '工单详情',
+          },
+        },
+      ],
     },
     {
       path: 'maintain-acceptance',
@@ -71,6 +95,7 @@ const setup: AppRouteModule = {
       component: () => import('../../../views/device-maintenance/maintain-acceptance/index.vue'),
       meta: {
         title: '保养验收',
+        hideChildrenInMenu: true,
       },
     },
   ],
