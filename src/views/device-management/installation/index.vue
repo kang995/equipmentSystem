@@ -17,7 +17,7 @@
       <template #tableTitle>
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button type="primary" @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
         </a-tooltip>
       </template>
     </BasicTable>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { tableColumns, formSchema } from '../data';
+  import { installationColumns, installationFormSchema } from '../data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
@@ -37,7 +37,7 @@
   const [register] = useTable({
     dataSource: dataSource,
     // api: thresholdListApi,
-    columns: tableColumns,
+    columns: installationColumns,
     rowKey: 'id',
     useSearchForm: true,
     rowSelection: {
@@ -49,7 +49,7 @@
       slots: { customRender: 'action' },
     },
     formConfig: {
-      schemas: formSchema,
+      schemas: installationFormSchema,
       autoSubmitOnEnter: true,
       resetButtonOptions: {
         preIcon: 'gonggong_zhongzhi|svg',
@@ -68,7 +68,7 @@
 
   function handleDetails() {
     router.push({
-      // name: 'MonitorSettings',
+      name: 'InstallationDetails',
     });
   }
 
