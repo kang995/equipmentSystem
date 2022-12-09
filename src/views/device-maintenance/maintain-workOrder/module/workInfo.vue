@@ -26,7 +26,7 @@
       <BasicForm @register="registerResultFrom" />
     </div>
     <div class="mt-[12px]" v-if="Refuse">
-      <div class="font-black text-[#414960] text-[15px] mb-[16px]">验收结果</div>
+      <div class="font-black text-[#414960] text-[15px] mb-[16px]">保养结果</div>
       <BasicForm @register="registerRefuseFrom" />
     </div>
     <div class="mt-[12px]" v-if="props.identity === '2'">
@@ -115,6 +115,7 @@
     baseColProps: {
       span: 24,
     },
+    labelWidth: 120,
   });
 </script>
 

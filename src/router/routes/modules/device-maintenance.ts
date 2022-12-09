@@ -97,6 +97,17 @@ const setup: AppRouteModule = {
         title: '保养验收',
         hideChildrenInMenu: true,
       },
+      children: [
+        {
+          path: 'acceptance-details',
+          name: 'acceptanceDetail',
+          component: () =>
+            import('../../../views/device-maintenance/maintain-acceptance/acceptanceDetail.vue'),
+          meta: {
+            title: '工单详情',
+          },
+        },
+      ],
     },
   ],
 };

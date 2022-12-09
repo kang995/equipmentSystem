@@ -70,7 +70,10 @@
 
   function handleCheck() {
     router.push({
-      // name: 'MonitorSettings',
+      name: 'acceptanceDetail',
+      query: {
+        status: '1', //待验收：1、已验收：2
+      },
     });
   }
   function exportTable() {}

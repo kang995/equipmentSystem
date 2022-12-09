@@ -552,7 +552,6 @@ export function tablePartColumns(): BasicColumn[] {
   ];
 }
 
-//作业许可详情页样式
 const titleStyle: any = {
     paddingTop: '16px',
     fontSize: '15px',
