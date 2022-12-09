@@ -5,7 +5,7 @@
       <div class="font-black text-[#414960] text-[15px] mb-[16px]">验收结果</div>
       <BasicForm @register="registerFrom" />
     </div>
-    <div>
+    <div class="mt-[12px]">
       <a-button class="mr-4">取消</a-button>
       <a-button type="primary">提交</a-button>
     </div>
