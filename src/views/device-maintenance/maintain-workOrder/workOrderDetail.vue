@@ -1,11 +1,11 @@
 <template>
   <div>
-    <!-- <Detail/> -->
+    <Detail />
   </div>
 </template>
 
 <script setup lang="ts">
-  // import Detail from '../components/workDetail.vue';
+  import Detail from './module/workDetail.vue';
 </script>
 
 <style lang="less" scoped></style>

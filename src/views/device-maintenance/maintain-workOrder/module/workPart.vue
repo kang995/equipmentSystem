@@ -21,7 +21,7 @@
   import { ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
-  import { tablePartColumns } from './fileld';
+  import { tablePartColumns } from '../data';
   const router = useRouter();
   const dataSource = ref([{}, {}]);
   const [register] = useTable({
