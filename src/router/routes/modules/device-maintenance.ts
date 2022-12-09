@@ -3,7 +3,7 @@ import { LAYOUT } from '/@/router/constant';
 
 const setup: AppRouteModule = {
   path: '/device-maintenance',
-  name: 'device-maintenance',
+  name: 'deviceMaintenance',
   component: LAYOUT,
   redirect: '/device-maintenance/maintain-plan',
   meta: {
