@@ -1,9 +1,9 @@
 <template>
-  故障记录
   <TablePage
     :dataSource="dataSource"
-    :columns="installationColumns"
-    :formSchema="installationFormSchema"
+    :columns="failureColumns"
+    :formSchema="failureFormSchema"
+    :ifExport="true"
   >
     <template #tableAction="record">
       <TableAction
@@ -11,8 +11,8 @@
         :stopButtonPropagation="true"
         :actions="[
           {
-            label: '编辑',
-            onClick: handleEdit.bind(null, record),
+            label: '详情',
+            onClick: handleDetails.bind(null, record),
             delBtn: true,
           },
         ]"
@@ -22,10 +22,24 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { installationColumns, installationFormSchema } from '../data';
+  import { failureColumns, failureFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
-
   import TablePage from '../components/TablePage.vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
   const dataSource = ref([{}]);
-  function handleEdit() {}
+  function handleDetails() {
+    router.push({
+      name: 'FailureDetail',
+    });
+  }
 </script>
+<style lang="less" scoped>
+  ::v-deep(.ant-table-title) {
+    min-height: 0 !important;
+  }
+
+  ::v-deep(.ant-table-wrapper) {
+    padding-top: 0;
+  }
+</style>

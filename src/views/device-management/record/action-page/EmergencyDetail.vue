@@ -1,25 +1,25 @@
 <template>
-  <div class="p-4 bg-white">
-    基本信息{{ mockData }}
+  <PageWrapper contentBackground contentClass="p-4"
+    >应急演练报告
     <Description @register="register" />
-  </div>
+  </PageWrapper>
 </template>
 <script lang="ts" setup>
   import { Description, useDescription } from '/@/components/Description';
+  import { PageWrapper } from '/@/components/Page';
   import { ref } from 'vue';
-  import { schemaDescItem, schemaDescItemMove } from './data';
+  import { installationSchema } from '../../data';
   import { useRoute } from 'vue-router';
   const route = useRoute();
-  const state = route.query.state as string;
-  console.log('id: ', state);
+  const id = route.query.id as string;
+  console.log('id: ', id);
 
-  const mockData = ref<any>([{ aaaa: '动设备' }]);
+  const mockData = ref<any>([]);
   const [register] = useDescription({
     data: mockData,
-    schema: state === '2' ? schemaDescItem : schemaDescItemMove,
+    schema: installationSchema,
     size: 'default',
     labelStyle: { width: '180px' },
-    column: 1,
   });
   //
 </script>

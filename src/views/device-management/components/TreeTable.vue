@@ -159,13 +159,21 @@
 
   function handleDetails() {
     let name;
+    let id;
+    let state;
     if (props.ifButton) {
-      name = 'specialEquipmentDetails';
+      name = 'specialEquipmentDetails'; //特种设备详情静
+      state = '3';
     } else {
-      name = 'MechanicsDetails';
+      name = 'MechanicsDetails'; //机械设备详情静
+      state = '2';
     }
     router.push({
       name: name,
+      query: {
+        id,
+        state,
+      },
     });
   }
   function getAdd() {

@@ -1,18 +1,25 @@
 <template>
-  巡检记录
   <TablePage
     :dataSource="dataSource"
-    :columns="installationColumns"
-    :formSchema="installationFormSchema"
+    :columns="patrolInspectionColumns"
+    :formSchema="patrolInspectionFormSchema"
+    :ifExport="true"
   >
+    <template #tableTitle>
+      <div class="flex flex-1 space-x-4">
+        <div>巡检次数：50</div>
+        <div>异常次数：2</div>
+        <div>隐患次数：2</div>
+      </div>
+    </template>
     <template #tableAction="record">
       <TableAction
         :divider="false"
         :stopButtonPropagation="true"
         :actions="[
           {
-            label: '编辑',
-            onClick: handleEdit.bind(null, record),
+            label: '巡检报告',
+            onClick: handleDetails.bind(null, record),
             delBtn: true,
           },
         ]"
@@ -22,10 +29,15 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { installationColumns, installationFormSchema } from '../data';
+  import { patrolInspectionColumns, patrolInspectionFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
-
   import TablePage from '../components/TablePage.vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
   const dataSource = ref([{}]);
-  function handleEdit() {}
+  function handleDetails() {
+    router.push({
+      name: 'PatrolInspectionReport',
+    });
+  }
 </script>

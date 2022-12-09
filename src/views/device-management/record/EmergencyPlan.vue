@@ -22,7 +22,7 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { installationColumns, installationFormSchema } from '../data';
+  import { installationColumns, installationFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
 
   import TablePage from '../components/TablePage.vue';

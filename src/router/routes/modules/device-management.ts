@@ -42,7 +42,56 @@ const setup: AppRouteModule = {
       name: 'MechanicsDetails',
       component: () => import('../../../views/device-management/mechanics/Details.vue'),
       meta: {
-        title: '机械设备台账详情',
+        title: '机械设备详情静',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'mechanics/details/move',
+      name: 'MechanicsDetailsMove',
+      component: () => import('../../../views/device-management/mechanics/DetailsMove.vue'),
+      meta: {
+        title: '机械设备详情动',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'patrol-inspection-report',
+      name: 'PatrolInspectionReport',
+      component: () =>
+        import('../../../views/device-management/record/action-page/PatrolInspectionReport.vue'),
+      meta: {
+        title: '巡检报告',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'failure-detail',
+      name: 'FailureDetail',
+      component: () =>
+        import('../../../views/device-management/record/action-page/FailureDetail.vue'),
+      meta: {
+        title: '故障详情',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'timing-detection/detail',
+      name: 'TimingDetectionDetail',
+      component: () =>
+        import('../../../views/device-management/record/action-page/TimingDetectionDetail.vue'),
+      meta: {
+        title: '检测记录详情',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'emergency/detail',
+      name: 'EmergencyDetail',
+      component: () =>
+        import('../../../views/device-management/record/action-page/EmergencyDetail.vue'),
+      meta: {
+        title: '应急演练报告',
         hideMenu: true,
       },
     },
@@ -59,7 +108,16 @@ const setup: AppRouteModule = {
       name: 'specialEquipmentDetails',
       component: () => import('../../../views/device-management/special-equipment/Details.vue'),
       meta: {
-        title: '特种设备详情',
+        title: '特种设备详情静',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'special-equipment/details/move',
+      name: 'specialEquipmentDetailsMove',
+      component: () => import('../../../views/device-management/special-equipment/DetailsMove.vue'),
+      meta: {
+        title: '特种设备详情动',
         hideMenu: true,
       },
     },

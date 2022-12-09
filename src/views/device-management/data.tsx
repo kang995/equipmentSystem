@@ -1,82 +1,6 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
-import EssentialInformation from './record/EssentialInformation.vue';
-import PatrolInspectionRecords from './record/PatrolInspectionRecords.vue';
-import FailureRecord from './record/FailureRecord.vue';
-import OverhaulRecord from './record/OverhaulRecord.vue';
-import MaintenanceRecord from './record/MaintenanceRecord.vue';
-import TimingDetection from './record/TimingDetection.vue';
-import EmergencyDrillRecord from './record/EmergencyDrillRecord.vue';
-import EmergencyPlan from './record/EmergencyPlan.vue';
-import VehicleRecord from './record/VehicleRecord.vue';
-import AssociatedSpareParts from './record/AssociatedSpareParts.vue';
-import SparePart from './record/SparePart.vue';
-
-export interface TabItem {
-  key: string;
-  name: string;
-  component?: any;
-  ifShow?: boolean;
-}
-//机械动：1 机械静：2 特种静：3 特种动：4
-export const achieveList: TabItem[] = [
-  {
-    key: '1',
-    name: '基本信息', //1 2 3 4
-    component: EssentialInformation,
-  },
-  {
-    key: '2',
-    name: '巡检记录', //1 2 3 4
-    component: PatrolInspectionRecords,
-  },
-  {
-    key: '3',
-    name: '故障记录', //1 2 3 4
-    component: FailureRecord,
-  },
-  {
-    key: '4',
-    name: '检修记录', //1 2 3 4
-    component: OverhaulRecord,
-  },
-  {
-    key: '5',
-    name: '保养记录', //1 2 3 4
-    component: MaintenanceRecord,
-  },
-  {
-    key: '6',
-    name: '定时检测记录', // 3 4
-    component: TimingDetection,
-  },
-  {
-    key: '7',
-    name: '应急演练记录', //1 3 4
-    component: EmergencyDrillRecord,
-  },
-  {
-    key: '8',
-    name: '应急预案', //1 3 4
-    component: EmergencyPlan,
-  },
-  {
-    key: '9',
-    name: '开停车记录', // 2
-    component: VehicleRecord,
-  },
-  {
-    key: '10',
-    name: '关联备件', //1 2 3 4
-    component: AssociatedSpareParts,
-  },
-  {
-    key: '11',
-    name: '备件更换记录', //1 2 3 4
-    component: SparePart,
-  },
-];
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -446,28 +370,5 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       placeholder: '请选择产品',
     },
-  },
-];
-export const schemaDescItem: DescItem[] = [
-  {
-    field: 'dangerName',
-    label: '重大危险源名称',
-  },
-  {
-    field: 'riskLevelName',
-    label: '重大危险源级别',
-  },
-  {
-    field: 'projectName',
-    label: '所属项目',
-  },
-
-  {
-    field: 'districtName',
-    label: '所属区域',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '重大危险源类型',
   },
 ];

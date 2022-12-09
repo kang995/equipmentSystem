@@ -4,10 +4,13 @@
       <slot name="tableAction" :record="record"></slot>
     </template>
     <template #tableTitle>
-      <a-tooltip>
-        <template #title>不选择即导出全部数据</template>
-        <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
-      </a-tooltip>
+      <div v-if="!ifExport">
+        <a-tooltip>
+          <template #title>不选择即导出全部数据</template>
+          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+        </a-tooltip>
+      </div>
+      <slot name="tableTitle"></slot>
     </template>
   </BasicTable>
 </template>
@@ -21,6 +24,7 @@
     dataSource: any;
     columns: any;
     formSchema: any;
+    ifExport?: any;
   }>();
   const [register] = useTable({
     dataSource: props.dataSource,
@@ -52,7 +56,9 @@
       },
     },
   });
-
-  function exportTable() {}
+  const emit = defineEmits(['exportTable']);
+  function exportTable() {
+    emit('exportTable');
+  }
 </script>
 <style scoped lang="less"></style>

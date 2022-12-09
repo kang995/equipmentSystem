@@ -1,9 +1,8 @@
 <template>
-  保养记录
   <TablePage
     :dataSource="dataSource"
-    :columns="installationColumns"
-    :formSchema="installationFormSchema"
+    :columns="maintenanceColumns"
+    :formSchema="maintenanceFormSchema"
   >
     <template #tableAction="record">
       <TableAction
@@ -11,8 +10,8 @@
         :stopButtonPropagation="true"
         :actions="[
           {
-            label: '编辑',
-            onClick: handleEdit.bind(null, record),
+            label: '详情',
+            onClick: handleDetails.bind(null, record),
             delBtn: true,
           },
         ]"
@@ -22,10 +21,15 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { installationColumns, installationFormSchema } from '../data';
+  import { maintenanceColumns, maintenanceFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
 
   import TablePage from '../components/TablePage.vue';
   const dataSource = ref([{}]);
-  function handleEdit() {}
+  function handleDetails() {
+    //跳转到设备保养详情
+    // router.push({
+    //   // name: 'OverhaulDetail',
+    // });
+  }
 </script>
