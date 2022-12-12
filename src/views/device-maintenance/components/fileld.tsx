@@ -250,3 +250,10 @@ export function getFormSchema(): FormSchema[] {
     },
   ];
 }
+const titleStyle: any = {
+  paddingTop: '16px',
+  fontSize: '15px',
+  fontWeight: '600',
+  position: 'relative',
+  left: '0px',
+};

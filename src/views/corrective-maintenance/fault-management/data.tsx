@@ -1,4 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { DescItem } from '/@/components/Description';
 
 //列表
 export function tableColumns(): BasicColumn[] {
@@ -129,3 +130,350 @@ export function getFormSchema(): FormSchema[] {
     },
   ];
 }
+
+//新增、编辑故障表单
+export function getCommonFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'Input',
+      label: '故障单号',
+      required: true,
+      componentProps: {
+        placeholder: '请输入故障单号',
+      },
+    },
+    {
+      field: 'ApiSelect',
+      component: 'Input',
+      label: '关联设备',
+      required: true,
+      componentProps: {
+        placeholder: '请输入关联设备',
+      },
+    },
+    {
+      field: 'name1',
+      component: 'Input',
+      label: '安装位置',
+      required: true,
+      componentProps: {
+        placeholder: '请输入安装位置',
+      },
+    },
+    {
+      field: 'name2',
+      component: 'DatePicker',
+      label: '发现故障时间',
+      required: true,
+      componentProps: {
+        placeholder: '请输入发现故障时间',
+      },
+    },
+    {
+      field: 'name3',
+      component: 'ApiSelect',
+      label: '故障类别',
+      componentProps: {
+        placeholder: '请输入故障类别',
+      },
+    },
+    {
+      field: 'name4',
+      component: 'ApiSelect',
+      label: '紧急程度',
+      componentProps: {
+        placeholder: '请输入紧急程度',
+      },
+    },
+    {
+      field: 'name5',
+      component: 'InputTextArea',
+      label: '故障描述',
+      componentProps: {
+        placeholder: '请输入故障描述',
+      },
+    },
+    {
+      field: 'name6',
+      component: 'InputTextArea',
+      label: '表现症状',
+      componentProps: {
+        placeholder: '请输入表现症状',
+        rows: 4,
+      },
+    },
+    {
+      field: 'name7',
+      component: 'InputTextArea',
+      label: '故障原因',
+      componentProps: {
+        placeholder: '请输入故障原因',
+        rows: 4,
+      },
+    },
+    {
+      field: 'name8',
+      component: 'InputTextArea',
+      label: '采取措施',
+      componentProps: {
+        placeholder: '请输入采取措施',
+        rows: 4,
+      },
+    },
+    {
+      field: 'attachment',
+      component: 'Upload',
+      label: '图片上传',
+      required: true,
+      colProps: {
+        span: 10,
+      },
+      componentProps: {
+        type: '',
+        maxNumber: 5,
+        maxSize: 5,
+        accept: '.jpg,.png,.jpeg',
+        helpText: '请上传图片',
+      },
+    },
+  ];
+}
+
+//故障详情
+export function faultDetail(status: string): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>故障信息</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '故障单号',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障状态',
+    },
+    {
+      field: 'applyUserName',
+      label: '上报人',
+    },
+    {
+      field: 'applyUserName',
+      label: '联系电话',
+    },
+    {
+      field: 'applyUserName',
+      label: '上报时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '发现故障时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '关联设备',
+    },
+    {
+      field: 'applyUserName',
+      label: '所属装置设施',
+    },
+    {
+      field: 'applyUserName',
+      label: '地理位置',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障类别',
+    },
+    {
+      field: 'applyUserName',
+      label: '紧急程度',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障描述',
+    },
+    {
+      field: 'applyUserName',
+      label: '表新症状',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障原因',
+    },
+    {
+      field: 'applyUserName',
+      label: '采取措施',
+      span: 2,
+    },
+    {
+      field: 'applyUserName',
+      label: '图片',
+      span: 2,
+    },
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>故障确认</span>;
+      },
+      show: (data) => (status !== '1' ? true : false),
+    },
+    //
+    {
+      field: 'applyUserName',
+      label: '故障确认',
+      show: (data) => (status === '4' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '三方名称',
+      show: (data) => (status === '4' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '维修时间',
+      show: (data) => (status === '4' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '维修内容',
+      show: (data) => (status === '4' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '图片',
+      show: (data) => (status === '4' ? true : false),
+    },
+    //
+    {
+      field: 'applyUserName',
+      label: '关联检修计划',
+      show: (data) => (status === '4' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '关联检修工单',
+      show: (data) => (status === '4' ? true : false),
+    },
+    //
+    {
+      field: 'applyUserName',
+      label: '确认结果',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '工单名称',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '负责人',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '任务起止时间',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '任务指派',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '处理部门',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '处理人',
+      show: (data) => (status === '2' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '维修方案',
+      show: (data) => (status === '2' ? true : false),
+    },
+    //
+    {
+      field: 'applyUserName',
+      label: '关联工单',
+      show: (data) => (status === '3' ? true : false),
+    },
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>维修结果</span>;
+      },
+      show: (data) => (status === '5' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '处理结果',
+      show: (data) => (status === '5' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '维修前图片',
+      show: (data) => (status === '5' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '维修后图片',
+      show: (data) => (status === '5' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '是否停机',
+      show: (data) => (status === '5' ? true : false),
+    },
+    {
+      field: 'applyUserName',
+      label: '验收人',
+      span: 2,
+      show: (data) => (status === '5' ? true : false),
+    },
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>验收结果</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '验收结果',
+      show: (data) => true,
+    },
+    {
+      field: 'applyUserName',
+      label: '验收描述',
+      show: (data) => true,
+    },
+  ];
+}
+
+const titleStyle: any = {
+  paddingTop: '16px',
+  fontSize: '15px',
+  fontWeight: '600',
+  position: 'relative',
+  left: '0px',
+};

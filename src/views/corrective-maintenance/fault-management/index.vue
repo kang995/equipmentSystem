@@ -75,15 +75,15 @@
   //新增
   function handleAdd() {
     router.push({
-      // name: 'maintainAdd',
+      name: 'faultAdd',
     });
   }
   //详情
   function handleDetails() {
     router.push({
-      // name: 'planDetails',
+      name: 'faultDetails',
       query: {
-        flag: 'plan',
+        status: '1', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
       },
     });
   }

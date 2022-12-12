@@ -20,7 +20,37 @@ const setup: AppRouteModule = {
         title: '故障管理',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'fault-add',
+          name: 'faultAdd',
+          component: () =>
+            import('../../../views/corrective-maintenance/fault-management/module/add.vue'),
+          meta: {
+            title: '新增故障',
+          },
+        },
+        {
+          path: 'fault-edit',
+          name: 'faultEdit',
+          component: () =>
+            import('../../../views/corrective-maintenance/fault-management/module/Edit.vue'),
+          meta: {
+            title: '编辑故障',
+          },
+        },
+        {
+          path: 'fault-details',
+          name: 'faultDetails',
+          component: () =>
+            import(
+              '../../../views/corrective-maintenance/fault-management/module/faultDetails.vue'
+            ),
+          meta: {
+            title: '故障详情',
+          },
+        },
+      ],
     },
     {
       path: 'fault-confirm',
