@@ -1,7 +1,8 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import confirming from './confirming/index.vue';
 import confirmed from './confirmed/index.vue';
-
+import { DescItem } from '/@/components/Description';
+import { Image } from 'ant-design-vue';
 export interface TabItem {
   key: string;
   name: string;
@@ -141,3 +142,354 @@ export function getFormSchema(): FormSchema[] {
     },
   ];
 }
+
+const commonDetail: DescItem[] = [
+  {
+    field: '',
+    label: '',
+    labelMinWidth: 0,
+    span: 2,
+    render: () => {
+      return <span style={titleStyle}>故障信息</span>;
+    },
+  },
+  {
+    field: 'applyUserName',
+    label: '故障单号',
+  },
+  {
+    field: 'applyUserName',
+    label: '故障状态',
+  },
+  {
+    field: 'applyUserName',
+    label: '上报人',
+  },
+  {
+    field: 'applyUserName',
+    label: '联系电话',
+  },
+  {
+    field: 'applyUserName',
+    label: '上报时间',
+  },
+  {
+    field: 'applyUserName',
+    label: '发现故障时间',
+  },
+  {
+    field: 'applyUserName',
+    label: '关联设备',
+  },
+  {
+    field: 'applyUserName',
+    label: '所属装置设施',
+  },
+  {
+    field: 'applyUserName',
+    label: '地理位置',
+  },
+  {
+    field: 'applyUserName',
+    label: '故障类别',
+  },
+  {
+    field: 'applyUserName',
+    label: '紧急程度',
+  },
+  {
+    field: 'applyUserName',
+    label: '故障描述',
+  },
+  {
+    field: 'applyUserName',
+    label: '表新症状',
+  },
+  {
+    field: 'applyUserName',
+    label: '故障原因',
+  },
+  {
+    field: 'applyUserName',
+    label: '采取措施',
+    span: 2,
+  },
+  {
+    field: 'applyUserName',
+    label: '图片',
+    span: 2,
+    render: () => {
+      return (
+        <Image
+          style={ImageBox}
+          src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+        />
+      );
+    },
+  },
+];
+//故障详情--待确认
+export function confirmdedDetail(): DescItem[] {
+  return [...commonDetail];
+}
+export function confirmFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'radioValue',
+      component: 'RadioGroup',
+      label: '故障确认',
+      required: true,
+      colProps: {
+        span: 13,
+      },
+      defaultValue: '1',
+      componentProps: ({ formModel }) => {
+        return {
+          // onChange:(e)=>{
+
+          // },
+          options: [
+            {
+              label: '自修',
+              value: '1',
+            },
+            {
+              label: '委外维修',
+              value: '2',
+            },
+            {
+              label: '列入检修计划',
+              value: '3',
+            },
+          ],
+        };
+      },
+    },
+    // 自修
+    {
+      field: 'name1',
+      component: 'Input',
+      label: '工单名称',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请输入工单名称',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    {
+      field: 'person',
+      component: 'ApiSelect',
+      label: '负责人',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请选择负责人',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    {
+      field: 'productId',
+      component: 'RangePicker',
+      label: '任务起止时间',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        // showTime: true,
+        format: 'YYYY-MM-DD',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    {
+      field: 'test',
+      component: 'RadioGroup',
+      label: '任务指派',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        options: [
+          {
+            label: '人员',
+            value: '1',
+          },
+          {
+            label: '岗位',
+            value: '2',
+          },
+        ],
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    {
+      field: 'person',
+      component: 'ApiSelect',
+      label: '处理部门',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请选择处理部门',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    {
+      field: 'person',
+      component: 'ApiSelect',
+      label: '处理人',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请选择处理人',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    {
+      field: 'name5',
+      component: 'InputTextArea',
+      label: '维修方案',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请输入维修方案',
+        rows: 4,
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '1';
+      },
+    },
+    // 委外维修
+    {
+      field: 'name6',
+      component: 'Input',
+      label: '第三方名称',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请输入第三方名称',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '2';
+      },
+    },
+    {
+      field: 'name',
+      component: 'DatePicker',
+      label: '维修时间',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {},
+      ifShow: ({ values }) => {
+        return values?.radioValue === '2';
+      },
+    },
+    {
+      field: 'name5',
+      component: 'InputTextArea',
+      label: '维修内容',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请输入维修内容',
+        rows: 4,
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '2';
+      },
+    },
+    {
+      field: 'attachment',
+      component: 'Upload',
+      label: '图片',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '2';
+      },
+    },
+    // 列入检修计划
+    {
+      field: 'person2',
+      component: 'ApiSelect',
+      label: '关联检修计划',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请选择关联检修计划',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '3';
+      },
+    },
+    {
+      field: 'person3',
+      component: 'ApiSelect',
+      label: '关联检修工单',
+      required: true,
+      colProps: {
+        span: 16,
+      },
+      componentProps: {
+        placeholder: '请选择关联检修工单',
+      },
+      ifShow: ({ values }) => {
+        return values?.radioValue === '3';
+      },
+    },
+  ];
+}
+
+//故障详情--已确认
+export function confirmdingDetail(status: string): DescItem[] {
+  return [...commonDetail];
+}
+const titleStyle: any = {
+    paddingTop: '16px',
+    fontSize: '15px',
+    fontWeight: '600',
+    position: 'relative',
+    left: '0px',
+  },
+  ImageBox: any = {
+    width: '100px',
+  };

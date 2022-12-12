@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-
+import { Image } from 'ant-design-vue';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -242,6 +242,7 @@ export function getCommonFormSchema(): FormSchema[] {
 
 //故障详情
 export function faultDetail(status: string): DescItem[] {
+  console.log('status', status);
   return [
     {
       field: '',
@@ -317,6 +318,14 @@ export function faultDetail(status: string): DescItem[] {
       field: 'applyUserName',
       label: '图片',
       span: 2,
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
     },
     {
       field: '',
@@ -326,91 +335,100 @@ export function faultDetail(status: string): DescItem[] {
       render: () => {
         return <span style={titleStyle}>故障确认</span>;
       },
-      show: (data) => (status !== '1' ? true : false),
+      show: (data) => status !== '1',
     },
     //
     {
       field: 'applyUserName',
       label: '故障确认',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
     },
     {
       field: 'applyUserName',
       label: '三方名称',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
     },
     {
       field: 'applyUserName',
       label: '维修时间',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
     },
     {
       field: 'applyUserName',
       label: '维修内容',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
     },
     {
       field: 'applyUserName',
       label: '图片',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
     },
     //
     {
       field: 'applyUserName',
       label: '关联检修计划',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
     },
     {
       field: 'applyUserName',
       label: '关联检修工单',
-      show: (data) => (status === '4' ? true : false),
+      show: (data) => status === '4',
     },
     //
     {
       field: 'applyUserName',
       label: '确认结果',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '工单名称',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '负责人',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '任务起止时间',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '任务指派',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '处理部门',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '处理人',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     {
       field: 'applyUserName',
       label: '维修方案',
-      show: (data) => (status === '2' ? true : false),
+      show: (data) => status === '2' || status === '3',
     },
     //
     {
       field: 'applyUserName',
       label: '关联工单',
-      show: (data) => (status === '3' ? true : false),
+      span: 2,
+      show: (data) => status === '3',
     },
     {
       field: '',
@@ -420,33 +438,49 @@ export function faultDetail(status: string): DescItem[] {
       render: () => {
         return <span style={titleStyle}>维修结果</span>;
       },
-      show: (data) => (status === '5' ? true : false),
+      show: (data) => status === '3',
     },
     {
       field: 'applyUserName',
       label: '处理结果',
-      show: (data) => (status === '5' ? true : false),
+      show: (data) => status === '3',
     },
     {
       field: 'applyUserName',
       label: '维修前图片',
-      show: (data) => (status === '5' ? true : false),
+      show: (data) => status === '3',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
     },
     {
       field: 'applyUserName',
       label: '维修后图片',
-      show: (data) => (status === '5' ? true : false),
+      show: (data) => status === '3',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
     },
     {
       field: 'applyUserName',
       label: '是否停机',
-      show: (data) => (status === '5' ? true : false),
+      show: (data) => status === '3',
     },
     {
       field: 'applyUserName',
       label: '验收人',
       span: 2,
-      show: (data) => (status === '5' ? true : false),
+      show: (data) => status === '3',
     },
     {
       field: '',
@@ -456,24 +490,28 @@ export function faultDetail(status: string): DescItem[] {
       render: () => {
         return <span style={titleStyle}>验收结果</span>;
       },
+      show: (data) => status === '3',
     },
     {
       field: 'applyUserName',
       label: '验收结果',
-      show: (data) => true,
+      show: (data) => status === '3',
     },
     {
       field: 'applyUserName',
       label: '验收描述',
-      show: (data) => true,
+      show: (data) => status === '3',
     },
   ];
 }
 
 const titleStyle: any = {
-  paddingTop: '16px',
-  fontSize: '15px',
-  fontWeight: '600',
-  position: 'relative',
-  left: '0px',
-};
+    paddingTop: '16px',
+    fontSize: '15px',
+    fontWeight: '600',
+    position: 'relative',
+    left: '0px',
+  },
+  ImageBox: any = {
+    width: '100px',
+  };

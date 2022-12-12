@@ -61,9 +61,10 @@
 
   function handleConfirm() {
     router.push({
-      // name: 'maintainDetails',
+      name: 'confirmDetail',
       query: {
-        flag: 'audit',
+        flag: '1', //待确认：1、已确认：2
+        status: '3', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
       },
     });
   }

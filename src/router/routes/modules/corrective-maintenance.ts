@@ -60,7 +60,17 @@ const setup: AppRouteModule = {
         title: '故障确认',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'confirm-details',
+          name: 'confirmDetail',
+          component: () =>
+            import('../../../views/corrective-maintenance/fault-confirm/module/confirmDetail.vue'),
+          meta: {
+            title: '故障确认详情',
+          },
+        },
+      ],
     },
     {
       path: 'repair-workOrder',
