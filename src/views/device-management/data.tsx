@@ -326,9 +326,14 @@ export const schemasAdd: FormSchema[] = [
   {
     //附件
     field: 'accessory',
-    component: 'InputTextArea',
+    component: 'Upload',
     label: '上传附件',
-    slot: 'filesSlot',
+    componentProps: {
+      maxNumber: 5,
+      accept: 'image/*',
+      maxSize: 5,
+      helpText: '上传图片',
+    },
   },
 ];
 export const tableColumns: BasicColumn[] = [
