@@ -1,6 +1,38 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { DescItem } from '/@/components/Description';
+import { Image } from 'ant-design-vue';
+import chargeOrder from './chargeOrder/index.vue';
+import executeOrder from './executeOrder/index.vue';
 
-//列表
+export interface TabItem {
+  key: string;
+  name: string;
+  component: any;
+}
+export const achieveList: TabItem[] = [
+  {
+    key: '1',
+    name: '负责工单',
+    component: chargeOrder,
+  },
+  {
+    key: '2',
+    name: '执行工单',
+    component: executeOrder,
+  },
+];
+//根据状态判断当前用户身份
+const identity = '3'; //1负责人 2执行人 3具有两者身份
+(() => {
+  if (identity === '1') {
+    achieveList.splice(1, 1);
+  } else if (identity === '2') {
+    achieveList.splice(0, 1);
+    achieveList[0].key = '1';
+  }
+})();
+
+//列表--负责工单、执行工单
 export function tableColumns(): BasicColumn[] {
   return [
     {
@@ -154,3 +186,124 @@ export function getFormSchema(): FormSchema[] {
     },
   ];
 }
+
+//工单信息
+export function WorkDetail(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>工单信息</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '工单单号',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单名称',
+    },
+    {
+      field: 'applyUserName',
+      label: '负责人',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单状态',
+    },
+    {
+      field: 'applyUserName',
+      label: '下发时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '创建时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '处理岗位',
+    },
+    {
+      field: 'applyUserName',
+      label: '完成时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '执行时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '处理人',
+    },
+    {
+      field: 'applyUserName',
+      label: '所属装置设施',
+    },
+    {
+      field: 'applyUserName',
+      label: '关联设备',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障类别',
+    },
+    {
+      field: 'applyUserName',
+      label: '紧急程度',
+    },
+    {
+      field: 'applyUserName',
+      label: '联系电话',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障上报人',
+    },
+    {
+      field: 'applyUserName',
+      label: '表新症状',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障描述',
+    },
+    {
+      field: 'applyUserName',
+      label: '采取措施',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障原因',
+    },
+    {
+      field: 'applyUserName',
+      label: '维修方案',
+    },
+    {
+      field: 'imgArr',
+      label: '图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+  ];
+}
+const titleStyle: any = {
+    paddingTop: '16px',
+    fontSize: '15px',
+    fontWeight: '600',
+    position: 'relative',
+    left: '0px',
+  },
+  ImageBox: any = {
+    width: '100px',
+  };

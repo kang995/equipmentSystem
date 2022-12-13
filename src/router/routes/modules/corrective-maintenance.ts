@@ -80,7 +80,19 @@ const setup: AppRouteModule = {
         title: '维修工单',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'repair-details',
+          name: 'repairDetail',
+          component: () =>
+            import(
+              '../../../views/corrective-maintenance/repair-workOrder/module/repairDetail.vue'
+            ),
+          meta: {
+            title: '维修工单详情',
+          },
+        },
+      ],
     },
     {
       path: 'repair-check',

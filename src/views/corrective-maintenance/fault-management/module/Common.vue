@@ -45,19 +45,19 @@
     //   gutter: 16,
     // },
     // labelCol: {
-    //   span: 3,
+    //   span: 8,
     // },
     // wrapperCol: {
-    //   span: 6,
+    //   span: 10,
     // },
   });
 
   //提交
-  function handleSubmit() {
+  async function handleSubmit() {
     console.log('提交');
   }
   //取消
-  function handleReset() {
+  async function handleReset() {
     console.log('取消');
   }
 </script>

@@ -8,6 +8,9 @@
         <BasicForm @register="registerFrom" />
       </template>
       <!-- 已确认 -->
+      <template v-if="flag === '2'">
+        <Description @register="registers" />
+      </template>
     </div>
   </PageWrapper>
 </template>
@@ -20,17 +23,26 @@
   import { confirmdedDetail, confirmdingDetail, confirmFormSchema } from '../data';
   import { useRoute } from 'vue-router';
   const route = useRoute();
-  const status = route.query.status as string;
-  const flag = route.query.flag as string; //待确认1 已确认2
+  const status = route.query?.status as string;
+  const flag = route.query?.flag as string; //待确认1 已确认2
   let data = ref<any>({});
   const [register] = useDescription({
     data,
-    schema: confirmdedDetail(status),
+    schema: confirmdedDetail(),
     bordered: false,
     column: 2,
     size: 'default',
     // labelStyle: { width: '180px' },
   });
+  let datas = ref<any>({});
+  const [registers] = useDescription({
+    data: datas,
+    schema: confirmdingDetail(status),
+    bordered: false,
+    column: 2,
+    size: 'default',
+  });
+
   const [registerFrom, {}] = useForm({
     schemas: confirmFormSchema(), //表单配置
     // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
@@ -60,11 +72,11 @@
   });
 
   //提交
-  function handleSubmit() {
+  function handleSubmit(): any {
     console.log('提交');
   }
   //取消
-  function handleReset() {
+  function handleReset(): any {
     console.log('取消');
   }
 </script>

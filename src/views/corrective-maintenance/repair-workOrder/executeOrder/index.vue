@@ -6,11 +6,23 @@
         :stopButtonPropagation="true"
         :actions="[
           {
-            label: '去确认',
-            onClick: handleConfirm.bind(null, record),
+            label: '申请延期',
+            onClick: handleDetails.bind(null, record),
+          },
+          {
+            label: '详情',
+            onClick: handleDetails.bind(null, record),
           },
         ]"
       />
+    </template>
+    <template #tableTitle>
+      <div class="flex flex-1 space-x-4">
+        <a-tooltip>
+          <template #title>不选择即导出全部数据</template>
+          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+        </a-tooltip>
+      </div>
     </template>
   </BasicTable>
 </template>
@@ -19,15 +31,15 @@
   import { tableColumns, getFormSchema } from '../data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
+  import { Tooltip } from 'ant-design-vue';
   const router = useRouter();
-  const props = defineProps({
-    activeKey: { type: String, default: '' },
-  });
+  const ATooltip = Tooltip;
+  const exportLoading = ref(false);
   const dataSource = ref([{}, {}]);
   const [register] = useTable({
     dataSource: dataSource,
     // api: thresholdListApi,
-    columns: tableColumns(props.activeKey),
+    columns: tableColumns(),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
@@ -58,15 +70,17 @@
       },
     },
   });
-
-  function handleConfirm() {
+  //详情
+  function handleDetails() {
     router.push({
-      name: 'confirmDetail',
+      name: 'repairDetail',
       query: {
-        flag: '1', //待确认：1、已确认：2
-        // status: '3', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
+        identity: '2', //负责人：1、执行人：2
+        status: '4', //待处理：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
       },
     });
   }
+
+  function exportTable() {}
 </script>
 <style scoped lang="less"></style>

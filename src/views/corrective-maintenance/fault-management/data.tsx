@@ -226,11 +226,7 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'Upload',
       label: '图片上传',
       required: true,
-      colProps: {
-        span: 10,
-      },
       componentProps: {
-        type: '',
         maxNumber: 5,
         maxSize: 5,
         accept: '.jpg,.png,.jpeg',
