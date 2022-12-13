@@ -703,3 +703,157 @@ export const emergencyFormSchema: FormSchema[] = [
     },
   },
 ];
+
+//开停车记录
+export const vehicleColumns: BasicColumn[] = [
+  {
+    title: '开停车类型',
+    dataIndex: 'name',
+  },
+  {
+    title: '开/停车时间',
+    dataIndex: 'productName',
+  },
+  {
+    title: '开/停车方案',
+    dataIndex: 'status',
+  },
+  {
+    title: '开/停车人',
+    dataIndex: 'status',
+  },
+  {
+    title: '开停车前隐患排查',
+    dataIndex: 'status',
+  },
+  {
+    title: '备注',
+    dataIndex: 'status',
+  },
+];
+export const vehicleFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '开停车类型',
+    componentProps: {
+      placeholder: '请选择开停车类型',
+    },
+  },
+  {
+    field: '[]',
+    component: 'RangePicker',
+    label: '开停车时间段',
+    componentProps: {
+      format: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
+    },
+  },
+];
+// 关联备件
+export const associatedColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '单位',
+    dataIndex: 'status',
+  },
+];
+export const associatedFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '备件名称',
+    componentProps: {
+      placeholder: '请选择备件名称',
+    },
+  },
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '备件分类',
+    componentProps: {
+      placeholder: '请选择备件分类',
+    },
+  },
+];
+// 备件更换记录
+export const sparePartColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '单位',
+    dataIndex: 'status',
+  },
+  {
+    title: '使用数量',
+    dataIndex: 'status',
+  },
+  {
+    title: '关联工单',
+    dataIndex: 'status',
+  },
+  {
+    title: '处理人',
+    dataIndex: 'status',
+  },
+  {
+    title: '完成时间',
+    dataIndex: 'status',
+  },
+];
+export const sparePartFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '备件名称',
+    componentProps: {
+      placeholder: '请选择备件名称',
+    },
+  },
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '备件分类',
+    componentProps: {
+      placeholder: '请选择备件分类',
+    },
+  },
+  {
+    field: 'name',
+    component: 'Input',
+    label: '处理人',
+    componentProps: {
+      placeholder: '请输入处理人',
+    },
+  },
+  {
+    field: '[]',
+    component: 'RangePicker',
+    label: '完成时间',
+    componentProps: {
+      format: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
+    },
+  },
+];

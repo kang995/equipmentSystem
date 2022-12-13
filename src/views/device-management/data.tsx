@@ -1,6 +1,8 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
+import { h } from 'vue';
+import { Tinymce } from '/@/components/Tinymce';
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -223,157 +225,379 @@ export const installationSchema: DescItem[] = [
     },
   },
 ];
+//新建特种设备
 export const schemasAdd: FormSchema[] = [
-  {
-    field: 'dutyPersonId',
-    component: 'ApiSelect',
-    label: '履职人',
-    slot: 'selectSlot',
-    componentProps: {
-      placeholder: '请选择履职人',
-      maxlength: 20,
-    },
-    required: true,
-  },
   {
     field: 'dutyTypeId',
     component: 'Input',
-    label: '职责',
+    label: '设备名称',
     required: true,
     componentProps: {
-      disabled: true,
-      placeholder: '请输入职责',
+      placeholder: '请输入设备名称',
+    },
+  },
+  {
+    field: 'dutyPersonId',
+    component: 'ApiSelect',
+    label: '所属项目',
+    required: true,
+    componentProps: {
+      placeholder: '请选择所属项目',
     },
   },
   {
     field: 'checkDate',
-    component: 'DatePicker',
-    label: '检查时间',
-    required: true,
+    component: 'ApiSelect',
+    label: '所属装置设施',
+    componentProps: {
+      placeholder: '请选择所属装置设施',
+    },
   },
-
   {
-    //1.默认带入当前账号人员。
-    // 2.企业架构：可选择企业内部人员，支持输入性选择、下拉选择。
-    // 3.其他人员：支持手动输入
+    field: 'checkDate',
+    component: 'ApiSelect',
+    label: '设备类型',
+    required: true,
+    componentProps: {
+      placeholder: '请选择设备类型',
+    },
+  },
+  {
+    field: 'disclosure',
+    component: 'RadioGroup',
+    label: '设备性质',
+    required: true,
+    componentProps: {
+      options: [
+        {
+          label: '动设备',
+          value: '1',
+        },
+        {
+          label: '静设备',
+          value: '2',
+        },
+      ],
+    },
+  },
+  {
     field: 'checkPersonId',
     component: 'Input',
-    label: '检查人',
-    required: true,
-    slot: 'checkPersonSlot',
+    label: '设备编码',
+    componentProps: {
+      placeholder: '请输入设备编码',
+    },
   },
   {
     field: 'checkPersonPost',
-    component: 'Input',
-    label: '检查人职务',
+    component: 'ApiSelect',
+    label: '使用状态',
+    required: true,
     componentProps: {
-      disabled: true,
-      placeholder: '请输入检查人职务',
+      placeholder: '选择使用状态',
     },
   },
-
   {
     field: 'checkPersonPhone',
     component: 'Input',
-    label: '联系方式',
+    label: '设备注册代码',
     componentProps: {
-      disabled: true,
-
-      placeholder: '请输入联系方式',
+      placeholder: '请输入设备注册代码',
     },
-    required: true,
   },
-
+  {
+    field: 'checkPersonPhone',
+    component: 'Input',
+    label: '使用证编号',
+    componentProps: {
+      placeholder: '请输入使用证编号',
+    },
+  },
+  {
+    field: 'checkPersonPhone',
+    component: 'Input',
+    label: '制造单位',
+    componentProps: {
+      placeholder: '请输入制造单位',
+    },
+  },
+  {
+    field: 'checkPersonPhone',
+    component: 'Input',
+    label: '检验责任所在单位',
+    componentProps: {
+      placeholder: '请输入检验责任所在单位',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'ApiSelect',
+    label: '管理人员',
+    componentProps: {
+      placeholder: '请选择管理人员',
+    },
+  },
+  {
+    //自动代入
+    field: 'checkPersonPhone',
+    component: 'Input',
+    label: '管理人员联系方式',
+    componentProps: {
+      placeholder: '请输入管理人员联系方式',
+    },
+  },
   {
     field: 'contentAndMode',
-    component: 'InputTextArea',
-    label: '检查内容及方式',
+    component: 'Input',
+    label: '介质',
     required: true,
     componentProps: {
-      placeholder: '请输入检查内容及方式',
+      placeholder: '请输入介质',
     },
   },
 
   {
     field: 'conditionDescribe',
-    component: 'InputTextArea',
-    label: '检查情况描述',
-    required: true,
+    component: 'Input',
+    label: '位号',
     componentProps: {
-      placeholder: '请输入检查情况描述',
+      placeholder: '请输入位号',
     },
   },
 
   {
     field: 'problem',
-    component: 'InputTextArea',
-    label: '存在问题',
-
+    component: 'Input',
+    label: '规格型号',
     componentProps: {
-      placeholder: '请输入存在问题',
+      placeholder: '请输入规格型号',
     },
   },
 
   {
     field: 'result',
-    component: 'InputTextArea',
-    label: '检查结果',
-    required: true,
+    component: 'Input',
+    label: '主体材质',
     componentProps: {
-      placeholder: '请输入检查结果',
+      placeholder: '请输入主体材质',
     },
   },
   {
-    //附件
-    field: 'accessory',
+    field: 'result',
+    component: 'Input',
+    label: '操作温度（°C）',
+    componentProps: {
+      placeholder: '请输入操作温度',
+    },
+  },
+  {
+    field: 'result',
+    component: 'Input',
+    label: '操作压力（MPa）',
+    componentProps: {
+      placeholder: '请输入操作压力',
+    },
+  },
+  {
+    field: 'result',
+    component: 'Input',
+    label: '设计温度（°C）',
+    componentProps: {
+      placeholder: '请输入设计温度',
+    },
+  },
+  {
+    field: 'result',
+    component: 'Input',
+    label: '设计压力（MPa）',
+    componentProps: {
+      placeholder: '请输入设计压力',
+    },
+  },
+  {
+    field: 'result',
+    component: 'Input',
+    label: '地理位置',
+    componentProps: {
+      placeholder: '请输入地理位置',
+    },
+    //选择经纬度
+  },
+  {
+    field: 'attachment',
+    component: 'Upload',
+    label: '图纸',
+    componentProps: {
+      type: '',
+      maxNumber: 5,
+      maxSize: 5,
+      accept: '.jpg,.png,.jpeg',
+      helpText: '请上传图片',
+    },
+  },
+  {
+    field: 'securityPermis',
+    component: 'Input',
+    label: '基本信息',
+    render: ({ model, field }) => {
+      return h(Tinymce, {
+        value: model[field],
+        onChange: (value: string) => {
+          model[field] = value;
+        },
+      });
+    },
+  },
+  {
+    field: 'attachment',
     component: 'Upload',
     label: '上传附件',
+    required: true,
     componentProps: {
+      type: '',
       maxNumber: 5,
-      accept: 'image/*',
       maxSize: 5,
-      helpText: '上传图片',
+      accept: '.jpg,.png,.jpeg',
+      helpText: '请上传附件',
+    },
+  },
+];
+//新增检测记录
+export const testingAdd: FormSchema[] = [
+  {
+    field: 'dutyTypeId',
+    component: 'Input',
+    label: '设备名称',
+    required: true,
+    componentProps: {
+      disabled: true,
+      placeholder: '请输入设备名称',
+    },
+  },
+  {
+    field: 'dutyPersonId',
+    component: 'Input',
+    label: '地理位置',
+    required: true,
+    componentProps: {
+      disabled: true,
+      placeholder: '请输入地理位置',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'Input',
+    label: '检测机构',
+    required: true,
+    componentProps: {
+      placeholder: '请输入检测机构',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'InputTextArea',
+    label: '检测内容',
+    componentProps: {
+      placeholder: '请输入检测内容',
+      rows: 4,
+    },
+  },
+  {
+    field: 'status',
+    component: 'DatePicker',
+    label: '检测时间',
+    required: true,
+    componentProps: {
+      placeholder: '请选择检测时间',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'Input',
+    label: '证书编号',
+    componentProps: {
+      placeholder: '请输入证书编号',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'Input',
+    label: '检测结论',
+    required: true,
+    componentProps: {
+      placeholder: '请输入检测结论',
+    },
+  },
+  {
+    field: 'status',
+    component: 'DatePicker',
+    label: '下次检测日期',
+    required: true,
+    componentProps: {
+      placeholder: '请选择检测时间',
+    },
+  },
+  {
+    field: 'attachment',
+    component: 'Upload',
+    label: '安全附件',
+    componentProps: {
+      type: '',
+      maxNumber: 5,
+      maxSize: 5,
+      accept: '.jpg,.png,.jpeg',
+      helpText: '请上传附件',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'InputTextArea',
+    label: '备注',
+    componentProps: {
+      placeholder: '请输入备注',
+      rows: 4,
+      maxlength: 200,
     },
   },
 ];
 export const tableColumns: BasicColumn[] = [
   {
-    title: '设备名称',
+    title: '备件名称',
     dataIndex: 'name',
   },
   {
-    title: '所属产品',
+    title: '备件分类',
     dataIndex: 'productName',
   },
   {
-    title: '设备状态',
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '单位',
+    dataIndex: 'status',
+  },
+  {
+    title: '库存',
     dataIndex: 'status',
   },
 ];
 
 export const formSchema: FormSchema[] = [
   {
-    field: 'name',
-    component: 'Input',
-    label: '设备名称',
-    componentProps: {
-      placeholder: '请输入设备名称',
-    },
-  },
-  {
     field: 'status',
     component: 'ApiSelect',
-    label: '设备状态',
+    label: '备件分类',
     componentProps: {
-      placeholder: '请选择设备状态',
+      placeholder: '请选择备件分类',
     },
   },
   {
-    field: 'productId',
-    component: 'ApiSelect',
-    label: '所属产品',
+    field: 'name',
+    component: 'Input',
+    label: '备件姓名',
     componentProps: {
-      placeholder: '请选择产品',
+      placeholder: '请输入备件姓名',
     },
   },
 ];

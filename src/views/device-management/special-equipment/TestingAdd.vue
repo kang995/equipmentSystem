@@ -1,6 +1,6 @@
 <template>
-  <AddForm />
+  <TestingAddForm />
 </template>
 <script lang="ts" setup>
-  import AddForm from './AddForm.vue';
+  import TestingAddForm from './TestingAddForm.vue';
 </script>

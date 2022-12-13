@@ -96,6 +96,16 @@ const setup: AppRouteModule = {
       },
     },
     {
+      path: 'associated/detail',
+      name: 'AssociatedDetail',
+      component: () =>
+        import('../../../views/device-management/record/action-page/AssociatedDetail.vue'),
+      meta: {
+        title: '关联备件详情',
+        hideMenu: true,
+      },
+    },
+    {
       path: 'special-equipment',
       name: 'specialEquipment',
       component: () => import('../../../views/device-management/special-equipment/index.vue'),

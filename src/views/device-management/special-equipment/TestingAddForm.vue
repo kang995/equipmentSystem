@@ -4,7 +4,7 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { schemasAdd } from '../data';
+  import { testingAdd } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { useRouter } from 'vue-router';
@@ -12,7 +12,7 @@
 
   const { closeCurrent } = useTabs();
   const router = useRouter();
-  //showSubmitButton showResetButton
+
   const [register, {}] = useForm({
     labelCol: {
       span: 8,
@@ -20,7 +20,7 @@
     wrapperCol: {
       span: 10,
     },
-    schemas: schemasAdd,
+    schemas: testingAdd,
     actionColOptions: {
       offset: 8,
       span: 10,

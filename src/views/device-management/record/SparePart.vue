@@ -1,9 +1,9 @@
 <template>
-  备件更换记录
   <TablePage
     :dataSource="dataSource"
-    :columns="installationColumns"
-    :formSchema="installationFormSchema"
+    :columns="sparePartColumns"
+    :formSchema="sparePartFormSchema"
+    :ifExport="true"
   >
     <template #tableAction="record">
       <TableAction
@@ -11,8 +11,8 @@
         :stopButtonPropagation="true"
         :actions="[
           {
-            label: '编辑',
-            onClick: handleEdit.bind(null, record),
+            label: '备件详情',
+            onClick: handleDetail.bind(null, record),
             delBtn: true,
           },
         ]"
@@ -22,10 +22,19 @@
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { installationColumns, installationFormSchema } from '../data';
+  import { sparePartColumns, sparePartFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
 
   import TablePage from '../components/TablePage.vue';
   const dataSource = ref([{}]);
-  function handleEdit() {}
+  function handleDetail() {}
 </script>
+<style lang="less" scoped>
+  ::v-deep(.ant-table-title) {
+    min-height: 0 !important;
+  }
+
+  ::v-deep(.ant-table-wrapper) {
+    padding-top: 0;
+  }
+</style>

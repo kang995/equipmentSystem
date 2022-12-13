@@ -1,5 +1,4 @@
 <template>
-  应急演练记录
   <TablePage
     :dataSource="dataSource"
     :columns="installationColumns"

@@ -40,7 +40,7 @@
     ifShow?: boolean;
   }
   //机械动：1 机械静：2 特种静：3 特种动：4
-  const aa: TabItem[] = [
+  const activeList: TabItem[] = [
     {
       key: '1',
       name: '基本信息', //1 2 3 4
@@ -110,18 +110,18 @@
   ];
   const achieveList = ref<TabItem[]>([]);
   onMounted(() => {
-    aa.filter((item, index) => {
+    activeList.filter((item, index) => {
       if (item.ifShow == false) {
         console.log('item: ', item);
-        aa.splice(index, 1);
+        activeList.splice(index, 1);
       }
     });
-    console.log('aa: ', aa);
-    achieveList.value = aa;
+    console.log('aa: ', activeList);
+    achieveList.value = activeList;
   });
   const activeKey = ref('1');
   const activeComponent = computed(() => {
-    return aa.filter((item) => item.key == activeKey.value)[0].component;
+    return activeList.filter((item) => item.key == activeKey.value)[0].component;
   });
 </script>
 
