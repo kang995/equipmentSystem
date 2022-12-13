@@ -1,77 +1,65 @@
 <template>
-  <PageWrapper>
-    <BasicTable @register="register">
-      <template #action="{ record }">
-        <TableAction
-          :divider="false"
-          :stopButtonPropagation="true"
-          :actions="[
-            {
-              label: '详情',
-              onClick: handleDetails.bind(null, record),
-              delBtn: true,
-            },
-          ]"
-        />
+  <PageWrapper contentFullHeight>
+    <Tabs
+      v-model:activeKey="activeKey"
+      class="basic-data-tab"
+      :tabBarStyle="{ margin: 0, paddingLeft: '16px' }"
+    >
+      <template v-for="item in activeList" :key="item.key">
+        <TabPane :tab="item.name" />
       </template>
-      <template #tableTitle>
-        <a-tooltip>
-          <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
-        </a-tooltip>
-      </template>
-    </BasicTable>
+    </Tabs>
+    <component :is="activeComponent" />
   </PageWrapper>
 </template>
-<script setup lang="ts">
-  import { PageWrapper } from '/@/components/Page';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { tableColumns, formSchema } from '../data';
-  import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
-  import { Tooltip } from 'ant-design-vue';
-  const router = useRouter();
-  const ATooltip = Tooltip;
-  const exportLoading = ref(false);
-  const dataSource = ref([{}]);
-  const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
-    columns: tableColumns,
-    rowKey: 'id',
-    useSearchForm: true,
-    rowSelection: {
-      type: 'checkbox',
-    },
-    actionColumn: {
-      title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
-    },
-    formConfig: {
-      schemas: formSchema,
-      autoSubmitOnEnter: true,
-      resetButtonOptions: {
-        preIcon: 'gonggong_zhongzhi|svg',
-      },
-      submitButtonOptions: {
-        preIcon: 'gonggong_sousuo|svg',
-      },
-      baseColProps: {
-        span: 6,
-      },
-      rowProps: {
-        gutter: 16,
-      },
-    },
-  });
 
-  function handleDetails() {
-    router.push({
-      name: 'InstallationDetails',
-    });
+<script lang="ts" setup>
+  import { PageWrapper } from '/@/components/Page';
+  import { Tabs } from 'ant-design-vue';
+  import { computed, ref } from 'vue';
+  import Warehousing from './Warehousing.vue';
+  import Issue from './Issue.vue';
+  const TabPane = Tabs.TabPane;
+  const activeKey = ref('1');
+
+  interface TabItem {
+    key: string;
+    name: string;
+    component?: any;
+  }
+  const activeList: TabItem[] = [
+    {
+      key: '1',
+      name: '出库', //1 2 3 4
+      component: Issue,
+    },
+    {
+      key: '2',
+      name: '入库', //1 2 3 4
+      component: Warehousing,
+    },
+  ];
+  const activeComponent = computed(() => {
+    return activeList.filter((item) => item.key == activeKey.value)[0].component;
+  });
+</script>
+
+<style scoped lang="less">
+  .basic-data-tab {
+    border-bottom: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background-color: @component-background;
   }
 
-  function exportTable() {}
-</script>
-<style scoped lang="less"></style>
+  ::v-deep(.ant-tabs > .ant-tabs-nav, .ant-tabs > div > .ant-tabs-nav) {
+    border: 1px solid @border-color-base;
+    border-bottom: none;
+    // background-color: @component-background;
+  }
+
+  ::v-deep(.tsit-basic-table-form-container .ant-form) {
+    border-radius: 0 6px;
+    border-top: none;
+  }
+</style>

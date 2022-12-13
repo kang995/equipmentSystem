@@ -42,7 +42,7 @@ const setup: AppRouteModule = {
       name: 'inboundAndOutboundDetails',
       component: () => import('../../../views/backup-management/inbound-and-outbound/Details.vue'),
       meta: {
-        title: '机械设备台账详情',
+        title: '备份出入库详情',
         hideMenu: true,
       },
     },
@@ -51,15 +51,51 @@ const setup: AppRouteModule = {
       name: 'backupDetailsList',
       component: () => import('../../../views/backup-management/backup-details/index.vue'),
       meta: {
-        title: '特种设备台账',
+        title: '库存详情',
       },
     },
     {
-      path: 'backup-details/details',
-      name: 'backupDetails',
-      component: () => import('../../../views/backup-management/backup-details/Details.vue'),
+      path: 'backup-details/add',
+      name: 'backupAdd',
+      component: () => import('../../../views/backup-management/backup-details/Add.vue'),
       meta: {
-        title: '特种设备台账详情',
+        title: '新增仓库',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'backup-details/edit',
+      name: 'backupEdit',
+      component: () => import('../../../views/backup-management/backup-details/Edit.vue'),
+      meta: {
+        title: '编辑仓库',
+        hideMenu: true,
+      },
+    },
+    //Inventory
+    {
+      path: 'inventory',
+      name: 'Inventory',
+      component: () => import('../../../views/backup-management/inventory/index.vue'),
+      meta: {
+        title: '盘点',
+      },
+    },
+    {
+      path: 'inventory/add',
+      name: 'InventoryAdd',
+      component: () => import('../../../views/backup-management/inventory/Add.vue'),
+      meta: {
+        title: '新增盘点',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'inventory/details',
+      name: 'InventoryDetails',
+      component: () => import('../../../views/backup-management/inventory/InventoryDetails.vue'),
+      meta: {
+        title: '盘点详情',
         hideMenu: true,
       },
     },

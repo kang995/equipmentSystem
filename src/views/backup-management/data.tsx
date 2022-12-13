@@ -65,3 +65,378 @@ export const schemaDescItem: DescItem[] = [
     label: '重大危险源类型',
   },
 ];
+// Ensure
+export const backupColumns: BasicColumn[] = [
+  {
+    title: '设备名称',
+    dataIndex: 'name',
+  },
+];
+export const backupFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'Input',
+    label: '备件名称',
+    componentProps: {
+      placeholder: '请输入备件名称',
+    },
+  },
+  {
+    field: 'dutyPersonId',
+    component: 'ApiSelect',
+    label: '备件分类',
+    componentProps: {
+      placeholder: '请选择备件分类',
+    },
+  },
+];
+// 出入库
+export const columnsWarehousing: BasicColumn[] = [
+  {
+    title: '入库单号',
+    dataIndex: 'name',
+  },
+  {
+    title: '入库类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '入库仓库',
+    dataIndex: 'status',
+  },
+  {
+    title: '入库时间',
+    dataIndex: 'status',
+  },
+  {
+    title: '创建人',
+    dataIndex: 'status',
+  },
+  {
+    title: '经手人',
+    dataIndex: 'status',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'status',
+  },
+  {
+    title: '入库单状态',
+    dataIndex: 'status',
+  },
+];
+export const columnsIssue: BasicColumn[] = [
+  {
+    title: '出库单号',
+    dataIndex: 'name',
+  },
+  {
+    title: '出库类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '出库仓库',
+    dataIndex: 'status',
+  },
+  {
+    title: '出库时间',
+    dataIndex: 'status',
+  },
+  {
+    title: '创建人',
+    dataIndex: 'status',
+  },
+  {
+    title: '经手人',
+    dataIndex: 'status',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'status',
+  },
+  {
+    title: '入库单状态',
+    dataIndex: 'status',
+  },
+];
+export const formSchemaIssue: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'Input',
+    label: '出库单号',
+    componentProps: {
+      placeholder: '请输入出库单号',
+    },
+  },
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '出库类型',
+    componentProps: {
+      placeholder: '请选择出库类型',
+    },
+  },
+  {
+    field: 'status',
+    component: 'DatePicker',
+    label: '出库时间',
+    componentProps: {
+      placeholder: '请选择出库时间',
+    },
+  },
+];
+export const formSchemaWarehousing: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'Input',
+    label: '入库单号',
+    componentProps: {
+      placeholder: '请输入入库单号',
+    },
+  },
+  {
+    field: 'name',
+    component: 'ApiSelect',
+    label: '入库类型',
+    componentProps: {
+      placeholder: '请选择入库类型',
+    },
+  },
+  {
+    field: 'status',
+    component: 'DatePicker',
+    label: '入库时间',
+    componentProps: {
+      placeholder: '请选择入库时间',
+    },
+  },
+];
+//库存详情模块
+// 新建
+//新增检测记录
+export const schemasAdd: FormSchema[] = [
+  {
+    field: 'dutyTypeId',
+    component: 'Input',
+    label: '仓库名称',
+    required: true,
+    componentProps: {
+      placeholder: '请输入仓库名称',
+    },
+  },
+
+  {
+    field: 'problem',
+    component: 'ApiSelect',
+    label: '负责人',
+    required: true,
+    componentProps: {
+      placeholder: '请选择负责人',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'Input',
+    label: '负责人电话',
+    required: true,
+    componentProps: {
+      placeholder: '请输入负责人电话',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'Input',
+    label: '仓库位置',
+    required: true,
+    componentProps: {
+      placeholder: '请输入仓库位置',
+    },
+  },
+
+  {
+    field: 'problem',
+    component: 'InputTextArea',
+    label: '备注',
+    componentProps: {
+      placeholder: '请输入备注',
+      rows: 4,
+      maxlength: 200,
+    },
+  },
+];
+//盘点
+export const inventoryColumns: BasicColumn[] = [
+  {
+    title: '盘点单编号',
+    dataIndex: 'name',
+  },
+  {
+    title: '盘点单名称',
+    dataIndex: 'productName',
+  },
+  {
+    title: '创建人',
+    dataIndex: 'status',
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+  },
+  {
+    title: '备注',
+    dataIndex: 'status',
+  },
+];
+
+export const inventoryFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    component: 'Input',
+    label: '盘点单编号',
+    componentProps: {
+      placeholder: '请输入盘点单编号',
+    },
+  },
+  {
+    field: 'status',
+    component: 'Input',
+    label: '盘点单名称',
+    componentProps: {
+      placeholder: '请输入盘点单名称',
+    },
+  },
+  {
+    field: 'productId',
+    component: 'ApiSelect',
+    label: '状态',
+    componentProps: {
+      placeholder: '请选择状态',
+    },
+  },
+];
+//新建盘点 schemasInventoryAdd
+export const schemasInventoryAdd: FormSchema[] = [
+  {
+    field: 'dutyTypeId',
+    component: 'Input',
+    label: '盘点名称',
+    required: true,
+    componentProps: {
+      placeholder: '请输入盘点名称',
+    },
+  },
+
+  {
+    field: 'problem',
+    component: 'ApiSelect',
+    label: '截止时间',
+    required: true,
+    componentProps: {
+      placeholder: '请选择截止时间',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'ApiSelect',
+    label: '执行人',
+    required: true,
+    componentProps: {
+      placeholder: '请选择执行人',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'ApiSelect',
+    label: '选择仓库',
+    required: true,
+    componentProps: {
+      placeholder: '请选择仓库',
+    },
+  },
+  {
+    //选择仓库后带出来的数据
+    field: 'checkDate1',
+    component: 'ApiSelect',
+    label: '物品清单',
+    required: true,
+    slot: 'tableSlot',
+  },
+
+  {
+    field: 'problem',
+    component: 'InputTextArea',
+    label: '备注',
+    componentProps: {
+      placeholder: '请输入备注',
+      rows: 4,
+      maxlength: 200,
+    },
+  },
+];
+//新建的物品清单 tableAddColumns
+export const tableAddColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '仓库数量',
+    dataIndex: 'status',
+  },
+  {
+    title: '实际数量',
+    dataIndex: 'status',
+  },
+];
+//盘点详情
+export const inventoryDescItem: DescItem[] = [
+  {
+    field: 'dangerName9',
+    label: '盘点单编号',
+  },
+  {
+    field: 'riskLevelName9',
+    label: '盘点单状态',
+  },
+  {
+    field: 'projectName8',
+    label: '盘点名称',
+  },
+
+  {
+    field: 'districtName7',
+    label: '创建时间',
+  },
+  {
+    field: 'hazardTypeText6',
+    label: '截止时间',
+  },
+  {
+    field: 'hazardTypeText5',
+    label: '执行人',
+  },
+  {
+    field: 'hazardTypeText1',
+    label: '完成时间',
+  },
+  {
+    field: 'hazardTypeText2',
+    label: '盘点仓库',
+  },
+  {
+    field: 'hazardTypeText3',
+    label: '物品清单',
+  },
+  {
+    field: 'hazardTypeText4',
+    label: '备注',
+  },
+];
