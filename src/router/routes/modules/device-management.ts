@@ -17,7 +17,7 @@ const setup: AppRouteModule = {
       name: 'Installation',
       component: () => import('../../../views/device-management/installation/index.vue'),
       meta: {
-        title: '设备设施',
+        title: '装置设置',
       },
     },
     {
@@ -25,7 +25,7 @@ const setup: AppRouteModule = {
       name: 'InstallationDetails',
       component: () => import('../../../views/device-management/installation/Details.vue'),
       meta: {
-        title: '设备设施详情',
+        title: '装置设置详情',
         hideMenu: true,
       },
     },

@@ -133,9 +133,4 @@
     border-top-right-radius: 6px;
     background-color: @component-background;
   }
-
-  ::v-deep(.tsit-basic-table-form-container .ant-form) {
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-  }
 </style>

@@ -149,7 +149,7 @@
         preIcon: 'gonggong_sousuo|svg',
       },
       baseColProps: {
-        span: 6,
+        span: 8,
       },
       rowProps: {
         gutter: 16,

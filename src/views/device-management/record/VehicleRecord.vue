@@ -21,6 +21,7 @@
     columns: vehicleColumns,
     rowKey: 'id',
     useSearchForm: true,
+    inTabs: true, //取消table搜索form顶部边框及圆角
     rowSelection: {
       type: 'checkbox',
     },

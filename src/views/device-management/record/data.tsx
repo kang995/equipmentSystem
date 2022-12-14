@@ -1,5 +1,6 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import ClickButton from './action-page/ClickButton.vue';
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -139,7 +140,7 @@ export const schemaDescItem: DescItem[] = [
     render: (data) => {
       return (
         <div>
-          <a-button style={'color:#4D79FF'}>查看动设备</a-button>
+          <ClickButton name={'MechanicsDetailsMove'} />
         </div>
       );
     },
@@ -201,7 +202,7 @@ export const schemaDescItem: DescItem[] = [
     label: '附件',
   },
 ];
-//schemaDescItemMove  机械设备动
+//schemaDescItemMove  特种设备动
 export const schemaDescItemMove: DescItem[] = [
   {
     field: 'dangerName',
@@ -221,7 +222,7 @@ export const schemaDescItemMove: DescItem[] = [
     render: (data) => {
       return (
         <div>
-          <a-button style={'color:#4D79FF'}>{data}查看动设备</a-button>
+          <ClickButton name={'specialEquipmentDetailsMove'} />
         </div>
       );
     },
