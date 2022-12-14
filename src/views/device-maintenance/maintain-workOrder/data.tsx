@@ -420,7 +420,7 @@ export function postponeFormSchema(): FormSchema[] {
     {
       field: 'name1',
       component: 'DatePicker',
-      label: ' 延期时间',
+      label: '延期时间',
       required: true,
       colProps: {
         span: 14,
@@ -430,7 +430,7 @@ export function postponeFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name1',
+      field: 'name2',
       component: 'Input',
       label: ' 延期原因',
       required: true,

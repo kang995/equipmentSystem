@@ -194,7 +194,7 @@ export function WorkDetail(): DescItem[] {
       field: '',
       label: '',
       labelMinWidth: 0,
-      span: 3,
+      span: 2,
       render: () => {
         return <span style={titleStyle}>工单信息</span>;
       },
@@ -297,6 +297,437 @@ export function WorkDetail(): DescItem[] {
     },
   ];
 }
+//负责人
+//工单信息-重新下发
+export function getAgainFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'RadioGroup',
+      label: '任务指派',
+      required: true,
+      componentProps: {
+        options: [
+          {
+            label: '人员',
+            value: '1',
+          },
+          {
+            label: '岗位',
+            value: '2',
+          },
+        ],
+      },
+    },
+    {
+      field: 'name',
+      component: 'ApiSelect',
+      label: '处理部门',
+      required: true,
+      componentProps: {
+        placeholder: '请选择处理部门',
+      },
+    },
+    {
+      field: 'name',
+      component: 'ApiSelect',
+      label: '处理人',
+      required: true,
+      componentProps: {
+        placeholder: '请选择处理人',
+      },
+    },
+  ];
+}
+
+//工单信息-延期申请
+export function PostponeDetail(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>延期申请</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '原截至时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '延期时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '延期原因',
+    },
+  ];
+}
+
+//工单信息-延期审核
+export function getPostponeFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'RadioGroup',
+      label: '任务指派',
+      required: true,
+      componentProps: {
+        options: [
+          {
+            label: '同意',
+            value: '1',
+          },
+          {
+            label: '拒绝',
+            value: '2',
+          },
+        ],
+      },
+    },
+    {
+      field: 'name1',
+      component: 'InputTextArea',
+      label: '拒绝原因',
+      required: true,
+      // colProps: {
+      //   span: 10,
+      // },
+      componentProps: {
+        placeholder: '请输入拒绝原因',
+        rows: 4,
+      },
+    },
+  ];
+}
+
+//工单信息-维修结果
+export function RepairDetail(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>维修结果</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '处理结果',
+    },
+    {
+      field: 'applyUserName',
+      label: '维修前图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '维修后图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '是否停机',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收人',
+    },
+  ];
+}
+
+//工单信息-验收结果
+export function ResultDetail(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>验收结果</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '验收结果',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收描述',
+    },
+    {
+      field: 'applyUserName',
+      label: '图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+  ];
+}
+//执行人
+//工单信息-申请延期
+export function getApplyFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'DatePicker',
+      label: '原截止时间',
+      // colProps: {
+      //   span: 14,
+      // },
+      componentProps: {
+        // placeholder: '请输入',
+      },
+    },
+    {
+      field: 'name1',
+      component: 'DatePicker',
+      label: '延期时间',
+      required: true,
+      // colProps: {
+      //   span: 14,
+      // },
+      componentProps: {
+        placeholder: '请选择时间',
+      },
+    },
+    {
+      field: 'name2',
+      component: 'Input',
+      label: ' 延期原因',
+      required: true,
+      // colProps: {
+      //   span: 14,
+      // },
+      componentProps: {
+        placeholder: '请输入原因',
+      },
+    },
+  ];
+}
+//工单信息-维修结果
+export function getAcceptFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'InputTextArea',
+      label: '处理情况',
+      required: true,
+      // colProps: {
+      //   span: 14,
+      // },
+      componentProps: {
+        placeholder: '请输入处理情况',
+      },
+    },
+    {
+      field: 'attachment',
+      component: 'Upload',
+      label: '维修前图片',
+      required: true,
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+    },
+    {
+      field: 'attachment1',
+      component: 'Upload',
+      label: '维修后图片',
+      required: true,
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+    },
+    {
+      field: 'name',
+      component: 'RadioGroup',
+      label: '是否停机',
+      required: true,
+      componentProps: {
+        options: [
+          {
+            label: '是',
+            value: '1',
+          },
+          {
+            label: '否',
+            value: '2',
+          },
+        ],
+      },
+    },
+    {
+      field: 'name2',
+      component: 'ApiSelect',
+      label: '验收人',
+      required: true,
+      componentProps: {
+        placeholder: '请选择验收人',
+      },
+    },
+  ];
+}
+//工单信息-待验收-维修结果
+export function ShowResultDetail(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 2,
+      render: () => {
+        return <span style={titleStyle}>维修结果</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '处理结果',
+    },
+    {
+      field: 'applyUserName',
+      label: '维修前图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '维修后图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '是否停机',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收人',
+    },
+  ];
+}
+//工单信息-拒绝-维修结果
+export function getSubmitAcceptFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'InputTextArea',
+      label: '处理结果',
+      required: true,
+      componentProps: {
+        placeholder: '请输入处理结果',
+        rows: 4,
+      },
+    },
+    {
+      field: 'attachment',
+      component: 'Upload',
+      label: '维修前图片',
+      required: true,
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+    },
+    {
+      field: 'attachment1',
+      component: 'Upload',
+      label: '维修后图片',
+      required: true,
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+    },
+    {
+      field: 'name',
+      component: 'RadioGroup',
+      label: '是否停机',
+      required: true,
+      componentProps: {
+        options: [
+          {
+            label: '是',
+            value: '1',
+          },
+          {
+            label: '否',
+            value: '2',
+          },
+        ],
+      },
+    },
+  ];
+}
+
+//使用备件
+export function tablePartColumns(): BasicColumn[] {
+  return [
+    {
+      title: '备件编码',
+      dataIndex: 'name',
+    },
+    {
+      title: '备件名称',
+      dataIndex: 'name',
+    },
+    {
+      title: '备件分类',
+      dataIndex: 'name',
+    },
+    {
+      title: '使用数量',
+      dataIndex: 'name',
+    },
+  ];
+}
+
 const titleStyle: any = {
     paddingTop: '16px',
     fontSize: '15px',
@@ -305,5 +736,5 @@ const titleStyle: any = {
     left: '0px',
   },
   ImageBox: any = {
-    width: '100px',
+    width: '80px',
   };

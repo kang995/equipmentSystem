@@ -6,8 +6,12 @@
         :stopButtonPropagation="true"
         :actions="[
           {
+            label: '重新提交',
+            onClick: handleReSubmit.bind(null, record),
+          },
+          {
             label: '申请延期',
-            onClick: handleDetails.bind(null, record),
+            onClick: handlePostpone.bind(null, record),
           },
           {
             label: '详情',
@@ -76,7 +80,29 @@
       name: 'repairDetail',
       query: {
         identity: '2', //负责人：1、执行人：2
+        status: '1', //待处理：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+      },
+    });
+  }
+  //申请延期
+  function handlePostpone() {
+    router.push({
+      name: 'repairDetail',
+      query: {
+        identity: '2', //负责人：1、执行人：2
+        status: '1', //待处理：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+        isShow: 'true',
+      },
+    });
+  }
+  //重新提交
+  function handleReSubmit() {
+    router.push({
+      name: 'repairDetail',
+      query: {
+        identity: '2', //负责人：1、执行人：2
         status: '4', //待处理：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+        isSbumit: 'true',
       },
     });
   }

@@ -2,7 +2,7 @@
   <PageWrapper contentBackground contentFullHeight>
     <a-tabs v-model:activeKey="activeKey" :tabBarStyle="tabBarStyle">
       <a-tab-pane key="1" tab="工单信息">
-        <work-info />
+        <work-info :status="status" :identity="identity" />
       </a-tab-pane>
       <a-tab-pane key="2" tab="使用备件">
         <work-part />
@@ -23,6 +23,8 @@
   import workPart from './workPart.vue';
   import flowDoc from './flowDoc.vue';
   const route = useRoute();
+  const status = route.query?.status as string;
+  const identity = route.query?.identity as string;
   const ATabs = Tabs,
     ATabPane = Tabs.TabPane;
   const tabBarStyle = {

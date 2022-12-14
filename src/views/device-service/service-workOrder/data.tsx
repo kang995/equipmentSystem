@@ -52,7 +52,6 @@ export function getFormSchema(): FormSchema[] {
       field: 'name1',
       component: 'Input',
       label: '工单编号',
-      labelWidth: 96,
       componentProps: {
         placeholder: '请输入检修计划编号',
       },
@@ -87,7 +86,6 @@ export function getFormSchema(): FormSchema[] {
       field: 'productId',
       component: 'ApiSelect',
       label: '工单状态',
-      labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单状态',
       },

@@ -32,6 +32,7 @@
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
     clickToRowSelect: false, //是否开启点击行选中
+    inTabs: true,
     rowSelection: {
       type: 'checkbox',
     },

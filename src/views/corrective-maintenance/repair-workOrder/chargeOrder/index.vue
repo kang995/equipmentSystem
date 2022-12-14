@@ -7,7 +7,7 @@
         :actions="[
           {
             label: '重新下发',
-            // onClick: handleDetails.bind(null, record),
+            onClick: handleAgain.bind(null, record),
           },
           {
             label: '详情',
@@ -25,13 +25,17 @@
       </div>
     </template>
   </BasicTable>
+  <basicModel @register="IssuedModal" />
 </template>
 <script setup lang="ts">
+  import { useModal } from '/@/components/Modal';
+  import basicModel from '../module/IssuedModal.vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { tableColumns, getFormSchema } from '../data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
@@ -44,6 +48,7 @@
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
     clickToRowSelect: false, //是否开启点击行选中
+    inTabs: true,
     rowSelection: {
       type: 'checkbox',
     },
@@ -76,9 +81,13 @@
       name: 'repairDetail',
       query: {
         identity: '1', //负责人：1、执行人：2
-        status: '4', //待处理：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+        status: '2', //待处理：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
       },
     });
+  }
+  //重新下发
+  function handleAgain() {
+    openIssuedModal(true, {});
   }
 
   function exportTable() {}

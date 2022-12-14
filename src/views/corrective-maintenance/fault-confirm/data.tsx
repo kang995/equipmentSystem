@@ -581,5 +581,5 @@ const titleStyle: any = {
     left: '0px',
   },
   ImageBox: any = {
-    width: '100px',
+    width: '80px',
   };
