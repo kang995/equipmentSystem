@@ -46,20 +46,10 @@
 
 <style scoped lang="less">
   .basic-data-tab {
+    border: 1px solid @border-color-base;
     border-bottom: none;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     background-color: @component-background;
-  }
-
-  ::v-deep(.ant-tabs > .ant-tabs-nav, .ant-tabs > div > .ant-tabs-nav) {
-    border: 1px solid @border-color-base;
-    border-bottom: none;
-    // background-color: @component-background;
-  }
-
-  ::v-deep(.tsit-basic-table-form-container .ant-form) {
-    border-radius: 0 6px;
-    border-top: none;
   }
 </style>

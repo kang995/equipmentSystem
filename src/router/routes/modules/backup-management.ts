@@ -9,7 +9,7 @@ const setup: AppRouteModule = {
   meta: {
     orderNo: 6,
     icon: 'yewu_gongzuotai|svg',
-    title: '备份管理',
+    title: '备件管理',
   },
   children: [
     {
@@ -17,38 +17,71 @@ const setup: AppRouteModule = {
       name: 'Backup',
       component: () => import('../../../views/backup-management/backup/index.vue'),
       meta: {
-        title: '备份管理',
+        title: '备件管理',
       },
     },
+
     {
       path: 'backup/details',
       name: 'BackupDetails',
       component: () => import('../../../views/backup-management/backup/Details.vue'),
       meta: {
-        title: '设备设施详情',
+        title: '备件详情',
         hideMenu: true,
       },
     },
     {
       path: 'inbound-and-outbound',
-      name: 'inboundAndOutbound',
+      name: 'InboundAndOutbound',
       component: () => import('../../../views/backup-management/inbound-and-outbound/index.vue'),
       meta: {
-        title: '备份出入库',
+        title: '备件出入库',
       },
     },
     {
-      path: 'inbound-and-outbound/details',
-      name: 'inboundAndOutboundDetails',
-      component: () => import('../../../views/backup-management/inbound-and-outbound/Details.vue'),
+      path: 'inbound/add',
+      name: 'InboundAdd',
+      component: () =>
+        import('../../../views/backup-management/inbound-and-outbound/InboundAdd.vue'),
       meta: {
-        title: '备份出入库详情',
+        title: '新增出库单',
         hideMenu: true,
       },
     },
     {
+      path: 'outbound/add',
+      name: 'OutboundAdd',
+      component: () =>
+        import('../../../views/backup-management/inbound-and-outbound/OutboundAdd.vue'),
+      meta: {
+        title: '新增入库单',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'inbound/details',
+      name: 'InboundDetails',
+      component: () =>
+        import('../../../views/backup-management/inbound-and-outbound/InboundDetails.vue'),
+      meta: {
+        title: '出库详情',
+        hideMenu: true,
+      },
+    },
+    {
+      path: 'outbound/details',
+      name: 'OutboundDetails',
+      component: () =>
+        import('../../../views/backup-management/inbound-and-outbound/OutboundDetails.vue'),
+      meta: {
+        title: '入库详情',
+        hideMenu: true,
+      },
+    },
+
+    {
       path: 'backup-details',
-      name: 'backupDetailsList',
+      name: 'BackupDetailsList',
       component: () => import('../../../views/backup-management/backup-details/index.vue'),
       meta: {
         title: '库存详情',
@@ -56,7 +89,7 @@ const setup: AppRouteModule = {
     },
     {
       path: 'backup-details/add',
-      name: 'backupAdd',
+      name: 'BackupAdd',
       component: () => import('../../../views/backup-management/backup-details/Add.vue'),
       meta: {
         title: '新增仓库',
@@ -65,7 +98,7 @@ const setup: AppRouteModule = {
     },
     {
       path: 'backup-details/edit',
-      name: 'backupEdit',
+      name: 'BackupEdit',
       component: () => import('../../../views/backup-management/backup-details/Edit.vue'),
       meta: {
         title: '编辑仓库',

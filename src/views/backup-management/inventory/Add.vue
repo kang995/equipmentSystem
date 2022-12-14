@@ -44,10 +44,10 @@
     resetButtonOptions: {
       text: '取消',
     },
-    resetFunc: resetSubmitFunc,
+    resetFunc: resetFunc,
     submitFunc: sumitForm,
   });
-  async function resetSubmitFunc() {
+  async function resetFunc() {
     await closeCurrent();
     router.push({
       name: 'Inventory',

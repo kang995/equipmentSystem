@@ -149,16 +149,18 @@
   });
 
   function handleDetails() {
-    // router.push({});
+    router.push({
+      name: 'BackupDetails',
+    });
   }
   function getAdd() {
     router.push({
-      name: 'backupAdd',
+      name: 'BackupAdd',
     });
   }
   function getEdit() {
     router.push({
-      name: 'backupEdit',
+      name: 'BackupAdd',
     });
   }
 </script>

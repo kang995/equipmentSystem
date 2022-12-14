@@ -1,6 +1,6 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
-
+import DescItemTable from './inventory/DescItemTable.vue';
 export const tableColumns: BasicColumn[] = [
   {
     title: '设备名称',
@@ -211,6 +211,248 @@ export const formSchemaWarehousing: FormSchema[] = [
     },
   },
 ];
+
+//新增出库
+export const inboundAdd: FormSchema[] = [
+  {
+    field: 'dutyTypeId',
+    component: 'ApiSelect',
+    label: '出库仓库',
+    required: true,
+    componentProps: {
+      placeholder: '请选择出库仓库',
+    },
+  },
+
+  {
+    field: 'problem',
+    component: 'ApiSelect',
+    label: '出库类型',
+    required: true,
+    componentProps: {
+      placeholder: '请选择出库类型',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'Input',
+    label: '出库时间',
+    required: true,
+    componentProps: {
+      placeholder: '请选择出库时间',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'Input',
+    label: '申请人',
+    required: true,
+    componentProps: {
+      placeholder: '请选择申请人',
+    },
+  },
+  {
+    //物品清单
+    //选择仓库后带出来的数据
+    field: 'checkDate',
+    component: 'Input',
+    label: '物品清单',
+    // required: true,
+    slot: 'tableSlot',
+  },
+  {
+    field: 'problem',
+    component: 'InputTextArea',
+    label: '备注',
+    componentProps: {
+      placeholder: '请输入备注',
+      rows: 4,
+      maxlength: 200,
+    },
+  },
+];
+//新增入库
+export const OutboundAdd: FormSchema[] = [
+  {
+    field: 'dutyTypeId',
+    component: 'ApiSelect',
+    label: '入库仓库',
+    required: true,
+    componentProps: {
+      placeholder: '请选择入库仓库',
+    },
+  },
+
+  {
+    field: 'problem',
+    component: 'ApiSelect',
+    label: '入库类型',
+    required: true,
+    componentProps: {
+      placeholder: '请选择入库类型',
+    },
+  },
+  {
+    field: 'problem',
+    component: 'Input',
+    label: '入库时间',
+    required: true,
+    componentProps: {
+      placeholder: '请选择入库时间',
+    },
+  },
+  {
+    field: 'checkDate',
+    component: 'Input',
+    label: '申请人',
+    required: true,
+    componentProps: {
+      placeholder: '请选择申请人',
+    },
+  },
+  {
+    //物品清单
+    //选择仓库后带出来的数据
+    field: 'checkDate',
+    component: 'Input',
+    label: '物品清单',
+    // required: true,
+    slot: 'tableSlot',
+  },
+  {
+    field: 'problem',
+    component: 'InputTextArea',
+    label: '备注',
+    componentProps: {
+      placeholder: '请输入备注',
+      rows: 4,
+      maxlength: 200,
+    },
+  },
+];
+//新增物品清单表格 AddTable
+export const AddTable: BasicColumn[] = [
+  {
+    title: '备件编码',
+    dataIndex: 'name',
+  },
+  {
+    title: '备件名称',
+    dataIndex: 'productName',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'status',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '单位',
+    dataIndex: 'status',
+  },
+  {
+    title: '使用数量',
+    dataIndex: 'status',
+    slots: { customRender: 'inputSlot' },
+  },
+];
+
+//出库详情
+export const inboundDescItem: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '出库单号',
+  },
+  {
+    field: 'riskLevelName',
+    label: '创建时间',
+  },
+  {
+    field: 'projectName',
+    label: '出库单状态',
+  },
+  {
+    field: 'districtName',
+    label: '出库类型',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '经手人',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '出手仓库',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '出库时间',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '备注',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '物品清单',
+    render: (data) => {
+      console.log('data: ', data);
+      return (
+        <DescItemTable dataSource={dataSource} columns={inboundTableColumns} ifAction={true} />
+      );
+    },
+  },
+];
+//入库详情 OutboundDescItem
+export const OutboundDescItem: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '创建人',
+  },
+  {
+    field: 'dangerName',
+    label: '入库单号',
+  },
+  {
+    field: 'riskLevelName',
+    label: '创建时间',
+  },
+  {
+    field: 'projectName',
+    label: '入库单状态',
+  },
+  {
+    field: 'districtName',
+    label: '入库类型',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '经手人',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '入手仓库',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '入库时间',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '备注',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '物品清单',
+    render: (data) => {
+      console.log('data: ', data);
+      return (
+        <DescItemTable dataSource={dataSource} columns={inboundTableColumns} ifAction={true} />
+      );
+    },
+  },
+];
 //库存详情模块
 // 新建
 //新增检测记录
@@ -396,7 +638,9 @@ export const tableAddColumns: BasicColumn[] = [
     dataIndex: 'status',
   },
 ];
-//盘点详情
+const dataSource = [{ name: '222', status1: '2' }];
+
+//出库详情
 export const inventoryDescItem: DescItem[] = [
   {
     field: 'dangerName9',
@@ -432,11 +676,74 @@ export const inventoryDescItem: DescItem[] = [
     label: '盘点仓库',
   },
   {
-    field: 'hazardTypeText3',
+    field: 'hazardTypeText2',
     label: '物品清单',
+    render: (data) => {
+      console.log('data: ', data);
+      return <DescItemTable dataSource={dataSource} columns={inventoryTableColumns} />;
+    },
+  },
+];
+//inbound
+//出库详情物品清单
+const inboundTableColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'name',
   },
   {
-    field: 'hazardTypeText4',
-    label: '备注',
+    title: '备件类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '单位',
+    dataIndex: 'status',
+  },
+  {
+    title: '使用数量',
+    dataIndex: 'status',
+  },
+];
+//盘点详情物品清单
+const inventoryTableColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'productName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'status',
+  },
+  {
+    title: '所在仓库',
+    dataIndex: 'status',
+  },
+  {
+    title: '库存数量',
+    dataIndex: 'status',
+  },
+  {
+    title: '实际数量',
+    dataIndex: 'status1',
+    //已完成时编辑状态
+    edit: true,
+  },
+  {
+    //已完成时
+    title: '盘点结果',
+    dataIndex: 'status',
+  },
+  {
+    //已完成时
+    title: '图片',
+    dataIndex: 'status',
   },
 ];

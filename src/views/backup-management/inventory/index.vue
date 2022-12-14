@@ -14,6 +14,10 @@
               //二次确认
               label: '下发',
               delBtn: true,
+              popConfirm: {
+                title: '是否确认下发',
+                confirm: handleIssued.bind(null, record),
+              },
             },
             {
               label: '查看',
@@ -23,6 +27,10 @@
             {
               label: '作废',
               delBtn: true,
+              popConfirm: {
+                title: '是否确认作废',
+                confirm: handleIssued.bind(null, record),
+              },
             },
             {
               label: '删除',
@@ -32,7 +40,13 @@
         />
       </template>
       <template #tableTitle>
-        <a-button type="primary" @click="handleAdd" class="mr-4">新增盘点</a-button>
+        <a-button
+          type="primary"
+          preIcon="gonggong_tianjia_xianxing|svg"
+          @click="handleAdd"
+          class="mr-4"
+          >新增盘点</a-button
+        >
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
           <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
@@ -94,6 +108,7 @@
       name: 'InventoryAdd',
     });
   }
+  function handleIssued() {}
   function exportTable() {}
 </script>
 <style scoped lang="less"></style>

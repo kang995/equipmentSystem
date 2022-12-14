@@ -40,14 +40,14 @@
   async function resetSubmitFunc() {
     await closeCurrent();
     router.push({
-      name: 'backupDetailsList',
+      name: 'BackupDetailsList',
     });
   }
 
   async function sumitForm() {
     await closeCurrent();
     router.push({
-      name: 'backupDetailsList',
+      name: 'BackupDetailsList',
     });
   }
 </script>

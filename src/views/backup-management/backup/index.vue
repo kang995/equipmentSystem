@@ -27,12 +27,12 @@
               :actions="[
                 {
                   label: '出库',
-                  onClick: handleModal.bind(null, record),
+                  onClick: handleInbound.bind(null, record),
                   delBtn: true,
                 },
                 {
                   label: '入库',
-                  onClick: handleTestingAdd.bind(null, record),
+                  onClick: handleOutbound.bind(null, record),
                   delBtn: true,
                 },
                 {
@@ -148,22 +148,6 @@
       dataIndex: 'action',
       slots: { customRender: 'action' },
     },
-    // formConfig: {
-    //   schemas: backupFormSchema,
-    //   autoSubmitOnEnter: true,
-    //   resetButtonOptions: {
-    //     preIcon: 'gonggong_zhongzhi|svg',
-    //   },
-    //   submitButtonOptions: {
-    //     preIcon: 'gonggong_sousuo|svg',
-    //   },
-    //   baseColProps: {
-    //     span: 6,
-    //   },
-    //   rowProps: {
-    //     gutter: 16,
-    //   },
-    // },
   });
 
   function handleDetails() {
@@ -179,8 +163,16 @@
       // name: 'specialEquipmentEdit',
     });
   }
-  function handleTestingAdd() {}
-  function handleModal() {}
+  function handleOutbound() {
+    router.push({
+      name: 'OutboundAdd',
+    });
+  }
+  function handleInbound() {
+    router.push({
+      name: 'InboundAdd',
+    });
+  }
   function exportTable() {}
   function handleDel() {}
 </script>

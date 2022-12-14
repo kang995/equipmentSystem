@@ -12,12 +12,12 @@
           },
           {
             label: '作废',
-            onClick: handleDetail.bind(null, record),
+            //  onClick: handleDetail.bind(null, record),
             delBtn: true,
           },
           {
             label: '删除',
-            onClick: handleDetail.bind(null, record),
+            onClick: handleDel.bind(null, record),
             delBtn: true,
           },
         ]"
@@ -49,6 +49,10 @@
     formSchemaIssue,
     formSchemaWarehousing,
   } from '../data';
+  import { useRouter } from 'vue-router';
+  import { useTabs } from '/@/hooks/web/useTabs';
+  const { closeCurrent } = useTabs();
+  const router = useRouter();
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
   const props = defineProps<{
@@ -65,6 +69,7 @@
     rowSelection: {
       type: 'checkbox',
     },
+    inTabs: true, //取消table搜索form顶部边框及圆角
     actionColumn: {
       title: '操作',
       dataIndex: 'action',
@@ -91,7 +96,31 @@
   function exportTable() {
     emit('exportTable');
   }
-  function handleAdd() {}
-  function handleDetail() {}
+  async function getRouter() {
+    let name;
+    if (props.ifIssue) {
+      name = 'InboundAdd';
+    } else {
+      name = 'OutboundAdd'; //入库
+    }
+    router.push({
+      name: name,
+    });
+  }
+  function handleAdd() {
+    getRouter();
+  }
+  function handleDetail() {
+    let name;
+    if (props.ifIssue) {
+      name = 'InboundDetails';
+    } else {
+      name = 'OutboundDetails'; //入库
+    }
+    router.push({
+      name: name, //入库
+    });
+  }
+  function handleDel() {}
 </script>
 <style scoped lang="less"></style>
