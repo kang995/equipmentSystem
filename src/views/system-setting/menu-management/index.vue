@@ -3,9 +3,8 @@
     <BasicTable @register="registerTable">
       <template #toolbar>
         <div class="flex flex-1 justify-start pt-1 pb-1">
-          <a-button type="primary" @click="handleCreate" v-if="hasPermission(['system:menu:add'])">
-            新增
-          </a-button>
+          <!-- v-if="hasPermission(['system:menu:add'])" -->
+          <a-button type="primary" @click="handleCreate"> 新增 </a-button>
           <a-button
             class="ml-4"
             @click="handleDeletes"
