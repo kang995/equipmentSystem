@@ -13,7 +13,7 @@ export const columns: BasicColumn[] = [
   {
     title: '图标',
     dataIndex: 'icon',
-    width: 50,
+    width: 80,
     customRender: ({ record }) => {
       if (record.icon) {
         return h(Icon, { icon: record.icon });
@@ -22,7 +22,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '菜单类型',
-    width: 80,
+    width: 100,
     dataIndex: 'menuType',
     customRender: ({ record }) => {
       const { menuType } = record;
@@ -35,7 +35,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '排序',
-    width: 50,
+    width: 80,
     dataIndex: 'sortNo',
   },
   {
@@ -50,7 +50,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '启用标识',
-    width: 80,
+    width: 100,
     dataIndex: 'enabled',
     customRender: ({ record }) => {
       const { enabled } = record;
