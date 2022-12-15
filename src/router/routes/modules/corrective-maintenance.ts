@@ -25,9 +25,10 @@ const setup: AppRouteModule = {
           path: 'fault-add',
           name: 'faultAdd',
           component: () =>
-            import('../../../views/corrective-maintenance/fault-management/module/add.vue'),
+            import('../../../views/corrective-maintenance/fault-management/module/Add.vue'),
           meta: {
             title: '新增故障',
+            currentActiveMenu: '/corrective-maintenance/fault-management',
           },
         },
         {
@@ -37,6 +38,7 @@ const setup: AppRouteModule = {
             import('../../../views/corrective-maintenance/fault-management/module/Edit.vue'),
           meta: {
             title: '编辑故障',
+            currentActiveMenu: '/corrective-maintenance/fault-management',
           },
         },
         {
@@ -48,6 +50,7 @@ const setup: AppRouteModule = {
             ),
           meta: {
             title: '故障详情',
+            currentActiveMenu: '/corrective-maintenance/fault-management',
           },
         },
       ],

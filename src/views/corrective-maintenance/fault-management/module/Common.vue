@@ -17,8 +17,9 @@
   import { Card } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { getCommonFormSchema } from '../data';
-
-  const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
+  import { useTabs } from '/@/hooks/web/useTabs';
+  const { closeCurrent } = useTabs();
+  const [registerFrom] = useForm({
     schemas: getCommonFormSchema(), //表单配置
     // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     baseColProps: {
@@ -58,7 +59,7 @@
   }
   //取消
   async function handleReset() {
-    console.log('取消');
+    closeCurrent();
   }
 </script>
 
