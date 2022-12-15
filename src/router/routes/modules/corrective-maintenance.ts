@@ -120,38 +120,83 @@ const setup: AppRouteModule = {
     {
       path: 'repair-plan',
       name: 'repairPlan',
-      component: () => import('../../../views/corrective-maintenance/repair-plan/index.vue'),
+      // component: () => import('../../../views/corrective-maintenance/repair-plan/index.vue'),
       meta: {
         title: '维修计划',
-        hideChildrenInMenu: true,
+        // hideChildrenInMenu: true,
       },
       children: [
         {
-          path: 'repair-add',
-          name: 'repairAdd',
+          path: 'plan-management',
+          name: 'planManagement',
           component: () =>
-            import('../../../views/corrective-maintenance/repair-plan/module/add.vue'),
+            import('../../../views/corrective-maintenance/repair-plan/plan-management/index.vue'),
           meta: {
-            title: '新增维修计划',
+            title: '维修计划管理',
+            hideChildrenInMenu: true,
           },
+          children: [
+            {
+              path: 'repair-add',
+              name: 'repairAdd',
+              component: () =>
+                import(
+                  '../../../views/corrective-maintenance/repair-plan/plan-management/module/add.vue'
+                ),
+              meta: {
+                title: '新增维修计划',
+                hideMenu: true,
+              },
+            },
+            {
+              path: 'repair-edit',
+              name: 'repairEdit',
+              component: () =>
+                import(
+                  '../../../views/corrective-maintenance/repair-plan/plan-management/module/Edit.vue'
+                ),
+              meta: {
+                title: '编辑维修计划',
+                hideMenu: true,
+              },
+            },
+            {
+              path: 'repair-details',
+              name: 'repairDetails',
+              component: () =>
+                import(
+                  '../../../views/corrective-maintenance/repair-plan/plan-management/module/repairDetails.vue'
+                ),
+              meta: {
+                title: '保养计划详情',
+                hideMenu: true,
+              },
+            },
+          ],
         },
         {
-          path: 'repair-edit',
-          name: 'repairEdit',
+          path: 'plan-approval',
+          name: 'planApproval',
           component: () =>
-            import('../../../views/corrective-maintenance/repair-plan/module/Edit.vue'),
+            import('../../../views/corrective-maintenance/repair-plan/plan-approval/index.vue'),
           meta: {
-            title: '编辑维修计划',
+            title: '维修计划审批',
+            hideChildrenInMenu: true,
           },
-        },
-        {
-          path: 'repair-details',
-          name: 'repairDetails',
-          component: () =>
-            import('../../../views/corrective-maintenance/repair-plan/module/repairDetails.vue'),
-          meta: {
-            title: '维修计划详情',
-          },
+          children: [
+            {
+              path: 'approval-details',
+              name: 'approvalDetails',
+              component: () =>
+                import(
+                  '../../../views/corrective-maintenance/repair-plan/plan-approval/module/approvalDetails.vue'
+                ),
+              meta: {
+                title: '计划审批详情',
+                hideMenu: true,
+              },
+            },
+          ],
         },
       ],
     },
