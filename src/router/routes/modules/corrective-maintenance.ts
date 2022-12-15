@@ -105,7 +105,17 @@ const setup: AppRouteModule = {
         title: '维修验收',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'check-details',
+          name: 'checkDetail',
+          component: () =>
+            import('../../../views/corrective-maintenance/repair-check/module/checkDetail.vue'),
+          meta: {
+            title: '维修验收详情',
+          },
+        },
+      ],
     },
     {
       path: 'repair-plan',
@@ -115,7 +125,35 @@ const setup: AppRouteModule = {
         title: '维修计划',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'repair-add',
+          name: 'repairAdd',
+          component: () =>
+            import('../../../views/corrective-maintenance/repair-plan/module/add.vue'),
+          meta: {
+            title: '新增维修计划',
+          },
+        },
+        {
+          path: 'repair-edit',
+          name: 'repairEdit',
+          component: () =>
+            import('../../../views/corrective-maintenance/repair-plan/module/Edit.vue'),
+          meta: {
+            title: '编辑维修计划',
+          },
+        },
+        {
+          path: 'repair-details',
+          name: 'repairDetails',
+          component: () =>
+            import('../../../views/corrective-maintenance/repair-plan/module/repairDetails.vue'),
+          meta: {
+            title: '维修计划详情',
+          },
+        },
+      ],
     },
   ],
 };

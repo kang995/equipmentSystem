@@ -62,9 +62,9 @@
 
   function handleDetail() {
     router.push({
-      // name: 'maintainDetails',
+      name: 'checkDetail',
       query: {
-        flag: 'audit',
+        status: '3', //待验收：1、已完成：2、未通过：3
       },
     });
   }
