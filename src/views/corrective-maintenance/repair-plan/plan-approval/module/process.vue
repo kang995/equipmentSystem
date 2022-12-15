@@ -79,7 +79,7 @@
     router.push({
       name: 'approvalDetails',
       query: {
-        status: '3', //待验收：1、已完成：2、未通过：3
+        status: '5', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
       },
     });
   }

@@ -6,6 +6,8 @@
       <a-button type="primary" @click="sumitForm" v-if="props.status === '1'">提交</a-button>
       <a-button @click="handleReback" v-if="props.status === '2'">撤回</a-button>
       <a-button @click="handleEdit" v-if="props.status === '3'">重新编辑</a-button>
+      <a-button class="mr-4" v-if="props.status === '5'">拒绝</a-button>
+      <a-button type="primary" v-if="props.status === '5'">同意</a-button>
     </div>
   </div>
 </template>

@@ -84,7 +84,7 @@
     router.push({
       name: 'repairDetails',
       query: {
-        status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4
+        status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
       },
     });
   }
