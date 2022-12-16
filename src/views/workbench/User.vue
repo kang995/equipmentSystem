@@ -21,20 +21,21 @@
   import { ref } from 'vue';
   import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
-  // import { useUserStore } from '/@/store/modules/user';
-  // const userStore = useUserStore();
+  import { useUserStore } from '/@/store/modules/user';
+  const userStore = useUserStore();
   const { prefixCls } = useDesign('workbench-wrapper');
-  // const UserInfo = userStore.getUserInfo as any;
-  // const userName = ref(UserInfo.realName);
-  // const deptName = ref(UserInfo.user.dept.deptName);
-  // const userNameFirst = ref(UserInfo.realName.slice(0, 1));
-  // const phoneNumber = ref(UserInfo.user.phonenumber);
-  // const loginDate = ref(UserInfo.user.loginDate);
-  const userName = ref('章三');
-  const deptName = ref('部门');
-  const userNameFirst = ref('章');
-  const phoneNumber = ref('1234567');
-  const loginDate = ref('2022-12-15');
+  const UserInfo = userStore.getUserInfo as any;
+  const userName = ref(UserInfo.realName);
+  const deptName = ref(UserInfo.user.dept.deptName);
+  const userNameFirst = ref(UserInfo.realName.slice(0, 1));
+  const phoneNumber = ref(UserInfo.user.phonenumber);
+  const loginDate = ref(UserInfo.user.loginDate);
+  //   const userName = ref('章三');
+  //   const deptName = ref('部门');
+  //   const userNameFirst = ref('章');
+  //   const phoneNumber = ref('1234567');
+  //   const loginDate = ref('2022-12-15');
+  //
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{name-space}-workbench-wrapper';
