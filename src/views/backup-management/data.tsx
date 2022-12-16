@@ -65,13 +65,26 @@ export const schemaDescItem: DescItem[] = [
     label: '重大危险源类型',
   },
 ];
-// Ensure
+
 export const backupColumns: BasicColumn[] = [
   {
     title: '设备名称',
     dataIndex: 'name',
   },
+  {
+    title: '所在区域',
+    dataIndex: 'productName',
+  },
+  {
+    title: '所属装置',
+    dataIndex: 'person',
+  },
+  {
+    title: '是否特种设备',
+    dataIndex: 'time',
+  },
 ];
+
 export const backupFormSchema: FormSchema[] = [
   {
     field: 'name',

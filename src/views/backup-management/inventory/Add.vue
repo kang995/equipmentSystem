@@ -1,7 +1,9 @@
 <template>
   <PageWrapper contentBackground contentClass="p-4">
     <BasicForm @register="register">
-      <template #tableSlot> <BasicTable @register="registerTable" /></template>
+      <template #tableSlot>
+        <AFormItemRest> <BasicTable @register="registerTable" /> </AFormItemRest
+      ></template>
     </BasicForm>
   </PageWrapper>
 </template>
@@ -13,6 +15,8 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import { BasicTable, useTable } from '/@/components/Table';
   import { ref } from 'vue';
+  import { Form } from 'ant-design-vue';
+  const AFormItemRest = Form.ItemRest;
 
   const { closeCurrent } = useTabs();
   const router = useRouter();

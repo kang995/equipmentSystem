@@ -155,12 +155,12 @@
   }
   function getAdd() {
     router.push({
-      // name: 'specialEquipmentAdd',
+      name: 'AddBackup',
     });
   }
   function handleEdit() {
     router.push({
-      // name: 'specialEquipmentEdit',
+      name: 'EditBackup',
     });
   }
   function handleOutbound() {

@@ -20,7 +20,26 @@ const setup: AppRouteModule = {
         title: '备件管理',
       },
     },
-
+    {
+      path: 'add/backup',
+      name: 'AddBackup',
+      component: () => import('../../../views/backup-management/backup/Add.vue'),
+      meta: {
+        title: '备件新增',
+        hideMenu: true,
+        currentActiveMenu: '/backup-management/backup',
+      },
+    },
+    {
+      path: 'edit/backup',
+      name: 'EditBackup',
+      component: () => import('../../../views/backup-management/backup/Edit.vue'),
+      meta: {
+        title: '备件编辑',
+        hideMenu: true,
+        currentActiveMenu: '/backup-management/backup',
+      },
+    },
     {
       path: 'backup/details',
       name: 'BackupDetails',
@@ -28,6 +47,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '备件详情',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/backup',
       },
     },
     {
@@ -46,6 +66,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '新增出库单',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/inbound-and-outbound',
       },
     },
     {
@@ -56,6 +77,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '新增入库单',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/inbound-and-outbound',
       },
     },
     {
@@ -66,6 +88,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '出库详情',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/inbound-and-outbound',
       },
     },
     {
@@ -76,6 +99,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '入库详情',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/inbound-and-outbound',
       },
     },
 
@@ -94,6 +118,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '新增仓库',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/backup-details',
       },
     },
     {
@@ -103,6 +128,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '编辑仓库',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/backup-details',
       },
     },
     //Inventory
@@ -121,6 +147,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '新增盘点',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/inventory',
       },
     },
     {
@@ -130,6 +157,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '盘点详情',
         hideMenu: true,
+        currentActiveMenu: '/backup-management/inventory',
       },
     },
   ],
