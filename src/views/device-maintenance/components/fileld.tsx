@@ -4,11 +4,18 @@ import { DescItem } from '/@/components/Description';
 import { BasicTable, useTable, TableAction } from '/@/components/Table';
 
 //计划详情
-export function MaintainDetail(state: string): DescItem[] {
+export function MaintainDetail(state: string, mode: string): DescItem[] {
+  console.log('模块', mode);
   return [
     {
       field: 'applyUserName',
       label: '保养计划编号',
+      show: (data) => mode === '1' || mode === '2',
+    },
+    {
+      field: 'applyUserName',
+      label: '检修计划编号',
+      show: (data) => mode === '3' || mode === '4',
     },
     {
       field: 'applyUserName',
@@ -24,7 +31,13 @@ export function MaintainDetail(state: string): DescItem[] {
     },
     {
       field: 'applyUserName',
-      label: '保养计划名称',
+      label: '计划名称',
+    },
+    //
+    {
+      field: 'applyUserName',
+      label: '检修类型',
+      show: (data) => mode === '3' || mode === '4',
     },
     {
       field: 'applyUserName',
@@ -70,22 +83,44 @@ export function MaintainDetail(state: string): DescItem[] {
       field: 'applyUserName',
       label: '处理人',
     },
+    //
+    {
+      field: 'applyUserName',
+      label: '检修方案',
+      show: (data) => mode === '3' || mode === '4',
+    },
+    {
+      field: 'applyUserName',
+      label: '安全措施',
+      show: (data) => mode === '3' || mode === '4',
+    },
+    {
+      field: 'applyUserName',
+      label: '检修质量标准',
+      show: (data) => mode === '3' || mode === '4',
+    },
+
     {
       field: 'applyUserName',
       label: '保养类型',
+      show: (data) => mode === '1' || mode === '2',
     },
     {
       field: 'applyUserName',
       label: '保养标椎',
+      show: (data) => mode === '1' || mode === '2',
     },
     {
       field: 'applyUserName',
       label: '保养内容',
+      show: (data) => mode === '1' || mode === '2',
     },
     {
       field: 'applyUserName',
       label: '安全规则',
+      show: (data) => mode === '1' || mode === '2',
     },
+
     {
       field: 'applyUserName',
       label: '备注',
@@ -99,17 +134,17 @@ export function MaintainDetail(state: string): DescItem[] {
       render: () => {
         return <span style={titleStyle}>审核信息</span>;
       },
-      show: (data) => (state === '3' || state === '4' ? true : false),
+      show: (data) => state === '3' || state === '4',
     },
     {
       field: 'applyUserName',
       label: '审核结果',
-      show: (data) => (state === '3' || state === '4' ? true : false),
+      show: (data) => state === '3' || state === '4',
     },
     {
       field: 'applyUserName',
       label: '原因（备注）',
-      show: (data) => (state === '3' || state === '4' ? true : false),
+      show: (data) => state === '3' || state === '4',
     },
   ];
 }
@@ -141,7 +176,8 @@ export function tableDeviceColumns(): BasicColumn[] {
 }
 
 //关联工单
-export function tableColumns(): BasicColumn[] {
+export function tableColumns(mode: string): BasicColumn[] {
+  console.log('mode', mode);
   return [
     {
       title: '工单编号',
@@ -150,6 +186,9 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '创建时间',
       dataIndex: 'time',
+      ifShow: ({}) => {
+        return mode !== '3';
+      },
     },
     {
       title: '计划负责人',
@@ -163,10 +202,13 @@ export function tableColumns(): BasicColumn[] {
       title: '工单执行时间',
       dataIndex: 'status',
     },
-    // {
-    //   title: '关联计划',
-    //   dataIndex: 'status',
-    // },
+    {
+      title: '关联计划',
+      dataIndex: 'status',
+      ifShow: ({}) => {
+        return mode !== '3';
+      },
+    },
     {
       title: '工单状态',
       dataIndex: 'status',
@@ -174,6 +216,16 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '工单延期',
       dataIndex: 'status',
+      ifShow: ({}) => {
+        return mode !== '3';
+      },
+    },
+    {
+      title: '是否延期',
+      dataIndex: 'status',
+      ifShow: ({}) => {
+        return mode === '3';
+      },
     },
     {
       title: '完成时间',

@@ -186,6 +186,9 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'RadioGroup',
       label: '工单生成及下发',
       required: true,
+      colProps: {
+        span: 18,
+      },
       componentProps: {
         options: [
           {
@@ -202,6 +205,27 @@ export function getCommonFormSchema(): FormSchema[] {
           },
         ],
       },
+    },
+    {
+      field: 'num',
+      component: 'InputNumber',
+      label: '',
+      colProps: {
+        span: 2,
+      },
+      componentProps: {
+        addonAfter: '条',
+      },
+      // componentProps: ({ formActionType }) => {
+      //   return {
+      //     onChange: () => {
+      //       const { setFieldsValue } = formActionType;
+      //       setFieldsValue({
+      //         evaluationLevelHigh: null,
+      //       });
+      //     },
+      //   };
+      // },
     },
     {
       field: 'task2',

@@ -76,15 +76,16 @@
   //新增
   function handleAdd() {
     router.push({
-      // name: 'maintainAdd',
+      name: 'planManagementAdd',
     });
   }
   //详情
   function handleDetails() {
     router.push({
-      // name: 'planDetails',
+      name: 'planManagementDetails',
       query: {
-        flag: 'plan',
+        status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
+        mode: '3', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
       },
     });
   }

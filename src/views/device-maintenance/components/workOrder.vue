@@ -28,17 +28,19 @@
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './fileld';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
   const router = useRouter();
+  const route = useRoute();
+  const mode = route.query?.mode as string;
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
   const dataSource = ref([{}, {}]);
   const [register] = useTable({
     dataSource: dataSource,
     // api: thresholdListApi,
-    columns: tableColumns(),
+    columns: tableColumns(mode),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具

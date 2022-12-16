@@ -61,7 +61,8 @@
     router.push({
       name: 'maintainDetails',
       query: {
-        flag: 'audit',
+        status: '5', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
+        mode: '2', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
       },
     });
   }

@@ -20,7 +20,37 @@ const setup: AppRouteModule = {
         title: '检修计划管理',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'planManagement-add',
+          name: 'planManagementAdd',
+          component: () =>
+            import('../../../views/device-service/service-plan-management/module/Add.vue'),
+          meta: {
+            title: '新增检修计划',
+          },
+        },
+        {
+          path: 'planManagement-edit',
+          name: 'planManagementEdit',
+          component: () =>
+            import('../../../views/device-service/service-plan-management/module/Edit.vue'),
+          meta: {
+            title: '编辑检修计划',
+          },
+        },
+        {
+          path: 'planManagement-details',
+          name: 'planManagementDetails',
+          component: () =>
+            import(
+              '../../../views/device-service/service-plan-management/module/managementDetails.vue'
+            ),
+          meta: {
+            title: '检修计划详情',
+          },
+        },
+      ],
     },
     {
       path: 'service-plan-audit',
@@ -30,7 +60,17 @@ const setup: AppRouteModule = {
         title: '检修计划审核',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'planAudit-details',
+          name: 'planAuditDetails',
+          component: () =>
+            import('../../../views/device-service/service-plan-audit/planAuditDetails.vue'),
+          meta: {
+            title: '检修计划详情',
+          },
+        },
+      ],
     },
     {
       path: 'service-workOrder',
