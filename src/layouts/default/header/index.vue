@@ -39,6 +39,8 @@
 
       <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />
 
+      <NotifyIcon :class="`${prefixCls}-action__item notify-item`" />
+
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
 
       <AppLocalePicker
@@ -74,7 +76,14 @@
   import { SettingButtonPositionEnum } from '/@/enums/appEnum';
   import { AppLocalePicker } from '/@/components/Application';
 
-  import { UserDropDown, LayoutBreadcrumb, FullScreen, Notify, ErrorAction } from './components';
+  import {
+    UserDropDown,
+    LayoutBreadcrumb,
+    FullScreen,
+    Notify,
+    ErrorAction,
+    NotifyIcon,
+  } from './components';
   import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
 
@@ -93,6 +102,7 @@
       AppLocalePicker,
       FullScreen,
       Notify,
+      NotifyIcon,
       AppSearch,
       ErrorAction,
       SettingDrawer: createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
