@@ -10,7 +10,7 @@
         <TabPane :tab="item.name" />
       </template>
     </Tabs>
-    <component :is="activeComponent" :activeKey="activeKey" />
+    <component :is="activeComponent" />
   </PageWrapper>
 </template>
 
