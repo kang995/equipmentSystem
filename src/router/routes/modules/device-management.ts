@@ -27,6 +27,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '装置设置详情',
         hideMenu: true,
+        currentActiveMenu: '/device-management/installation',
       },
     },
     {
@@ -44,6 +45,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '机械设备详情静',
         hideMenu: true,
+        currentActiveMenu: '/device-management/mechanics',
       },
     },
     {
@@ -53,6 +55,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '机械设备详情动',
         hideMenu: true,
+        currentActiveMenu: '/device-management/mechanics',
       },
     },
     {
@@ -65,16 +68,7 @@ const setup: AppRouteModule = {
         hideMenu: true,
       },
     },
-    {
-      path: 'failure-detail',
-      name: 'FailureDetail',
-      component: () =>
-        import('../../../views/device-management/record/action-page/FailureDetail.vue'),
-      meta: {
-        title: '故障详情',
-        hideMenu: true,
-      },
-    },
+
     {
       path: 'timing-detection/detail',
       name: 'TimingDetectionDetail',
@@ -120,6 +114,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '特种设备详情静',
         hideMenu: true,
+        currentActiveMenu: '/device-management/special-equipment',
       },
     },
     {
@@ -129,6 +124,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '特种设备详情动',
         hideMenu: true,
+        currentActiveMenu: '/device-management/special-equipment',
       },
     },
     {
@@ -138,6 +134,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '新建特种设备',
         hideMenu: true,
+        currentActiveMenu: '/device-management/special-equipment',
       },
     },
     {
@@ -147,6 +144,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '新建检测记录',
         hideMenu: true,
+        currentActiveMenu: '/device-management/special-equipment',
       },
     },
     {
@@ -156,6 +154,7 @@ const setup: AppRouteModule = {
       meta: {
         title: '编辑特种设备',
         hideMenu: true,
+        currentActiveMenu: '/device-management/special-equipment',
       },
     },
   ],

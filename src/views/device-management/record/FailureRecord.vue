@@ -30,7 +30,7 @@
   const dataSource = ref([{}]);
   function handleDetails() {
     router.push({
-      name: 'FailureDetail',
+      name: 'faultDetails',
     });
   }
 </script>

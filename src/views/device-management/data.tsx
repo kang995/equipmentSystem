@@ -225,6 +225,7 @@ export const installationSchema: DescItem[] = [
     },
   },
 ];
+
 //新建特种设备
 export const schemasAdd: FormSchema[] = [
   {
@@ -421,7 +422,22 @@ export const schemasAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入地理位置',
     },
+
     //选择经纬度
+  },
+  {
+    field: 'warehouseId',
+    label: ' ',
+    component: 'ApiSelect',
+    slot: 'position',
+
+    // componentProps: {
+    //   placeholder: '请选择存放位置',
+    //   api: getWareHouseListApi,
+    //   resultField: 'records',
+    //   labelField: 'name',
+    //   valueField: 'id',
+    // },
   },
   {
     field: 'attachment',
@@ -598,6 +614,110 @@ export const formSchema: FormSchema[] = [
     label: '备件姓名',
     componentProps: {
       placeholder: '请输入备件姓名',
+    },
+  },
+];
+// FailureDetail 故障详情
+export const FailureDetail: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '装置名称',
+  },
+  {
+    field: 'riskLevelName',
+    label: '所属项目',
+  },
+  {
+    field: 'projectName',
+    label: '所属项目组成部分',
+  },
+
+  {
+    field: 'districtName',
+    label: '所属区域',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '类型',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '监测方向',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '重大危险源级别',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '地理位置',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '建筑状态',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '占地面积',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '建筑面积',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '建筑结构',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '层高',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '火灾危险性类别',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '耐火级别',
+  },
+  {
+    field: 'basicFormat',
+    label: '基本信息',
+    span: 4,
+    render: (val: string) => {
+      return <div style="overflow: auto; max-height: 200px" v-html={val}></div>;
+    },
+  },
+  {
+    field: 'hazardTypeText',
+    label: '图纸',
+    span: 4,
+  },
+  {
+    field: 'affixList',
+    label: '附件',
+    span: 4,
+    render: (data) => {
+      if (data) {
+        return (
+          <div>
+            {data.map((item) => {
+              return (
+                <div>
+                  <SvgIcon name="gonggong_fujian" class={'mr-2'} />
+                  <span style={'color:#61687C'} class={'mr-6'}>
+                    {item.name}
+                  </span>
+                  <a href={item.url} target="_blank">
+                    <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
+                    <span style={'color:#4D79FF'}>下载</span>
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
     },
   },
 ];

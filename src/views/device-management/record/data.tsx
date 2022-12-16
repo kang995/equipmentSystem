@@ -1,6 +1,9 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import ClickButton from './action-page/ClickButton.vue';
+import { useRoute } from 'vue-router';
+import { Image, Tag } from 'ant-design-vue';
+
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -120,6 +123,7 @@ export const installationFormSchema: FormSchema[] = [
     },
   },
 ];
+
 //基本信息  机械设备静
 export const schemaDescItem: DescItem[] = [
   {
@@ -140,8 +144,10 @@ export const schemaDescItem: DescItem[] = [
     render: (data) => {
       return (
         <div>
-          <ClickButton name={'MechanicsDetailsMove'} />
+          {/* /静设备时跳转到机械设备详情动 路由name: MechanicsDetailsMove  state='1' */}
+          <ClickButton name={'MechanicsDetailsMove'} state={'1'} />
         </div>
+        //静设备时跳转到机械设备详情静  路由name: MechanicsDetails  state='2'
       );
     },
   },
@@ -202,7 +208,7 @@ export const schemaDescItem: DescItem[] = [
     label: '附件',
   },
 ];
-//schemaDescItemMove  特种设备动
+//schemaDescItemMove  特种设备静
 export const schemaDescItemMove: DescItem[] = [
   {
     field: 'dangerName',
@@ -218,12 +224,14 @@ export const schemaDescItemMove: DescItem[] = [
   },
   {
     field: 'aaaa',
-    label: '设备性质',
+    label: '设备性质1',
     render: (data) => {
       return (
+        //静设备时跳转到特种设备详情动  路由name: specialEquipmentDetailsMove  state='4'
         <div>
-          <ClickButton name={'specialEquipmentDetailsMove'} />
+          <ClickButton name={'specialEquipmentDetailsMove'} state={'4'} />
         </div>
+        //东设备时跳转到特种设备详情静  路由name: specialEquipmentDetails  state='3'
       );
     },
   },
@@ -455,6 +463,52 @@ export const failureFormSchema: FormSchema[] = [
     componentProps: {
       placeholder: '请选择处理状态',
     },
+  },
+];
+//巡检报告
+export const patrolInspectionReportSchema: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '巡检任务编号',
+  },
+  {
+    field: 'districtName',
+    label: '巡检开始时间',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '巡检结束时间',
+  },
+  {
+    field: 'riskLevelName',
+    label: '巡检状态',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '巡检时长',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '巡检结果',
+  },
+  {
+    field: 'projectName',
+    label: '巡检班组',
+  },
+
+  {
+    field: 'districtName',
+    label: '巡检开始时间',
+  },
+
+  {
+    field: 'hazardTypeText',
+    label: '负责人',
+  },
+
+  {
+    field: 'hazardTypeText',
+    label: '巡检人员',
   },
 ];
 // 检修记录
