@@ -37,7 +37,7 @@
   const exportLoading = ref(false);
 
   const dataSource = ref([{}]);
-  const [registerModal, { openModal: openModal }] = useModal();
+  const [registerModal, { openModal: openModal, closeModal }] = useModal();
 
   const [register] = useTable({
     dataSource: dataSource,
@@ -63,7 +63,10 @@
   function getModal() {
     openModal(true);
   }
-  function handleOk() {}
+  function handleOk(data) {
+    console.log('data: ', data);
+    closeModal();
+  }
   function handleDel() {}
 </script>
 <style scoped lang="less">
