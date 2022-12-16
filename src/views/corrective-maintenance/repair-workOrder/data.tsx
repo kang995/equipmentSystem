@@ -21,8 +21,8 @@ export const achieveList: TabItem[] = [
   },
 ];
 //根据状态判断当前用户身份
-const identity = '3'; //1负责人 2执行人 3具有两者身份
 (() => {
+  const identity = '3'; //1负责人 2执行人 3具有两者身份
   if (identity === '1') {
     achieveList.splice(1, 1);
   } else if (identity === '2') {

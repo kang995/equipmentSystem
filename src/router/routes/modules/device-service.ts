@@ -80,7 +80,17 @@ const setup: AppRouteModule = {
         title: '检修工单',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'overhaul-details',
+          name: 'overhaulDetail',
+          component: () =>
+            import('../../../views/device-service/service-workOrder/module/overhaulDetail.vue'),
+          meta: {
+            title: '检修工单详情',
+          },
+        },
+      ],
     },
     {
       path: 'workOrder-check',

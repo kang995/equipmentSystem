@@ -1,4 +1,35 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { DescItem } from '/@/components/Description';
+import chargeOrder from './chargeOrder/index.vue';
+import executeOrder from './executeOrder/index.vue';
+import { Image } from 'ant-design-vue';
+export interface TabItem {
+  key: string;
+  name: string;
+  component: any;
+}
+export const achieveList: TabItem[] = [
+  {
+    key: '1',
+    name: '负责工单',
+    component: chargeOrder,
+  },
+  {
+    key: '2',
+    name: '执行工单',
+    component: executeOrder,
+  },
+];
+//根据状态判断当前用户身份
+(() => {
+  const identity = '3'; //1负责人 2执行人 3具有两者身份
+  if (identity === '1') {
+    achieveList.splice(1, 1);
+  } else if (identity === '2') {
+    achieveList.splice(0, 1);
+    achieveList[0].key = '1';
+  }
+})();
 
 //列表
 export function tableColumns(): BasicColumn[] {
@@ -111,3 +142,117 @@ export function getFormSchema(): FormSchema[] {
     },
   ];
 }
+
+// 工单信息、检修明细
+export function WorkDetail(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>工单信息</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '工单编号',
+    },
+    {
+      field: 'applyUserName',
+      label: '关联检修计划',
+    },
+    {
+      field: 'applyUserName',
+      label: '计划负责人',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单创建时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单执行时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单状态',
+    },
+    {
+      field: 'applyUserName',
+      label: '处理部门',
+    },
+    {
+      field: 'applyUserName',
+      label: '处理人',
+    },
+    {
+      field: 'applyUserName',
+      label: '完成时间',
+      span: 3,
+    },
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>检修明细</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '检修类型',
+    },
+    {
+      field: 'applyUserName',
+      label: '检修方案',
+    },
+    {
+      field: 'applyUserName',
+      label: '安全措施',
+    },
+    {
+      field: 'applyUserName',
+      label: '检修质量标椎',
+    },
+    {
+      field: 'applyUserName',
+      label: '备注',
+      span: 3,
+    },
+  ];
+}
+//检修设备
+export function deviceTableColumns(): BasicColumn[] {
+  return [
+    {
+      title: '设备名称',
+      dataIndex: 'name',
+    },
+    {
+      title: '所在区域',
+      dataIndex: 'name',
+    },
+    {
+      title: '所在装置',
+      dataIndex: 'name',
+    },
+    {
+      title: '是否特种设备',
+      dataIndex: 'name',
+    },
+  ];
+}
+
+const titleStyle: any = {
+    paddingTop: '16px',
+    fontSize: '15px',
+    fontWeight: '600',
+    position: 'relative',
+    left: '0px',
+  },
+  ImageBox: any = {
+    width: '80px',
+  };
