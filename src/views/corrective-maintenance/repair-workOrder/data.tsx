@@ -3,7 +3,6 @@ import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
-
 export interface TabItem {
   key: string;
   name: string;
