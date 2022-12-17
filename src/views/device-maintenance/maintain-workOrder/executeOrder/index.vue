@@ -25,13 +25,17 @@
       </div>
     </template>
   </BasicTable>
+  <maintainModel @register="IssuedModal" />
 </template>
 <script setup lang="ts">
+  import { useModal } from '/@/components/Modal';
+  import maintainModel from '../module/maintainModal.vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { tableColumns, getFormSchema } from '../data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  const [IssuedModal, { openModal: openMaintainModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
@@ -73,23 +77,24 @@
   //详情
   function handleDetails() {
     router.push({
-      name: 'overhaulDetail',
+      name: 'workOrderDetail',
       query: {
         identity: '2', //负责人：1、执行人：2
-        status: '4', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
       },
     });
   }
   //申请延期
   function handlePostpone() {
-    router.push({
-      name: 'overhaulDetail',
-      query: {
-        identity: '2', //负责人：1、执行人：2
-        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
-        isShow: 'true',
-      },
-    });
+    openMaintainModal(true, {});
+    // router.push({
+    //   name: 'workOrderDetail',
+    //   query: {
+    //     identity: '2', //负责人：1、执行人：2
+    //     status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+    //     isShow: 'true',
+    //   },
+    // });
   }
 
   function exportTable() {}

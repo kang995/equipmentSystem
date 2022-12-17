@@ -6,8 +6,8 @@
         :stopButtonPropagation="true"
         :actions="[
           {
-            label: '申请延期',
-            onClick: handlePostpone.bind(null, record),
+            label: '重新下发',
+            onClick: handleAgain.bind(null, record),
           },
           {
             label: '详情',
@@ -25,13 +25,17 @@
       </div>
     </template>
   </BasicTable>
+  <basicModel @register="IssuedModal" />
 </template>
 <script setup lang="ts">
+  import { useModal } from '/@/components/Modal';
+  import basicModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { tableColumns, getFormSchema } from '../data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
@@ -70,28 +74,20 @@
       },
     },
   });
-  //详情
+
   function handleDetails() {
     router.push({
-      name: 'overhaulDetail',
+      name: 'workOrderDetail',
       query: {
-        identity: '2', //负责人：1、执行人：2
-        status: '4', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+        identity: '1', //负责人：1、执行人：2
+        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5、未开始：6、计划终止：7
       },
     });
   }
-  //申请延期
-  function handlePostpone() {
-    router.push({
-      name: 'overhaulDetail',
-      query: {
-        identity: '2', //负责人：1、执行人：2
-        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
-        isShow: 'true',
-      },
-    });
+  //重新下发
+  function handleAgain() {
+    openIssuedModal(true, {});
   }
-
   function exportTable() {}
 </script>
 <style scoped lang="less"></style>

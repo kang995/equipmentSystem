@@ -20,8 +20,10 @@
   import { Tabs } from 'ant-design-vue';
   import { useRoute } from 'vue-router';
   import workInfo from './workInfo.vue';
-  import workPart from './workPart.vue';
-  import flowDoc from './flowDoc.vue';
+  // import workPart from './workPart.vue';
+  // import flowDoc from './flowDoc.vue';
+  import workPart from '/@/views/device-maintenance/maintain-workOrder/module/workPart.vue';
+  import flowDoc from '/@/views/device-maintenance/maintain-workOrder/module/flowDoc.vue';
   const route = useRoute();
   const status = route.query?.status as string;
   const ATabs = Tabs,

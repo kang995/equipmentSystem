@@ -100,7 +100,17 @@ const setup: AppRouteModule = {
         title: '检修工单验收',
         hideChildrenInMenu: true,
       },
-      children: [],
+      children: [
+        {
+          path: 'check-details',
+          name: 'checkDetail',
+          component: () =>
+            import('../../../views/device-service/workOrder-check/module/checkDetail.vue'),
+          meta: {
+            title: '检修工单验收详情',
+          },
+        },
+      ],
     },
   ],
 };

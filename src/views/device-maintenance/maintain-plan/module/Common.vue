@@ -6,7 +6,7 @@
         <BasicTable @register="registerTable">
           <template #tableTitle>
             <div class="flex flex-1 space-x-4">
-              <a-button type="primary">选择设备</a-button>
+              <a-button type="primary" @click="handleModal">选择设备</a-button>
             </div>
           </template>
           <template #action="{ record }">
@@ -31,6 +31,7 @@
         </div>
       </div>
     </Card>
+    <selectDevice @register="registerDeviceModal" />
   </PageWrapper>
 </template>
 
@@ -42,7 +43,10 @@
   import { getCommonFormSchema, planTableColumns } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { useModal } from '/@/components/Modal';
+  import selectDevice from '/@/views/backup-management/components/SelectDevice.vue';
   const router = useRouter();
+  const [registerDeviceModal, { openModal: openDeviceModal }] = useModal();
   const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
@@ -75,6 +79,10 @@
       slots: { customRender: 'action' },
     },
   });
+  //选择设备
+  function handleModal() {
+    openDeviceModal(true, {});
+  }
   //详情
   function handleDetails() {
     router.push({

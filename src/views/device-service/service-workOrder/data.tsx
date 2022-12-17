@@ -245,6 +245,83 @@ export function deviceTableColumns(): BasicColumn[] {
     },
   ];
 }
+//关联故障-故障详情
+export function WorkInfoSchema(): DescItem[] {
+  return [
+    {
+      field: 'applyUserName',
+      label: '故障单号',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障状态',
+    },
+    {
+      field: 'applyUserName',
+      label: '上报人',
+    },
+    {
+      field: 'applyUserName',
+      label: '联系电话',
+    },
+    {
+      field: 'applyUserName',
+      label: '上报时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '发现故障时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '关联设备',
+    },
+    {
+      field: 'applyUserName',
+      label: '所属装置设施',
+    },
+    {
+      field: 'applyUserName',
+      label: '地理位置',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障类别',
+    },
+    {
+      field: 'applyUserName',
+      label: '紧急程度',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障描述',
+    },
+    {
+      field: 'applyUserName',
+      label: '表新症状',
+    },
+    {
+      field: 'applyUserName',
+      label: '故障原因',
+    },
+    {
+      field: 'applyUserName',
+      label: '采取措施',
+    },
+    {
+      field: 'applyUserName',
+      label: '图片',
+      render: () => {
+        return (
+          <Image
+            style={ImageBox}
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+          />
+        );
+      },
+    },
+  ];
+}
 
 const titleStyle: any = {
     paddingTop: '16px',

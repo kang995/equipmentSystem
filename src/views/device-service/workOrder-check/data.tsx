@@ -1,4 +1,5 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { DescItem } from '/@/components/Description';
 import checking from './checking/index.vue';
 import checked from './checked/index.vue';
 
@@ -133,3 +134,167 @@ export function getFormSchema(): FormSchema[] {
     },
   ];
 }
+
+//工单信息、检修明细
+export function workOrderlSchema(): DescItem[] {
+  return [
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>工单信息</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '工单编号',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单状态',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单创建时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '工单执行之时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '负责人',
+    },
+    {
+      field: 'applyUserName',
+      label: '关联保养计划',
+    },
+    {
+      field: 'applyUserName',
+      label: '处理部门',
+    },
+    {
+      field: 'applyUserName',
+      label: '处理人',
+    },
+    {
+      field: 'applyUserName',
+      label: '下发时间',
+    },
+    {
+      field: 'applyUserName',
+      label: '完成时间',
+      span: 3,
+    },
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>检修明细</span>;
+      },
+    },
+    {
+      field: 'applyUserName',
+      label: '设备名称',
+    },
+    {
+      field: 'applyUserName',
+      label: '所属装置设施',
+    },
+    {
+      field: 'applyUserName',
+      label: '地理位置',
+    },
+    {
+      field: 'applyUserName',
+      label: '安全措施',
+    },
+    {
+      field: 'applyUserName',
+      label: '检修方案',
+    },
+    {
+      field: 'applyUserName',
+      label: '检修质量标准',
+    },
+  ];
+}
+//检修设备
+export function deviceTableColumns(): BasicColumn[] {
+  return [
+    {
+      title: '设备名称',
+      dataIndex: 'name',
+    },
+    {
+      title: '所在区域',
+      dataIndex: 'name',
+    },
+    {
+      title: '所在装置',
+      dataIndex: 'name',
+    },
+    {
+      title: '是否特种设备',
+      dataIndex: 'name',
+    },
+  ];
+}
+//验收结果提交
+export function getResultFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'result',
+      component: 'RadioGroup',
+      label: '验收结果',
+      required: true,
+      componentProps: {
+        options: [
+          {
+            label: '通过',
+            value: '1',
+          },
+          {
+            label: '拒绝',
+            value: '2',
+          },
+        ],
+      },
+    },
+    {
+      field: 'attachment',
+      component: 'Upload',
+      label: '图片',
+      required: true,
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+    },
+    {
+      field: 'name1',
+      component: 'InputTextArea',
+      label: '验收内容（备注）',
+      componentProps: {
+        placeholder: '请输入验收内容（备注）',
+        rows: 4,
+      },
+    },
+  ];
+}
+const titleStyle: any = {
+    paddingTop: '16px',
+    fontSize: '15px',
+    fontWeight: '600',
+    position: 'relative',
+    left: '0px',
+  },
+  ImageBox: any = {
+    width: '80px',
+  };

@@ -119,6 +119,7 @@
       default: '',
     },
   });
+  const emit = defineEmits(['eventChange']);
   onMounted(() => {
     isShow && (apply.value = true);
     isSbumit && (SubmitAccept.value = true);
@@ -161,6 +162,7 @@
   const SubmitAccept = ref<boolean>(false);
   function handleAgainSubmit() {
     SubmitAccept.value = true;
+    emit('eventChange', false);
   }
   const [registerSubmitAccept, {}] = useForm({
     schemas: getSubmitAcceptFormSchema(), //表单配置

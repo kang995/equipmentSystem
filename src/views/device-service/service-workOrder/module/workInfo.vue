@@ -112,6 +112,7 @@
       default: '',
     },
   });
+  const emit = defineEmits(['eventChange']);
   const router = useRouter();
   const route = useRoute();
   const isShow = route.query?.isShow as string;
@@ -133,6 +134,7 @@
   const SubmitAccept = ref<boolean>(false);
   function handleAgainSubmit() {
     SubmitAccept.value = true;
+    emit('eventChange', false);
   }
   //取消
   function handleClose() {

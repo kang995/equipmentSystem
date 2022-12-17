@@ -1,6 +1,36 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-import { BasicTable, useTable, TableAction } from '/@/components/Table';
+// import { BasicTable, useTable, TableAction } from '/@/components/Table';
+import chargeOrder from './chargeOrder/index.vue';
+import executeOrder from './executeOrder/index.vue';
+
+export interface TabItem {
+  key: string;
+  name: string;
+  component: any;
+}
+export const achieveList: TabItem[] = [
+  {
+    key: '1',
+    name: '负责工单',
+    component: chargeOrder,
+  },
+  {
+    key: '2',
+    name: '执行工单',
+    component: executeOrder,
+  },
+];
+//根据状态判断当前用户身份
+(() => {
+  const identity = '3'; //1负责人 2执行人 3具有两者身份
+  if (identity === '1') {
+    achieveList.splice(1, 1);
+  } else if (identity === '2') {
+    achieveList.splice(0, 1);
+    achieveList[0].key = '1';
+  }
+})();
 
 export function tableColumns(): BasicColumn[] {
   return [
@@ -113,9 +143,7 @@ export function getFormSchema(): FormSchema[] {
 }
 
 //工单信息
-export function WorkDetail(status: string): DescItem[] {
-  const isShow = status === '3' || status === '4' || status === '5'; //待验收、验收拒绝、验收通过
-  const isShow1 = status === '2'; //延期审核
+export function WorkDetail(): DescItem[] {
   return [
     {
       field: '',
@@ -188,150 +216,63 @@ export function WorkDetail(status: string): DescItem[] {
       label: '安全规则',
       span: 3,
     },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>保养设备</span>;
-      },
-    },
-    {
-      field: 'storageTankList',
-      label: '',
-      span: 3,
-      // show: (data: any) => {
-      //   return data.hazardType == '1';
-      // },
-      //表格
-      render: (data) => {
-        // if (data) {
-        console.log('data: ', data);
-        return (
-          <div>
-            <BasicTable
-              pagination={false}
-              dataSource={data}
-              bordered={true}
-              columns={keepDeviceColumns()}
-              style={'color:#61687C'}
-              class={'mr-6'}
-            ></BasicTable>
-          </div>
-        );
-        // }
-      },
-    },
     // {
     //   field: '',
     //   label: '',
     //   labelMinWidth: 0,
     //   span: 3,
     //   render: () => {
-    //     return <span style={titleStyle}>重新下发</span>;
-    //   }
+    //     return <span style={titleStyle}>保养设备</span>;
+    //   },
     // },
-
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>延期申请</span>;
-      },
-      show: (data) => (isShow1 ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '原截止时间',
-      show: (data) => (isShow1 ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '延期时间',
-      show: (data) => (isShow1 ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '延期原因',
-      show: (data) => (isShow1 ? true : false),
-    },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>保养结果</span>;
-      },
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '处理情况',
-      span: 3,
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: 'imgArr',
-      label: '图片',
-      span: 3,
-      show: (data) => (isShow ? true : false),
-      render: () => {
-        return (
-          <>
-            {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
-          </>
-        );
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '保养完成时间',
-      span: 3,
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '验收人',
-      span: 3,
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>验收结果</span>;
-      },
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '验收结果',
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: 'applyUserName',
-      label: '验收内容',
-      span: 3,
-      show: (data) => (isShow ? true : false),
-    },
-    {
-      field: 'imgArr1',
-      label: '图片',
-      show: (data) => (isShow ? true : false),
-      render: () => {
-        return (
-          <>
-            {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
-          </>
-        );
-      },
-    },
+    // {
+    //   field: 'storageTankList',
+    //   label: '',
+    //   span: 3,
+    //   //表格
+    //   render: (data) => {
+    //     // if (data) {
+    //     console.log('data: ', data);
+    //     return (
+    //       <div>
+    //         <BasicTable
+    //           pagination={false}
+    //           dataSource={data}
+    //           bordered={true}
+    //           columns={keepDeviceColumns()}
+    //           style={'color:#61687C'}
+    //           class={'mr-6'}
+    //         ></BasicTable>
+    //       </div>
+    //     );
+    //     // }
+    //   },
+    // },
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 3,
+    //   render: () => {
+    //     return <span style={titleStyle}>延期申请</span>;
+    //   },
+    //   show: (data) => (isShow2 ? true : false),
+    // },
+    // {
+    //   field: 'applyUserName',
+    //   label: '原截止时间',
+    //   show: (data) => (isShow2 ? true : false),
+    // },
+    // {
+    //   field: 'applyUserName',
+    //   label: '延期时间',
+    //   show: (data) => (isShow2 ? true : false),
+    // },
+    // {
+    //   field: 'applyUserName',
+    //   label: '延期原因',
+    //   show: (data) => (isShow2 ? true : false),
+    // },
   ];
 }
 //保养设备
@@ -356,63 +297,63 @@ export function keepDeviceColumns(): BasicColumn[] {
   ];
 }
 //工单信息-重新下发
-export function getAgainFormSchema(): FormSchema[] {
-  return [
-    {
-      field: 'name',
-      component: 'RadioGroup',
-      label: '任务指派',
-      required: true,
-      componentProps: {
-        options: [
-          {
-            label: '人员',
-            value: '1',
-          },
-          {
-            label: '岗位',
-            value: '2',
-          },
-        ],
-      },
-    },
-    {
-      field: 'name',
-      component: 'ApiSelect',
-      label: '处理部门',
-      required: true,
-      colProps: {
-        span: 14,
-      },
-      componentProps: {
-        placeholder: '请选择处理部门',
-      },
-    },
-    {
-      field: 'name',
-      component: 'ApiSelect',
-      label: '处理人',
-      required: true,
-      colProps: {
-        span: 14,
-      },
-      componentProps: {
-        placeholder: '请选择处理人',
-      },
-    },
-  ];
-}
+// export function getAgainFormSchema(): FormSchema[] {
+//   return [
+//     {
+//       field: 'name',
+//       component: 'RadioGroup',
+//       label: '任务指派',
+//       required: true,
+//       componentProps: {
+//         options: [
+//           {
+//             label: '人员',
+//             value: '1',
+//           },
+//           {
+//             label: '岗位',
+//             value: '2',
+//           },
+//         ],
+//       },
+//     },
+//     {
+//       field: 'name',
+//       component: 'ApiSelect',
+//       label: '处理部门',
+//       required: true,
+//       colProps: {
+//         span: 14,
+//       },
+//       componentProps: {
+//         placeholder: '请选择处理部门',
+//       },
+//     },
+//     {
+//       field: 'name',
+//       component: 'ApiSelect',
+//       label: '处理人',
+//       required: true,
+//       colProps: {
+//         span: 14,
+//       },
+//       componentProps: {
+//         placeholder: '请选择处理人',
+//       },
+//     },
+//   ];
+// }
 
-//工单信息-申请延期
+//工单信息-申请延期、保养工单延期申请弹窗
 export function postponeFormSchema(): FormSchema[] {
   return [
     {
       field: 'name',
       component: 'DatePicker',
       label: '原截止时间',
-      colProps: {
-        span: 14,
-      },
+      // colProps: {
+      //   span: 14,
+      // },
       componentProps: {
         // placeholder: '请输入',
       },
@@ -422,9 +363,9 @@ export function postponeFormSchema(): FormSchema[] {
       component: 'DatePicker',
       label: '延期时间',
       required: true,
-      colProps: {
-        span: 14,
-      },
+      // colProps: {
+      //   span: 14,
+      // },
       componentProps: {
         placeholder: '请选择时间',
       },
@@ -434,9 +375,9 @@ export function postponeFormSchema(): FormSchema[] {
       component: 'Input',
       label: ' 延期原因',
       required: true,
-      colProps: {
-        span: 14,
-      },
+      // colProps: {
+      //   span: 14,
+      // },
       componentProps: {
         placeholder: '请输入原因',
       },
@@ -548,6 +489,37 @@ export function tablePartColumns(): BasicColumn[] {
     {
       title: '使用数量',
       dataIndex: 'name',
+    },
+  ];
+}
+
+//重选使用备件
+export function deviceTableColumns(): BasicColumn[] {
+  return [
+    {
+      title: '备件编码',
+      dataIndex: 'name1',
+    },
+    {
+      title: '备件名称',
+      dataIndex: 'name2',
+    },
+    {
+      title: '备件分类',
+      dataIndex: 'name3',
+    },
+    {
+      title: '规格型号',
+      dataIndex: 'name4',
+    },
+    {
+      title: '单位',
+      dataIndex: 'name5',
+    },
+    {
+      title: '使用数量',
+      dataIndex: 'name6',
+      slots: { customRender: 'useNumSlot' },
     },
   ];
 }
