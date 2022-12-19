@@ -116,26 +116,26 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'Input',
       label: '任务周期',
       required: true,
+      // slot:'taskSlot',
       componentProps: {
         placeholder: '请输入天数',
       },
       colProps: {
-        span: 18,
+        span: 17,
       },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 10,
-      //   },
-      //   wrapperCol: {
-      //     span: 24,
-      //   },
-      // },
+      itemProps: {
+        labelCol: {
+          span: 7,
+        },
+        wrapperCol: {
+          span: 18,
+        },
+      },
     },
     {
       field: 'unit',
       component: 'Select',
       label: ' ',
-      labelWidth: 10,
       componentProps: {
         placeholder: '请选择单位',
         options: [
@@ -147,7 +147,15 @@ export function getCommonFormSchema(): FormSchema[] {
         getPopupContainer: () => document.body,
       },
       colProps: {
-        span: 6,
+        span: 4,
+      },
+      itemProps: {
+        labelCol: {
+          span: 0,
+        },
+        wrapperCol: {
+          span: 24,
+        },
       },
     },
     {
@@ -159,14 +167,21 @@ export function getCommonFormSchema(): FormSchema[] {
         placeholder: '请输入任务执行时长',
       },
       colProps: {
-        span: 18,
+        span: 17,
+      },
+      itemProps: {
+        labelCol: {
+          span: 7,
+        },
+        wrapperCol: {
+          span: 18,
+        },
       },
     },
     {
       field: 'unit1',
       component: 'Select',
       label: ' ',
-      labelWidth: 10,
       componentProps: {
         placeholder: '请选择单位',
         options: [
@@ -178,7 +193,15 @@ export function getCommonFormSchema(): FormSchema[] {
         getPopupContainer: () => document.body,
       },
       colProps: {
-        span: 6,
+        span: 4,
+      },
+      itemProps: {
+        labelCol: {
+          span: 0,
+        },
+        wrapperCol: {
+          span: 24,
+        },
       },
     },
     {
@@ -187,7 +210,7 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '工单生成及下发',
       required: true,
       colProps: {
-        span: 18,
+        span: 17,
       },
       componentProps: {
         options: [
@@ -205,27 +228,25 @@ export function getCommonFormSchema(): FormSchema[] {
           },
         ],
       },
+      itemProps: {
+        labelCol: {
+          span: 7,
+        },
+        wrapperCol: {
+          span: 20,
+        },
+      },
     },
     {
       field: 'num',
       component: 'InputNumber',
       label: '',
       colProps: {
-        span: 2,
+        span: 6,
       },
       componentProps: {
         addonAfter: '条',
       },
-      // componentProps: ({ formActionType }) => {
-      //   return {
-      //     onChange: () => {
-      //       const { setFieldsValue } = formActionType;
-      //       setFieldsValue({
-      //         evaluationLevelHigh: null,
-      //       });
-      //     },
-      //   };
-      // },
     },
     {
       field: 'task2',
@@ -236,14 +257,21 @@ export function getCommonFormSchema(): FormSchema[] {
         placeholder: '请输入临期提醒',
       },
       colProps: {
-        span: 18,
+        span: 17,
+      },
+      itemProps: {
+        labelCol: {
+          span: 7,
+        },
+        wrapperCol: {
+          span: 18,
+        },
       },
     },
     {
       field: 'unit2',
       component: 'Select',
       label: ' ',
-      labelWidth: 10,
       componentProps: {
         placeholder: '请选择单位',
         options: [
@@ -254,7 +282,15 @@ export function getCommonFormSchema(): FormSchema[] {
         getPopupContainer: () => document.body,
       },
       colProps: {
-        span: 6,
+        span: 4,
+      },
+      itemProps: {
+        labelCol: {
+          span: 0,
+        },
+        wrapperCol: {
+          span: 24,
+        },
       },
     },
     {
@@ -266,14 +302,21 @@ export function getCommonFormSchema(): FormSchema[] {
         placeholder: '请输入超时提醒间隔',
       },
       colProps: {
-        span: 18,
+        span: 17,
+      },
+      itemProps: {
+        labelCol: {
+          span: 7,
+        },
+        wrapperCol: {
+          span: 18,
+        },
       },
     },
     {
       field: 'unit3',
       component: 'Select',
       label: ' ',
-      labelWidth: 10,
       componentProps: {
         placeholder: '请选择单位',
         options: [
@@ -284,7 +327,15 @@ export function getCommonFormSchema(): FormSchema[] {
         getPopupContainer: () => document.body,
       },
       colProps: {
-        span: 6,
+        span: 4,
+      },
+      itemProps: {
+        labelCol: {
+          span: 0,
+        },
+        wrapperCol: {
+          span: 24,
+        },
       },
     },
     {
@@ -303,6 +354,8 @@ export function getCommonFormSchema(): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: '请输入保养内容',
+        rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -311,6 +364,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '保养标椎',
       componentProps: {
         placeholder: '请输入保养标椎',
+        rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -319,6 +374,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '安全规则',
       componentProps: {
         placeholder: '请输入安全规则',
+        rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -372,7 +429,16 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '备注',
       componentProps: {
         placeholder: '请输入备注',
+        rows: 4,
+        maxlength: 200,
       },
+    },
+    {
+      field: 'checkDate',
+      component: 'Input',
+      label: '保养设备',
+      required: true,
+      slot: 'tableSlot',
     },
   ];
 }

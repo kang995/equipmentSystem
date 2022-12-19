@@ -179,6 +179,7 @@ export function getCommonFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请输入维修方案',
         rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -189,7 +190,15 @@ export function getCommonFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请输入备注',
         rows: 4,
+        maxlength: 200,
       },
+    },
+    {
+      field: 'checkDate',
+      component: 'Input',
+      label: '关联故障',
+      required: true,
+      slot: 'tableSlot',
     },
   ];
 }

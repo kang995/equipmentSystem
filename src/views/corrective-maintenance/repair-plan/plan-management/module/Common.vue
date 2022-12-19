@@ -1,11 +1,8 @@
 <template>
   <PageWrapper>
     <Card>
-      <div class="w-full container mx-auto">
-        <div class="px-80">
-          <BasicForm @register="registerFrom" />
-        </div>
-        <div class="px-30">
+      <BasicForm @register="registerFrom">
+        <template #tableSlot>
           <AFormItemRest>
             <BasicTable @register="registerTable">
               <template #action="{ record }">
@@ -33,15 +30,15 @@
               </template>
             </BasicTable>
             <div class="AddBtn" @click="handleAdd">
-              <SvgIcon name="gonggong_tianjia_xianxing" size="20" class="ml-4px" />
+              <SvgIcon name="gonggong_tianjia_xianxing" size="20" />
               <span>添加</span>
             </div>
           </AFormItemRest>
-        </div>
-        <div class="mt-[20px] flex justify-center items-center">
-          <a-button class="mr-4" @click="handleSave">保存</a-button>
-          <a-button type="primary" @click="sumitForm">提交</a-button>
-        </div>
+        </template>
+      </BasicForm>
+      <div class="flex justify-center items-center">
+        <a-button class="mr-4" @click="handleSave">保存</a-button>
+        <a-button type="primary" @click="sumitForm">提交</a-button>
       </div>
     </Card>
   </PageWrapper>
@@ -49,38 +46,39 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
+  // import { useRouter } from 'vue-router';
   import { Card, Select, Form } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { getCommonFormSchema, planTableColumns } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { SvgIcon } from '/@/components/Icon/index';
+  import { useTabs } from '/@/hooks/web/useTabs';
+  const { closeCurrent } = useTabs();
   const AFormItemRest = Form.ItemRest;
-  const router = useRouter();
+  // const router = useRouter();
   const ASelect = Select;
   const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-    baseColProps: {
-      span: 24,
+    // baseColProps: {
+    //   span: 24,
+    // },
+    // labelWidth: 120,
+    labelCol: {
+      span: 5,
     },
-    labelWidth: 120,
+    wrapperCol: {
+      span: 16,
+    },
     actionColOptions: {
-      offset: 3,
-      span: 8,
+      offset: 5,
+      span: 24,
       style: {
-        textAlign: 'left',
+        textAlign: 'center',
+        marginTop: '24px',
       },
     },
-    // submitButtonOptions: {
-    //   text: '提交',
-    // },
-    // resetButtonOptions: {
-    //   text: '取消',
-    // },
-    // resetFunc: resetSubmitFunc,
-    // submitFunc: sumitForm,
   });
   const faultList = ref<any>([
     {
@@ -108,9 +106,13 @@
     },
   });
   //提交
-  async function sumitForm() {}
+  async function sumitForm() {
+    closeCurrent();
+  }
   //保存
-  async function handleSave() {}
+  async function handleSave() {
+    closeCurrent();
+  }
   //添加
   function handleAdd() {
     const data = getDataSource();
@@ -150,5 +152,9 @@
     font-weight: 400;
     color: #4d79ff;
     cursor: pointer;
+  }
+
+  :deep.tsit-basic-table {
+    height: auto;
   }
 </style>

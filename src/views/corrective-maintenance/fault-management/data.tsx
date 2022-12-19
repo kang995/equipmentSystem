@@ -192,6 +192,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '故障描述',
       componentProps: {
         placeholder: '请输入故障描述',
+        rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -201,6 +203,7 @@ export function getCommonFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请输入表现症状',
         rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -210,6 +213,7 @@ export function getCommonFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请输入故障原因',
         rows: 4,
+        maxlength: 200,
       },
     },
     {
@@ -219,6 +223,7 @@ export function getCommonFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请输入采取措施',
         rows: 4,
+        maxlength: 200,
       },
     },
     {

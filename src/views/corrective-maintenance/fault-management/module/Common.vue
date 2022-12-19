@@ -1,13 +1,7 @@
 <template>
   <PageWrapper>
     <Card>
-      <div class="w-full px-85">
-        <BasicForm @register="registerFrom" />
-      </div>
-      <!-- <div class="mt-[20px] flex justify-center items-center">
-        <a-button class="mr-4">取消</a-button>
-        <a-button type="primary">提交</a-button>
-      </div> -->
+      <BasicForm @register="registerFrom" />
     </Card>
   </PageWrapper>
 </template>
@@ -22,35 +16,32 @@
   const [registerFrom] = useForm({
     schemas: getCommonFormSchema(), //表单配置
     // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-    baseColProps: {
-      span: 24,
-    },
-    labelWidth: 120,
+    // baseColProps: {
+    //   span: 24,
+    // },
+    // labelWidth: 120,
     submitButtonOptions: {
       text: '提交',
     },
     resetButtonOptions: {
       text: '取消',
     },
+    labelCol: {
+      span: 5,
+    },
+    wrapperCol: {
+      span: 16,
+    },
     actionColOptions: {
-      offset: 6,
-      span: 10,
+      offset: 5,
+      span: 24,
       style: {
         textAlign: 'center',
-        marginTop: '12px',
+        marginTop: '24px',
       },
     },
     resetFunc: handleReset,
     submitFunc: handleSubmit,
-    // rowProps: {
-    //   gutter: 16,
-    // },
-    // labelCol: {
-    //   span: 8,
-    // },
-    // wrapperCol: {
-    //   span: 10,
-    // },
   });
 
   //提交
