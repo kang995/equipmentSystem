@@ -7,7 +7,7 @@
       <a-tab-pane key="2" :tab="tabLabel">
         <maintain-device />
       </a-tab-pane>
-      <a-tab-pane key="3" tab="审核流程">
+      <a-tab-pane key="3" tab="审批流程">
         <review-process />
       </a-tab-pane>
       <a-tab-pane key="4" tab="关联工单" v-if="status === '4'">

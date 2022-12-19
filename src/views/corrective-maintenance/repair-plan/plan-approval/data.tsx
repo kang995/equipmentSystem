@@ -66,7 +66,7 @@ export function getFormSchema(): FormSchema[] {
       label: '创建人',
       componentProps: {
         placeholder: '请选择创建人',
-        api: '',
+        // api: '',
         params: {
           type: 'SPECIAL_WORK',
         },

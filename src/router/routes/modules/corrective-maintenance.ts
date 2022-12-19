@@ -108,7 +108,7 @@ const setup: AppRouteModule = {
       children: [
         {
           path: 'check-details',
-          name: 'checkDetail',
+          name: 'checkDetails',
           component: () =>
             import('../../../views/corrective-maintenance/repair-check/module/checkDetail.vue'),
           meta: {
@@ -121,6 +121,7 @@ const setup: AppRouteModule = {
       path: 'repair-plan',
       name: 'repairPlan',
       // component: () => import('../../../views/corrective-maintenance/repair-plan/index.vue'),
+      redirect: '/corrective-maintenance/fault-management',
       meta: {
         title: '维修计划',
         // hideChildrenInMenu: true,

@@ -1,5 +1,5 @@
 <template>
-  <div> 审核流程 </div>
+  <div> 审批流程 </div>
 </template>
 
 <script setup lang="ts"></script>

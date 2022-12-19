@@ -62,7 +62,7 @@
 
   function handleDetail() {
     router.push({
-      name: 'checkDetail',
+      name: 'checkDetails',
       query: {
         status: '3', //待验收：1、已完成：2、未通过：3
       },
