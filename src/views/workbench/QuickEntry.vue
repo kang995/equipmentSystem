@@ -1,5 +1,5 @@
 <template>
-  <ACard class="!mt-4">
+  <ACard>
     <div :class="`${prefixCls}`" class="mt-4">
       <Title :titleList="titleList" />
       <ARow>

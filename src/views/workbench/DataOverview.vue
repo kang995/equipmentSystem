@@ -29,8 +29,7 @@
                 <div>
                   <span :class="`${prefixCls}-num`" @click="getRouterDate(item.id)">{{
                     item.num
-                  }}</span
-                  >个
+                  }}</span>
                 </div>
               </div>
             </div>

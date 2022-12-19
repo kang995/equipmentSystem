@@ -1,12 +1,15 @@
 <template>
   <div
-    :class="`${prefixCls}`"
-    :style="{ marginBottom: item.isBottom ? '0' : '16px' }"
+    class="flex justify-between"
+    :style="{ marginBottom: '0' }"
     v-for="(item, index) in titleList"
     :key="index"
   >
-    <SvgIcon :name="item.icon" size="24" :class="`${prefixCls}-SvgIcon`" />
-    <span :class="`${prefixCls}-title`">{{ item.title }} </span>
+    <div :class="`${prefixCls}`">
+      <SvgIcon :name="item.icon" size="24" :class="`${prefixCls}-SvgIcon`" />
+      <span :class="`${prefixCls}-title`">{{ item.title }} </span>
+    </div>
+    <slot name="QueryBtn"></slot>
   </div>
 </template>
 <script lang="ts" setup>
@@ -18,7 +21,6 @@
   interface TitleParams {
     title: string;
     icon: string;
-    isBottom?: boolean;
   }
   const props = defineProps<{
     titleList: Array<TitleParams>;

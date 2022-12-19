@@ -4,6 +4,10 @@
       <div :class="`${prefixCls}-left`">
         <div :class="`${prefixCls}-left-data`"><DataOverview /> </div>
         <div :class="`${prefixCls}-left-data`"><QuickEntry /> </div>
+
+        <div :class="`${prefixCls}-left-data`">
+          <WorkOrderTrend />
+        </div>
       </div>
       <div :class="`${prefixCls}-right`">
         <User />
@@ -17,7 +21,7 @@
   import { PageWrapper } from '/@/components/Page';
   import DataOverview from './DataOverview.vue';
   import QuickEntry from './QuickEntry.vue';
-
+  import WorkOrderTrend from './WorkOrderTrend.vue';
   import User from './User.vue';
   import LatestDevelopments from './LatestDevelopments.vue';
   import GettingStarted from './GettingStarted.vue';
