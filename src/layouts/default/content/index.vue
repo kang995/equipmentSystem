@@ -35,7 +35,7 @@
       router.afterEach(async (to) => {
         // scroll top
         isHash((to as RouteLocationNormalized & { href: string })?.href) &&
-          layoutContent.value.scrollTo(0, 0);
+          layoutContent.value?.scrollTo(0, 0);
         return true;
       });
 
