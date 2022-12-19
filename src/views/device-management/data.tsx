@@ -430,14 +430,6 @@ export const schemasAdd: FormSchema[] = [
     label: ' ',
     component: 'ApiSelect',
     slot: 'position',
-
-    // componentProps: {
-    //   placeholder: '请选择存放位置',
-    //   api: getWareHouseListApi,
-    //   resultField: 'records',
-    //   labelField: 'name',
-    //   valueField: 'id',
-    // },
   },
   {
     field: 'attachment',

@@ -1,6 +1,5 @@
 <template>
-  <PageWrapper contentBackground contentClass="p-4"
-    >应急演练报告
+  <PageWrapper contentBackground contentClass="p-4">
     <Description @register="register" />
   </PageWrapper>
 </template>

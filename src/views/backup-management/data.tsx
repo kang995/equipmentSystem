@@ -15,7 +15,19 @@ export const tableColumns: BasicColumn[] = [
     dataIndex: 'status',
   },
 ];
+export const columnsTable: BasicColumn[] = [
+  {
+    title: '仓库',
+    dataIndex: 'placeName1',
+    slots: { customRender: 'WarehouseSlot' },
+  },
 
+  {
+    title: '数量',
+    dataIndex: 'personNum',
+    slots: { customRender: 'NumSlot' },
+  },
+];
 export const formSchema: FormSchema[] = [
   {
     field: 'name',

@@ -11,7 +11,7 @@
           /> </template
       ></Title>
 
-      <ChartRef />
+      <ChartLine />
     </Card>
   </div>
 </template>
@@ -19,7 +19,7 @@
   import { Card } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
   import Title from './components/Title.vue';
-  import ChartRef from './ChartRef.vue';
+  import ChartLine from './ChartLine.vue';
   import { ref } from 'vue';
 
   const titleList = [

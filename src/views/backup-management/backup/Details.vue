@@ -1,6 +1,6 @@
 <template>
   <PageWrapper contentBackground contentClass="p-4">
-    3 <Description @register="register" />
+    <Description @register="register" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
