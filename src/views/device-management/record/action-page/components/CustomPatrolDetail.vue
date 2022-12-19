@@ -1,15 +1,5 @@
 <template>
-  <div class="bg-white p-4">
-    <div class="flex space-x-4 mb-4">
-      <label class="mt-2 ml-4">点位</label>
-      <Select
-        class="!w-80"
-        :options="pointSelectOptions"
-        placeholder="请选择点位"
-        @change="pointSelectChange"
-        :allowClear="true"
-      />
-    </div>
+  <div class="bg-white px-4">
     <List
       :class="`${prefixCls}`"
       :grid="{ gutter: 16, column: 1, xs: 0, sm: 0, md: 0, lg: 0, xl: 0, xxl: 0, xxxl: 0 }"
@@ -32,11 +22,10 @@
               <template #title>{{ item.pointName }}</template>
               <!-- 卡片内容 -->
               <Row>
+                <Col :span="12" class="font-semibold">点位：{{ item.stayDate }}</Col>
                 <Col :span="12" class="font-semibold">驻留时间：{{ item.stayDate }}</Col>
                 <Col :span="12" class="font-semibold">巡检路线：{{ item.routeName }}</Col>
-              </Row>
-              <Row>
-                <Col :span="24" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col>
+                <Col :span="12" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col>
               </Row>
               <Collapse expandIconPosition="right" class="!my-4" v-if="item.patrolType !== '3'">
                 <CollapsePanel header="巡检内容和结果">

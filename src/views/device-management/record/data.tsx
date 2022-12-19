@@ -1,9 +1,8 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import ClickButton from './action-page/ClickButton.vue';
-import { useRoute } from 'vue-router';
-import { Image, Tag } from 'ant-design-vue';
 
+//装置设置
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -124,11 +123,11 @@ export const installationFormSchema: FormSchema[] = [
   },
 ];
 
-//基本信息  机械设备静
-export const schemaDescItem: DescItem[] = [
+//基本信息  机械设备静 state === '1'
+export const mechanicsDescItem: DescItem[] = [
   {
     field: 'dangerName',
-    label: '设备名称',
+    label: '设备名称/机械设备静/1',
   },
   {
     field: 'projectName',
@@ -145,9 +144,8 @@ export const schemaDescItem: DescItem[] = [
       return (
         <div>
           {/* /静设备时跳转到机械设备详情动 路由name: MechanicsDetailsMove  state='1' */}
-          <ClickButton name={'MechanicsDetailsMove'} state={'1'} />
+          <ClickButton name={'MechanicsDetailsMove'} state={'2'} />
         </div>
-        //静设备时跳转到机械设备详情静  路由name: MechanicsDetails  state='2'
       );
     },
   },
@@ -192,8 +190,21 @@ export const schemaDescItem: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'hazardTypeText',
+    field: 'position',
     label: '经纬度',
+    render: (val) => {
+      if (val) {
+        return (
+          <div>
+            <p>{val}</p>
+            <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
+              预览位置
+            </a-button>
+          </div>
+        );
+      } else {
+      }
+    },
   },
   {
     field: 'hazardTypeText',
@@ -208,11 +219,11 @@ export const schemaDescItem: DescItem[] = [
     label: '附件',
   },
 ];
-//schemaDescItemMove  特种设备静
-export const schemaDescItemMove: DescItem[] = [
+//基本信息  机械设备动 state === '2'
+export const mechanicsDescItemMove: DescItem[] = [
   {
     field: 'dangerName',
-    label: '设备名称',
+    label: '设备名称/机械设备动/2',
   },
   {
     field: 'projectName',
@@ -224,20 +235,123 @@ export const schemaDescItemMove: DescItem[] = [
   },
   {
     field: 'aaaa',
-    label: '设备性质1',
+    label: '设备性质',
+    render: (data) => {
+      return (
+        <div>
+          {/* /动设备时跳转到机械设备详情静 路由name: MechanicsDetails  state='1' */}
+          <ClickButton name={'MechanicsDetails'} state={'1'} />
+        </div>
+      );
+    },
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设备类型',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '介质',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '位号',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设备型号',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '介质温度（°C）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '规格型号',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '主体材质',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计流量（m³/h）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计轴功率（kw）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计扬程（m）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计转数（rpm）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '地理位置',
+  },
+  {
+    field: 'position',
+    label: '经纬度',
+    render: (val) => {
+      if (val) {
+        return (
+          <div>
+            <p>{val}</p>
+            <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
+              预览位置
+            </a-button>
+          </div>
+        );
+      } else {
+      }
+    },
+  },
+  {
+    field: 'hazardTypeText',
+    label: '基本信息',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '图纸',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '附件',
+  },
+];
+//基本信息  特种设备静 state === '3'
+export const equipmentDescItem: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '设备名称/特种设备静/3',
+  },
+  {
+    field: 'projectName',
+    label: '所属项目',
+  },
+  {
+    field: 'riskLevelName',
+    label: '所属装置设施',
+  },
+  {
+    field: 'aaaa',
+    label: '设备性质',
     render: (data) => {
       return (
         //静设备时跳转到特种设备详情动  路由name: specialEquipmentDetailsMove  state='4'
         <div>
           <ClickButton name={'specialEquipmentDetailsMove'} state={'4'} />
         </div>
-        //东设备时跳转到特种设备详情静  路由name: specialEquipmentDetails  state='3'
       );
     },
   },
   {
     field: 'hazardTypeText',
-    label: '设备类型罐',
+    label: '设备类型',
   },
   {
     field: 'dangerName',
@@ -309,8 +423,21 @@ export const schemaDescItemMove: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'hazardTypeText',
+    field: 'position',
     label: '经纬度',
+    render: (val) => {
+      if (val) {
+        return (
+          <div>
+            <p>{val}</p>
+            <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
+              预览位置
+            </a-button>
+          </div>
+        );
+      } else {
+      }
+    },
   },
   {
     field: 'hazardTypeText',
@@ -325,6 +452,144 @@ export const schemaDescItemMove: DescItem[] = [
     label: '附件',
   },
 ];
+//基本信息  特种设备动 state === '4'
+export const equipmentDescItemMove: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '设备名称/特种设备动/4',
+  },
+  {
+    field: 'projectName',
+    label: '所属项目',
+  },
+  {
+    field: 'riskLevelName',
+    label: '所属装置设施',
+  },
+  {
+    field: 'aaaa',
+    label: '设备性质',
+    render: (data) => {
+      return (
+        //动设备时跳转到特种设备详情静  路由name: specialEquipmentDetails  state='4'
+        <div>
+          <ClickButton name={'specialEquipmentDetails'} state={'3'} />
+        </div>
+      );
+    },
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设备类型',
+  },
+  {
+    field: 'dangerName',
+    label: '设备编号',
+  },
+  {
+    field: 'riskLevelName',
+    label: '使用状态',
+  },
+  {
+    field: 'projectName',
+    label: '设备注册代码',
+  },
+
+  {
+    field: 'districtName',
+    label: '使用证编号',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '下次检测日期',
+  },
+  {
+    field: 'projectName',
+    label: '制造单位',
+  },
+  {
+    field: 'districtName',
+    label: '检测责任所在单位',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '管理人员',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '介质',
+  },
+  {
+    field: 'districtName',
+    label: '设备型号',
+  },
+  {
+    field: 'districtName',
+    label: '介质温度（°C）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '规格型号',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '主体材质',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计流量（m³/h）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计轴功率（kw）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计扬程（m）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '操作压力（MPa）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '设计转数（rpm）',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '地理位置',
+  },
+  {
+    field: 'position',
+    label: '经纬度',
+    render: (val) => {
+      if (val) {
+        return (
+          <div>
+            <p>{val}</p>
+            <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
+              预览位置
+            </a-button>
+          </div>
+        );
+      } else {
+      }
+    },
+  },
+  {
+    field: 'hazardTypeText',
+    label: '基本信息',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '图纸',
+  },
+  {
+    field: 'hazardTypeText',
+    label: '附件',
+  },
+];
+
 //  巡检记录
 export const patrolInspectionColumns: BasicColumn[] = [
   {

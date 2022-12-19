@@ -160,7 +160,7 @@
   }
   function getEdit() {
     router.push({
-      name: 'BackupAdd',
+      name: 'BackupEdit',
     });
   }
 </script>

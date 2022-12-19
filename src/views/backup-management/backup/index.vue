@@ -151,7 +151,9 @@
   });
 
   function handleDetails() {
-    // router.push({});
+    router.push({
+      name: 'BackupDetails',
+    });
   }
   function getAdd() {
     router.push({

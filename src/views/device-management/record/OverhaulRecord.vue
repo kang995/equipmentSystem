@@ -25,8 +25,8 @@
   const dataSource = ref([{}]);
   function handleDetails() {
     //跳转到设备检修详情
-    // router.push({
-    //   // name: 'OverhaulDetail',
-    // });
+    router.push({
+      name: 'overhaulDetail',
+    });
   }
 </script>

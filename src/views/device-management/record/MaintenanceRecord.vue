@@ -23,13 +23,14 @@
   import { ref } from 'vue';
   import { maintenanceColumns, maintenanceFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
-
+  import { useRouter } from 'vue-router';
   import TablePage from '../components/TablePage.vue';
+  const router = useRouter();
   const dataSource = ref([{}]);
   function handleDetails() {
     //跳转到设备保养详情
-    // router.push({
-    //   // name: 'OverhaulDetail',
-    // });
+    router.push({
+      name: 'planDetails',
+    });
   }
 </script>

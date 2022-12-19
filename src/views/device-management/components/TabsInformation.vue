@@ -37,7 +37,7 @@
     key: string;
     name: string;
     component?: any;
-    ifShow?: boolean;
+    ifShow: boolean;
   }
   //机械动：1 机械静：2 特种静：3 特种动：4
   const activeList: TabItem[] = [
@@ -112,11 +112,9 @@
   onMounted(() => {
     activeList.filter((item, index) => {
       if (item.ifShow == false) {
-        console.log('item: ', item);
         activeList.splice(index, 1);
       }
     });
-    console.log('aa: ', activeList);
     achieveList.value = activeList;
   });
   const activeKey = ref('1');

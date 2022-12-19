@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-4">
+  <div class="bg-white px-4">
     <List
       :class="`${prefixCls}`"
       :grid="{ gutter: 16, column: 1, xs: 0, sm: 0, md: 0, lg: 0, xl: 0, xxl: 0, xxxl: 0 }"
@@ -10,10 +10,6 @@
       <template #renderItem="{ item }">
         <ListItem>
           <Card :hoverable="true" class="!cursor-default">
-            <!-- 	卡片封面 -->
-            <!-- <template #cover>
-              <Image :src="item.img" />
-            </template> -->
             <!-- 卡片名称 -->
             <template #title>{{ item.pointName }}</template>
             <!-- 卡片内容 -->
@@ -129,22 +125,6 @@
                 <Tag v-if="item.dealState === '5'" color="default">
                   {{ item.dealStateText }}
                 </Tag>
-                <a-button
-                  type="link"
-                  v-if="item.dealState === '1'"
-                  class="cursor-pointer"
-                  @click="handlePatrolProblem"
-                >
-                  去处理
-                </a-button>
-                <a-button
-                  type="link"
-                  v-if="['2', '3', '4', '5'].includes(item.dealState)"
-                  class="cursor-pointer"
-                  @click="handleDetail(item.id)"
-                >
-                  处理详情
-                </a-button>
               </Col>
             </Row>
             <!-- 卡片底部 -->

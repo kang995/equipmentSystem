@@ -12,7 +12,7 @@
         :actions="[
           {
             label: '备件详情',
-            onClick: handleDetail.bind(null, record),
+            onClick: handleDetails.bind(null, record),
             delBtn: true,
           },
         ]"
@@ -24,10 +24,15 @@
   import { ref } from 'vue';
   import { sparePartColumns, sparePartFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
-
+  import { useRouter } from 'vue-router';
   import TablePage from '../components/TablePage.vue';
+  const router = useRouter();
   const dataSource = ref([{}]);
-  function handleDetail() {}
+  function handleDetails() {
+    router.push({
+      name: 'BackupDetails',
+    });
+  }
 </script>
 <style lang="less" scoped>
   ::v-deep(.ant-table-title) {

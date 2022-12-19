@@ -1,6 +1,5 @@
 <template>
-  <PageWrapper contentBackground contentClass="p-4"
-    >检测记录详情
+  <PageWrapper contentBackground contentClass="p-4">
     <Description @register="register" />
   </PageWrapper>
 </template>
@@ -19,6 +18,7 @@
     data: mockData,
     schema: installationSchema,
     size: 'default',
+    column: 1,
     labelStyle: { width: '180px' },
   });
   //

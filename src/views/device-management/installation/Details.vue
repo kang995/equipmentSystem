@@ -18,6 +18,7 @@
     data: mockData,
     schema: installationSchema,
     size: 'default',
+    column: 1,
     labelStyle: { width: '180px' },
   });
   //

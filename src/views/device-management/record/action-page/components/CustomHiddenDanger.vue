@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white p-4">
+  <div class="bg-white px-4">
     <List
       :class="`${prefixCls}`"
       :grid="{ gutter: 16, column: 3, xs: 0, sm: 0, md: 0, lg: 0, xl: 0, xxl: 0, xxxl: 0 }"

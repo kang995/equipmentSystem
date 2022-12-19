@@ -6,6 +6,7 @@
   const props = defineProps<{
     name: string;
     state: string;
+    id?: string;
   }>();
   const router = useRouter();
   function getRouter() {

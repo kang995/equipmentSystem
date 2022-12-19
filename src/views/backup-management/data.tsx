@@ -65,7 +65,53 @@ export const schemaDescItem: DescItem[] = [
     label: '重大危险源类型',
   },
 ];
-
+//backupDescItem
+export const backupDescItem: DescItem[] = [
+  {
+    field: 'dangerName',
+    label: '预案编号',
+  },
+  {
+    field: 'dangerName',
+    label: '预案名称',
+  },
+  {
+    field: 'dangerName',
+    label: '预案类型',
+  },
+  {
+    field: 'dangerName',
+    label: '预案响应等级',
+  },
+  {
+    field: 'dangerName',
+    label: '适用事件类型',
+  },
+  {
+    field: 'dangerName',
+    label: '适用部门',
+  },
+  {
+    field: 'dangerName',
+    label: '相关危化品',
+  },
+  {
+    field: 'dangerName',
+    label: '更新时间',
+  },
+  {
+    field: 'dangerName',
+    label: '标签',
+  },
+  {
+    field: 'dangerName',
+    label: '注意事项',
+  },
+  {
+    field: 'dangerName',
+    label: '附件',
+  },
+];
 export const backupColumns: BasicColumn[] = [
   {
     title: '设备名称',

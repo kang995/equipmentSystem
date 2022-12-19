@@ -37,15 +37,6 @@
         <TabPane key="3">
           <template #tab>
             <span>
-              巡检报警
-              <Badge :count="descriptionsData.alarmNum" />
-            </span>
-          </template>
-          <CustomPatrolAlarm />
-        </TabPane>
-        <TabPane key="4">
-          <template #tab>
-            <span>
               巡检详情
               <Badge :count="descriptionsData.patrolNum" />
             </span>
@@ -65,7 +56,6 @@
   import { Tabs, TabPane, Badge } from 'ant-design-vue';
   import CustomExceptionFound from './components/CustomExceptionFound.vue';
   import CustomHiddenDanger from './components/CustomHiddenDanger.vue';
-  import CustomPatrolAlarm from './components/CustomPatrolAlarm.vue';
   import CustomPatrolDetail from './components/CustomPatrolDetail.vue';
 
   const activeKey = ref('1');
