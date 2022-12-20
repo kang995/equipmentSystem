@@ -31,20 +31,18 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
   import { MaintainDetail } from './fileld';
   import { useRoute } from 'vue-router';
+  import { getPlanDetailApi } from '/@/api/device-maintenance/index';
+
   const route = useRoute();
   const status = route.query?.status as string;
   const mode = route.query?.mode as string;
-  // const props = defineProps({
-  //   info: {
-  //     type: Object as any,
-  //     default: () => {},
-  //   },
-  // });
-  let data = ref<any>({});
+  const id = route.query?.id as string;
+
+  let data = ref<any>([]);
   const [register] = useDescription({
     data,
     schema: MaintainDetail(status, mode),
@@ -52,6 +50,25 @@
     column: 2,
     size: 'default',
   });
+  onMounted(() => {
+    getDetail();
+  });
+  function getDetail() {
+    switch (mode) {
+      case '1':
+        getPlanDetailApi({ id }).then((res) => {
+          data.value = res;
+          console.log('详情', data.value);
+        });
+        break;
+      case '2':
+        break;
+      case '3':
+        break;
+      case '4':
+        break;
+    }
+  }
 </script>
 
 <style lang="less" scoped></style>

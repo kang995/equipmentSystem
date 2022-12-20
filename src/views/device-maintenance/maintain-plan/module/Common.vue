@@ -49,6 +49,9 @@
   import { useModal } from '/@/components/Modal';
   import selectDevice from '/@/views/backup-management/components/SelectDevice.vue';
   import { useTabs } from '/@/hooks/web/useTabs';
+  import { putPlanListApi } from '/@/api/device-maintenance/index';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
   const [registerDeviceModal, { openModal: openDeviceModal }] = useModal();
@@ -81,6 +84,10 @@
     },
     resetFunc: resetSubmitFunc,
     submitFunc: sumitForm,
+    fieldMapToTime: [
+      //更改RangePicker的返回字段
+      ['Time', ['effectStartDate', 'effectEndDate'], 'YYYY-MM-DD HH:mm:ss'],
+    ],
   });
   const AFormItemRest = Form.ItemRest;
 
@@ -101,7 +108,17 @@
   });
   //提交
   async function sumitForm() {
-    closeCurrent();
+    await validate();
+    let params = getFieldsValue();
+    console.log('数据', params);
+    putPlanListApi(params)
+      .then(() => {
+        router.go(-1);
+        createMessage.success('新增成功');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   //取消
   async function resetSubmitFunc() {

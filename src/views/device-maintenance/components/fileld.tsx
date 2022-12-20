@@ -6,7 +6,7 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
   console.log('模块', mode);
   return [
     {
-      field: 'applyUserName',
+      field: 'code',
       label: '保养计划编号',
       show: (data) => mode === '1' || mode === '2',
     },
@@ -16,19 +16,19 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
       show: (data) => mode === '3' || mode === '4',
     },
     {
-      field: 'applyUserName',
+      field: 'planStatus',
       label: '计划状态',
     },
     {
-      field: 'applyUserName',
+      field: 'createByName',
       label: '创建人',
     },
     {
-      field: 'applyUserName',
+      field: 'createTime',
       label: '创建时间',
     },
     {
-      field: 'applyUserName',
+      field: 'name',
       label: '计划名称',
     },
     //
@@ -38,47 +38,66 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
       show: (data) => mode === '3' || mode === '4',
     },
     {
-      field: 'applyUserName',
+      field: 'planDateStr',
       label: '计划生效时间',
     },
     {
-      field: 'applyUserName',
+      field: 'taskStartTime',
       label: '任务起始时间',
     },
     {
-      field: 'applyUserName',
+      field: 'taskCycle',
       label: '任务周期',
+      // render: (data) => {
+      //   return <span class="text-red-500">{data}</span>;
+      // },
     },
     {
-      field: 'applyUserName',
+      field: 'taskExecute',
       label: '任务执行时长',
     },
     {
-      field: 'applyUserName',
+      field: 'workOrder',
       label: '工单生成及下发',
+      render: (data) => {
+        if (data === '1') {
+          return <span>{'一次性全部生成并下发'}</span>;
+        } else if (data === '2') {
+          return <span>{'定时生成并下发'}</span>;
+        } else if (data === '3') {
+          return <span>{'按条数生成并下发'}</span>;
+        }
+      },
     },
     {
-      field: 'applyUserName',
+      field: 'adventRemind',
       label: '临期提醒',
     },
     {
-      field: 'applyUserName',
+      field: 'timeoutRemind',
       label: '超时提醒间隔',
     },
     {
-      field: 'applyUserName',
+      field: 'chargePeopleName',
       label: '计划负责人',
     },
     {
-      field: 'applyUserName',
+      field: 'designateType',
       label: '任务指派',
+      render: (data) => {
+        if (data === '1') {
+          return <span>{'人员'}</span>;
+        } else if (data === '2') {
+          return <span>{'岗位'}</span>;
+        }
+      },
     },
     {
-      field: 'applyUserName',
+      field: 'dealDeptName',
       label: '处理部门',
     },
     {
-      field: 'applyUserName',
+      field: 'dealUserName',
       label: '处理人',
     },
     //
@@ -99,28 +118,28 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     },
 
     {
-      field: 'applyUserName',
+      field: 'upkeepType',
       label: '保养类型',
       show: (data) => mode === '1' || mode === '2',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepStandard',
       label: '保养标椎',
       show: (data) => mode === '1' || mode === '2',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepContent',
       label: '保养内容',
       show: (data) => mode === '1' || mode === '2',
     },
     {
-      field: 'applyUserName',
+      field: 'safeRule',
       label: '安全规则',
       show: (data) => mode === '1' || mode === '2',
     },
 
     {
-      field: 'applyUserName',
+      field: 'remark',
       label: '备注',
       span: 2,
     },
@@ -409,6 +428,60 @@ export function receiveSchemaDetail(): DescItem[] {
             {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
           </>
         );
+      },
+    },
+  ];
+}
+
+//保养计划撤回
+export function getRecallFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'InputTextArea',
+      label: '撤回原因',
+      required: true,
+      componentProps: {
+        placeholder: '请输入撤回原因',
+        rows: 4,
+        maxlength: 200,
+      },
+    },
+    {
+      field: 'name1',
+      component: 'InputTextArea',
+      label: '备注',
+      componentProps: {
+        placeholder: '请输入备注',
+        rows: 4,
+        maxlength: 200,
+      },
+    },
+  ];
+}
+
+//保养计划停止
+export function getPlanFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'InputTextArea',
+      label: '停止原因',
+      required: true,
+      componentProps: {
+        placeholder: '请输入停止原因',
+        rows: 4,
+        maxlength: 200,
+      },
+    },
+    {
+      field: 'name1',
+      component: 'InputTextArea',
+      label: '备注',
+      componentProps: {
+        placeholder: '请输入备注',
+        rows: 4,
+        maxlength: 200,
       },
     },
   ];

@@ -1,31 +1,51 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
+import { Tag } from 'ant-design-vue';
+import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
     {
       title: '保养计划编号',
-      dataIndex: 'name',
+      dataIndex: 'code',
     },
     {
       title: '保养计划名称',
-      dataIndex: 'productName',
+      dataIndex: 'name',
     },
     {
       title: '负责人',
-      dataIndex: 'person',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '计划时间',
-      dataIndex: 'time',
+      dataIndex: 'planDateStr',
     },
     {
       title: '计划状态',
-      dataIndex: 'status',
+      dataIndex: 'planStatus',
+      customRender: ({ record }) => {
+        return <span>{record.planStatusText}</span>;
+      },
     },
     {
       title: '审核状态',
-      dataIndex: 'status',
+      dataIndex: 'approvalStatus',
+      customRender: ({ record }) => {
+        if (record.approvalStatus === '1') {
+          //待提交
+          return <Tag color={'default'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '2') {
+          //审核中
+          return <Tag color={'orange'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '3') {
+          //审核通过
+          return <Tag color={'green'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '4') {
+          //审核拒绝
+          return <Tag color={'red'}>{record.approvalStatusText}</Tag>;
+        }
+      },
     },
   ];
 }
@@ -33,7 +53,7 @@ export function tableColumns(): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'code',
       component: 'Input',
       label: '设备保养编号',
       labelWidth: 96,
@@ -42,7 +62,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'name',
       component: 'Input',
       label: '保养计划名称',
       componentProps: {
@@ -50,28 +70,49 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '负责人',
       componentProps: {
         placeholder: '请选择负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'planStatus',
       component: 'ApiSelect',
       label: '计划状态',
       componentProps: {
         placeholder: '请选择计划状态',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'PLAN_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'productId',
+      field: 'approvalStatus',
       component: 'ApiSelect',
       label: '审核状态',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择审核状态',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
   ];
@@ -90,7 +131,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name',
+      field: 'Time',
       component: 'RangePicker',
       label: '计划生效时间',
       required: true,
@@ -101,8 +142,8 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name',
-      component: 'RangePicker',
+      field: 'taskStartTime',
+      component: 'DatePicker',
       label: '任务起始时间',
       required: true,
       componentProps: {
@@ -112,7 +153,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'task',
+      field: 'taskCycle',
       component: 'Input',
       label: '任务周期',
       required: true,
@@ -133,18 +174,19 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'unit',
-      component: 'Select',
+      field: 'taskCycleUnit',
+      component: 'ApiSelect',
       label: ' ',
       componentProps: {
         placeholder: '请选择单位',
-        options: [
-          { label: '小时', value: 'h' },
-          { label: '天', value: 'day' },
-          { label: '月', value: 'month' },
-          { label: '季', value: 'quarter' },
-        ],
         getPopupContainer: () => document.body,
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'TASK_CYCLE_UNIT',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
       colProps: {
         span: 4,
@@ -159,7 +201,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'task1',
+      field: 'taskExecute',
       component: 'Input',
       label: '任务执行时长',
       required: true,
@@ -179,18 +221,19 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'unit1',
-      component: 'Select',
+      field: 'taskExecuteUnit',
+      component: 'ApiSelect',
       label: ' ',
       componentProps: {
         placeholder: '请选择单位',
-        options: [
-          { label: '小时', value: 'h' },
-          { label: '天', value: 'day' },
-          { label: '月', value: 'month' },
-          { label: '季', value: 'quarter' },
-        ],
         getPopupContainer: () => document.body,
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'TASK_EXECUTE_UNIT',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
       colProps: {
         span: 4,
@@ -205,28 +248,22 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'issue',
-      component: 'RadioGroup',
+      field: 'workOrder',
+      component: 'ApiRadioGroup',
       label: '工单生成及下发',
       required: true,
       colProps: {
         span: 17,
       },
       componentProps: {
-        options: [
-          {
-            label: '一次性全部生成并下发',
-            value: '0',
-          },
-          {
-            label: '定时生成并下发',
-            value: '1',
-          },
-          {
-            label: '按条数生成并下发',
-            value: '2',
-          },
-        ],
+        api: getDictionarySelectTypeApi, //后台路径
+        params: {
+          type: 'WORK_ORDER',
+        },
+        resultField: 'data',
+        labelField: 'itemName',
+        valueField: 'itemValue',
+        onChange: (e) => {},
       },
       itemProps: {
         labelCol: {
@@ -238,7 +275,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'num',
+      field: 'workOrderNum',
       component: 'InputNumber',
       label: '',
       colProps: {
@@ -249,7 +286,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'task2',
+      field: 'adventRemind',
       component: 'Input',
       label: '临期提醒',
       required: true,
@@ -269,17 +306,19 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'unit2',
-      component: 'Select',
+      field: 'adventRemindUnit',
+      component: 'ApiSelect',
       label: ' ',
       componentProps: {
         placeholder: '请选择单位',
-        options: [
-          { label: '小时', value: 'h' },
-          { label: '分钟', value: 'min' },
-          { label: '天', value: 'day' },
-        ],
         getPopupContainer: () => document.body,
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'ADVENT_REMIND_UNIT',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
       colProps: {
         span: 4,
@@ -294,7 +333,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'task3',
+      field: 'timeoutRemind',
       component: 'Input',
       label: '超时提醒间隔',
       required: true,
@@ -314,17 +353,19 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'unit3',
-      component: 'Select',
+      field: 'timeoutRemindUnit',
+      component: 'ApiSelect',
       label: ' ',
       componentProps: {
         placeholder: '请选择单位',
-        options: [
-          { label: '小时', value: 'h' },
-          { label: '分钟', value: 'min' },
-          { label: '天', value: 'day' },
-        ],
         getPopupContainer: () => document.body,
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'TIMEOUT_REMIND_UNIT',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
       colProps: {
         span: 4,
@@ -339,16 +380,23 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'type',
+      field: 'upkeepType',
       component: 'ApiSelect',
       label: '保养类型',
       required: true,
       componentProps: {
         placeholder: '请选择保养类型',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'UPKEEP_TYPE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'maintain',
+      field: 'upkeepContent',
       component: 'InputTextArea',
       label: '保养内容',
       required: true,
@@ -359,7 +407,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'upkeep',
+      field: 'upkeepStandard',
       component: 'InputTextArea',
       label: '保养标椎',
       componentProps: {
@@ -369,7 +417,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'rule',
+      field: 'safeRule',
       component: 'InputTextArea',
       label: '安全规则',
       componentProps: {
@@ -379,48 +427,67 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'plan',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '计划负责人',
       required: true,
       componentProps: {
         placeholder: '请选择计划负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'task4',
-      component: 'RadioGroup',
+      field: 'designateType',
+      component: 'ApiRadioGroup',
       label: '任务指派',
       required: true,
       componentProps: {
-        options: [
-          {
-            label: '人员',
-            value: '0',
-          },
-          {
-            label: '岗位',
-            value: '1',
-          },
-        ],
+        api: getDictionarySelectTypeApi, //后台路径
+        params: {
+          type: 'DESIGNATE_TYPE',
+        },
+        resultField: 'data',
+        labelField: 'itemName',
+        valueField: 'itemValue',
+        onChange: (e) => {},
       },
     },
     {
-      field: 'section',
+      field: 'deptId',
       component: 'ApiSelect',
       label: '处理部门',
       required: true,
       componentProps: {
         placeholder: '请选择处理部门',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'deptId',
       },
     },
     {
-      field: 'processor',
+      field: 'userId',
       component: 'ApiSelect',
       label: '处理人',
       required: true,
       componentProps: {
         placeholder: '请选择处理人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
@@ -434,10 +501,10 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'checkDate',
+      field: 'deviceIdList',
       component: 'Input',
       label: '保养设备',
-      required: true,
+      // required: true,
       slot: 'tableSlot',
     },
   ];
