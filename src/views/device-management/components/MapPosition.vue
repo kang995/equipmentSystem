@@ -72,6 +72,7 @@
   import { Select, Input, InputGroup, Form } from 'ant-design-vue';
   import { SvgIcon } from '/@/components/Icon';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
 
   const { prefixCls } = useDesign('geographical-position');
   const ASelect = Select;
@@ -101,7 +102,7 @@
   });
   const locationTypeList = ref<locationType[]>();
   const getLocationType = async () => {
-    // locationTypeList.value = await getDictionarySelectTypeApi({ type: 'LOCATION_TYPE' });
+    locationTypeList.value = await getDictionarySelectType({ type: 'LOCATION_TYPE' });
   };
 
   //父级参数

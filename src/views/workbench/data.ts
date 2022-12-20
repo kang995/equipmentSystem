@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { EChartsOption } from 'echarts';
-import { getDictionarySelectType } from '/@/api/systemSetting/dictionaryType';
+import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
 
 export interface CardParams {
   title: string;

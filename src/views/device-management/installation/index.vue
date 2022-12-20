@@ -30,13 +30,14 @@
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  import { postUnitFacilityListApi } from '/@/api/device-management/installation';
   const router = useRouter();
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
   const dataSource = ref([{}]);
   const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
+    // dataSource: dataSource,
+    api: postUnitFacilityListApi,
     columns: installationColumns,
     rowKey: 'id',
     useSearchForm: true,

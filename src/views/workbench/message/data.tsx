@@ -1,5 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Form';
+import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
 
 export function getColumns(): BasicColumn[] {
   return [
@@ -25,16 +26,16 @@ export const schemasSearch: FormSchema[] = [
     label: `消息类型`,
     component: 'ApiSelect',
     //字典接口
-    // componentProps: {
-    //   api: getDictionarySelectType, //后台路径
-    //   params: {
-    //     type: 'MESSAGE_TYPE',
-    //   },
-    //   resultField: 'data', //后台返回数据字段
-    //   labelField: 'itemName', //设置label字段
-    //   valueField: 'itemValue', //设置value字段
-    //   placeholder: '请选择消息类型',
-    // },
+    componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'MESSAGE_TYPE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
+      placeholder: '请选择消息类型',
+    },
   },
   {
     field: 'Time',

@@ -10,47 +10,47 @@ export const installationColumns: BasicColumn[] = [
   },
   {
     title: '所属项目',
-    dataIndex: 'productName',
+    dataIndex: 'proName',
   },
   {
     title: '所属项目组成部分',
-    dataIndex: 'status',
+    dataIndex: 'itemDesignName',
   },
   {
     title: '所属区域',
-    dataIndex: 'status',
+    dataIndex: 'districtName',
   },
   {
     title: '类型',
-    dataIndex: 'status',
+    dataIndex: 'typeName',
   },
   {
     title: '建筑状态',
-    dataIndex: 'status',
+    dataIndex: 'developStateName',
   },
   {
     title: '重大危险源级别',
-    dataIndex: 'status',
+    dataIndex: 'riskLevelName',
   },
   {
     title: '建筑结构',
-    dataIndex: 'status',
+    dataIndex: 'buildStruct',
   },
   {
     title: '火灾危险性类别',
-    dataIndex: 'status',
+    dataIndex: 'fireRiskClassesName',
   },
   {
     title: '耐火等级',
-    dataIndex: 'status',
+    dataIndex: 'fireResisRatName',
   },
   {
     title: '模型绑定状态',
-    dataIndex: 'status',
+    dataIndex: 'bindStateValue',
   },
   {
     title: '排序',
-    dataIndex: 'status',
+    dataIndex: 'sort',
   },
 ];
 export const installationFormSchema: FormSchema[] = [
