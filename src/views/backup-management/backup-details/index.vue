@@ -12,30 +12,33 @@
             @click="getAdd()"
             >添加</a-button
           >
-          <a-menu
-            :selectedKeys="selectedKeys"
-            @click="getMenuClick"
-            v-for="item in menuItems"
-            :key="item.key"
-          >
-            <a-menu-item :key="item.key">
-              <div class="flex menu-dropdown">
-                {{ item.title }}
-                <a-dropdown>
-                  <Icon icon="gonggong_gengduo|svg" :size="20" />
-                  <template #overlay>
-                    <a-menu>
-                      <a-menu-item class="cursor-pointer pt-1 delColor" @click="getEdit">
-                        编辑
-                      </a-menu-item>
-                      <a-menu-divider />
-                      <a-menu-item class="cursor-pointer pt-1 delColor"> 删除 </a-menu-item>
-                    </a-menu>
-                  </template>
-                </a-dropdown>
-              </div>
-            </a-menu-item>
-          </a-menu>
+          <div v-if="menuItems.length > 0">
+            <a-menu
+              :selectedKeys="selectedKeys"
+              @click="getMenuClick"
+              v-for="item in menuItems"
+              :key="item.id"
+            >
+              <a-menu-item :key="item.id">
+                <div class="flex menu-dropdown">
+                  {{ item.name }}
+                  <a-dropdown>
+                    <Icon icon="gonggong_gengduo|svg" :size="20" />
+                    <template #overlay>
+                      <a-menu>
+                        <a-menu-item class="cursor-pointer pt-1 delColor" @click="getEdit">
+                          编辑
+                        </a-menu-item>
+                        <a-menu-divider />
+                        <a-menu-item class="cursor-pointer pt-1 delColor"> 删除 </a-menu-item>
+                      </a-menu>
+                    </template>
+                  </a-dropdown>
+                </div>
+              </a-menu-item>
+            </a-menu>
+          </div>
+          <div class="my-6"><EmptyState /></div>
         </Card>
       </Col>
       <Col :span="18">
@@ -64,15 +67,20 @@
   </PageWrapper>
 </template>
 <script setup lang="ts">
+  import EmptyState from '/@/views/workbench/components/EmptyState.vue';
   import { Description, useDescription } from '/@/components/Description';
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
-  import { backupColumns, backupFormSchema } from '../data';
+  import { onMounted, ref } from 'vue';
+  import { detailsListColumns, backupFormSchema } from '../data';
   import { Row, Col, Card, Menu, Dropdown } from 'ant-design-vue';
   import { schemaDescItem } from '../data';
   import { Icon } from '/@/components/Icon';
+  import {
+    postWarehouseListApi,
+    posWarehouseSpareApi,
+  } from '/@/api/backup-management/backup-details';
   const router = useRouter();
   const AMenu = Menu;
   const AMenuItem = Menu.Item;
@@ -84,29 +92,10 @@
   function getMenuClick(item) {
     selectedKeys.value = item.keyPath;
   }
-  const menuItems = ref([
-    {
-      title: '全部',
-      key: 1,
-    },
-    {
-      title: '仪表',
-      key: 2,
-    },
-    {
-      title: '罐',
-      key: 3,
-    },
-    {
-      title: '阀门',
-      key: 4,
-    },
-    {
-      title: '其他',
-      key: 5,
-    },
-  ]);
-  const dataSource = ref([{}]);
+  onMounted(() => {
+    getWarehouseSpare();
+  });
+  const menuItems = ref<any>([]);
   const mockData = ref<any>([]);
   const [registerDescription] = useDescription({
     data: mockData,
@@ -114,11 +103,11 @@
     size: 'default',
     bordered: false,
     labelStyle: { width: '180px' },
+    column: 2,
   });
   const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
-    columns: backupColumns,
+    api: posWarehouseSpareApi,
+    columns: detailsListColumns,
     useSearchForm: true,
     rowKey: 'id',
     rowSelection: {
@@ -140,17 +129,31 @@
         preIcon: 'gonggong_sousuo|svg',
       },
       baseColProps: {
-        span: 6,
+        span: 8,
       },
       rowProps: {
         gutter: 16,
       },
     },
   });
-
-  function handleDetails() {
+  function getWarehouseSpare() {
+    postWarehouseListApi().then((res) => {
+      menuItems.value = res.map((v) => {
+        return {
+          id: v.warehouseId,
+          name: v.warehouseName,
+        };
+      });
+      // mockData.value = res;
+    });
+  }
+  function handleDetails(data) {
+    const id = data.id;
     router.push({
       name: 'BackupDetails',
+      query: {
+        id,
+      },
     });
   }
   function getAdd() {
@@ -170,7 +173,7 @@
   }
 
   ::v-deep(.ant-card-body) {
-    padding: 16px;
+    padding: 16px 16px 0 16px;
   }
 
   ::v-deep(.ant-form-item) {

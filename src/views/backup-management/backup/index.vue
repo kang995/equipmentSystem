@@ -26,16 +26,6 @@
               :stopButtonPropagation="true"
               :actions="[
                 {
-                  label: '出库',
-                  onClick: handleInbound.bind(null, record),
-                  delBtn: true,
-                },
-                {
-                  label: '入库',
-                  onClick: handleOutbound.bind(null, record),
-                  delBtn: true,
-                },
-                {
                   label: '编辑',
                   onClick: handleEdit.bind(null, record),
                   delBtn: true,
@@ -81,12 +71,15 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { backupColumns, backupFormSchema } from '../data';
   import { Tooltip, Row, Col, Card, Menu } from 'ant-design-vue';
+  import { postBackupListApi, postBackupRemoveApi } from '/@/api/backup-management/backup';
+  import { useMessage } from '/@/hooks/web/useMessage';
   const router = useRouter();
   const ATooltip = Tooltip;
   const AMenu = Menu;
   const AMenuItem = Menu.Item;
   const selectedKeys = ref([1]);
   const exportLoading = ref(false);
+  const { createMessage } = useMessage();
   function getMenuClick(item) {
     selectedKeys.value = item.keyPath;
   }
@@ -112,8 +105,7 @@
       key: 5,
     },
   ]);
-  const dataSource = ref([{}]);
-  const [registerForm, {}] = useForm({
+  const [registerForm, { getFieldsValue }] = useForm({
     schemas: backupFormSchema,
     baseColProps: {
       span: 6,
@@ -130,15 +122,29 @@
     resetFunc: resetFun,
     submitFunc: queryFun,
   });
+  const searchInfoList = ref<any>({
+    spareName: '',
+    spareClassify: '',
+    deviceType: '',
+  });
   async function queryFun() {
-    console.log('查询查询查询查询');
+    const { spareName, spareClassify } = getFieldsValue();
+    searchInfoList.value.spareName = spareName;
+    searchInfoList.value.spareClassify = spareClassify;
+    reload();
   }
-  async function resetFun() {}
-  const [register] = useTable({
+  async function resetFun() {
+    searchInfoList.value = [];
+    reload();
+  }
+  const dataSource = ref([{ id: '1' }]);
+
+  const [register, { reload }] = useTable({
     dataSource: dataSource,
-    // api: thresholdListApi,
+    // api: postBackupListApi,
     columns: backupColumns,
     rowKey: 'id',
+    searchInfo: searchInfoList,
     rowSelection: {
       type: 'checkbox',
     },
@@ -150,9 +156,21 @@
     },
   });
 
-  function handleDetails() {
+  function handleDel(data) {
+    const id = data.id;
+    postBackupRemoveApi({ id: id }).then(() => {
+      createMessage.success('删除成功');
+      reload();
+    });
+  }
+  function handleDetails(data) {
+    const id = data.id;
     router.push({
       name: 'BackupDetails',
+      query: {
+        id,
+        type: '详情',
+      },
     });
   }
   function getAdd() {
@@ -165,18 +183,8 @@
       name: 'EditBackup',
     });
   }
-  function handleOutbound() {
-    router.push({
-      name: 'OutboundAdd',
-    });
-  }
-  function handleInbound() {
-    router.push({
-      name: 'InboundAdd',
-    });
-  }
+
   function exportTable() {}
-  function handleDel() {}
 </script>
 <style scoped lang="less">
   ::v-deep(.ant-card-body) {

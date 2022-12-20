@@ -1,6 +1,7 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import DescItemTable from './inventory/DescItemTable.vue';
+import { Row, Image } from 'ant-design-vue';
 export const tableColumns: BasicColumn[] = [
   {
     title: '设备名称',
@@ -56,25 +57,21 @@ export const formSchema: FormSchema[] = [
 ];
 export const schemaDescItem: DescItem[] = [
   {
-    field: 'dangerName',
-    label: '重大危险源名称',
+    field: 'principalPeopleName',
+    label: '负责人',
   },
   {
-    field: 'riskLevelName',
-    label: '重大危险源级别',
+    field: 'principalPhone',
+    label: '电话',
   },
   {
-    field: 'projectName',
-    label: '所属项目',
+    field: 'warehouseSite',
+    label: '仓库位置',
   },
 
   {
-    field: 'districtName',
-    label: '所属区域',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '重大危险源类型',
+    field: 'remark',
+    label: '备注',
   },
 ];
 //backupDescItem
@@ -124,28 +121,172 @@ export const backupDescItem: DescItem[] = [
     label: '附件',
   },
 ];
+//库存详情列表
+export const detailsListColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'spareName',
+  },
+  {
+    title: '编号',
+    dataIndex: 'spareCode',
+  },
+  {
+    title: '备件分类',
+    dataIndex: 'spareClassify',
+  },
+  {
+    title: '数量',
+    dataIndex: 'number',
+  },
+];
 export const backupColumns: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'spareName',
+  },
+  {
+    title: '备件分类',
+    dataIndex: 'spareClassify',
+  },
+  {
+    title: '库存下限',
+    dataIndex: 'storageLow',
+  },
+  {
+    title: '库存上限',
+    dataIndex: 'storageHigh',
+  },
+  {
+    title: '添加时间',
+    dataIndex: 'createTime',
+  },
+];
+//备件台账详情- 关联设备
+export const devicesColumns: BasicColumn[] = [
   {
     title: '设备名称',
     dataIndex: 'name',
   },
   {
-    title: '所在区域',
-    dataIndex: 'productName',
-  },
-  {
-    title: '所属装置',
-    dataIndex: 'person',
+    title: '设备类型',
+    dataIndex: 'facilityType',
   },
   {
     title: '是否特种设备',
-    dataIndex: 'time',
+    dataIndex: 'specialEquipment',
   },
 ];
-
+//备件台账详情-基本信息
+export const informationDescItem: DescItem[] = [
+  {
+    label: '备件照片',
+    field: 'spareImgList',
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            {data.map((item) => {
+              return <Image width={100} src={item.url} />;
+            })}
+          </ARow>
+        );
+      }
+    },
+  },
+  {
+    label: '备件名称',
+    field: 'spareName',
+  },
+  {
+    label: '计量单位',
+    field: 'measureUnit',
+    //计量单位：0个，1件，2台，3组，4套
+    render: (data) => {
+      if (data) {
+        return data === 0 ? '个' : data === 1 ? '件' : data === 2 ? '台' : data === 3 ? '组' : '套';
+      }
+    },
+  },
+  {
+    label: '规格',
+    field: 'specification',
+  },
+  {
+    label: '最低存储额',
+    field: 'storageLow',
+  },
+  {
+    label: '最高存储额',
+    field: 'storageHigh',
+  },
+  {
+    label: '备件分类',
+    field: 'spareClassify',
+    //0易损备件，1事故备件，2常用备件，3大修备件
+    render: (data) => {
+      if (data) {
+        return data === 0
+          ? '易损备件'
+          : data === 1
+          ? '事故备件'
+          : data === 2
+          ? '常用备件'
+          : '大修备件';
+      }
+    },
+  },
+  {
+    label: '生产厂商',
+    field: 'manufacturer',
+  },
+  {
+    label: '参考价',
+    field: 'referencePrice',
+  },
+  {
+    label: '更换周期',
+    field: 'replacementPeriod',
+  },
+];
+//备件台账详情-库存
+export const stockColumns: BasicColumn[] = [
+  {
+    title: '所在地点',
+    dataIndex: 'name',
+  },
+  {
+    title: '备件数量',
+    dataIndex: 'spareNum',
+  },
+];
+//备件台账详情-出入库明细
+export const detailedColumns: BasicColumn[] = [
+  {
+    title: '类型',
+    dataIndex: 'receiptType',
+  },
+  {
+    title: '关联单号',
+    dataIndex: 'receiptCode',
+  },
+  {
+    title: '仓库',
+    dataIndex: 'warehouseName',
+  },
+  {
+    title: '入库数量',
+    dataIndex: 'person',
+  },
+  {
+    title: '出库数量',
+    dataIndex: 'person',
+  },
+];
 export const backupFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'spareName',
     component: 'Input',
     label: '备件名称',
     componentProps: {
@@ -153,11 +294,29 @@ export const backupFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'dutyPersonId',
-    component: 'ApiSelect',
+    field: 'spareClassify',
+    component: 'Select',
     label: '备件分类',
     componentProps: {
       placeholder: '请选择备件分类',
+      options: [
+        {
+          label: '易损备件',
+          value: '0',
+        },
+        {
+          label: '事故备件',
+          value: '1',
+        },
+        {
+          label: '常用备件',
+          value: '2',
+        },
+        {
+          label: '大修备件',
+          value: '3',
+        },
+      ],
     },
   },
 ];
@@ -165,69 +324,71 @@ export const backupFormSchema: FormSchema[] = [
 export const columnsWarehousing: BasicColumn[] = [
   {
     title: '入库单号',
-    dataIndex: 'name',
+    dataIndex: 'receiptCode',
   },
   {
     title: '入库类型',
-    dataIndex: 'productName',
+    dataIndex: 'inOutType',
   },
   {
     title: '入库仓库',
-    dataIndex: 'status',
+    dataIndex: 'warehouseName',
   },
   {
     title: '入库时间',
-    dataIndex: 'status',
+    dataIndex: 'inOutTime',
   },
   {
     title: '创建人',
-    dataIndex: 'status',
+    dataIndex: 'createBy',
   },
   {
     title: '经手人',
-    dataIndex: 'status',
+    dataIndex: 'peopleName',
   },
   {
     title: '创建时间',
-    dataIndex: 'status',
+    dataIndex: 'createTime',
   },
   {
     title: '入库单状态',
-    dataIndex: 'status',
+    dataIndex: 'receiptStatus',
+    //（0：正常；1：作废）
   },
 ];
 export const columnsIssue: BasicColumn[] = [
   {
     title: '出库单号',
-    dataIndex: 'name',
+    dataIndex: 'receiptCode',
   },
   {
     title: '出库类型',
-    dataIndex: 'productName',
+    dataIndex: 'inOutType',
   },
   {
     title: '出库仓库',
-    dataIndex: 'status',
+    dataIndex: 'warehouseName',
   },
   {
     title: '出库时间',
-    dataIndex: 'status',
+    dataIndex: 'inOutTime',
   },
   {
     title: '创建人',
-    dataIndex: 'status',
+    dataIndex: 'createBy',
   },
   {
     title: '经手人',
-    dataIndex: 'status',
+    dataIndex: 'peopleName',
   },
   {
     title: '创建时间',
-    dataIndex: 'status',
+    dataIndex: 'createTime',
   },
   {
     title: '入库单状态',
-    dataIndex: 'status',
+    dataIndex: 'receiptStatus',
+    //（0：正常；1：作废）
   },
 ];
 export const formSchemaIssue: FormSchema[] = [
@@ -286,17 +447,7 @@ export const formSchemaWarehousing: FormSchema[] = [
 //新增出库
 export const inboundAdd: FormSchema[] = [
   {
-    field: 'dutyTypeId',
-    component: 'ApiSelect',
-    label: '出库仓库',
-    required: true,
-    componentProps: {
-      placeholder: '请选择出库仓库',
-    },
-  },
-
-  {
-    field: 'problem',
+    field: 'inOutType',
     component: 'ApiSelect',
     label: '出库类型',
     required: true,
@@ -305,7 +456,7 @@ export const inboundAdd: FormSchema[] = [
     },
   },
   {
-    field: 'problem',
+    field: 'inOutTime',
     component: 'Input',
     label: '出库时间',
     required: true,
@@ -314,7 +465,7 @@ export const inboundAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkDate',
+    field: 'userId',
     component: 'Input',
     label: '申请人',
     required: true,
@@ -325,7 +476,7 @@ export const inboundAdd: FormSchema[] = [
   {
     //物品清单
     //选择仓库后带出来的数据
-    field: 'checkDate',
+    field: 'receiptSpareAddDTOList',
     component: 'Input',
     label: '物品清单',
     // required: true,
@@ -422,6 +573,11 @@ export const AddTable: BasicColumn[] = [
   {
     title: '单位',
     dataIndex: 'status',
+  },
+  {
+    title: '出库仓库',
+    dataIndex: 'warehouseId',
+    slots: { customRender: 'warehouseIdSlot' },
   },
   {
     title: '使用数量',
@@ -529,7 +685,7 @@ export const OutboundDescItem: DescItem[] = [
 //新增检测记录
 export const schemasAdd: FormSchema[] = [
   {
-    field: 'dutyTypeId',
+    field: 'warehouseName',
     component: 'Input',
     label: '仓库名称',
     required: true,
@@ -539,16 +695,14 @@ export const schemasAdd: FormSchema[] = [
   },
 
   {
-    field: 'problem',
+    field: 'principalPeopleId',
     component: 'ApiSelect',
     label: '负责人',
     required: true,
-    componentProps: {
-      placeholder: '请选择负责人',
-    },
+    slot: 'personSlot',
   },
   {
-    field: 'problem',
+    field: 'principalPhone',
     component: 'Input',
     label: '负责人电话',
     required: true,
@@ -557,7 +711,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkDate',
+    field: 'warehouseSite',
     component: 'Input',
     label: '仓库位置',
     required: true,
@@ -567,7 +721,7 @@ export const schemasAdd: FormSchema[] = [
   },
 
   {
-    field: 'problem',
+    field: 'remark',
     component: 'InputTextArea',
     label: '备注',
     componentProps: {

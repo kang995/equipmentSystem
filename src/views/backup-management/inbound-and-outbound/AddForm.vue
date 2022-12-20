@@ -3,6 +3,7 @@
     <BasicForm @register="register">
       <template #tableSlot>
         <BasicTable @register="registerTable">
+          <template #warehouseIdSlot>22</template>
           <template #inputSlot>
             <a-input :v-model="inputValue" placeholder="请输入数量" />
           </template>
