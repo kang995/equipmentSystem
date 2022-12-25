@@ -6,9 +6,15 @@ enum Api {
   DETAIL_EDIT = '/deviceWarehouse/update', //修改
   DETAIL_REMOVE = '/deviceWarehouse/remove', //删除
   DETAIL_LIST_SPARE = '/deviceWarehouse/spare/list', //查询库存详情列表
+  DETAIL_DWTAIL = '/deviceWarehouse/warehouse/detail',
 }
+export const postWarehouseDetailApi = (params) =>
+  defHttp.post({
+    url: Api.DETAIL_DWTAIL,
+    params,
+  });
 //查询库存详情列表
-export const posWarehouseSpareApi = (params) =>
+export const posWarehouseSpareApi = (params?) =>
   defHttp.post({
     url: Api.DETAIL_LIST_SPARE,
     params,

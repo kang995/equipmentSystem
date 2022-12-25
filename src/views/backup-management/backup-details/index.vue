@@ -26,11 +26,13 @@
                     <Icon icon="gonggong_gengduo|svg" :size="20" />
                     <template #overlay>
                       <a-menu>
-                        <a-menu-item class="cursor-pointer pt-1 delColor" @click="getEdit">
+                        <a-menu-item class="cursor-pointer pt-1 delColor" @click="getEdit(item.id)">
                           编辑
                         </a-menu-item>
                         <a-menu-divider />
-                        <a-menu-item class="cursor-pointer pt-1 delColor"> 删除 </a-menu-item>
+                        <a-menu-item class="cursor-pointer pt-1 delColor" @click="getDel(item.id)">
+                          删除
+                        </a-menu-item>
                       </a-menu>
                     </template>
                   </a-dropdown>
@@ -38,7 +40,7 @@
               </a-menu-item>
             </a-menu>
           </div>
-          <div class="my-6"><EmptyState /></div>
+          <div class="my-6" v-else><EmptyState /></div>
         </Card>
       </Col>
       <Col :span="18">
@@ -78,19 +80,30 @@
   import { schemaDescItem } from '../data';
   import { Icon } from '/@/components/Icon';
   import {
+    postWarehouseDetailApi,
     postWarehouseListApi,
+    posWarehouseRemoveApi,
     posWarehouseSpareApi,
   } from '/@/api/backup-management/backup-details';
+  import { useMessage } from '/@/hooks/web/useMessage';
+
   const router = useRouter();
   const AMenu = Menu;
   const AMenuItem = Menu.Item;
   const AMenuDivider = Menu.Divider;
+  const { createMessage } = useMessage();
 
+  const searchInfoList = ref<any>({});
   const ADropdown = Dropdown;
   const selectedKeys = ref([1]);
   const exportLoading = ref(false);
   function getMenuClick(item) {
     selectedKeys.value = item.keyPath;
+    const id = item.key;
+    getDetail(id);
+    // warehouseId = id;
+    searchInfoList.value.warehouseId = id;
+    reload();
   }
   onMounted(() => {
     getWarehouseSpare();
@@ -102,14 +115,14 @@
     schema: schemaDescItem,
     size: 'default',
     bordered: false,
-    labelStyle: { width: '180px' },
     column: 2,
   });
-  const [register] = useTable({
+  const [register, { reload }] = useTable({
     api: posWarehouseSpareApi,
     columns: detailsListColumns,
     useSearchForm: true,
     rowKey: 'id',
+    searchInfo: searchInfoList,
     rowSelection: {
       type: 'checkbox',
     },
@@ -138,13 +151,28 @@
   });
   function getWarehouseSpare() {
     postWarehouseListApi().then((res) => {
-      menuItems.value = res.map((v) => {
+      menuItems.value = res.records.map((v) => {
         return {
           id: v.warehouseId,
           name: v.warehouseName,
         };
       });
-      // mockData.value = res;
+      const idFirst = menuItems.value[0].id;
+      selectedKeys.value = [idFirst];
+      searchInfoList.value.warehouseId = idFirst;
+      reload();
+      getDetail(idFirst);
+    });
+  }
+  function getDetail(id) {
+    postWarehouseDetailApi({ id: id }).then((res) => {
+      mockData.value = res;
+    });
+  }
+  function getDel(id) {
+    posWarehouseRemoveApi({ id }).then(() => {
+      getWarehouseSpare();
+      createMessage.success('删除成功');
     });
   }
   function handleDetails(data) {
@@ -161,9 +189,12 @@
       name: 'BackupAdd',
     });
   }
-  function getEdit() {
+  function getEdit(id) {
     router.push({
       name: 'BackupEdit',
+      query: {
+        id,
+      },
     });
   }
 </script>

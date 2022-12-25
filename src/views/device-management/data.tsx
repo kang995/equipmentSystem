@@ -3,6 +3,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
 import { h } from 'vue';
 import { Tinymce } from '/@/components/Tinymce';
+import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -571,41 +572,48 @@ export const testingAdd: FormSchema[] = [
 export const tableColumns: BasicColumn[] = [
   {
     title: '备件名称',
-    dataIndex: 'name',
+    dataIndex: 'spareName',
   },
   {
     title: '备件分类',
-    dataIndex: 'productName',
+    dataIndex: 'spareClassify',
   },
   {
     title: '规格型号',
-    dataIndex: 'status',
+    dataIndex: 'specification',
   },
   {
     title: '单位',
-    dataIndex: 'status',
+    dataIndex: 'measureUnit',
   },
   {
     title: '库存',
-    dataIndex: 'status',
+    dataIndex: 'countInventorySum',
   },
 ];
 
 export const formSchema: FormSchema[] = [
   {
-    field: 'status',
-    component: 'ApiSelect',
-    label: '备件分类',
-    componentProps: {
-      placeholder: '请选择备件分类',
-    },
-  },
-  {
-    field: 'name',
+    field: 'spareName',
     component: 'Input',
     label: '备件姓名',
     componentProps: {
       placeholder: '请输入备件姓名',
+    },
+  },
+  {
+    field: 'status',
+    component: 'ApiSelect',
+    label: '备件分类',
+    componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'SPARE_TYPE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
+      placeholder: '请选择备件分类',
     },
   },
 ];

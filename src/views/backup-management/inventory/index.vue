@@ -18,6 +18,7 @@
                 title: '是否确认下发',
                 confirm: handleIssued.bind(null, record),
               },
+              ifShow: () => record.stockStatus == 0,
             },
             {
               label: '查看',
@@ -29,12 +30,18 @@
               delBtn: true,
               popConfirm: {
                 title: '是否确认作废',
-                confirm: handleIssued.bind(null, record),
+                confirm: handleCancellation.bind(null, record),
               },
+              ifShow: () => record.stockStatus == 2,
             },
             {
               label: '删除',
               delBtn: true,
+              popConfirm: {
+                title: '是否确认删除',
+                confirm: handleDel.bind(null, record),
+              },
+              ifShow: () => record.stockStatus == 1,
             },
           ]"
         />
@@ -62,13 +69,20 @@
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  import {
+    postTakeStockCancellationApi,
+    postTakeStockIssueApi,
+    postTakeStockListApi,
+    postTakeStockRemoveApi,
+  } from '/@/api/backup-management/inventory';
+  import { useMessage } from '/@/hooks/web/useMessage';
   const router = useRouter();
   const ATooltip = Tooltip;
+  const { createMessage } = useMessage();
+
   const exportLoading = ref(false);
-  const dataSource = ref([{}]);
   const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
+    api: postTakeStockListApi,
     columns: inventoryColumns,
     rowKey: 'id',
     useSearchForm: true,
@@ -98,9 +112,16 @@
     },
   });
 
-  function handleDetails() {
+  function handleDetails(record) {
+    const id = record.id;
+    const stockStatus = record.stockStatus;
+    console.log('stockStatus: ', stockStatus);
     router.push({
       name: 'InventoryDetails',
+      query: {
+        id,
+        stockStatus,
+      },
     });
   }
   function handleAdd() {
@@ -108,7 +129,23 @@
       name: 'InventoryAdd',
     });
   }
-  function handleIssued() {}
+  function handleIssued(record) {
+    const id = record.id;
+    getApi(postTakeStockIssueApi, id, '下发成功');
+  }
+  function handleCancellation(record) {
+    const id = record.id;
+    getApi(postTakeStockCancellationApi, id, '作废成功');
+  }
+  function handleDel(record) {
+    const id = record.id;
+    getApi(postTakeStockRemoveApi, id, '删除成功');
+  }
+  function getApi(api, id, test) {
+    api({ id }).then(() => {
+      createMessage.success(test);
+    });
+  }
   function exportTable() {}
 </script>
 <style scoped lang="less"></style>

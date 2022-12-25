@@ -1,57 +1,110 @@
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  LIBRARY_LIST = '/deviceInOutReceipt/list', //出-入库列表 receiptType	列表类型：0入库，1出库
-  LIBRARY_DETAIL = '/deviceInOutReceipt/detail', //详情信息
-  LIBRARY_ADD = '/deviceInOutReceipt/save', //新增
-  // LIBRARY_EDIT = '', //修改
-  LIBRARY_REMOVE = '/deviceInOutReceipt/remove', //删除
-  LIBRARY_REMOVE_BATCH = '/deviceInOutReceipt/batch/remove', //批量删除
-  // LIBRARY_EXPORT = '', //批量导出
+  //出库
+  OUT_LIST = '/deviceOutReceipt/list', //出库列表
+  OUT_DETAIL = '/deviceOutReceipt/detail', //出库详情信息
+  OUT_DISCARD = '/deviceOutReceipt/discard', //出库作废
+  OUT_REMOVE = '/deviceOutReceipt/remove', //出库删除
+  OUT_EXPORT = '/deviceOutReceipt/export', //出库批量导出
+  OUT_REMOVE_BATCH = '/deviceOutReceipt/batch/remove', //出库批量删除
+  OUT_ADD = '/deviceOutReceipt/save', //出库新增
+
+  //入库
+  IN_LIST = '/deviceInReceipt/list', //入库列表
+  IN_EXPORT = '/deviceInReceipt/export', //出入库列表批量导出
+  IN_DISCARD = '/deviceInReceipt/discard', //入库作废
+  IN_DETAIL = '/deviceInReceipt/detail', // 入库详情
+  IN_REMOVE_BATCH = '/deviceInReceipt/batch/remove', // 入库批量删除
+  IN_REMOVE = '/deviceInReceipt/remove', // 入库删除
+  IN_ADD = '/deviceInReceipt/save', // 入库新增
+  //
 }
+//出库
 //分页动态查询 列表
-export const postLibraryApi = (params) =>
+export const postOUTApi = (params) =>
   defHttp.post({
-    url: Api.LIBRARY_LIST,
+    url: Api.OUT_LIST,
+    params,
+  });
+export const postInApi = (params) =>
+  defHttp.post({
+    url: Api.IN_LIST,
     params,
   });
 // 详情信息
-export const posLibraryDetailApi = (params) =>
+export const posOUTDetailApi = (params) =>
   defHttp.post({
-    url: Api.LIBRARY_DETAIL,
+    url: Api.OUT_DETAIL,
+    params,
+  });
+export const posInDetailApi = (params) =>
+  defHttp.post({
+    url: Api.IN_DETAIL,
     params,
   });
 // 新增
-export const posLibraryAddApi = (params) =>
+export const posOUTAddApi = (params) =>
   defHttp.post({
-    url: Api.LIBRARY_ADD,
+    url: Api.OUT_ADD,
     params,
   });
-// 修改
-// export const posLibraryEditApi = (params) =>
-//   defHttp.post({
-//     url: Api.OUT_RECEIPT_EDIT,
-//     params,
-//   });
-//删除
-export const posLibraryRemoveApi = (params) =>
+export const posInAddApi = (params) =>
   defHttp.post({
-    url: Api.LIBRARY_REMOVE,
+    url: Api.IN_ADD,
+    params,
+  });
+//删除
+export const posOUTRemoveApi = (params) =>
+  defHttp.post({
+    url: Api.OUT_REMOVE,
+    params,
+  });
+export const posInRemoveApi = (params) =>
+  defHttp.post({
+    url: Api.IN_REMOVE,
+    params,
+  });
+//作废
+export const posOutDiscardApi = (params) =>
+  defHttp.post({
+    url: Api.OUT_DISCARD,
+    params,
+  });
+export const posInDiscardApi = (params) =>
+  defHttp.post({
+    url: Api.IN_DISCARD,
     params,
   });
 //批量删除
-export const posLibraryBatchRemoveApi = (params) =>
+export const posOUTBatchRemoveApi = (params) =>
   defHttp.post({
-    url: Api.LIBRARY_REMOVE_BATCH,
+    url: Api.OUT_REMOVE_BATCH,
     params,
   });
 //批量导出
-// export const exporLibraryApi = (params) =>
-//   defHttp.post(
-//     {
-//       responseType: 'arraybuffer',
-//       params,
-//       url: Api.OUT_RECEIPT_EXPORT,
-//     },
-//     { isTransformResponse: false },
-//   );
+export const exporOUTApi = (params) =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      params,
+      url: Api.OUT_EXPORT,
+    },
+    { isTransformResponse: false },
+  );
+export const exporInApi = (params) =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      params,
+      url: Api.IN_EXPORT,
+    },
+    { isTransformResponse: false },
+  );
+//入库
+//入库列表
+export const posInReceiptListApi = (params) =>
+  defHttp.post({
+    url: Api.OUT_LIST,
+    params,
+  });

@@ -67,12 +67,13 @@
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { backupColumns, backupFormSchema } from '../data';
   import { Tooltip, Row, Col, Card, Menu } from 'ant-design-vue';
   import { postBackupListApi, postBackupRemoveApi } from '/@/api/backup-management/backup';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
   const router = useRouter();
   const ATooltip = Tooltip;
   const AMenu = Menu;
@@ -82,29 +83,23 @@
   const { createMessage } = useMessage();
   function getMenuClick(item) {
     selectedKeys.value = item.keyPath;
+    searchInfoList.value.deviceType = item.key;
+    reload();
   }
-  const menuItems = ref([
-    {
-      title: '全部',
-      key: 1,
-    },
-    {
-      title: '仪表',
-      key: 2,
-    },
-    {
-      title: '罐',
-      key: 3,
-    },
-    {
-      title: '阀门',
-      key: 4,
-    },
-    {
-      title: '其他',
-      key: 5,
-    },
-  ]);
+  onMounted(() => {
+    getSelect();
+  });
+  const menuItems = ref<any>([]); //DEVICE_TYPE  getDictionarySelectType
+  function getSelect() {
+    getDictionarySelectType({ type: 'DEVICE_TYPE' }).then((res) => {
+      menuItems.value = res.map((v) => {
+        return {
+          key: v.itemValue,
+          title: v.itemName,
+        };
+      });
+    });
+  }
   const [registerForm, { getFieldsValue }] = useForm({
     schemas: backupFormSchema,
     baseColProps: {
@@ -137,11 +132,9 @@
     searchInfoList.value = [];
     reload();
   }
-  const dataSource = ref([{ id: '1' }]);
 
   const [register, { reload }] = useTable({
-    dataSource: dataSource,
-    // api: postBackupListApi,
+    api: postBackupListApi,
     columns: backupColumns,
     rowKey: 'id',
     searchInfo: searchInfoList,

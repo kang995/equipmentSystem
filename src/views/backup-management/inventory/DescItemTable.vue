@@ -23,7 +23,7 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
   const props = defineProps<{
-    dataSource: any; //出库
+    dataSource: any;
     columns: any;
     ifAction?: any;
   }>();

@@ -5,21 +5,21 @@
     :canFullscreen="false"
     title="选择备件"
     width="950px"
+    @ok="handleOk"
     :maskClosable="false"
   >
-    <template #footer> </template>
     <div> <BasicTable @register="register" /></div>
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { ref } from 'vue';
+  import { postBackupListApi } from '/@/api/backup-management/backup';
+
   import { tableColumns, formSchema } from '../../data';
   const [registerModal] = useModalInner(async () => {});
-  const dataSource = ref([{}]);
-  const [register] = useTable({
-    dataSource: dataSource,
+  const [register, { getSelectRowKeys, getSelectRows }] = useTable({
+    api: postBackupListApi,
     columns: tableColumns,
     rowKey: 'id',
     useSearchForm: true,
@@ -43,4 +43,11 @@
       },
     },
   });
+  const emit = defineEmits(['handleOk', 'register']);
+
+  function handleOk() {
+    const ids = getSelectRowKeys();
+    const data = getSelectRows();
+    emit('handleOk', ids, data);
+  }
 </script>
