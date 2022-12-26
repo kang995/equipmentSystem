@@ -24,7 +24,7 @@ const setup: AppRouteModule = {
         {
           path: 'maintain-add',
           name: 'maintainAdd',
-          component: () => import('../../../views/device-maintenance/maintain-plan/module/add.vue'),
+          component: () => import('../../../views/device-maintenance/maintain-plan/module/Add.vue'),
           meta: {
             title: '新增保养计划',
           },
