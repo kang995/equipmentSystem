@@ -8,6 +8,7 @@
   import { ref } from 'vue';
   import { informationDescItem } from '../data';
   import { useRoute } from 'vue-router';
+  import { postBackupDetailApi } from '/@/api/backup-management/backup';
   const route = useRoute();
   const id = route.query.id as string;
   console.log('id: ', id);
@@ -20,6 +21,10 @@
     column: 1,
     labelStyle: { width: '180px' },
   });
+  id &&
+    postBackupDetailApi({ id }).then((res) => {
+      mockData.value = res;
+    });
 </script>
 <style lang="less" scoped>
   .a {

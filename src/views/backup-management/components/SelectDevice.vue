@@ -16,9 +16,9 @@
     @ok="handleOk"
   >
     <Transfer
+      :data-source="dataSource"
       v-model:target-keys="targetKeys"
       :titles="['设备选择', '已经选择设备']"
-      :data-source="dataSource"
       :list-style="{
         width: '100%',
         height: '400px',
@@ -29,6 +29,7 @@
       <template #children="{ direction, selectedKeys, onItemSelect }">
         <Tree
           v-if="direction === 'left'"
+          :fieldNames="{ children: 'children', title: 'label', key: 'id' }"
           block-node
           checkable
           check-strictly
@@ -51,38 +52,38 @@
 </template>
 <script lang="ts" setup>
   import { BasicModal, useModalInner } from '/@/components/Modal';
-  import { computed, ref } from 'vue';
+  import { computed, ref, onMounted } from 'vue';
   import type { TransferProps, TreeProps } from 'ant-design-vue';
   import { Transfer, Tree } from 'ant-design-vue';
+  import { postTreeSelectApi } from '/@/api/backup-management/backup';
   const emit = defineEmits(['handleOk', 'register']);
   const [registerModal] = useModalInner(async () => {});
+
+  const targetKeys = ref<any>([]);
+
   //确认
   const dataList = ref([]);
   function handleOk() {
-    emit('handleOk', dataList.value);
+    emit('handleOk', [...new Set(targetKeys.value)]);
+  }
+  onMounted(() => {
+    funTreeSelect();
+  });
+  function funTreeSelect() {
+    postTreeSelectApi().then((res) => {
+      tData = res;
+      flatten(JSON.parse(JSON.stringify(tData)));
+    });
   }
 
-  const tData: TransferProps['dataSource'] = [
-    { key: '0-0', title: '0-0' },
-    {
-      key: '0-1',
-      title: '0-1',
-      children: [
-        { key: '0-1-0', title: '0-1-0' },
-        { key: '0-1-1', title: '0-1-1' },
-      ],
-    },
-    { key: '0-2', title: '0-3' },
-  ];
-
-  const transferDataSource: TransferProps['dataSource'] = [];
+  let tData: TreeProps['treeData'] = [];
+  const transferDataSource: any = [];
   function flatten(list: TransferProps['dataSource'] = []) {
     list.forEach((item) => {
       transferDataSource.push(item);
       flatten(item.children);
     });
   }
-  flatten(JSON.parse(JSON.stringify(tData)));
 
   function isChecked(selectedKeys: (string | number)[], eventKey: string | number) {
     return selectedKeys.indexOf(eventKey) !== -1;
@@ -95,14 +96,14 @@
         handleTreeData(item.children, targetKeys);
       }
     });
-    return data as TreeProps['treeData'];
+    return data;
   }
 
-  const targetKeys = ref<string[]>([]);
+  // 数据源
+  let dataSource = ref<any>(transferDataSource);
+  // 树结构
 
-  const dataSource = ref(transferDataSource);
-
-  const treeData = computed(() => {
+  let treeData = computed<TreeProps['treeData']>(() => {
     return handleTreeData(tData, targetKeys.value);
   });
 
@@ -116,5 +117,8 @@
 <style lang="less" scoped>
   ::v-deep(.ant-transfer-list-body) {
     padding-top: 16px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    height: 500px;
   }
 </style>

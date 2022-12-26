@@ -38,18 +38,21 @@
   import { ref } from 'vue';
   import { devicesColumns } from '../data';
   import { useModal } from '/@/components/Modal';
+  import { postBackupDetailApi } from '/@/api/backup-management/backup';
   const router = useRouter();
   const route = useRoute();
   const exportLoading = ref(false);
   const id = route.query?.id;
   const type = route.query?.type;
 
-  const dataSource = ref([{}]);
+  const dataSource = ref([]);
   const [registerModal, { openModal: openModal, closeModal }] = useModal();
-
+  id &&
+    postBackupDetailApi({ id }).then((res) => {
+      dataSource.value = res.relevanceList;
+    });
   const [register] = useTable({
     dataSource: dataSource,
-    // api: thresholdListApi,
     columns: devicesColumns,
     rowKey: 'id',
     rowSelection: {

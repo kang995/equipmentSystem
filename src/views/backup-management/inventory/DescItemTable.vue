@@ -47,10 +47,14 @@
       slots: { customRender: 'action' },
     },
   });
-  function handleDetails() {
+  function handleDetails(data) {
+    const id = data.spareId;
     //备件管理详情
     router.push({
       name: 'BackupDetails',
+      query: {
+        id,
+      },
     });
   }
 </script>

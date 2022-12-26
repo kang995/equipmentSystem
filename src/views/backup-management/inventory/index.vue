@@ -56,7 +56,7 @@
         >
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button @click="exportTable" :loading="loading">批量导出</a-button>
         </a-tooltip>
       </template>
     </BasicTable>
@@ -69,19 +69,20 @@
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  import { downloadByData } from '/@/utils/file/download';
   import {
     postTakeStockCancellationApi,
     postTakeStockIssueApi,
     postTakeStockListApi,
     postTakeStockRemoveApi,
+    exportTakeStockApi,
   } from '/@/api/backup-management/inventory';
   import { useMessage } from '/@/hooks/web/useMessage';
   const router = useRouter();
   const ATooltip = Tooltip;
   const { createMessage } = useMessage();
-
-  const exportLoading = ref(false);
-  const [register] = useTable({
+  const loading = ref<boolean>(false);
+  const [register, { getSelectRowKeys }] = useTable({
     api: postTakeStockListApi,
     columns: inventoryColumns,
     rowKey: 'id',
@@ -146,6 +147,21 @@
       createMessage.success(test);
     });
   }
-  function exportTable() {}
+  function exportTable() {
+    const ids = getSelectRowKeys();
+    loading.value = true;
+    let data = {
+      ids: ids,
+    };
+    Object.assign(data);
+    exportTakeStockApi(data)
+      .then((res) => {
+        downloadByData(res, '盘点列表.xlsx');
+        loading.value = false;
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
 </script>
 <style scoped lang="less"></style>

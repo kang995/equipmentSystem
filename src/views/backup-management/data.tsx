@@ -257,18 +257,26 @@ export const informationDescItem: DescItem[] = [
 export const stockColumns: BasicColumn[] = [
   {
     title: '所在地点',
-    dataIndex: 'name',
+    dataIndex: 'warehouseSite',
   },
   {
     title: '备件数量',
-    dataIndex: 'spareNum',
+    dataIndex: 'inventorySum',
   },
 ];
 //备件台账详情-出入库明细
 export const detailedColumns: BasicColumn[] = [
   {
+    title: 'id',
+    dataIndex: 'receiptId',
+    ifShow: false,
+  },
+  {
     title: '类型',
     dataIndex: 'receiptType',
+    customRender: ({ text }) => {
+      return text === '0' ? '入库' : '出库';
+    },
   },
   {
     title: '关联单号',
@@ -280,11 +288,27 @@ export const detailedColumns: BasicColumn[] = [
   },
   {
     title: '入库数量',
-    dataIndex: 'person',
+    dataIndex: 'number',
+    customRender: ({ text, record }) => {
+      const type = record.receiptType;
+      if (type === '0') {
+        return text;
+      } else {
+        return '--';
+      }
+    },
   },
   {
     title: '出库数量',
-    dataIndex: 'person',
+    dataIndex: 'number',
+    customRender: ({ text, record }) => {
+      const type = record.receiptType;
+      if (type === '1') {
+        return text;
+      } else {
+        return '--';
+      }
+    },
   },
 ];
 export const backupFormSchema: FormSchema[] = [
@@ -459,6 +483,7 @@ export const formSchemaWarehousing: FormSchema[] = [
 //备件新增
 export const sparePartAdd: FormSchema[] = [
   {
+    //没保存上，没有url
     field: 'spareImgList',
     component: 'Upload',
     label: '备件图片',

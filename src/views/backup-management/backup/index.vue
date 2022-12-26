@@ -37,7 +37,10 @@
                 },
                 {
                   label: '删除',
-                  onClick: handleDel.bind(null, record),
+                  popConfirm: {
+                    title: '是否确认删除',
+                    confirm: handleDel.bind(null, record),
+                  },
                   delBtn: true,
                 },
               ]"
@@ -48,14 +51,14 @@
               type="primary"
               preIcon="gonggong_tianjia_xianxing|svg"
               class="mr-4"
-              :loading="exportLoading"
+              :loading="loading"
               @click="getAdd()"
               >添加备件</a-button
             >
             <a-button class="mr-4">批量导入</a-button>
             <a-tooltip>
               <template #title>不选择即导出全部数据</template>
-              <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+              <a-button @click="exportTable" :loading="loading">批量导出</a-button>
             </a-tooltip>
           </template>
         </BasicTable>
@@ -71,15 +74,20 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { backupColumns, backupFormSchema } from '../data';
   import { Tooltip, Row, Col, Card, Menu } from 'ant-design-vue';
-  import { postBackupListApi, postBackupRemoveApi } from '/@/api/backup-management/backup';
+  import { downloadByData } from '/@/utils/file/download';
+  import {
+    exportBackupApi,
+    postBackupListApi,
+    postBackupRemoveApi,
+  } from '/@/api/backup-management/backup';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
   const router = useRouter();
   const ATooltip = Tooltip;
   const AMenu = Menu;
   const AMenuItem = Menu.Item;
-  const selectedKeys = ref([1]);
-  const exportLoading = ref(false);
+  const loading = ref<boolean>(false);
+  const selectedKeys = ref<any>([1]);
   const { createMessage } = useMessage();
   function getMenuClick(item) {
     selectedKeys.value = item.keyPath;
@@ -98,6 +106,8 @@
           title: v.itemName,
         };
       });
+      menuItems.value.unshift({ key: ' ', title: '全部' });
+      selectedKeys.value = [menuItems.value[0].key];
     });
   }
   const [registerForm, { getFieldsValue }] = useForm({
@@ -133,7 +143,7 @@
     reload();
   }
 
-  const [register, { reload }] = useTable({
+  const [register, { reload, getSelectRowKeys }] = useTable({
     api: postBackupListApi,
     columns: backupColumns,
     rowKey: 'id',
@@ -171,13 +181,32 @@
       name: 'AddBackup',
     });
   }
-  function handleEdit() {
+  function handleEdit(record) {
+    const { id } = record;
     router.push({
       name: 'EditBackup',
+      query: {
+        id,
+      },
     });
   }
 
-  function exportTable() {}
+  function exportTable() {
+    const ids = getSelectRowKeys();
+    loading.value = true;
+    let data = {
+      ids: ids,
+    };
+    Object.assign(data);
+    exportBackupApi(data)
+      .then((res) => {
+        downloadByData(res, '备件列表.xlsx');
+        loading.value = false;
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
 </script>
 <style scoped lang="less">
   ::v-deep(.ant-card-body) {

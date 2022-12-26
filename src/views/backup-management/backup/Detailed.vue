@@ -19,15 +19,18 @@
   import { useRouter, useRoute } from 'vue-router';
   import { ref } from 'vue';
   import { detailedColumns } from '../data';
+  import { postBackupDetailApi } from '/@/api/backup-management/backup';
   const router = useRouter();
   const route = useRoute();
 
   const id = route.query?.id;
   const dataSource = ref([{ receiptType: '出库' }, { receiptType: '入库' }]);
-
+  id &&
+    postBackupDetailApi({ id }).then((res) => {
+      dataSource.value = res.inOutReceiptList;
+    });
   const [register] = useTable({
     dataSource: dataSource,
-    // api: thresholdListApi,
     columns: detailedColumns,
     rowKey: 'id',
     rowSelection: {
@@ -43,16 +46,25 @@
   });
 
   function handleDetails(data) {
+    const id = data.receiptId;
     const type = data.receiptType;
     let name;
-    if (type == '出库') {
+    if (type == '1') {
       name = 'InboundDetails';
     } else {
       name = 'OutboundDetails';
     }
     router.push({
       name: name,
+      query: {
+        id,
+      },
     });
   }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  ::v-deep(.ant-table-wrapper) {
+    border-radius: 0 0 6px 6px;
+    border-top: none;
+  }
+</style>
