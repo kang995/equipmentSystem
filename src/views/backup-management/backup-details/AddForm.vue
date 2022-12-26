@@ -23,7 +23,11 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import { ref, onMounted } from 'vue';
   import { getPeopleSelect } from '/@/api/sys/systemSetting/systemType';
-  import { posWarehouseAddApi, posWarehouseEditApi } from '/@/api/backup-management/backup-details';
+  import {
+    posWarehouseAddApi,
+    posWarehouseEditApi,
+    postWarehouseDetailApi,
+  } from '/@/api/backup-management/backup-details';
   import { useMessage } from '/@/hooks/web/useMessage';
   const { closeCurrent } = useTabs();
   const route = useRoute();
@@ -32,16 +36,12 @@
 
   const { createMessage } = useMessage();
 
-  const options = ref([]);
-  const PeopleSelect = ref([]);
-  onMounted(() => {
-    peopleSelect();
-  });
+  const options = ref<any>([]);
+  const PeopleSelect = ref<any>([]);
 
   function peopleSelect() {
     getPeopleSelect().then((res) => {
       PeopleSelect.value = res;
-      console.log('res: ', res); //phone
       options.value = res.map((v) => {
         return {
           value: v.id,
@@ -51,11 +51,17 @@
     });
   }
 
-  function handleChangeCheck(val, DATA) {
-    console.log('DATA: ', DATA);
-    console.log('val: ', val);
-    // const { phone } = PeopleSelect.value;
-    setFieldsValue({ principalPhone: '15267289380' });
+  onMounted(() => {
+    peopleSelect();
+    if (id) {
+      postWarehouseDetailApi({ id: id }).then((res) => {
+        setFieldsValue(res);
+      });
+    }
+  });
+  function handleChangeCheck(val) {
+    const { phone } = PeopleSelect.value.find((item) => item.id == val);
+    setFieldsValue({ principalPhone: phone });
   }
   const [register, { setFieldsValue, getFieldsValue }] = useForm({
     labelCol: {
@@ -101,16 +107,13 @@
     });
   }
   function funAdd(data) {
-    console.log('data:111111 ', data);
-    posWarehouseAddApi(data).then((res) => {
-      console.log('res: ', res);
+    posWarehouseAddApi(data).then(() => {
       createMessage.success('新增成功');
       getRoute();
     });
   }
   function funDetails(data) {
-    posWarehouseEditApi(data).then((res) => {
-      console.log('res: ', res);
+    posWarehouseEditApi(data).then(() => {
       createMessage.success('修改成功');
       getRoute();
     });
