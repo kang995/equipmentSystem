@@ -1,6 +1,11 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { Tag } from 'ant-design-vue';
-import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
+import {
+  getDictionarySelectTypeApi,
+  getPersonSelectApi,
+  getDepartmentSelectApi,
+  getPeopleSelectApi,
+} from '/@/api/device-maintenance/index';
 
 //列表
 export function tableColumns(): BasicColumn[] {
@@ -463,31 +468,40 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'ApiSelect',
       label: '处理部门',
       required: true,
-      componentProps: {
-        placeholder: '请选择处理部门',
-        api: getPersonSelectApi,
-        params: {
-          // type: 'PLAN_STATUS'
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'deptId',
+      componentProps: ({ formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          placeholder: '请选择处理部门',
+          api: getDepartmentSelectApi,
+          params: {
+            // type: 'PLAN_STATUS'
+          },
+          resultField: 'data', //后台返回数据字段
+          labelField: 'label',
+          valueField: 'id',
+          onChange: (e: any) => {
+            // console.log(e);
+            getPeopleSelectApi([e]).then((res) => {
+              updateSchema({
+                field: 'userId',
+                componentProps: {
+                  options: res,
+                },
+              });
+            });
+          },
+        };
       },
     },
     {
       field: 'userId',
-      component: 'ApiSelect',
+      component: 'Select',
       label: '处理人',
       required: true,
       componentProps: {
         placeholder: '请选择处理人',
-        api: getPersonSelectApi,
-        params: {
-          // type: 'PLAN_STATUS'
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
+        options: [],
+        fieldNames: { label: 'name', value: 'id' },
       },
     },
     {

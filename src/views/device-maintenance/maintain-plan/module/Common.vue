@@ -21,6 +21,11 @@
                     },
                     {
                       label: '删除',
+                      color: 'error',
+                      popConfirm: {
+                        title: '是否确认删除?',
+                        confirm: handleDelete.bind(null, record),
+                      },
                     },
                   ]"
                 />
@@ -40,7 +45,7 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { Card, Form } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { getCommonFormSchema, planTableColumns } from '../data';
@@ -51,9 +56,19 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import { putPlanListApi } from '/@/api/device-maintenance/index';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import {
+    updatePlanListApi,
+    reUpdatePlanListApi,
+    getPlanDetailApi,
+    getDeviceSelectApi,
+  } from '/@/api/device-maintenance/index';
   const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
+  const route = useRoute();
+  const isEdit = route.query?.isEdit as string;
+  const approvalStatus = route.query?.approvalStatus as string;
+  const id = route.query?.id as string;
   const [registerDeviceModal, { openModal: openDeviceModal }] = useModal();
   const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
@@ -90,9 +105,8 @@
     ],
   });
   const AFormItemRest = Form.ItemRest;
-
   const dataSource = ref([{}]);
-  const [registerTable] = useTable({
+  const [registerTable, { getForm }] = useTable({
     dataSource: dataSource,
     // api: thresholdListApi,
     columns: planTableColumns(),
@@ -106,19 +120,55 @@
       slots: { customRender: 'action' },
     },
   });
+  //详情
+  id &&
+    getPlanDetailApi({ id }).then((res) => {
+      setFieldsValue(res);
+      getDeviceSelectApi([res['deviceIdList']]).then((res1) => {
+        dataSource.value = res1;
+      });
+    });
   //提交
   async function sumitForm() {
     await validate();
     let params = getFieldsValue();
     console.log('数据', params);
-    putPlanListApi(params)
-      .then(() => {
-        router.go(-1);
-        createMessage.success('新增成功');
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let { id } = getForm().getFieldsValue();
+    params.deviceIdList = [id];
+
+    //判断新增、编辑、重新编辑
+    if (isEdit === 'false') {
+      putPlanListApi(params)
+        .then(() => {
+          router.go(-1);
+          createMessage.success('新增成功');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      if (approvalStatus === '1') {
+        //待提交
+        updatePlanListApi(params)
+          .then(() => {
+            router.go(-1);
+            createMessage.success('编辑成功');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        //拒绝
+        reUpdatePlanListApi(params)
+          .then(() => {
+            router.go(-1);
+            createMessage.success('编辑成功');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   }
   //取消
   async function resetSubmitFunc() {
@@ -133,6 +183,11 @@
     router.push({
       name: '',
     });
+  }
+  //删除
+  function handleDelete(record) {
+    // console.log(record,index)
+    // dataSource.value.splice(index,1);
   }
 </script>
 

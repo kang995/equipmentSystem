@@ -20,7 +20,7 @@
   import { getRecallFormSchema } from './fileld';
 
   const emit = defineEmits(['recallEvent', 'register']);
-  const recallData = ref({});
+  const recallData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
     recallData.value = data;
     console.log(111, data);
@@ -48,6 +48,7 @@
   async function submitForm() {
     await validate();
     const data = getFieldsValue();
+    data.id = recallData.value?.id;
     emit('recallEvent', data);
   }
   //取消

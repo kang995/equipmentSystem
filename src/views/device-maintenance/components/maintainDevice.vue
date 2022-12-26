@@ -20,13 +20,16 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { tableDeviceColumns } from './fileld';
+  import { selectListDeviceApi } from '/@/api/device-maintenance/index';
   const router = useRouter();
+  const route = useRoute();
+  const id = route.query?.id as string;
   const dataSource = ref([{}, {}]);
   const [register] = useTable({
     dataSource: dataSource,
-    // api: thresholdListApi,
+    // api: selectListDeviceApi,
     columns: tableDeviceColumns(),
     rowKey: 'id',
     useSearchForm: false, //开启搜索表单
@@ -38,6 +41,10 @@
       slots: { customRender: 'action' },
     },
   });
+  id &&
+    selectListDeviceApi({ id }).then((res) => {
+      dataSource.value = res;
+    });
   //详情
   function handleDetails() {
     router.push({

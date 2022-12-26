@@ -171,23 +171,23 @@ export function tableDeviceColumns(): BasicColumn[] {
   return [
     {
       title: '设备名称',
-      dataIndex: 'name',
+      dataIndex: 'deviceName',
     },
     {
       title: '设备地点',
-      dataIndex: 'productName',
+      dataIndex: 'districtName',
     },
     {
       title: '所属装置',
-      dataIndex: 'person',
+      dataIndex: 'facilitiesName',
     },
     {
       title: '设备类型',
-      dataIndex: 'time',
+      dataIndex: 'deviceTypeName',
     },
     {
       title: '是否特种设备',
-      dataIndex: 'status',
+      dataIndex: 'specialEquipment',
     },
   ];
 }
@@ -437,7 +437,7 @@ export function receiveSchemaDetail(): DescItem[] {
 export function getRecallFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'revokeReason',
       component: 'InputTextArea',
       label: '撤回原因',
       required: true,
@@ -448,7 +448,7 @@ export function getRecallFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name1',
+      field: 'revokeRemark',
       component: 'InputTextArea',
       label: '备注',
       componentProps: {
@@ -464,7 +464,7 @@ export function getRecallFormSchema(): FormSchema[] {
 export function getPlanFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'stopReason',
       component: 'InputTextArea',
       label: '停止原因',
       required: true,
@@ -475,7 +475,7 @@ export function getPlanFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name1',
+      field: 'stopRemark',
       component: 'InputTextArea',
       label: '备注',
       componentProps: {

@@ -54,7 +54,7 @@
             <template #title>不选择即导出全部数据</template>
             <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
           </a-tooltip>
-          <a-button>批量删除</a-button>
+          <a-button @click="handleDelete">批量删除</a-button>
         </div>
       </template>
     </BasicTable>
@@ -65,7 +65,7 @@
   </PageWrapper>
 </template>
 <script setup lang="ts">
-  import { ref, createVNode } from 'vue';
+  import { ref, createVNode, h } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
@@ -73,17 +73,26 @@
   import { Tooltip, Modal, message } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
-  import { getPlanListApi, exportPlanDataApi } from '/@/api/device-maintenance/index';
   import { useModal } from '/@/components/Modal';
   import recallModel from '/@/views/device-maintenance/components/recallModel.vue';
   import planModel from '/@/views/device-maintenance/components/stopPlanModel.vue';
-
-  const { createMessage } = useMessage();
+  import {
+    getPlanListApi,
+    exportPlanDataApi,
+    deletePlanListApi,
+    stopPlanListApi,
+    submitListApi,
+    rebackListApi,
+  } from '/@/api/device-maintenance/index';
+  const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
   const [RecallModal, { openModal: openRecallModal }] = useModal();
   const [planModal, { openModal: openPlanModal }] = useModal();
-  const [register, { reload, getSelectRowKeys, getForm, getPaginationRef }] = useTable({
+  const [
+    register,
+    { reload, getSelectRowKeys, getForm, getPaginationRef, getSelectRows, setLoading },
+  ] = useTable({
     api: getPlanListApi,
     columns: tableColumns(),
     rowKey: 'id',
@@ -130,55 +139,116 @@
   // 编辑
   function handleEdit(record) {
     console.log('handleEdit', record);
+    router.push({
+      name: 'maintainAdd',
+      query: {
+        id: record.id,
+        approvalStatus: record.approvalStatus,
+        isEdit: 'true',
+      },
+    });
   }
   // 删除
   function handleDelete(record) {
-    console.log('handleDelete', record);
-    reload();
+    const { id } = record;
+    let ids = ref<string[]>([]);
+    if (id) {
+      //单条删除
+      ids.value = [record.id];
+      deleteApi(ids.value);
+    } else {
+      //批量删除
+      const data = getSelectRows();
+      if (data.length > 0) {
+        ids.value = data.map((item) => item.id);
+      } else {
+        createMessage.warning('请先选择需要删除的数据');
+        return;
+      }
+      createConfirm({
+        iconType: 'warning',
+        title: () => h('span', '提示'),
+        content: () => h('span', `是否要删除${ids.value.length}条数据？`),
+        okText: '删除',
+        onOk: async () => {
+          deleteApi(ids.value);
+        },
+      });
+    }
+  }
+  //删除api
+  function deleteApi(ids: string[]) {
+    setLoading(true);
+    deletePlanListApi(ids)
+      .then(() => {
+        createMessage.success('删除成功');
+        reload();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
   //提交
-  function handleSubmit() {
+  function handleSubmit(record) {
+    const { id } = record;
     Modal.confirm({
       title: '保养计划提交',
       content: createVNode('span', { style: 'color:black;' }, '确认要提交保养计划？'),
       centered: true,
       onOk() {
-        // postHandleTaskApi({ }).then(() => {
-        message.success('提交成功');
-        reload();
-        // });
+        submitListApi({ id }).then(() => {
+          message.success('提交成功');
+          reload();
+        });
       },
     });
   }
   //撤回
-  function handleRecall() {
+  function handleRecall(record) {
     openRecallModal(true, {
+      id: record.id,
       title: '保养计划撤回',
       isFlag: '1',
     });
   }
   //撤回-提交
   function handleRecallEvent(data) {
-    console.log('撤回', data);
-    message.success('撤回成功');
+    rebackListApi(data)
+      .then(() => {
+        // console.log('撤回', data);
+        message.success('撤回成功');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   //停止计划
-  function handleStopPlan() {
+  function handleStopPlan(record) {
     openPlanModal(true, {
+      id: record.id,
       title: '保养计划停止',
       isShow: '1',
     });
   }
   //停止计划-确定
   function handlePlanEvent(data) {
-    console.log('停止计划', data);
-    message.success('停止计划成功');
+    stopPlanListApi(data)
+      .then(() => {
+        // console.log('停止计划', res);
+        message.success('停止计划成功');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   //新增
   function handleAdd() {
     router.push({
       name: 'maintainAdd',
+      query: {
+        isEdit: 'false',
+      },
     });
   }
   //导出
@@ -195,7 +265,7 @@
     exportPlanDataApi(data)
       .then((res) => {
         if (res) {
-          const filename = decodeURI(res.headers['sheetname']) + '.xlsx' || '保养计划清单.xlsx';
+          const filename = '保养计划清单.xlsx';
           downloadByData(res.data, filename);
           createMessage.success('导出成功');
         } else {
