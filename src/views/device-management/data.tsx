@@ -1,9 +1,20 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
+import { Image, Row } from 'ant-design-vue';
 import { h } from 'vue';
 import { Tinymce } from '/@/components/Tinymce';
 import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
+import {
+  postBindStateApi,
+  postDesignSelectApi,
+  postDistrictSelectApi,
+  postFireResisRatSelectApi,
+  postFireRiskClassesSelectApi,
+  postRiskLevelSelectApi,
+  postTypeSelectApi,
+} from '/@/api/device-management/installation';
+
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -68,6 +79,10 @@ export const installationFormSchema: FormSchema[] = [
     component: 'ApiSelect',
     label: '所属项目组成部分',
     componentProps: {
+      api: postDesignSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择所属项目组成部分',
     },
   },
@@ -76,6 +91,10 @@ export const installationFormSchema: FormSchema[] = [
     component: 'ApiSelect',
     label: '所属所属区域',
     componentProps: {
+      api: postDistrictSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择所属区域',
     },
   },
@@ -83,16 +102,24 @@ export const installationFormSchema: FormSchema[] = [
     field: 'productId',
     component: 'ApiSelect',
     label: '类型',
+    labelWidth: 92,
     componentProps: {
+      api: postTypeSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择类型',
     },
-    labelWidth: 92,
   },
   {
     field: 'productId',
     component: 'ApiSelect',
     label: '重大危险源级别',
     componentProps: {
+      api: postRiskLevelSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择重大危险源级别',
     },
   },
@@ -101,6 +128,10 @@ export const installationFormSchema: FormSchema[] = [
     component: 'ApiSelect',
     label: '火灾危险性类别',
     componentProps: {
+      api: postFireRiskClassesSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择火灾危险性类别',
     },
     labelWidth: 120,
@@ -110,6 +141,10 @@ export const installationFormSchema: FormSchema[] = [
     component: 'ApiSelect',
     label: '耐火等级',
     componentProps: {
+      api: postFireResisRatSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择耐火等级',
     },
     labelWidth: 92,
@@ -119,21 +154,25 @@ export const installationFormSchema: FormSchema[] = [
     component: 'ApiSelect',
     label: '模型绑定状态',
     componentProps: {
+      api: postBindStateApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择模型绑定状态',
     },
   },
 ];
 export const installationSchema: DescItem[] = [
   {
-    field: 'dangerName',
+    field: 'name',
     label: '装置名称',
   },
   {
-    field: 'riskLevelName',
+    field: 'proName',
     label: '所属项目',
   },
   {
-    field: 'projectName',
+    field: 'itemDesignName',
     label: '所属项目组成部分',
   },
 
@@ -142,51 +181,51 @@ export const installationSchema: DescItem[] = [
     label: '所属区域',
   },
   {
-    field: 'hazardTypeText',
+    field: 'typeName',
     label: '类型',
   },
   {
-    field: 'hazardTypeText',
+    field: 'monitorDirectionValue',
     label: '监测方向',
   },
   {
-    field: 'hazardTypeText',
+    field: 'riskLevelName',
     label: '重大危险源级别',
   },
   {
-    field: 'hazardTypeText',
+    field: 'position',
     label: '地理位置',
   },
   {
-    field: 'hazardTypeText',
+    field: 'developStateName',
     label: '建筑状态',
   },
   {
-    field: 'hazardTypeText',
+    field: 'floorArea',
     label: '占地面积',
   },
   {
-    field: 'hazardTypeText',
+    field: 'coveredArea',
     label: '建筑面积',
   },
   {
-    field: 'hazardTypeText',
+    field: 'buildStruct',
     label: '建筑结构',
   },
   {
-    field: 'hazardTypeText',
+    field: 'storeyHeight',
     label: '层高',
   },
   {
-    field: 'hazardTypeText',
+    field: 'fireRiskClassesName',
     label: '火灾危险性类别',
   },
   {
-    field: 'hazardTypeText',
+    field: 'fireResisRatName',
     label: '耐火级别',
   },
   {
-    field: 'basicFormat',
+    field: 'basicInformat',
     label: '基本信息',
     span: 4,
     render: (val: string) => {
@@ -194,9 +233,21 @@ export const installationSchema: DescItem[] = [
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'pictureList',
     label: '图纸',
     span: 4,
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            {data.map((item) => {
+              return <Image width={100} src={item} />;
+            })}
+          </ARow>
+        );
+      }
+    },
   },
   {
     field: 'affixList',

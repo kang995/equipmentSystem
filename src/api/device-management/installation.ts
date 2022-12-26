@@ -12,7 +12,13 @@ enum Api {
   DESIGN_SELECT = '/unitFacility/itemDesign/select', //所属项目组成部分-下拉查询
   RISK_LEVEL_SELECT = '/unitFacility/risk/level/select', //重大危险源级别-下拉查询
   TYPE_SELECT = '/unitFacility/type/select', //类型-下拉查询
+  BIND_STATE = '/unitFacility/bindState/select', //模型绑定状态-下拉查询
 }
+//模型绑定状态-下拉查询
+export const postBindStateApi = () =>
+  defHttp.post({
+    url: Api.BIND_STATE,
+  });
 // 分页查询装置设施列表
 export const postUnitFacilityListApi = (params) =>
   defHttp.post({

@@ -67,9 +67,13 @@
     },
   });
 
-  function handleDetails() {
+  function handleDetails(data) {
+    const id = data.id;
     router.push({
       name: 'InstallationDetails',
+      query: {
+        id,
+      },
     });
   }
 

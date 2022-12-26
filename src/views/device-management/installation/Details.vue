@@ -9,9 +9,9 @@
   import { ref } from 'vue';
   import { installationSchema } from '../data';
   import { useRoute } from 'vue-router';
+  import { postUnitFacilityDetailApi } from '/@/api/device-management/installation';
   const route = useRoute();
   const id = route.query.id as string;
-  console.log('id: ', id);
 
   const mockData = ref<any>([]);
   const [register] = useDescription({
@@ -21,5 +21,9 @@
     column: 1,
     labelStyle: { width: '180px' },
   });
+  id &&
+    postUnitFacilityDetailApi({ id }).then((res) => {
+      mockData.value = res;
+    });
   //
 </script>
