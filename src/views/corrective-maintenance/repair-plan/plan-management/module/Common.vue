@@ -58,7 +58,7 @@
   const AFormItemRest = Form.ItemRest;
   // const router = useRouter();
   const ASelect = Select;
-  const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
+  const [registerFrom] = useForm({
     schemas: getCommonFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     // baseColProps: {
