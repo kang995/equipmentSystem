@@ -142,7 +142,7 @@ const setup: AppRouteModule = {
               name: 'repairAdd',
               component: () =>
                 import(
-                  '../../../views/corrective-maintenance/repair-plan/plan-management/module/add.vue'
+                  '../../../views/corrective-maintenance/repair-plan/plan-management/module/Add.vue'
                 ),
               meta: {
                 title: '新增维修计划',
