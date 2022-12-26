@@ -3,6 +3,7 @@ import { DescItem } from '/@/components/Description';
 // import { BasicTable, useTable, TableAction } from '/@/components/Table';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
+import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 
 export interface TabItem {
   key: string;
@@ -36,39 +37,39 @@ export function tableColumns(): BasicColumn[] {
   return [
     {
       title: '工单编号',
-      dataIndex: 'name',
+      dataIndex: 'code',
     },
     {
       title: '创建时间',
-      dataIndex: 'time',
+      dataIndex: 'createTime',
     },
     {
       title: '计划负责人',
-      dataIndex: 'person',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '工单处理人',
-      dataIndex: 'time',
+      dataIndex: 'dealUserName',
     },
     {
       title: '工单执行时间',
-      dataIndex: 'status',
+      dataIndex: 'executeTimeStr',
     },
     {
       title: '关联计划',
-      dataIndex: 'status',
+      dataIndex: 'upkeepPlanName',
     },
     {
       title: '工单状态',
-      dataIndex: 'status',
+      dataIndex: 'workOrderStatus',
     },
     {
       title: '工单延期',
-      dataIndex: 'status',
+      dataIndex: 'delayFlag',
     },
     {
       title: '完成时间',
-      dataIndex: 'time',
+      dataIndex: 'finishTime',
     },
   ];
 }
@@ -76,7 +77,7 @@ export function tableColumns(): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'code',
       component: 'Input',
       label: '工单编号',
       componentProps: {
@@ -84,25 +85,39 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '计划负责人',
       labelWidth: 80,
       componentProps: {
         placeholder: '请选择计划负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'dealUserName',
       component: 'ApiSelect',
       label: '工单处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单处理人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'executeTime',
       component: 'RangePicker',
       label: '工单执行时间',
       labelWidth: 96,
@@ -112,7 +127,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'workOrderStatus',
       component: 'ApiSelect',
       label: '工单状态',
       componentProps: {
@@ -120,7 +135,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'delayFlag',
       component: 'ApiSelect',
       label: '工单延期',
       labelWidth: 80,
@@ -129,13 +144,12 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId1',
+      field: 'finishTime',
       component: 'RangePicker',
       label: '工单完成时间',
       labelWidth: 96,
       componentProps: {
         // showTime: true,
-        // format: 'YYYY-MM-DD HH:mm:ss',
         format: 'YYYY-MM-DD',
       },
     },

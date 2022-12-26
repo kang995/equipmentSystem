@@ -459,7 +459,37 @@ export function getRecallFormSchema(): FormSchema[] {
     },
   ];
 }
-
+//保养计划审核-拒绝、同意
+export function agreeFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'revokeReason1',
+      component: 'InputTextArea',
+      label: '同意原因',
+      required: true,
+      componentProps: {
+        placeholder: '请输入同意原因',
+        rows: 6,
+        maxlength: 200,
+      },
+    },
+  ];
+}
+export function rejectFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'revokeReason',
+      component: 'InputTextArea',
+      label: '拒绝原因',
+      required: true,
+      componentProps: {
+        placeholder: '请输入拒绝原因',
+        rows: 6,
+        maxlength: 200,
+      },
+    },
+  ];
+}
 //保养计划停止
 export function getPlanFormSchema(): FormSchema[] {
   return [

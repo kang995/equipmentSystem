@@ -11,8 +11,10 @@
       </template>
       <!-- 保养计划审核 -->
       <template v-if="mode === '2'">
-        <a-button class="m-4">拒绝</a-button>
-        <a-button type="primary">同意</a-button>
+        <a-button class="m-4" @click="handleOpenModel('1')">拒绝</a-button>
+        <a-button type="primary" @click="handleOpenModel('2')">同意</a-button>
+        <agreeModel @register="registerAgreeModel" />
+        <rejectModel @register="registerRejectModel" />
       </template>
       <!-- 检修计划管理 -->
       <template v-if="mode === '3'">
@@ -36,12 +38,16 @@
   import { MaintainDetail } from './fileld';
   import { useRoute } from 'vue-router';
   import { getPlanDetailApi } from '/@/api/device-maintenance/index';
-
+  import { useModal } from '/@/components/Modal';
+  import agreeModel from '/@/views/device-maintenance/components/agreeModel.vue';
+  import rejectModel from '/@/views/device-maintenance/components/rejectModel.vue';
   const route = useRoute();
   const status = route.query?.status as string;
   const mode = route.query?.mode as string;
   const id = route.query?.id as string;
 
+  const [registerAgreeModel, { openModal: agreeOpenModal }] = useModal();
+  const [registerRejectModel, { openModal: rejectOpenModal }] = useModal();
   let data = ref<any>([]);
   const [register] = useDescription({
     data,
@@ -50,24 +56,33 @@
     column: 2,
     size: 'default',
   });
+  //拒绝、同意
+  function handleOpenModel(val) {
+    val === '1' ? rejectOpenModal(true) : agreeOpenModal(true);
+  }
   onMounted(() => {
-    getDetail();
+    id && getDetail();
   });
   function getDetail() {
-    switch (mode) {
-      case '1':
-        getPlanDetailApi({ id }).then((res) => {
-          data.value = res;
-          console.log('详情', data.value);
-        });
-        break;
-      case '2':
-        break;
-      case '3':
-        break;
-      case '4':
-        break;
-    }
+    getPlanDetailApi({ id }).then((res) => {
+      data.value = res;
+      // console.log('详情', data.value);
+    });
+    // switch (mode) {
+    //   case '1':
+    //     getPlanDetailApi({ id }).then((res) => {
+    //       data.value = res;
+    //       console.log('详情', data.value);
+    //     });
+    //     break;
+    //   case '2':
+
+    //     break;
+    //   case '3':
+    //     break;
+    //   case '4':
+    //     break;
+    // }
   }
 </script>
 

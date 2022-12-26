@@ -1,0 +1,133 @@
+<template>
+  <BasicTable @register="register">
+    <template #action="{ record }">
+      <TableAction
+        :divider="false"
+        :stopButtonPropagation="true"
+        :actions="[
+          {
+            label: '重新下发',
+            onClick: handleAgain.bind(null, record),
+            ifShow: () => {
+              return props.ifIssue; // 根据业务控制是否显示
+            },
+          },
+          {
+            label: '申请延期',
+            onClick: handlePostpone.bind(null, record),
+            ifShow: () => {
+              return !props.ifIssue; // 根据业务控制是否显示
+            },
+          },
+          {
+            label: '详情',
+            onClick: handleDetails.bind(null, record),
+          },
+        ]"
+      />
+    </template>
+    <template #tableTitle>
+      <div class="flex flex-1 space-x-4">
+        <a-tooltip>
+          <template #title>不选择即导出全部数据</template>
+          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+        </a-tooltip>
+      </div>
+    </template>
+  </BasicTable>
+  <!-- 申请延期 -->
+  <maintainModel @register="maintainModal" />
+  <!-- 重新下发 -->
+  <IssueModel @register="IssuedModal" />
+</template>
+<script setup lang="ts">
+  import { useModal } from '/@/components/Modal';
+  import IssueModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
+  import maintainModel from './module/maintainModal.vue';
+  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { tableColumns, getFormSchema } from './data';
+  import { useRouter } from 'vue-router';
+  import { ref } from 'vue';
+  import { Tooltip } from 'ant-design-vue';
+  import { getPlanListApi } from '/@/api/device-maintenance/work';
+
+  const [IssuedModal, { openModal: openIssuedModal }] = useModal();
+  const [maintainModal, { openModal: openMaintainModal }] = useModal();
+  const router = useRouter();
+  const ATooltip = Tooltip;
+  const exportLoading = ref(false);
+  const props = defineProps<{
+    ifIssue?: any;
+  }>();
+
+  const [register] = useTable({
+    api: getPlanListApi,
+    searchInfo: {
+      type: props.ifIssue ? '0' : '1', //0：负责工单；1：执行工单
+    },
+    columns: tableColumns(),
+    rowKey: 'id',
+    useSearchForm: true, //开启搜索表单
+    showTableSetting: false, //开启表格设置工具
+    clickToRowSelect: false, //是否开启点击行选中
+    rowSelection: {
+      type: 'checkbox',
+    },
+    actionColumn: {
+      title: '操作',
+      dataIndex: 'action',
+      slots: { customRender: 'action' },
+    },
+    formConfig: {
+      schemas: getFormSchema(),
+      autoSubmitOnEnter: true,
+      showAdvancedButton: false, //是否显示收起展开按钮
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['executeTime', ['executeStartTime', 'executeEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['finishTime', ['finishStartTime', 'finishEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+      ],
+      resetButtonOptions: {
+        preIcon: 'gonggong_zhongzhi|svg',
+      },
+      submitButtonOptions: {
+        preIcon: 'gonggong_sousuo|svg',
+      },
+      baseColProps: {
+        span: 6,
+      },
+      rowProps: {
+        gutter: 16,
+      },
+    },
+  });
+  //详情
+  function handleDetails() {
+    router.push({
+      name: 'workOrderDetail',
+      query: {
+        identity: '2', //负责人：1、执行人：2
+        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+      },
+    });
+  }
+  //重新下发
+  function handleAgain() {
+    openIssuedModal(true, {});
+  }
+  //申请延期
+  function handlePostpone() {
+    openMaintainModal(true, {});
+    // router.push({
+    //   name: 'workOrderDetail',
+    //   query: {
+    //     identity: '2', //负责人：1、执行人：2
+    //     status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+    //     isShow: 'true',
+    //   },
+    // });
+  }
+
+  function exportTable() {}
+</script>
+<style scoped lang="less"></style>

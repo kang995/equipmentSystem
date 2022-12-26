@@ -464,13 +464,14 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'deptId',
+      field: 'dealDeptId',
       component: 'ApiSelect',
       label: '处理部门',
       required: true,
       componentProps: ({ formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
+          mode: 'multiple',
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
           params: {
@@ -481,7 +482,7 @@ export function getCommonFormSchema(): FormSchema[] {
           valueField: 'id',
           onChange: (e: any) => {
             // console.log(e);
-            getPeopleSelectApi([e]).then((res) => {
+            getPeopleSelectApi(e).then((res) => {
               updateSchema({
                 field: 'userId',
                 componentProps: {
@@ -494,12 +495,13 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'userId',
+      field: 'dealUserId',
       component: 'Select',
       label: '处理人',
       required: true,
       componentProps: {
         placeholder: '请选择处理人',
+        mode: 'multiple',
         options: [],
         fieldNames: { label: 'name', value: 'id' },
       },
@@ -528,19 +530,40 @@ export function planTableColumns(): BasicColumn[] {
   return [
     {
       title: '设备名称',
-      dataIndex: 'name',
+      dataIndex: 'label',
+      customRender: ({ record }) => {
+        if (record.type === '3') {
+          return <span>{record.label}</span>;
+        } else {
+          return '--';
+        }
+      },
     },
     {
       title: '所在区域',
-      dataIndex: 'name',
+      dataIndex: 'label',
+      customRender: ({ record }) => {
+        if (record.type === '1') {
+          return <span>{record.label}</span>;
+        } else {
+          return '--';
+        }
+      },
     },
     {
       title: '所在装置',
-      dataIndex: 'name',
+      dataIndex: 'label',
+      customRender: ({ record }) => {
+        if (record.type === '2') {
+          return <span>{record.label}</span>;
+        } else {
+          return '--';
+        }
+      },
     },
     {
       title: '是否特种设备',
-      dataIndex: 'name',
+      dataIndex: 'specialEquipment',
     },
   ];
 }

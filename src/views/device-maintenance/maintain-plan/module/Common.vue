@@ -39,7 +39,7 @@
         <a-button type="primary">确定</a-button>
       </div> -->
     </Card>
-    <selectDevice @register="registerDeviceModal" />
+    <selectDevice @register="registerDeviceModal" @handleOk="handleEcho" />
   </PageWrapper>
 </template>
 
@@ -105,8 +105,8 @@
     ],
   });
   const AFormItemRest = Form.ItemRest;
-  const dataSource = ref([{}]);
-  const [registerTable, { getForm }] = useTable({
+  const dataSource = ref<any>([]);
+  const [registerTable, { getDataSource }] = useTable({
     dataSource: dataSource,
     // api: thresholdListApi,
     columns: planTableColumns(),
@@ -120,6 +120,30 @@
       slots: { customRender: 'action' },
     },
   });
+  //保养设备回显
+  function handleEcho(val) {
+    // console.log('val',val);
+    // dataSource.value = val;
+    dataSource.value = [
+      {
+        id: '1522462896151433218',
+        label: '设备名称',
+        area: '中心',
+        unit: '装置名称',
+        specialEquipment: '是',
+        type: '1',
+      },
+      {
+        id: '1549948622740246529',
+        label: '设备名称1',
+        area: '中心1',
+        unit: '装置名称1',
+        specialEquipment: '否',
+        type: '1',
+      },
+    ];
+    openDeviceModal(false);
+  }
   //详情
   id &&
     getPlanDetailApi({ id }).then((res) => {
@@ -132,10 +156,12 @@
   async function sumitForm() {
     await validate();
     let params = getFieldsValue();
-    console.log('数据', params);
-    let { id } = getForm().getFieldsValue();
-    params.deviceIdList = [id];
+    //保养设备idList
+    let arrId = getDataSource().map((item) => item.id);
+    console.log('arrId', arrId);
+    params.deviceIdList = arrId;
 
+    console.log('params', params);
     //判断新增、编辑、重新编辑
     if (isEdit === 'false') {
       putPlanListApi(params)
@@ -176,7 +202,7 @@
   }
   //选择设备
   function handleModal() {
-    openDeviceModal(true, {});
+    openDeviceModal(true);
   }
   //详情
   function handleDetails() {
@@ -186,8 +212,8 @@
   }
   //删除
   function handleDelete(record) {
-    // console.log(record,index)
-    // dataSource.value.splice(index,1);
+    dataSource.value = dataSource.value.filter((item) => item.id !== record.id);
+    // console.log(dataSource.value)
   }
 </script>
 

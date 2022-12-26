@@ -17,6 +17,9 @@ enum Api {
   PLAN_LIST_REUPDATE = '/upkeepPlan/anew/update', //重新编辑保养计划
   PLAN_DETAIL = '/upkeepPlan/detail', //保养计划详情
   SELECT_LIST_DEVICE = '/upkeepPlan/device/list', //查询保养设备
+  //保养计划审核
+  PROCESSING_LIST = '/upkeepPlan/approval/pend/list', //待处理列表
+  PROCESSED_LIST = '/upkeepPlan/approval/deal/list', //已处理列表
 }
 
 // 根据类型查询字典
@@ -137,6 +140,18 @@ export const selectListDeviceApi = (params) =>
   });
 
 /* 2、保养计划审核 */
+//待处理列表
+export const getProcessingListApi = (params) =>
+  defHttp.post({
+    url: Api.PROCESSING_LIST,
+    params,
+  });
+//已处理列表
+export const getProcessedListApi = (params) =>
+  defHttp.post({
+    url: Api.PROCESSED_LIST,
+    params,
+  });
 
 /* 3、保养工单 */
 

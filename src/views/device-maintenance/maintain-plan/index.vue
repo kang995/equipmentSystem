@@ -143,7 +143,7 @@
       name: 'maintainAdd',
       query: {
         id: record.id,
-        approvalStatus: record.approvalStatus,
+        approvalStatus: record.approvalStatus, //1：待提交；2：审核中；3：审核通过；4：审核拒绝
         isEdit: 'true',
       },
     });
