@@ -2,6 +2,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import processing from './Pending/index.vue';
 import processed from './processed/index.vue';
 import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
+import { Tag } from 'ant-design-vue';
 export interface TabItem {
   key: string;
   name: string;
@@ -54,6 +55,21 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '审核状态',
       dataIndex: 'approvalStatus',
+      customRender: ({ record }) => {
+        if (record.approvalStatus === '1') {
+          //待提交
+          return <Tag color={'default'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '2') {
+          //审核中
+          return <Tag color={'orange'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '3') {
+          //审核通过
+          return <Tag color={'green'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '4') {
+          //审核拒绝
+          return <Tag color={'red'}>{record.approvalStatusText}</Tag>;
+        }
+      },
     },
   ];
 }

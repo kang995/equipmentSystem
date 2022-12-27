@@ -19,7 +19,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { rejectFormSchema } from './fileld';
 
-  // const emit = defineEmits(['Event', 'register']);
+  const emit = defineEmits(['Event', 'register']);
   const recallData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
     recallData.value = data;
@@ -47,9 +47,9 @@
   async function submitForm() {
     await validate();
     const data = getFieldsValue();
-    console.log('原因', data);
-    // data.id = recallData.value?.id;
-    // emit('Event', data);
+    data.id = recallData.value?.id;
+    data.approvalResult = recallData.value?.approvalResult;
+    emit('Event', data);
   }
   //取消
   async function goBack() {

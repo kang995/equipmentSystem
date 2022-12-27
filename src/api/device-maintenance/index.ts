@@ -23,6 +23,7 @@ enum Api {
   //保养计划审核
   PROCESSING_LIST = '/upkeepPlan/approval/pend/list', //待处理列表
   PROCESSED_LIST = '/upkeepPlan/approval/deal/list', //已处理列表
+  APPROVAL_LIST = '/upkeepPlan/approval/approval', //计划审核
 }
 
 // 根据类型查询字典
@@ -167,7 +168,9 @@ export const getProcessedListApi = (params) =>
     url: Api.PROCESSED_LIST,
     params,
   });
-
-/* 3、保养工单 */
-
-/* 4、保养验收 */
+//审核
+export const getApprovalListApi = (params) =>
+  defHttp.post({
+    url: Api.APPROVAL_LIST,
+    params,
+  });

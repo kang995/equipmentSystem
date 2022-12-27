@@ -44,23 +44,25 @@
   import { useModal } from '/@/components/Modal';
   import IssueModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
   import maintainModel from './module/maintainModal.vue';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
-  import { getPlanListApi } from '/@/api/device-maintenance/work';
+  import { downloadByData } from '/@/utils/file/download';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { getPlanListApi, upkeepExportApi } from '/@/api/device-maintenance/work';
 
+  const { createMessage } = useMessage();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const [maintainModal, { openModal: openMaintainModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
-  const exportLoading = ref(false);
   const props = defineProps<{
     ifIssue?: any;
   }>();
 
-  const [register] = useTable({
+  const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: getPlanListApi,
     searchInfo: {
       type: props.ifIssue ? '0' : '1', //0：负责工单；1：执行工单
@@ -127,7 +129,30 @@
     //   },
     // });
   }
-
-  function exportTable() {}
+  //导出
+  const exportLoading = ref(false);
+  function exportTable() {
+    const { current, pageSize } = getPaginationRef() as PaginationProps;
+    exportLoading.value = true;
+    let data = {
+      page: current,
+      pageSize: pageSize,
+      ids: getSelectRowKeys(),
+    };
+    Object.assign(data, getForm().getFieldsValue());
+    upkeepExportApi(data)
+      .then((res) => {
+        if (res) {
+          const filename = props.ifIssue ? '负责工单列表.xlsx' : '执行工单列表.xlsx';
+          downloadByData(res.data, filename);
+          createMessage.success('导出成功');
+        } else {
+          createMessage.error('导出失败');
+        }
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
+  }
 </script>
 <style scoped lang="less"></style>

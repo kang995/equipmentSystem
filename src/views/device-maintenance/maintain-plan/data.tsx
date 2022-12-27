@@ -143,8 +143,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '计划生效时间',
       required: true,
       componentProps: {
-        showTime: true,
-        format: 'YYYY-MM-DD HH:mm:ss',
+        // showTime: true,
+        format: 'YYYY-MM-DD',
         getPopupContainer: () => document.body,
       },
     },
@@ -154,8 +154,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '任务起始时间',
       required: true,
       componentProps: {
-        showTime: true,
-        format: 'YYYY-MM-DD HH:mm:ss',
+        // showTime: true,
+        format: 'YYYY-MM-DD',
         getPopupContainer: () => document.body,
       },
     },
@@ -466,65 +466,23 @@ export function getCommonFormSchema(): FormSchema[] {
           labelField: 'itemName',
           valueField: 'itemValue',
           onChange: (e) => {
+            formModel.dealUserIdList = undefined;
             if (e === '2') {
-              //岗位
-              formModel.dealDeptId = undefined;
-              formModel.dealUserIdList = undefined;
-              updateSchema({
-                field: 'dealStationId',
-                ifShow: true,
-                componentProps: {
-                  api: getStationSelectApi,
-                  resultField: 'data', //后台返回数据字段
-                  labelField: 'name',
-                  valueField: 'id',
-                  onChange: (en) => {
-                    console.log(en);
-                    getStationPeopleSelectApi([en]).then((res) => {
-                      console.log(res);
-                      updateSchema({
-                        field: 'dealUserIdLists',
-                        componentProps: {
-                          options: res,
-                          mode: 'multiple',
-                        },
-                      });
-                      formModel.dealUserIdLists = res.map((item) => item.id);
-                    });
-                  },
-                },
-              });
-              updateSchema({
-                field: 'dealUserIdLists',
-                ifShow: true,
-              });
-
               updateSchema({
                 field: 'dealDeptId',
                 ifShow: false,
               });
               updateSchema({
-                field: 'dealUserIdList',
-                ifShow: false,
+                field: 'dealStationId',
+                ifShow: true,
               });
             } else {
-              formModel.dealStationId = undefined;
-              formModel.dealUserIdLists = undefined;
               updateSchema({
                 field: 'dealStationId',
                 ifShow: false,
               });
               updateSchema({
-                field: 'dealUserIdLists',
-                ifShow: false,
-              });
-
-              updateSchema({
                 field: 'dealDeptId',
-                ifShow: true,
-              });
-              updateSchema({
-                field: 'dealUserIdList',
                 ifShow: true,
               });
             }
@@ -542,7 +500,6 @@ export function getCommonFormSchema(): FormSchema[] {
       componentProps: ({ formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
-          // mode: 'multiple',
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
           params: {
@@ -553,13 +510,44 @@ export function getCommonFormSchema(): FormSchema[] {
           valueField: 'id',
           onChange: (e: any) => {
             // console.log(e);
-            getPeopleSelectApi(e).then((res) => {
+            getPeopleSelectApi([e]).then((res) => {
               updateSchema({
-                field: 'userId',
+                field: 'dealUserIdList',
                 componentProps: {
                   options: res,
                 },
               });
+            });
+          },
+        };
+      },
+    },
+    // 岗位
+    {
+      field: 'dealStationId',
+      component: 'ApiSelect',
+      label: '处理岗位',
+      required: true,
+      ifShow: false,
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          api: getStationSelectApi,
+          resultField: 'data', //后台返回数据字段
+          labelField: 'name',
+          valueField: 'id',
+          onChange: (en) => {
+            console.log(en);
+            getStationPeopleSelectApi([en]).then((res) => {
+              console.log(res);
+              updateSchema({
+                field: 'dealUserIdList',
+                componentProps: {
+                  options: res,
+                  mode: 'multiple',
+                },
+              });
+              formModel.dealUserIdList = res.map((item) => item.id);
             });
           },
         };
@@ -570,7 +558,6 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'Select',
       label: '处理人',
       required: true,
-      ifShow: true,
       componentProps: {
         placeholder: '请选择处理人',
         mode: 'multiple',
@@ -578,33 +565,6 @@ export function getCommonFormSchema(): FormSchema[] {
         fieldNames: { label: 'name', value: 'id' },
       },
     },
-    // 岗位
-    {
-      field: 'dealStationId',
-      component: 'ApiSelect',
-      label: '处理岗位',
-      required: true,
-      ifShow: false,
-      componentProps: {
-        placeholder: '请选择处理岗位',
-        // options: [],
-        // fieldNames: { label: 'name', value: 'id' },
-      },
-    },
-    {
-      field: 'dealUserIdLists',
-      component: 'Select',
-      label: '处理人',
-      required: true,
-      ifShow: false,
-      componentProps: {
-        placeholder: '请选择处理人',
-        mode: 'multiple',
-        options: [],
-        fieldNames: { label: 'name', value: 'id' },
-      },
-    },
-
     {
       field: 'remark',
       component: 'InputTextArea',
@@ -629,10 +589,10 @@ export function planTableColumns(): BasicColumn[] {
   return [
     {
       title: '设备名称',
-      dataIndex: 'label',
+      dataIndex: 'deviceName',
       customRender: ({ record }) => {
-        if (record.type === '3') {
-          return <span>{record.label}</span>;
+        if (record.deviceName) {
+          return <span>{record.deviceName}</span>;
         } else {
           return '--';
         }
@@ -640,10 +600,10 @@ export function planTableColumns(): BasicColumn[] {
     },
     {
       title: '所在区域',
-      dataIndex: 'label',
+      dataIndex: 'districtName',
       customRender: ({ record }) => {
-        if (record.type === '1') {
-          return <span>{record.label}</span>;
+        if (record.districtName) {
+          return <span>{record.districtName}</span>;
         } else {
           return '--';
         }
@@ -651,10 +611,10 @@ export function planTableColumns(): BasicColumn[] {
     },
     {
       title: '所在装置',
-      dataIndex: 'label',
+      dataIndex: 'facilitiesName',
       customRender: ({ record }) => {
-        if (record.type === '2') {
-          return <span>{record.label}</span>;
+        if (record.facilitiesName) {
+          return <span>{record.facilitiesName}</span>;
         } else {
           return '--';
         }

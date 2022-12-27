@@ -48,7 +48,7 @@
   //详情
   function handleDetails() {
     router.push({
-      // name: 'maintainDetails',
+      name: 'specialEquipmentDetails',
     });
   }
 </script>

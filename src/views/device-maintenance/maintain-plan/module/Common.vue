@@ -10,7 +10,7 @@
                   <a-button type="primary" @click="handleModal">选择设备</a-button>
                 </div>
               </template>
-              <template #action="{ record }">
+              <template #action="{ record, index }">
                 <TableAction
                   :divider="false"
                   :stopButtonPropagation="true"
@@ -24,7 +24,7 @@
                       color: 'error',
                       popConfirm: {
                         title: '是否确认删除?',
-                        confirm: handleDelete.bind(null, record),
+                        confirm: handleDelete.bind(null, index),
                       },
                     },
                   ]"
@@ -39,7 +39,12 @@
         <a-button type="primary">确定</a-button>
       </div> -->
     </Card>
-    <selectDevice @register="registerDeviceModal" @handleOk="handleEcho" />
+    <selectDevice
+      @register="registerDeviceModal"
+      @handleOk="handleEcho"
+      :targetval="targetKeys"
+      :dataSource="dataSourceList"
+    />
   </PageWrapper>
 </template>
 
@@ -61,6 +66,8 @@
     reUpdatePlanListApi,
     getPlanDetailApi,
     getDeviceSelectApi,
+    getPeopleSelectApi,
+    getStationPeopleSelectApi,
   } from '/@/api/device-maintenance/index';
   const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
@@ -69,8 +76,9 @@
   const isEdit = route.query?.isEdit as string;
   const approvalStatus = route.query?.approvalStatus as string;
   const id = route.query?.id as string;
+  const versionVal = ref();
   const [registerDeviceModal, { openModal: openDeviceModal }] = useModal();
-  const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
+  const [registerFrom, { validate, getFieldsValue, setFieldsValue, updateSchema }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
     // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     // baseColProps: {
@@ -101,13 +109,13 @@
     submitFunc: sumitForm,
     fieldMapToTime: [
       //更改RangePicker的返回字段
-      ['Time', ['effectStartDate', 'effectEndDate'], 'YYYY-MM-DD HH:mm:ss'],
+      ['Time', ['effectStartDate', 'effectEndDate'], 'YYYY-MM-DD'],
     ],
   });
   const AFormItemRest = Form.ItemRest;
-  const dataSource = ref<any>([]);
-  const [registerTable, { getDataSource }] = useTable({
-    dataSource: dataSource,
+  const dataSourceList = ref<any>([]);
+  const [registerTable, { getDataSource, setTableData }] = useTable({
+    dataSource: dataSourceList,
     // api: thresholdListApi,
     columns: planTableColumns(),
     rowKey: 'id',
@@ -121,47 +129,44 @@
     },
   });
   //保养设备回显
-  function handleEcho(val) {
-    // console.log('val',val);
-    // dataSource.value = val;
-    dataSource.value = [
-      {
-        id: '1522462896151433218',
-        label: '设备名称',
-        area: '中心',
-        unit: '装置名称',
-        specialEquipment: '是',
-        type: '1',
-      },
-      {
-        id: '1549948622740246529',
-        label: '设备名称1',
-        area: '中心1',
-        unit: '装置名称1',
-        specialEquipment: '否',
-        type: '1',
-      },
-    ];
+  const DeviceVal = ref([]);
+  function handleEcho(val, data) {
+    console.log('回显', val, data);
+    dataSourceList.value = data;
+    DeviceVal.value = val;
     openDeviceModal(false);
   }
+  const targetKeys = ref<any>([]);
   //详情
   id &&
     getPlanDetailApi({ id }).then((res) => {
+      //岗位
+      res.dealStationId &&
+        getStationPeopleSelectApi([res.dealStationId]).then((res2) => {
+          updateSchema({ field: 'dealStationId', ifShow: true });
+          updateSchema({ field: 'dealDeptId', ifShow: false });
+          updateSchema({ field: 'dealUserIdList', componentProps: { options: res2 } });
+        });
+      //人员
+      res.dealDeptId &&
+        getPeopleSelectApi([res.dealDeptId]).then((res) => {
+          updateSchema({ field: 'dealUserIdList', componentProps: { options: res } });
+        });
+      res.Time = [res['effectStartDate'], res['effectEndDate']]; //计划生效时间
       setFieldsValue(res);
-      getDeviceSelectApi([res['deviceIdList']]).then((res1) => {
-        dataSource.value = res1;
+      getDeviceSelectApi(res['deviceIdList']).then((res1) => {
+        dataSourceList.value = res1;
       });
+      versionVal.value = res.version;
+      DeviceVal.value = res.deviceIdList;
     });
   //提交
   async function sumitForm() {
     await validate();
     let params = getFieldsValue();
-    //保养设备idList
-    let arrId = getDataSource().map((item) => item.id);
-    console.log('arrId', arrId);
-    params.deviceIdList = arrId;
+    params['deviceIdList'] = [...DeviceVal.value]; //保养设备idList
+    // console.log('params', params);
 
-    console.log('params', params);
     //判断新增、编辑、重新编辑
     if (isEdit === 'false') {
       putPlanListApi(params)
@@ -173,6 +178,8 @@
           console.log(err);
         });
     } else {
+      id && (params['id'] = id);
+      params['version'] = versionVal.value;
       if (approvalStatus === '1') {
         //待提交
         updatePlanListApi(params)
@@ -196,24 +203,33 @@
       }
     }
   }
+  //删除table
+  function handleDelete(index) {
+    const data = getDataSource();
+    data.splice(index, 1);
+    setTableData(data);
+  }
+
+  //选择设备
+  function handleModal() {
+    const data = getDataSource();
+    const ids = [] as any; //deviceId
+    data.map((v) => {
+      ids.push(v.deviceId);
+    });
+    targetKeys.value = ids;
+    openDeviceModal(true, targetKeys.value);
+  }
+
   //取消
   async function resetSubmitFunc() {
     closeCurrent();
   }
-  //选择设备
-  function handleModal() {
-    openDeviceModal(true);
-  }
   //详情
   function handleDetails() {
     router.push({
-      name: '',
+      name: 'specialEquipmentDetails',
     });
-  }
-  //删除
-  function handleDelete(record) {
-    dataSource.value = dataSource.value.filter((item) => item.id !== record.id);
-    // console.log(dataSource.value)
   }
 </script>
 

@@ -1,9 +1,9 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-
+import { getPersonSelectApi } from '/@/api/device-maintenance/index';
 //计划详情
 export function MaintainDetail(state: string, mode: string): DescItem[] {
-  console.log('模块', mode);
+  // console.log('模块', mode);
   return [
     {
       field: 'code',
@@ -151,17 +151,17 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
       render: () => {
         return <span style={titleStyle}>审核信息</span>;
       },
-      show: (data) => state === '3' || state === '4',
+      show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
     {
       field: 'applyUserName',
       label: '审核结果',
-      show: (data) => state === '3' || state === '4',
+      show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
     {
       field: 'applyUserName',
       label: '原因（备注）',
-      show: (data) => state === '3' || state === '4',
+      show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
   ];
 }
@@ -191,25 +191,20 @@ export function tableDeviceColumns(): BasicColumn[] {
     },
   ];
 }
-
-//关联工单
-export function tableColumns(mode: string): BasicColumn[] {
-  console.log('mode', mode);
+//关联工单-检修计划管理
+export function tableColumn(): BasicColumn[] {
   return [
     {
       title: '工单编号',
       dataIndex: 'name',
     },
     {
-      title: '创建时间',
-      dataIndex: 'time',
-      ifShow: ({}) => {
-        return mode !== '3';
-      },
-    },
-    {
       title: '计划负责人',
       dataIndex: 'person',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'time',
     },
     {
       title: '工单处理人',
@@ -222,27 +217,14 @@ export function tableColumns(mode: string): BasicColumn[] {
     {
       title: '关联计划',
       dataIndex: 'status',
-      ifShow: ({}) => {
-        return mode !== '3';
-      },
     },
     {
       title: '工单状态',
       dataIndex: 'status',
     },
     {
-      title: '工单延期',
-      dataIndex: 'status',
-      ifShow: ({}) => {
-        return mode !== '3';
-      },
-    },
-    {
       title: '是否延期',
       dataIndex: 'status',
-      ifShow: ({}) => {
-        return mode === '3';
-      },
     },
     {
       title: '完成时间',
@@ -250,11 +232,48 @@ export function tableColumns(mode: string): BasicColumn[] {
     },
   ];
 }
+//关联工单-保养计划管理
+export function tableColumns(): BasicColumn[] {
+  return [
+    {
+      title: '工单编号',
+      dataIndex: 'code',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+    },
+    {
+      title: '计划负责人',
+      dataIndex: 'chargePeopleName',
+    },
+    {
+      title: '工单处理人',
+      dataIndex: 'dealUserName',
+    },
+    {
+      title: '工单执行时间',
+      dataIndex: 'executeTimeStr',
+    },
+    {
+      title: '工单状态',
+      dataIndex: 'workOrderStatus',
+    },
+    {
+      title: '工单延期',
+      dataIndex: 'delayFlag',
+    },
+    {
+      title: '完成时间',
+      dataIndex: 'finishTime',
+    },
+  ];
+}
 
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'code',
       component: 'Input',
       label: '工单编号',
       componentProps: {
@@ -262,25 +281,39 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '计划负责人',
       labelWidth: 80,
       componentProps: {
         placeholder: '请选择计划负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'dealUserName',
       component: 'ApiSelect',
       label: '工单处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单处理人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'executeTime',
       component: 'RangePicker',
       label: '工单执行时间',
       labelWidth: 96,
@@ -290,7 +323,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'workOrderStatus',
       component: 'ApiSelect',
       label: '工单状态',
       componentProps: {
@@ -298,7 +331,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'delayFlag',
       component: 'ApiSelect',
       label: '工单延期',
       labelWidth: 80,
@@ -307,7 +340,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId1',
+      field: 'finishTime',
       component: 'RangePicker',
       label: '工单完成时间',
       labelWidth: 96,
@@ -463,7 +496,7 @@ export function getRecallFormSchema(): FormSchema[] {
 export function agreeFormSchema(): FormSchema[] {
   return [
     {
-      field: 'revokeReason1',
+      field: 'approvalRemark',
       component: 'InputTextArea',
       label: '同意原因',
       required: true,
@@ -478,7 +511,7 @@ export function agreeFormSchema(): FormSchema[] {
 export function rejectFormSchema(): FormSchema[] {
   return [
     {
-      field: 'revokeReason',
+      field: 'approvalRemark',
       component: 'InputTextArea',
       label: '拒绝原因',
       required: true,

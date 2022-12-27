@@ -111,7 +111,7 @@ export function getFormSchema(type: string): FormSchema[] {
 }
 
 //工单信息
-export function WorkDetail(): DescItem[] {
+export function WorkDetail(status: string): DescItem[] {
   return [
     {
       field: '',
@@ -251,36 +251,50 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'applyUserName',
       label: '验收人',
+      span: 3,
     },
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 3,
-    //   render: () => {
-    //     return <span style={titleStyle}>验收结果</span>;
-    //   },
-    // },
-    // {
-    //   field: 'applyUserName',
-    //   label: '验收结果',
-    // },
-    // {
-    //   field: 'applyUserName',
-    //   label: '验收内容',
-    //   span: 3,
-    // },
-    // {
-    //   field: 'imgArr1',
-    //   label: '图片',
-    //   render: () => {
-    //     return (
-    //       <>
-    //         {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>验收结果</span>;
+      },
+      show: ({}) => status === '2',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收结果',
+      show: ({}) => status === '2',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收内容',
+      show: ({}) => status === '2',
+    },
+    {
+      field: 'imgArr1',
+      label: '图片',
+      render: () => {
+        return (
+          <>
+            {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
+          </>
+        );
+      },
+      show: ({}) => status === '2',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收时间',
+      show: ({}) => status === '2',
+    },
+    {
+      field: 'applyUserName',
+      label: '验收人',
+      show: ({}) => status === '2',
+    },
   ];
 }
 //保养设备
@@ -312,9 +326,9 @@ export function MaintenanceFormSchema(status: string): FormSchema[] {
       component: 'RadioGroup',
       label: '验收结果',
       required: true,
-      colProps: {
-        span: 10,
-      },
+      // colProps: {
+      //   span: 10,
+      // },
       componentProps: {
         options: [
           {
@@ -332,9 +346,9 @@ export function MaintenanceFormSchema(status: string): FormSchema[] {
       field: 'attachment',
       component: 'Upload',
       label: '图片',
-      colProps: {
-        span: 10,
-      },
+      // colProps: {
+      //   span: 10,
+      // },
       componentProps: {
         maxNumber: 5,
         accept: '.jpg,.jpeg,.png',
@@ -347,37 +361,39 @@ export function MaintenanceFormSchema(status: string): FormSchema[] {
       component: 'InputTextArea',
       label: '验收内容（备注）',
       required: true,
-      colProps: {
-        span: 10,
-      },
+      // colProps: {
+      //   span: 10,
+      // },
       componentProps: {
         placeholder: '请输入验收内容（备注）',
+        rows: 4,
+        maxlength: 200,
       },
     },
-    {
-      field: 'time',
-      component: 'Input',
-      label: '验收时间',
-      colProps: {
-        span: 10,
-      },
-      componentProps: {
-        placeholder: '请输入验收时间',
-      },
-      ifShow: status === '2' ? true : false,
-    },
-    {
-      field: 'person',
-      component: 'Input',
-      label: '验收人',
-      colProps: {
-        span: 10,
-      },
-      componentProps: {
-        placeholder: '请输入验收人',
-      },
-      ifShow: status === '2' ? true : false,
-    },
+    // {
+    //   field: 'time',
+    //   component: 'Input',
+    //   label: '验收时间',
+    //   colProps: {
+    //     span: 10,
+    //   },
+    //   componentProps: {
+    //     placeholder: '请输入验收时间',
+    //   },
+    //   ifShow: status === '2' ? true : false,
+    // },
+    // {
+    //   field: 'person',
+    //   component: 'Input',
+    //   label: '验收人',
+    //   colProps: {
+    //     span: 10,
+    //   },
+    //   componentProps: {
+    //     placeholder: '请输入验收人',
+    //   },
+    //   ifShow: status === '2' ? true : false,
+    // },
   ];
 }
 

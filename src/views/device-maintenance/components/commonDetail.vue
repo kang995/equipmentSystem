@@ -10,7 +10,7 @@
       <a-tab-pane key="3" tab="审批流程">
         <review-process />
       </a-tab-pane>
-      <a-tab-pane key="4" tab="关联工单" v-if="status === '4'">
+      <a-tab-pane key="4" tab="关联工单" v-if="status === '3'">
         <work-order />
       </a-tab-pane>
     </a-tabs>
