@@ -5,6 +5,8 @@ import {
   getPersonSelectApi,
   getDepartmentSelectApi,
   getPeopleSelectApi,
+  getStationSelectApi,
+  getStationPeopleSelectApi,
 } from '/@/api/device-maintenance/index';
 
 //列表
@@ -452,26 +454,95 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'ApiRadioGroup',
       label: '任务指派',
       required: true,
-      componentProps: {
-        api: getDictionarySelectTypeApi, //后台路径
-        params: {
-          type: 'DESIGNATE_TYPE',
-        },
-        resultField: 'data',
-        labelField: 'itemName',
-        valueField: 'itemValue',
-        onChange: (e) => {},
+      defaultValue: '1',
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          api: getDictionarySelectTypeApi, //后台路径
+          params: {
+            type: 'DESIGNATE_TYPE',
+          },
+          resultField: 'data',
+          labelField: 'itemName',
+          valueField: 'itemValue',
+          onChange: (e) => {
+            if (e === '2') {
+              //岗位
+              formModel.dealDeptId = undefined;
+              formModel.dealUserIdList = undefined;
+              updateSchema({
+                field: 'dealStationId',
+                ifShow: true,
+                componentProps: {
+                  api: getStationSelectApi,
+                  resultField: 'data', //后台返回数据字段
+                  labelField: 'name',
+                  valueField: 'id',
+                  onChange: (en) => {
+                    console.log(en);
+                    getStationPeopleSelectApi([en]).then((res) => {
+                      console.log(res);
+                      updateSchema({
+                        field: 'dealUserIdLists',
+                        componentProps: {
+                          options: res,
+                          mode: 'multiple',
+                        },
+                      });
+                      formModel.dealUserIdLists = res.map((item) => item.id);
+                    });
+                  },
+                },
+              });
+              updateSchema({
+                field: 'dealUserIdLists',
+                ifShow: true,
+              });
+
+              updateSchema({
+                field: 'dealDeptId',
+                ifShow: false,
+              });
+              updateSchema({
+                field: 'dealUserIdList',
+                ifShow: false,
+              });
+            } else {
+              formModel.dealStationId = undefined;
+              formModel.dealUserIdLists = undefined;
+              updateSchema({
+                field: 'dealStationId',
+                ifShow: false,
+              });
+              updateSchema({
+                field: 'dealUserIdLists',
+                ifShow: false,
+              });
+
+              updateSchema({
+                field: 'dealDeptId',
+                ifShow: true,
+              });
+              updateSchema({
+                field: 'dealUserIdList',
+                ifShow: true,
+              });
+            }
+          },
+        };
       },
     },
+    // 人员
     {
       field: 'dealDeptId',
       component: 'ApiSelect',
       label: '处理部门',
       required: true,
+      ifShow: true,
       componentProps: ({ formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
-          mode: 'multiple',
+          // mode: 'multiple',
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
           params: {
@@ -495,10 +566,11 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'dealUserId',
+      field: 'dealUserIdList',
       component: 'Select',
       label: '处理人',
       required: true,
+      ifShow: true,
       componentProps: {
         placeholder: '请选择处理人',
         mode: 'multiple',
@@ -506,6 +578,33 @@ export function getCommonFormSchema(): FormSchema[] {
         fieldNames: { label: 'name', value: 'id' },
       },
     },
+    // 岗位
+    {
+      field: 'dealStationId',
+      component: 'ApiSelect',
+      label: '处理岗位',
+      required: true,
+      ifShow: false,
+      componentProps: {
+        placeholder: '请选择处理岗位',
+        // options: [],
+        // fieldNames: { label: 'name', value: 'id' },
+      },
+    },
+    {
+      field: 'dealUserIdLists',
+      component: 'Select',
+      label: '处理人',
+      required: true,
+      ifShow: false,
+      componentProps: {
+        placeholder: '请选择处理人',
+        mode: 'multiple',
+        options: [],
+        fieldNames: { label: 'name', value: 'id' },
+      },
+    },
+
     {
       field: 'remark',
       component: 'InputTextArea',

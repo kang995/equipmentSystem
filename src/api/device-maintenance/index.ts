@@ -6,6 +6,9 @@ enum Api {
   DEPARTMENT_SELECT = '/system/department/tree/select', //部门下拉框查询
   SELECT_PEOPLE = '/system/people/selectPeopleByDeptIds', //根据部门查询人员信息
   SELECT_DEVICE = '/special/selectDeviceListByIds', //根据设备ids查询设备
+  STATION_PEOPLE = '/system/station/select', //岗位下拉框查询
+  SELECT_PEOPLE_STATION = '/system/people/selectPeopleByStationIds', //根据岗位查询人员信息
+
   PLAN_LIST = '/upkeepPlan/list', // 保养计划列表
   EXPORT_DATA = '/upkeepPlan/export', //保养计划列表批量导出
   DELETE_LIST = '/upkeepPlan/batch/remove', //批量删除
@@ -59,6 +62,18 @@ export const getPeopleSelectApi = (params) =>
 export const getDeviceSelectApi = (params) =>
   defHttp.post({
     url: Api.SELECT_DEVICE,
+    params,
+  });
+//岗位下拉框查询
+export const getStationSelectApi = () =>
+  defHttp.post({
+    url: Api.STATION_PEOPLE,
+    // params,
+  });
+//根据岗位查询人员信息
+export const getStationPeopleSelectApi = (params) =>
+  defHttp.post({
+    url: Api.SELECT_PEOPLE_STATION,
     params,
   });
 
