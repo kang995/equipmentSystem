@@ -36,6 +36,7 @@
             name="file"
             :before-upload="beforeUpload"
             @change="handleChange"
+            :headers="headersObj"
             list-type="picture-card"
             :action="uploadUrl"
             :accept="accept"
@@ -166,6 +167,8 @@
   import { CloseCircleOutlined, EyeOutlined, CloudDownloadOutlined } from '@ant-design/icons-vue';
   import { isArray } from '/@/utils/is';
   import { downloadByOssUrl } from '/@/utils/file/download';
+  import { getToken } from '/@/utils/auth';
+  import { HttpRequestHeader } from 'ant-design-vue/lib/upload/interface';
 
   const AUploadDragger = Upload.Dragger;
   const viedoType = ref(['video/mp4', 'video/ogg', 'video/flv', 'video/avi', 'video/rmvb']);
@@ -221,6 +224,8 @@
       default: 50,
     },
   });
+  const token = getToken() as string;
+  const headersObj = ref<HttpRequestHeader>({ Authorization: token });
 
   const { uploadUrl } = useGlobSetting();
   const emit = defineEmits(['change', 'update:value']);
@@ -277,7 +282,7 @@
       let files = {
         name: file.name,
         type: file.type,
-        url: file.response.data,
+        url: file.response.data.url,
       };
       let data = [...fileLists.value, files];
       let obj = {};
