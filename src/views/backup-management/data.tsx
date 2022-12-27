@@ -169,11 +169,15 @@ export const backupColumns: BasicColumn[] = [
 export const devicesColumns: BasicColumn[] = [
   {
     title: '设备名称',
-    dataIndex: 'name',
+    dataIndex: 'deviceName',
   },
   {
-    title: '设备类型',
-    dataIndex: 'facilityType',
+    title: '所在区域',
+    dataIndex: 'districtName',
+  },
+  {
+    title: '所属装置',
+    dataIndex: 'facilitiesName',
   },
   {
     title: '是否特种设备',
@@ -596,7 +600,7 @@ export const sparePartAdd: FormSchema[] = [
     label: '',
     component: 'Input',
     required: true,
-    defaultValue: '1',
+    defaultValue: '0',
     show: false,
   },
   {
@@ -641,7 +645,7 @@ export const inboundAdd: FormSchema[] = [
   {
     field: 'inOutTime',
     component: 'DatePicker',
-    label: '出库时间出库出库',
+    label: '出库时间',
     required: true,
     componentProps: {
       placeholder: '请选择出库时间',
@@ -695,7 +699,7 @@ export const OutboundAdd: FormSchema[] = [
   {
     field: 'inOutTime',
     component: 'DatePicker',
-    label: '入库时间入库',
+    label: '入库时间',
     required: true,
     componentProps: {
       placeholder: '请选择入库时间',
@@ -1059,7 +1063,6 @@ export const tableAddColumns: BasicColumn[] = [
     dataIndex: 'status',
   },
 ];
-
 //出库详情
 export const inventoryDescItem: DescItem[] = [
   {
@@ -1103,9 +1106,15 @@ export const inventoryDescItem: DescItem[] = [
   {
     field: 'spareList',
     label: '物品清单',
-    render: (data) => {
-      if (data) {
-        return <DescItemTable dataSource={data} columns={inventoryTableColumns} />;
+    render: (val, data) => {
+      const status = data.stockStatus;
+      console.log('status: ', status);
+      if (val) {
+        if (status === 2) {
+          return <DescItemTable dataSource={val} columns={inventoryTableColumns} />;
+        } else {
+          return <DescItemTable dataSource={val} columns={inventoryTableColumns1} />;
+        }
       }
     },
   },
@@ -1160,20 +1169,46 @@ const inventoryTableColumns: BasicColumn[] = [
     title: '库存数量',
     dataIndex: 'status',
   },
-  {
-    title: '实际数量',
-    dataIndex: 'status1',
-    //已完成时编辑状态
-    edit: true,
-  },
-  {
-    //已完成时
-    title: '盘点结果',
-    dataIndex: 'status',
-  },
+  // {
+  //   title: '实际数量',
+  //   dataIndex: 'status1',
+  //   //已完成时编辑状态
+  //   edit: true,
+  // },
+  // {
+  //   //已完成时
+  //   title: '盘点结果',
+  //   dataIndex: 'status',
+  // },
   {
     //已完成时
     title: '图片',
     dataIndex: 'status',
+  },
+];
+const inventoryTableColumns1: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'spareName',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'spareClassify',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'specification',
+  },
+  {
+    title: '所在仓库',
+    dataIndex: 'warehouseName',
+  },
+  {
+    title: '库存数量',
+    dataIndex: 'status',
+  },
+  {
+    title: '实际数量',
+    dataIndex: 'status1',
   },
 ];

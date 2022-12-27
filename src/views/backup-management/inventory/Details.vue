@@ -4,9 +4,9 @@
     <div class="ml-4">
       <a-button @click="getReturn" class="mr-4">返回</a-button>
       <!-- 未下发时显示下发按钮 -->
-      <a-button @click="getInventory" class="mr-4" v-if="stockStatus === 0">下发</a-button>
+      <a-button @click="getInventory" class="mr-4" v-if="stockStatus === '0'">下发</a-button>
       <!-- 已完成时显示保存按钮 -->
-      <a-button class="mr-4" @click="getSubmit" v-if="stockStatus === 2">保存</a-button>
+      <a-button class="mr-4" @click="getSubmit" v-if="stockStatus === '2'">保存</a-button>
     </div>
   </PageWrapper>
 </template>

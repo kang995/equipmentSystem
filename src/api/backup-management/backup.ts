@@ -7,8 +7,16 @@ enum Api {
   BACKUP_EDIT = '/sparePart/update', //备件修改
   BACKUP_REMOVE = '/sparePart/remove', //删除
   BACKUP_EXPORT = '/sparePart/export', //批量导出
-  TREE_LIST = '/special/device/tree/select',
+  TREE_LIST = '/special/device/tree/select', //查询区域-装置设施-设备树
+  TREE_LIST_IDS = '/special/selectDeviceListByIds', //根据设备ids查询设备
 }
+//根据设备ids查询设备
+export const postTreeSelectIdsApi = (params) =>
+  defHttp.post({
+    url: Api.TREE_LIST_IDS,
+    params,
+  });
+//查询区域-装置设施-设备树
 export const postTreeSelectApi = () =>
   defHttp.post({
     url: Api.TREE_LIST,

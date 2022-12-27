@@ -82,7 +82,7 @@
   const ATooltip = Tooltip;
   const { createMessage } = useMessage();
   const loading = ref<boolean>(false);
-  const [register, { getSelectRowKeys }] = useTable({
+  const [register, { getSelectRowKeys, reload }] = useTable({
     api: postTakeStockListApi,
     columns: inventoryColumns,
     rowKey: 'id',
@@ -145,6 +145,7 @@
   function getApi(api, id, test) {
     api({ id }).then(() => {
       createMessage.success(test);
+      reload();
     });
   }
   function exportTable() {

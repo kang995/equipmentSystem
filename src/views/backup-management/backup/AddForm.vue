@@ -44,7 +44,6 @@
                       />
                     </template>
                     <template #WarehouseSlot="{ record }">
-                      {{ record.warehouseId }}
                       <Select
                         ref="select"
                         placeholder="请选择仓库"
@@ -95,7 +94,14 @@
         </div>
       </a-tab-pane>
     </Tabs>
-    <SelectDevice @register="registerModal" :minHeight="400" @handle-ok="handleOk" />
+    <SelectDevice
+      v-if="ifShow"
+      @register="registerModal"
+      :minHeight="400"
+      @handle-ok="handleOk"
+      :targetval="targetKeys"
+      :dataSource="dataSourceList"
+    />
     <div class="btn mb-4">
       <a-button @click="resetFunc" class="mr-4">取消</a-button>
       <a-button type="primary" @click="submitFunc()">保存</a-button>
@@ -136,15 +142,25 @@
   const options = ref([]);
   const optionsAfter = ref([]);
   const versionVal = ref();
+  const ifShow = ref(id ? false : true);
   onMounted(() => {
     funSelect();
   });
+  const targetKeys = ref<any>([]);
+  const vallist = ref<any>([]);
+  const dataSourceList = ref<any>([]);
   id &&
     postBackupDetailApi({ id }).then((res) => {
-      console.log('res: ', res);
       setFieldsValue(res);
       versionVal.value = res.version;
-      console.log('res.version: ', res.version);
+      dataSource.value = res.inventoryList;
+      dataSourceDevice.value = res.relevanceList;
+      res.relevanceList.forEach((v) => {
+        vallist.value.push(v?.id);
+      });
+      targetKeys.value = vallist.value;
+      dataSourceList.value = res?.relevanceList;
+      ifShow.value = true;
     });
 
   function funSelect() {
@@ -249,16 +265,22 @@
   }
   function handleDel(index) {
     const data = getDataSourceDevice();
+    const ids = [] as any; //deviceId
     data.splice(index, 1);
     setTableDataDevice(data);
+    data.map((v) => {
+      ids.push(v.deviceId);
+    });
+    targetKeys.value = ids;
   }
   function getModal() {
-    openModal(true);
+    openModal(true, targetKeys.value);
   }
   //关闭弹框获取到选择的值
   const DeviceVal = ref([]);
-  function handleOk(data) {
-    DeviceVal.value = data;
+  function handleOk(val, data) {
+    DeviceVal.value = val;
+    dataSourceDevice.value = data;
     closeModal();
   }
 

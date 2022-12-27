@@ -7,7 +7,6 @@
           mode="multiple"
           placeholder="请选择仓库"
           :options="options"
-          @search="handleChange"
       /></template>
       <template #tableSlot>
         <AFormItemRest> <BasicTable @register="registerTable" /> </AFormItemRest
@@ -48,19 +47,7 @@
       });
     });
   }
-  function handleChange(value) {
-    console.log('value: ', value);
-    // console.log('data: ', data);
-    // let a: any;
-    // data.map((v) => {
-    //   posWarehouseSpareApi({ warehouseId: v.value }).then((res) => {
-    //     a = res.records;
-    //     console.log('res.records: ', res.records);
-    //   });
-    //   // a = WarehouseSelect.value.find((ite) => ite.warehouseId === v.value);
-    // });
-    // console.log('a: ', a);
-  }
+
   const [registerTable] = useTable({
     dataSource: dataSource,
     columns: tableAddColumns,

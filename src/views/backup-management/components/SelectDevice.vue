@@ -17,7 +17,7 @@
   >
     <Transfer
       :data-source="dataSource"
-      v-model:target-keys="targetKeys"
+      :target-keys="targetKeys"
       :titles="['设备选择', '已经选择设备']"
       :list-style="{
         width: '100%',
@@ -25,11 +25,11 @@
       }"
       :render="(item) => item.title"
       :showSelectAll="false"
+      @change="onChange"
     >
       <template #children="{ direction, selectedKeys, onItemSelect }">
         <Tree
           v-if="direction === 'left'"
-          :fieldNames="{ children: 'children', title: 'label', key: 'id' }"
           block-node
           checkable
           check-strictly
@@ -55,28 +55,48 @@
   import { computed, ref, onMounted } from 'vue';
   import type { TransferProps, TreeProps } from 'ant-design-vue';
   import { Transfer, Tree } from 'ant-design-vue';
-  import { postTreeSelectApi } from '/@/api/backup-management/backup';
+  import { postTreeSelectApi, postTreeSelectIdsApi } from '/@/api/backup-management/backup';
   const emit = defineEmits(['handleOk', 'register']);
-  const [registerModal] = useModalInner(async () => {});
+  const [registerModal] = useModalInner(async (data) => {
+    targetKeys.value = data;
+  });
 
+  const props = defineProps<{
+    targetval?: Array<any>;
+    dataSource?: Array<any>;
+  }>();
   const targetKeys = ref<any>([]);
+  let tData: any = [];
 
   //确认
-  const dataList = ref([]);
+  const dataSourceList = ref<any>([]);
   function handleOk() {
-    emit('handleOk', [...new Set(targetKeys.value)]);
+    emit('handleOk', [...new Set(targetKeys.value)], dataSourceList.value);
   }
   onMounted(() => {
     funTreeSelect();
+    targetKeys.value = props.targetval;
+    dataSourceList.value = props.dataSource;
   });
   function funTreeSelect() {
     postTreeSelectApi().then((res) => {
-      tData = res;
+      tData = getData(res);
       flatten(JSON.parse(JSON.stringify(tData)));
     });
   }
-
-  let tData: TreeProps['treeData'] = [];
+  function getData(res) {
+    const data = res.map((v) => {
+      if (v.children) {
+        let bb = getData(v.children);
+        v.children = bb;
+      }
+      return {
+        key: v.id,
+        title: v.label,
+      };
+    });
+    return data;
+  }
   const transferDataSource: any = [];
   function flatten(list: TransferProps['dataSource'] = []) {
     list.forEach((item) => {
@@ -84,11 +104,9 @@
       flatten(item.children);
     });
   }
-
   function isChecked(selectedKeys: (string | number)[], eventKey: string | number) {
     return selectedKeys.indexOf(eventKey) !== -1;
   }
-
   function handleTreeData(data, targetKeys: string[] = []) {
     data.forEach((item) => {
       item['disabled'] = targetKeys.includes(item.key as any);
@@ -98,20 +116,22 @@
     });
     return data;
   }
-
   // 数据源
   let dataSource = ref<any>(transferDataSource);
   // 树结构
-
   let treeData = computed<TreeProps['treeData']>(() => {
     return handleTreeData(tData, targetKeys.value);
   });
-
   const onChecked = (e: any, checkedKeys: string[], onItemSelect: (n: any, c: boolean) => void) => {
-    console.log('onItemSelect: ', onItemSelect);
     const { eventKey } = e.node;
-    dataList.value = eventKey;
     onItemSelect(eventKey, !isChecked(checkedKeys, eventKey));
+  };
+  const onChange = (keys: string[]) => {
+    dataSourceList.value = [];
+    postTreeSelectIdsApi(keys).then((res) => {
+      dataSourceList.value = res;
+    });
+    targetKeys.value = keys;
   };
 </script>
 <style lang="less" scoped>
