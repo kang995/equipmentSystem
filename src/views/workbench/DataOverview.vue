@@ -15,6 +15,7 @@
             :bordered="false"
             :id="index"
             @mouseover="changeActive(index)"
+            @click="getRouterDate(item.id)"
           >
             <a-image :preview="false" :src="item.icon" :class="`${prefixCls}-SvgIcon`" />
 
@@ -27,9 +28,7 @@
               </APopover>
               <div :class="`${prefixCls}-num-title`">
                 <div>
-                  <span :class="`${prefixCls}-num`" @click="getRouterDate(item.id)">{{
-                    item.num
-                  }}</span>
+                  <span :class="`${prefixCls}-num`">{{ item.num }}</span>
                 </div>
               </div>
             </div>
@@ -84,37 +83,23 @@
       bgColor: 'rgba(255, 91, 86, 0.1)',
     },
   ]);
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth() + 1;
-  const date = new Date().getDate();
-  const dateTime = year + '-' + month + '-' + date;
-  //   setFieldsValue({ checkDate: year + '-' + month + '-' + date });
   const toRoute = {
-    //跳转监测报警
-
+    //待确认故障
     1: {
-      name: 'AlarmRecord',
-      query: {
-        alarmTime: dateTime,
-      },
+      name: 'faultManagement',
+      // query: {
+      //   // alarmTime: dateTime,//故障状态：待确认
+      // },
     },
+
     2: {
-      name: 'AlarmRecord',
-      //监测报警
-      query: {
-        alarmTime: dateTime,
-        sourceType: 1,
-      },
+      name: 'maintainWorkOrder', //保养工单
     },
     3: {
-      name: 'AlarmRecord',
-      query: {
-        alarmTime: dateTime,
-        sourceType: 2,
-      },
+      name: 'repairWorkOrder', //维修工单
     },
     4: {
-      name: 'MajorHazardSource',
+      name: 'serviceWorkOrder', //检修工单
     },
   };
 

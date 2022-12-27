@@ -27,10 +27,12 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { Row, Card, Col } from 'ant-design-vue';
   import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
   const ARow = Row;
   const ACol = Col;
   const ACard = Card;
   const { prefixCls } = useDesign('enterprise-personnel1');
+  const router = useRouter();
   const titleList = [
     {
       title: '快捷入口',
@@ -42,7 +44,7 @@
     {
       title: '故障确认',
       icon: 'yewu_danyuan',
-      name: 'string',
+      name: 'planApproval',
     },
     {
       title: '维修计划审核',
@@ -52,20 +54,20 @@
     {
       title: '保养计划审核',
       icon: 'yewu_danyuan',
-      name: 'string',
+      name: 'auditDetail',
     },
     {
       title: '检修计划审核',
       icon: 'yewu_danyuan',
-      name: 'string',
+      name: 'servicePlanAudit',
     },
   ]);
 
   function getClick(data) {
     console.log('data: ', data);
-    // router.push({
-    //   name: data,
-    // });
+    router.push({
+      name: data,
+    });
   }
 </script>
 <style lang="less" scoped>
