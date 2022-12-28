@@ -6,14 +6,17 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
   import { maintainSchemaDetail } from '../fileld';
 
-  //检修结果
-  let result = ref<any>({});
+  const props = defineProps({
+    acceptList: {
+      type: Object as any,
+      default: () => {},
+    },
+  });
   const [registerResult] = useDescription({
-    data: result,
+    data: props.acceptList,
     schema: maintainSchemaDetail(),
     bordered: false,
     column: 2,

@@ -7,6 +7,13 @@
           :stopButtonPropagation="true"
           :actions="[
             {
+              label: '重新下发',
+              onClick: handleAgain.bind(null, record),
+              ifShow: () => {
+                return record.workOrderStatus === '2'; // 根据业务控制是否显示
+              },
+            },
+            {
               label: '详情',
               onClick: handleDetails.bind(null, record),
             },
@@ -22,9 +29,13 @@
         </div>
       </template>
     </BasicTable>
+    <!-- 重新下发 -->
+    <IssueModel @register="IssuedModal" @Event="handleIssue" />
   </PageWrapper>
 </template>
 <script setup lang="ts">
+  import IssueModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
+  import { useModal } from '/@/components/Modal';
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, tableColumn, getFormSchema } from './fileld';
@@ -33,7 +44,11 @@
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { getPlanListApi, upkeepExportApi } from '/@/api/device-maintenance/work';
+  import {
+    getPlanListApi,
+    upkeepExportApi,
+    upkeepAnewIssueApi,
+  } from '/@/api/device-maintenance/work';
 
   const { createMessage } = useMessage();
   const router = useRouter();
@@ -42,9 +57,8 @@
   const mode = route.query?.mode as string; //保养计划管理：1、检修计划管理：2、
   const ATooltip = Tooltip;
 
-  // const dataSource = ref([{}, {}]);
-  const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
-    // dataSource: dataSource,
+  const [IssuedModal, { openModal: openIssuedModal }] = useModal();
+  const [register, { reload, getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: mode === '1' ? getPlanListApi : undefined,
     searchInfo: {
       upkeepPlanId: id, //保养计划id
@@ -80,6 +94,25 @@
       },
     },
   });
+  //重新下发
+  function handleAgain(record) {
+    openIssuedModal(true, {
+      id: record.id,
+    });
+  }
+  //重新下发-确认
+  function handleIssue(data) {
+    console.log('data', data);
+    upkeepAnewIssueApi(data)
+      .then(() => {
+        createMessage.success('已重新下发');
+      })
+      .finally(() => {
+        openIssuedModal(false);
+        reload();
+      });
+  }
+
   //详情
   function handleDetails() {
     router.push({

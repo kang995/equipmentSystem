@@ -468,6 +468,7 @@ export function getCommonFormSchema(): FormSchema[] {
           onChange: (e) => {
             formModel.dealUserIdList = undefined;
             if (e === '2') {
+              formModel.dealDeptId = undefined;
               updateSchema({
                 field: 'dealDeptId',
                 ifShow: false,
@@ -477,6 +478,7 @@ export function getCommonFormSchema(): FormSchema[] {
                 ifShow: true,
               });
             } else {
+              formModel.dealStationId = undefined;
               updateSchema({
                 field: 'dealStationId',
                 ifShow: false,

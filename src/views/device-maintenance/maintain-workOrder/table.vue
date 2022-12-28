@@ -6,17 +6,24 @@
         :stopButtonPropagation="true"
         :actions="[
           {
+            label: '审核',
+            onClick: handleAudit.bind(null, record),
+            ifShow: () => {
+              return props.ifIssue && record.workOrderStatus === '2' && record.delayFlag === '2'; // 根据业务控制是否显示
+            },
+          },
+          {
             label: '重新下发',
             onClick: handleAgain.bind(null, record),
             ifShow: () => {
-              return props.ifIssue; // 根据业务控制是否显示
+              return props.ifIssue && record.workOrderStatus === '2'; // 根据业务控制是否显示
             },
           },
           {
             label: '申请延期',
             onClick: handlePostpone.bind(null, record),
             ifShow: () => {
-              return !props.ifIssue; // 根据业务控制是否显示
+              return !props.ifIssue && record.workOrderStatus === '2'; // 根据业务控制是否显示
             },
           },
           {
@@ -36,14 +43,17 @@
     </template>
   </BasicTable>
   <!-- 申请延期 -->
-  <maintainModel @register="maintainModal" />
+  <maintainModel @register="maintainModal" @postponeEvent="handlePostpones" />
   <!-- 重新下发 -->
-  <IssueModel @register="IssuedModal" />
+  <IssueModel @register="IssuedModal" @Event="handleIssue" />
+  <!-- 延期审核 -->
+  <delayModal @register="delayModals" @events="handleDelay" />
 </template>
 <script setup lang="ts">
   import { useModal } from '/@/components/Modal';
   import IssueModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
   import maintainModel from './module/maintainModal.vue';
+  import delayModal from '/@/views/device-service/components/petitioner/postponeModal.vue';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
@@ -51,9 +61,16 @@
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { getPlanListApi, upkeepExportApi } from '/@/api/device-maintenance/work';
+  import {
+    getPlanListApi,
+    upkeepExportApi,
+    upkeepAnewIssueApi,
+    upkeepDelayAuditApi,
+    upkeepApplyDelayApi,
+  } from '/@/api/device-maintenance/work';
 
   const { createMessage } = useMessage();
+  const [delayModals, { openModal: openDelayModal }] = useModal();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const [maintainModal, { openModal: openMaintainModal }] = useModal();
   const router = useRouter();
@@ -62,7 +79,7 @@
     ifIssue?: any;
   }>();
 
-  const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
+  const [register, { reload, getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: getPlanListApi,
     searchInfo: {
       type: props.ifIssue ? '0' : '1', //0：负责工单；1：执行工单
@@ -104,30 +121,70 @@
     },
   });
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
       name: 'workOrderDetail',
       query: {
-        identity: '2', //负责人：1、执行人：2
-        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
+        id: record.id,
+        identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
+        status: 5, //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+        delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
+        // status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
       },
     });
   }
+  //延期审核
+  function handleAudit(record) {
+    openDelayModal(true, {
+      id: record.id,
+    });
+  }
+  //延期审核-确认
+  function handleDelay(data) {
+    console.log('data11', data);
+    upkeepDelayAuditApi(data)
+      .then(() => {
+        createMessage.success('已提交');
+      })
+      .finally(() => {
+        openDelayModal(false);
+        reload();
+      });
+  }
   //重新下发
-  function handleAgain() {
-    openIssuedModal(true, {});
+  function handleAgain(record) {
+    openIssuedModal(true, {
+      id: record.id,
+    });
+  }
+  //重新下发-确认
+  function handleIssue(data) {
+    console.log('data', data);
+    upkeepAnewIssueApi(data)
+      .then(() => {
+        createMessage.success('已重新下发');
+      })
+      .finally(() => {
+        openIssuedModal(false);
+        reload();
+      });
   }
   //申请延期
-  function handlePostpone() {
-    openMaintainModal(true, {});
-    // router.push({
-    //   name: 'workOrderDetail',
-    //   query: {
-    //     identity: '2', //负责人：1、执行人：2
-    //     status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5
-    //     isShow: 'true',
-    //   },
-    // });
+  function handlePostpone(record) {
+    openMaintainModal(true, {
+      id: record.id,
+    });
+  }
+  //申请延期-确认
+  function handlePostpones(data) {
+    upkeepApplyDelayApi(data)
+      .then(() => {
+        createMessage.success('已提交');
+      })
+      .finally(() => {
+        openMaintainModal(false);
+        reload();
+      });
   }
   //导出
   const exportLoading = ref(false);

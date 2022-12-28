@@ -33,23 +33,32 @@
   </BasicTable>
 </template>
 <script setup lang="ts">
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  import { downloadByData } from '/@/utils/file/download';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import {
+    getStayAcceptApi,
+    getAcceptApi,
+    stayAcceptExportApi,
+    acceptExportApi,
+  } from '/@/api/device-maintenance/work';
+
   const props = defineProps<{
     ifIssue?: any;
   }>();
+  const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
-  const exportLoading = ref(false);
-  const dataSource = ref([{}, {}]);
-  const type = ref<string>('checked');
-  const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
-    columns: tableColumns(type.value),
+  // const dataSource = ref([{}, {}]);
+  // const type = ref<string>('checked');
+  const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
+    // dataSource: dataSource,
+    api: props.ifIssue ? getStayAcceptApi : getAcceptApi,
+    columns: tableColumns(props.ifIssue),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
@@ -64,7 +73,7 @@
       slots: { customRender: 'action' },
     },
     formConfig: {
-      schemas: getFormSchema(type.value),
+      schemas: getFormSchema(props.ifIssue),
       autoSubmitOnEnter: true,
       showAdvancedButton: false, //是否显示收起展开按钮
       resetButtonOptions: {
@@ -79,10 +88,13 @@
       rowProps: {
         gutter: 16,
       },
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['Time', ['executeStartTime', 'executeStartTime'], 'YYYY-MM-DD'],
+        ['Time1', ['acceptStartTime', 'acceptEndTime'], 'YYYY-MM-DD'],
+      ],
     },
   });
-  //导出
-  function exportTable() {}
   //验收
   function handleCheck() {
     router.push({
@@ -100,6 +112,31 @@
         status: '2', //待验收：1、已验收：2
       },
     });
+  }
+  //导出
+  const exportLoading = ref(false);
+  function exportTable() {
+    const { current, pageSize } = getPaginationRef() as PaginationProps;
+    exportLoading.value = true;
+    let data = {
+      page: current,
+      pageSize: pageSize,
+      ids: getSelectRowKeys(),
+    };
+    Object.assign(data, getForm().getFieldsValue());
+    (props.ifIssue ? stayAcceptExportApi(data) : acceptExportApi(data))
+      .then((res) => {
+        if (res) {
+          const filename = props.ifIssue ? '待验收工单列表.xlsx' : '已验收工单列表.xlsx';
+          downloadByData(res.data, filename);
+          createMessage.success('导出成功');
+        } else {
+          createMessage.error('导出失败');
+        }
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
   }
 </script>
 <style scoped lang="less"></style>

@@ -3,6 +3,7 @@ import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
+import { getAgainFormSchema } from '/@/views/device-service/components/field';
 export interface TabItem {
   key: string;
   name: string;
@@ -298,44 +299,45 @@ export function WorkDetail(): DescItem[] {
 }
 //负责人
 //工单信息-重新下发
-export function getAgainFormSchema(): FormSchema[] {
+export function getAgainFormSchemas(): FormSchema[] {
   return [
-    {
-      field: 'name',
-      component: 'RadioGroup',
-      label: '任务指派',
-      required: true,
-      componentProps: {
-        options: [
-          {
-            label: '人员',
-            value: '1',
-          },
-          {
-            label: '岗位',
-            value: '2',
-          },
-        ],
-      },
-    },
-    {
-      field: 'name',
-      component: 'ApiSelect',
-      label: '处理部门',
-      required: true,
-      componentProps: {
-        placeholder: '请选择处理部门',
-      },
-    },
-    {
-      field: 'name',
-      component: 'ApiSelect',
-      label: '处理人',
-      required: true,
-      componentProps: {
-        placeholder: '请选择处理人',
-      },
-    },
+    ...getAgainFormSchema(),
+    // {
+    //   field: 'name',
+    //   component: 'RadioGroup',
+    //   label: '任务指派',
+    //   required: true,
+    //   componentProps: {
+    //     options: [
+    //       {
+    //         label: '人员',
+    //         value: '1',
+    //       },
+    //       {
+    //         label: '岗位',
+    //         value: '2',
+    //       },
+    //     ],
+    //   },
+    // },
+    // {
+    //   field: 'name',
+    //   component: 'ApiSelect',
+    //   label: '处理部门',
+    //   required: true,
+    //   componentProps: {
+    //     placeholder: '请选择处理部门',
+    //   },
+    // },
+    // {
+    //   field: 'name',
+    //   component: 'ApiSelect',
+    //   label: '处理人',
+    //   required: true,
+    //   componentProps: {
+    //     placeholder: '请选择处理人',
+    //   },
+    // },
   ];
 }
 

@@ -1,62 +1,136 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
-
+import {
+  getDictionarySelectTypeApi,
+  getDepartmentSelectApi,
+  getPeopleSelectApi,
+  getStationSelectApi,
+  getStationPeopleSelectApi,
+} from '/@/api/device-maintenance/index';
 //工单信息-重新下发
 export function getAgainFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
-      component: 'RadioGroup',
+      field: 'designateType',
+      component: 'ApiRadioGroup',
       label: '任务指派',
       required: true,
-      componentProps: {
-        options: [
-          {
-            label: '人员',
-            value: '1',
+      defaultValue: '1',
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          api: getDictionarySelectTypeApi, //后台路径
+          params: {
+            type: 'DESIGNATE_TYPE',
           },
-          {
-            label: '岗位',
-            value: '2',
+          resultField: 'data',
+          labelField: 'itemName',
+          valueField: 'itemValue',
+          onChange: (e) => {
+            formModel.dealUserIdList = undefined;
+            if (e === '2') {
+              formModel.dealDeptId = undefined;
+              updateSchema({
+                field: 'dealDeptId',
+                ifShow: false,
+              });
+              updateSchema({
+                field: 'dealStationId',
+                ifShow: true,
+              });
+            } else {
+              formModel.dealStationId = undefined;
+              updateSchema({
+                field: 'dealStationId',
+                ifShow: false,
+              });
+              updateSchema({
+                field: 'dealDeptId',
+                ifShow: true,
+              });
+            }
           },
-        ],
+        };
       },
     },
+    // 人员
     {
-      field: 'name',
+      field: 'dealDeptId',
       component: 'ApiSelect',
       label: '处理部门',
       required: true,
-      componentProps: {
-        placeholder: '请选择处理部门',
+      ifShow: true,
+      componentProps: ({ formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          placeholder: '请选择处理部门',
+          api: getDepartmentSelectApi,
+          params: {
+            // type: 'PLAN_STATUS'
+          },
+          resultField: 'data', //后台返回数据字段
+          labelField: 'label',
+          valueField: 'id',
+          getPopupContainer: () => document.body,
+          onChange: (e: any) => {
+            // console.log(e);
+            getPeopleSelectApi([e]).then((res) => {
+              updateSchema({
+                field: 'dealUserIdList',
+                componentProps: {
+                  options: res,
+                },
+              });
+            });
+          },
+        };
+      },
+    },
+    // 岗位
+    {
+      field: 'dealStationId',
+      component: 'ApiSelect',
+      label: '处理岗位',
+      required: true,
+      ifShow: false,
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          api: getStationSelectApi,
+          resultField: 'data', //后台返回数据字段
+          labelField: 'name',
+          valueField: 'id',
+          getPopupContainer: () => document.body,
+          onChange: (en) => {
+            console.log(en);
+            getStationPeopleSelectApi([en]).then((res) => {
+              console.log(res);
+              updateSchema({
+                field: 'dealUserIdList',
+                componentProps: {
+                  options: res,
+                  mode: 'multiple',
+                },
+              });
+              formModel.dealUserIdList = res.map((item) => item.id);
+            });
+          },
+        };
       },
     },
     {
-      field: 'name',
-      component: 'ApiSelect',
+      field: 'dealUserIdList',
+      component: 'Select',
       label: '处理人',
       required: true,
       componentProps: {
         placeholder: '请选择处理人',
+        mode: 'multiple',
+        options: [],
+        fieldNames: { label: 'name', value: 'id' },
+        getPopupContainer: () => document.body,
       },
-    },
-  ];
-}
-//工单信息-延期申请
-export function ApplySchemaDetail(): DescItem[] {
-  return [
-    {
-      field: 'applyUserName',
-      label: '原截至时间',
-    },
-    {
-      field: 'applyUserName',
-      label: '延期时间',
-    },
-    {
-      field: 'applyUserName',
-      label: '延期原因',
     },
   ];
 }
@@ -64,7 +138,7 @@ export function ApplySchemaDetail(): DescItem[] {
 export function getPostponeFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'approvalResult',
       component: 'RadioGroup',
       label: '审核结果',
       required: true,
@@ -72,17 +146,17 @@ export function getPostponeFormSchema(): FormSchema[] {
         options: [
           {
             label: '同意',
-            value: '1',
+            value: '0',
           },
           {
             label: '拒绝',
-            value: '2',
+            value: '1',
           },
         ],
       },
     },
     {
-      field: 'problem',
+      field: 'reason',
       component: 'InputTextArea',
       label: '拒绝原因',
       componentProps: {

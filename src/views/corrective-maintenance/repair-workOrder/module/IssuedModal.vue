@@ -14,15 +14,18 @@
 </template>
 
 <script setup lang="ts">
+  import { ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
-  import { getAgainFormSchema } from '../data';
+  import { getAgainFormSchemas } from '../data';
 
+  const emit = defineEmits(['register', 'Event']);
+  const modalData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
-    console.log(111, data);
+    modalData.value = data;
   });
   const [registerForm, { validate, getFieldsValue }] = useForm({
-    schemas: getAgainFormSchema(),
+    schemas: getAgainFormSchemas(),
     baseColProps: {
       span: 22,
       style: {
@@ -44,6 +47,8 @@
   async function submitForm() {
     await validate();
     const data = getFieldsValue();
+    data.id = modalData.value.id;
+    emit('Event', data);
   }
   //取消
   async function goBack() {

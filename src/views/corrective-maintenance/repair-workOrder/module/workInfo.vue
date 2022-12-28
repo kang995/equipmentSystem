@@ -95,7 +95,7 @@
   import { Description, useDescription } from '/@/components/Description';
   import {
     WorkDetail,
-    getAgainFormSchema,
+    getAgainFormSchemas,
     PostponeDetail,
     getPostponeFormSchema,
     RepairDetail,
@@ -252,7 +252,7 @@
     again.value = true;
   }
   const [registerFrom, {}] = useForm({
-    schemas: getAgainFormSchema(), //表单配置
+    schemas: getAgainFormSchemas(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     baseColProps: {
       span: 24,

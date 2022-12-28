@@ -1,7 +1,7 @@
 <template>
   <BasicModal
     v-bind="$attrs"
-    title="保养工单延期申请"
+    title="延期审核"
     :destroy-on-close="true"
     :mask-closable="false"
     @ok="submitForm"
@@ -17,15 +17,15 @@
   import { ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form';
-  import { postponeFormSchema } from '../data';
+  import { getPostponeFormSchema } from '../field';
 
-  const emit = defineEmits(['register', 'postponeEvent']);
-  const delayData = ref<any>();
+  const emit = defineEmits(['register', 'events']);
+  const modalData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
-    delayData.value = data;
+    modalData.value = data;
   });
   const [registerForm, { validate, getFieldsValue }] = useForm({
-    schemas: postponeFormSchema(),
+    schemas: getPostponeFormSchema(),
     baseColProps: {
       span: 22,
       style: {
@@ -47,8 +47,8 @@
   async function submitForm() {
     await validate();
     const data = getFieldsValue();
-    data['workOrderId'] = delayData.value.id;
-    emit('postponeEvent', data);
+    data.id = modalData.value.id;
+    emit('events', data);
   }
   //取消
   async function goBack() {

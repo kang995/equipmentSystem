@@ -18,12 +18,20 @@
   import { Tabs } from 'ant-design-vue';
   import { achieveList } from './data';
   import { computed, ref } from 'vue';
-
+  import { getAcceptCountApi } from '/@/api/device-maintenance/work';
   const TabPane = Tabs.TabPane;
 
   const activeKey = ref('1');
   const activeComponent = computed(() => {
     return achieveList.filter((item) => item.key == activeKey.value)[0].component;
+  });
+  //待验收和已验收工单数量
+  getAcceptCountApi().then((res) => {
+    achieveList[0].name = '待验收';
+    achieveList[1].name = '已验收';
+    achieveList[0].name = achieveList[0].name + `(${res['stayAcceptCount']})`;
+    achieveList[1].name = achieveList[1].name + `(${res['acceptCount']})`;
+    // console.log('数量',res,achieveList)
   });
 </script>
 

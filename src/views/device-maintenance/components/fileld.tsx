@@ -1,6 +1,8 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
+import { Image, Tag } from 'ant-design-vue';
+
 //计划详情
 export function MaintainDetail(state: string, mode: string): DescItem[] {
   // console.log('模块', mode);
@@ -258,10 +260,43 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '工单状态',
       dataIndex: 'workOrderStatus',
+      customRender: ({ record }) => {
+        if (record.workOrderStatus === '1') {
+          //1：未开始
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '2') {
+          //2：待执行
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '3') {
+          //3：待验收
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '4') {
+          //4：已完成
+          return <Tag color={'green'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '5') {
+          //5：验收未通过
+          return <Tag color={'red'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '6') {
+          //6：计划终止
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        }
+      },
     },
     {
       title: '工单延期',
       dataIndex: 'delayFlag',
+      customRender: ({ record }) => {
+        if (record.delayFlag === '0') {
+          //0:否
+          return <Tag color={'default'}>否</Tag>;
+        } else if (record.delayFlag === '1') {
+          //1：是
+          return <Tag color={'default'}>是</Tag>;
+        } else if (record.delayFlag === '2') {
+          //2：延期审核
+          return <Tag color={'red'}>延期审核</Tag>;
+        }
+      },
     },
     {
       title: '完成时间',
@@ -416,26 +451,36 @@ export function getPartFormSchema(): FormSchema[] {
 export function maintainSchemaDetail(): DescItem[] {
   return [
     {
-      field: 'applyUserName',
+      field: 'dealCase',
       label: '处理情况',
     },
     {
       field: 'imgArr',
       label: '图片',
-      render: () => {
-        return (
-          <>
-            {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
-          </>
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
     {
-      field: 'applyUserName',
+      field: 'finishTime',
       label: '保养完成时间',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptPeopleIdList',
       label: '验收人',
     },
   ];
@@ -445,22 +490,32 @@ export function maintainSchemaDetail(): DescItem[] {
 export function receiveSchemaDetail(): DescItem[] {
   return [
     {
-      field: 'applyUserName',
+      field: 'acceptResult',
       label: '验收结果',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptContent',
       label: '验收内容',
     },
     {
       field: 'imgArr1',
       label: '图片',
-      render: () => {
-        return (
-          <>
-            {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
-          </>
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
   ];
@@ -550,10 +605,52 @@ export function getPlanFormSchema(): FormSchema[] {
   ];
 }
 
+//工单信息-延期申请
+export function ApplySchemaDetail(): DescItem[] {
+  return [
+    {
+      field: 'oldEndTime',
+      label: '原截至时间',
+    },
+    {
+      field: 'delayTime',
+      label: '延期时间',
+    },
+    {
+      field: 'delayReason',
+      label: '延期原因',
+    },
+  ];
+}
+
 const titleStyle: any = {
   paddingTop: '16px',
   fontSize: '15px',
   fontWeight: '600',
   position: 'relative',
   left: '0px',
+};
+const ImageBox: any = {
+  width: '80px',
+};
+const fileBox = {
+  padding: '0px',
+  height: '100px',
+  width: 'auto',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};
+const noFileBox: any = {
+  textAlign: 'center',
+  lineHeight: '100px',
+  fontWeight: '600',
+  fontSize: '16px',
+  color: '#999',
+  userSelect: 'none',
+  height: '100px',
+  width: '200px',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
 };

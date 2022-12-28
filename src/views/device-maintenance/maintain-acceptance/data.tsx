@@ -3,7 +3,9 @@ import { DescItem } from '/@/components/Description';
 import { BasicTable } from '/@/components/Table';
 import checking from './checking/index.vue';
 import checked from './checked/index.vue';
-import { Image } from 'ant-design-vue';
+import { Image, Tag } from 'ant-design-vue';
+import { getPersonSelectApi } from '/@/api/device-maintenance/index';
+// import { getAcceptCountApi } from "/@/api/device-maintenance/work"
 export interface TabItem {
   key: string;
   name: string;
@@ -23,48 +25,69 @@ export const achieveList: TabItem[] = [
 ];
 
 //保养验收-待验收、已验收
-export function tableColumns(type: string): BasicColumn[] {
+export function tableColumns(type: any): BasicColumn[] {
   return [
     {
       title: '工单编号',
-      dataIndex: 'name',
+      dataIndex: 'code',
     },
     {
       title: '创建时间',
-      dataIndex: 'time',
+      dataIndex: 'createTime',
     },
     {
       title: '计划负责人',
-      dataIndex: 'productName',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '工单处理人',
-      dataIndex: 'status',
+      dataIndex: 'dealUserName',
     },
     {
       title: '工单执行时间',
-      dataIndex: 'status',
+      dataIndex: 'executeTimeStr',
     },
     {
       title: '关联计划',
-      dataIndex: 'status',
+      dataIndex: 'upkeepPlanName',
     },
     {
       title: '工单状态',
-      dataIndex: 'status',
+      dataIndex: 'workOrderStatus',
+      customRender: ({ record }) => {
+        if (record.workOrderStatus === '1') {
+          //1：未开始
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '2') {
+          //2：待执行
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '3') {
+          //3：待验收
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '4') {
+          //4：已完成
+          return <Tag color={'green'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '5') {
+          //5：验收未通过
+          return <Tag color={'red'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '6') {
+          //6：计划终止
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        }
+      },
     },
     {
       title: '验收时间',
-      dataIndex: 'status',
-      ifShow: type === 'checked' ? true : false,
+      dataIndex: 'acceptTime',
+      ifShow: ({}) => !type,
     },
   ];
 }
 
-export function getFormSchema(type: string): FormSchema[] {
+export function getFormSchema(type: any): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'code',
       component: 'Input',
       label: '工单编号',
       labelWidth: type === 'checked' ? 96 : 64,
@@ -73,23 +96,37 @@ export function getFormSchema(type: string): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '计划负责人',
       componentProps: {
         placeholder: '请选择计划负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '工单处理人',
       componentProps: {
         placeholder: '请选择工单处理人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'Time',
       component: 'RangePicker',
       label: '工单执行时间',
       componentProps: {
@@ -98,14 +135,14 @@ export function getFormSchema(type: string): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'Time1',
       component: 'RangePicker',
       label: '工单验收时间',
       labelWidth: 96,
       componentProps: {
         format: 'YYYY-MM-DD',
       },
-      ifShow: type === 'checked' ? true : false,
+      ifShow: ({}) => !type,
     },
   ];
 }
