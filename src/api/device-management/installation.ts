@@ -14,6 +14,16 @@ enum Api {
   TYPE_SELECT = '/unitFacility/type/select', //类型-下拉查询
   BIND_STATE = '/unitFacility/bindState/select', //模型绑定状态-下拉查询
 }
+//批量导出
+export const postFacilityExportApi = (params) =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      params,
+      url: Api.INSTALLATION_EXPORT,
+    },
+    { isTransformResponse: false },
+  );
 //模型绑定状态-下拉查询
 export const postBindStateApi = () =>
   defHttp.post({
@@ -32,10 +42,9 @@ export const postUnitFacilityDetailApi = (params) =>
     params,
   });
 // 查询区域-装置设施树
-export const postUnitFacilityTreeApi = (params) =>
+export const postUnitFacilityTreeApi = () =>
   defHttp.post({
     url: Api.INSTALLATION_TREE,
-    params,
   });
 //所属区域-下拉查询
 export const postDistrictSelectApi = (params) =>

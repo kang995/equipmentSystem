@@ -772,3 +772,106 @@ export const FailureDetail: DescItem[] = [
     },
   },
 ];
+//机械设备表格
+export const tabletMechanicaColumns: BasicColumn[] = [
+  {
+    title: '设备名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '设备类型',
+    dataIndex: 'deviceTypeName',
+  },
+  {
+    title: '设备性质',
+    dataIndex: 'deviceNatureName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'specifModels',
+  },
+  {
+    title: '绑定模型状态',
+    dataIndex: 'bindStateName',
+  },
+];
+//机械设备查询
+export const formMechanicaSchema: FormSchema[] = [
+  {
+    field: 'spareName',
+    component: 'Input',
+    label: '设备名称',
+    labelWidth: 92,
+    componentProps: {
+      placeholder: '请输入设备名称',
+    },
+  },
+  {
+    field: 'status',
+    component: 'ApiSelect',
+    label: '设备类型',
+    componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'DEVICE_TYPE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
+      placeholder: '请选择设备类型',
+    },
+  },
+  {
+    field: 'status',
+    component: 'ApiSelect',
+    label: '设备性质',
+    componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'FACILITY_NATURE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
+      placeholder: '请选择设备性质',
+    },
+  },
+  {
+    field: 'status',
+    component: 'ApiSelect',
+    label: '绑定模型状态',
+    componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'MODEL_BOUND_STATE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
+      placeholder: '请选择绑定模型状态',
+    },
+  },
+];
+//特种设备台账 tableSpecialColumns, formSpecialSchema
+export const tableSpecialColumns: BasicColumn[] = [
+  {
+    title: '设备名称',
+    dataIndex: 'name',
+  },
+  {
+    title: '设备类型',
+    dataIndex: 'deviceTypeName',
+  },
+  {
+    title: '设备性质',
+    dataIndex: 'deviceNatureName',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'specifModels',
+  },
+  {
+    title: '绑定模型状态',
+    dataIndex: 'bindStateName',
+  },
+];

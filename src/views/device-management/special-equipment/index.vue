@@ -1,16 +1,14 @@
 <template>
   <TreeTable
-    :columns="tableColumns"
-    :formSchema="formSchema"
+    :columns="tableSpecialColumns"
+    :formSchema="formMechanicaSchema"
     :ifButton="true"
     @export-table="exportTable"
   />
 </template>
 <script setup lang="ts">
-  import { ref } from 'vue';
   import TreeTable from '../components/TreeTable.vue';
-  import { tableColumns, formSchema } from '../data';
-  const dataSource = ref([{}]);
+  import { tableSpecialColumns, formMechanicaSchema } from '../data';
 
   function exportTable() {}
 </script>

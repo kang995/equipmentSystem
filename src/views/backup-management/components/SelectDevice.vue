@@ -63,7 +63,6 @@
 
   const props = defineProps<{
     targetval?: Array<any>;
-    dataSource?: Array<any>;
   }>();
   const targetKeys = ref<any>([]);
   let tData: any = [];
@@ -76,7 +75,6 @@
   onMounted(() => {
     funTreeSelect();
     targetKeys.value = props.targetval;
-    dataSourceList.value = props.dataSource;
   });
   function funTreeSelect() {
     postTreeSelectApi().then((res) => {

@@ -3,7 +3,7 @@
     class="treeData"
     :tree-data="treeData"
     :defaultExpandAll="true"
-    :fieldNames="fieldNames"
+    :replaceFields="replaceFields"
     v-if="treeData.length > 0"
   >
     <template #title="scoped">
@@ -18,7 +18,7 @@
   interface props {
     treeData?: any;
     showSlot?: Boolean;
-    fieldNames?: any;
+    replaceFields?: any;
   }
   withDefaults(defineProps<props>(), {
     showSlot: false || undefined,

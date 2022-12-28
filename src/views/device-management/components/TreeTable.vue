@@ -3,14 +3,14 @@
     <Row :gutter="16">
       <Col :span="6">
         <Card>
-          <CustomTree
-            :showSlot="true"
-            :treeData="treeData"
-            :fieldNames="{ children: 'children', title: 'title', key: 'key' }"
-          >
-            <template #CreadTitle="{ scoped }">{{ scoped.title }} </template>
-          </CustomTree>
-        </Card>
+          <Tree
+            class="treeData"
+            v-model:selectedKeys="selectedKeys"
+            :tree-data="treeData"
+            :defaultExpandAll="true"
+            :replaceFields="{ children: 'children', title: 'label', key: 'id' }"
+            @select="getSelect"
+        /></Card>
       </Col>
       <Col :span="18">
         <BasicTable @register="register">
@@ -50,13 +50,12 @@
               preIcon="gonggong_tianjia_xianxing|svg"
               class="mr-4"
               v-if="ifButton"
-              :loading="exportLoading"
               @click="getAdd()"
               >新增</a-button
             >
             <a-tooltip>
               <template #title>不选择即导出全部数据</template>
-              <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+              <a-button @click="exportTable" :loading="loading">批量导出</a-button>
             </a-tooltip>
           </template>
         </BasicTable>
@@ -67,69 +66,57 @@
 </template>
 <script setup lang="ts">
   import Modal from './Modal.vue';
-  import CustomTree from '/@/components/modules/CustomTree.vue';
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
-  import { ref, toRefs } from 'vue';
-  import { Tooltip, Row, Col, Card } from 'ant-design-vue';
+  import { onMounted, ref, toRefs } from 'vue';
+  import { Tooltip, Row, Col, Card, Tree } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
+  import { postUnitFacilityTreeApi } from '/@/api/device-management/installation';
+  import {
+    postMechanicalExportApi,
+    postMechanicalListApi,
+  } from '/@/api/device-management/mechanics';
+  import {
+    postSpecialExportApi,
+    postSpecialListApi,
+  } from '/@/api/device-management/special-equipment';
+  import { downloadByData } from '/@/utils/file/download';
   const router = useRouter();
   const ATooltip = Tooltip;
-  const exportLoading = ref(false);
+  const loading = ref(false);
   const props = defineProps<{
-    // dataSource: any;
     columns: any;
     formSchema: any;
     ifButton?: Boolean;
     ifMechanics?: any;
   }>();
   const { ifButton } = toRefs(props);
-  const dataSource = ref([{}]);
-  const dataSource1 = ref([{}]);
+  const searchInfoList = ref<any>({});
 
-  const treeData = [
-    {
-      title: '生产区1号',
-      key: '0-0',
-      children: [
-        {
-          title: 'parent 1-0',
-          key: '0-0-0',
-        },
-        {
-          title: 'parent 1-1',
-          key: '0-0-1',
-        },
-      ],
-    },
-    {
-      title: '生产区2号',
-      key: '0-06',
-      children: [
-        {
-          title: 'parent 1-1',
-          key: '0-0-17',
-        },
-      ],
-    },
-    {
-      title: '生产区3号',
-      key: '0-7',
-    },
-    {
-      title: '生产区4号',
-      key: '0-70',
-    },
-  ];
+  const treeData = ref([]);
+  const selectedKeys = ref();
+  onMounted(() => {
+    getTree();
+  });
+  function getTree() {
+    postUnitFacilityTreeApi().then((res) => {
+      treeData.value = res;
+    });
+  }
+  //点击左侧树列表时
+  function getSelect(keys) {
+    searchInfoList.value.parentId = keys[0];
+    reload();
+  }
   const [registerModal, { openModal: openModal }] = useModal();
 
-  const [register] = useTable({
-    dataSource: props.ifMechanics ? dataSource : dataSource1,
-    // api: thresholdListApi,
+  const [register, { reload, getSelectRowKeys }] = useTable({
+    api: props.ifMechanics ? postMechanicalListApi : postSpecialListApi,
     columns: props.columns,
     rowKey: 'id',
     useSearchForm: true,
+    searchInfo: searchInfoList,
     rowSelection: {
       type: 'checkbox',
     },
@@ -148,6 +135,7 @@
       submitButtonOptions: {
         preIcon: 'gonggong_sousuo|svg',
       },
+      resetFunc: resetFunc,
       baseColProps: {
         span: 8,
       },
@@ -156,7 +144,12 @@
       },
     },
   });
-
+  //重置
+  async function resetFunc() {
+    searchInfoList.value.parentId = ' ';
+    selectedKeys.value = [];
+    reload();
+  }
   function handleDetails() {
     let name;
     let id;
@@ -194,14 +187,33 @@
   function handleModal() {
     openModal(true);
   }
-  function exportTable() {}
+
+  function exportTable() {
+    const ids = getSelectRowKeys();
+    loading.value = true;
+    let data = {
+      ids: ids,
+    };
+    Object.assign(data);
+    if (props.ifMechanics) {
+      getExport(postMechanicalExportApi, data, '机械设备');
+    } else {
+      getExport(postSpecialExportApi, data, '特种设备');
+    }
+  }
+  function getExport(api, data, text) {
+    api(data)
+      .then((res) => {
+        downloadByData(res, text + '列表.xlsx');
+        loading.value = false;
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
 </script>
 <style scoped lang="less">
   ::v-deep(.ant-card-body) {
     padding: 16px;
   }
-
-  // ::v-deep(.tsit-basic-table .ant-table-wrapper) {
-  //   border-left: none;
-  // }
 </style>

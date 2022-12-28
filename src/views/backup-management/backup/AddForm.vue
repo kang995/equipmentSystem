@@ -100,7 +100,6 @@
       :minHeight="400"
       @handle-ok="handleOk"
       :targetval="targetKeys"
-      :dataSource="dataSourceList"
     />
     <div class="btn mb-4">
       <a-button @click="resetFunc" class="mr-4">取消</a-button>
@@ -265,15 +264,16 @@
   }
   function handleDel(index) {
     const data = getDataSourceDevice();
-    const ids = [] as any; //deviceId
     data.splice(index, 1);
     setTableDataDevice(data);
+  }
+  function getModal() {
+    const data = getDataSourceDevice();
+    const ids = [] as any; //deviceId
     data.map((v) => {
       ids.push(v.deviceId);
     });
     targetKeys.value = ids;
-  }
-  function getModal() {
     openModal(true, targetKeys.value);
   }
   //关闭弹框获取到选择的值

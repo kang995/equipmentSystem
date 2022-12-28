@@ -17,7 +17,7 @@
       <template #tableTitle>
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button @click="exportTable" :loading="loading">批量导出</a-button>
         </a-tooltip>
       </template>
     </BasicTable>
@@ -30,13 +30,15 @@
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
-  import { postUnitFacilityListApi } from '/@/api/device-management/installation';
+  import {
+    postFacilityExportApi,
+    postUnitFacilityListApi,
+  } from '/@/api/device-management/installation';
+  import { downloadByData } from '/@/utils/file/download';
   const router = useRouter();
   const ATooltip = Tooltip;
-  const exportLoading = ref(false);
-  const dataSource = ref([{}]);
-  const [register] = useTable({
-    // dataSource: dataSource,
+  const loading = ref(false);
+  const [register, { getSelectRowKeys }] = useTable({
     api: postUnitFacilityListApi,
     columns: installationColumns,
     rowKey: 'id',
@@ -77,6 +79,21 @@
     });
   }
 
-  function exportTable() {}
+  function exportTable() {
+    const ids = getSelectRowKeys();
+    loading.value = true;
+    let data = {
+      ids: ids,
+    };
+    Object.assign(data);
+    postFacilityExportApi(data)
+      .then((res) => {
+        downloadByData(res, '备件列表.xlsx');
+        loading.value = false;
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
 </script>
 <style scoped lang="less"></style>
