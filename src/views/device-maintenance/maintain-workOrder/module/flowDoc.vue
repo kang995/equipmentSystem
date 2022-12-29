@@ -1,14 +1,12 @@
 <template>
   <a-card title="流转记录" :bordered="false">
-    <a-steps :current="1" progress-dot direction="vertical" size="default">
+    <a-steps :current="listData.length" progress-dot direction="vertical" size="default">
       <template v-for="item in listData" :key="item.type">
-        <a-step :title="item.time">
+        <a-step :title="item.recordTime">
           <template #description>
             <div>
-              <span class="mr-4">{{ item.name }}</span>
               <span>{{ item.content }}</span>
             </div>
-            <div v-if="item.type === '3'">延期原因：{{ item.reason }}</div>
           </template>
         </a-step>
       </template>
@@ -32,22 +30,21 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { Card, Steps } from 'ant-design-vue';
-
+  import { useRoute } from 'vue-router';
+  import { getTransferListApi } from '/@/api/device-maintenance/work';
   const ACard = Card,
     ASteps = Steps,
     AStep = Steps.Step;
+  const route = useRoute();
+  const id = route.query?.id as string;
 
-  const listData = ref<Array<any>>([
-    { type: '1', time: '2022-01-07 12:00:00', name: '李四', content: '验收通过' },
-    { type: '2', time: '2022-01-07 12:00:00', name: '钱七', content: '重新提交验收' },
-    {
-      type: '3',
-      time: '2022-01-07 12:00:00',
-      name: '张三',
-      content: '延期',
-      reason: '工单时间过紧',
-    },
-  ]);
+  //流转记录
+  const listData = ref<Array<any>>([]);
+  id &&
+    getTransferListApi({ id }).then((res) => {
+      listData.value = res;
+      // console.log('流转记录',res)
+    });
 </script>
 
 <style lang="less" scoped></style>

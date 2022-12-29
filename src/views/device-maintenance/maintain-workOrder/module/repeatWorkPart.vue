@@ -7,9 +7,9 @@
         </div>
       </template>
       <template #useNumSlot="{ record }">
-        <a-input-number placeholder="请输入数量" v-model:value="record.name6" />
+        <a-input-number placeholder="请输入数量" v-model:value="record.useNum" />
       </template>
-      <template #action="{ record }">
+      <template #action="{ record, index }">
         <TableAction
           :divider="false"
           :stopButtonPropagation="true"
@@ -20,12 +20,13 @@
             },
             {
               label: '删除',
+              onClick: handleDelete.bind(null, index),
             },
           ]"
         />
       </template>
     </BasicTable>
-    <PartModel @register="registerPartModal" />
+    <PartModel @register="registerPartModal" @event-open="handleEcho" />
   </div>
 </template>
 
@@ -39,9 +40,9 @@
   import { deviceTableColumns } from '../data';
   const AInputNumber = InputNumber;
   const router = useRouter();
-  const dataSource = ref([{}, {}]);
+  const dataSource = ref([]);
   const [registerPartModal, { openModal: openPartModal }] = useModal();
-  const [registerTable, { getDataSource }] = useTable({
+  const [registerTable, { getDataSource, setTableData }] = useTable({
     dataSource: dataSource,
     // api: thresholdListApi,
     columns: deviceTableColumns(),
@@ -58,15 +59,40 @@
   //选择备件
   function handleOpen() {
     // console.log('表格数据',getDataSource())
-    openPartModal(true, {});
+    openPartModal(true);
+  }
+  //备件回显
+  function handleEcho(data) {
+    dataSource.value = data;
+    console.log('data', data);
+  }
+  //提交处理结果
+  function handleSubmitSpare() {
+    return new Promise((resolve) => {
+      const data = getDataSource();
+      resolve(data);
+    });
+  }
+
+  //删除
+  function handleDelete(index) {
+    const data = getDataSource();
+    data.splice(index, 1);
+    setTableData(data);
   }
 
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
-      // name: 'maintainDetails',
+      name: 'BackupDetails',
+      query: {
+        id: record.id,
+      },
     });
   }
+  defineExpose({
+    handleSubmitSpare,
+  });
 </script>
 
 <style lang="less" scoped></style>

@@ -148,7 +148,7 @@ export function getFormSchema(type: any): FormSchema[] {
 }
 
 //工单信息
-export function WorkDetail(status: string): DescItem[] {
+export function WorkDetail(): DescItem[] {
   return [
     {
       field: '',
@@ -160,39 +160,42 @@ export function WorkDetail(status: string): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'code',
       label: '工单编号',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepPlanName',
       label: '关联保养计划',
     },
     {
-      field: 'applyUserName',
+      field: 'chargePeopleName',
       label: '计划负责人',
     },
     {
-      field: 'applyUserName',
+      field: 'createTime',
       label: '工单创建时间',
     },
     {
-      field: 'applyUserName',
-      label: '工单执行之时间',
+      field: 'executeStartTime',
+      label: '工单执行时间',
+      render: (curVal, data) => {
+        return `${data.executeStartTime}至${data.executeEndTime}`;
+      },
     },
     {
-      field: 'applyUserName',
+      field: 'workOrderStatus',
       label: '工单状态',
     },
     {
-      field: 'applyUserName',
+      field: 'dealDeptName',
       label: '工单处理部门',
     },
     {
-      field: 'applyUserName',
+      field: 'dealUserName',
       label: '工单处理人',
     },
     {
-      field: 'applyUserName',
+      field: 'finishTime',
       label: '完成时间',
     },
     {
@@ -205,187 +208,70 @@ export function WorkDetail(status: string): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepType',
       label: '保养类型',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepContent',
       label: '保养内容',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepContent',
       label: '保养标椎',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepContent',
       label: '安全规则',
       span: 3,
-    },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>保养设备</span>;
-      },
-    },
-    {
-      field: 'storageTankList',
-      label: '',
-      span: 3,
-      // show: (data: any) => {
-      //   return data.hazardType == '1';
-      // },
-      //表格
-      render: (data) => {
-        // if (data) {
-        console.log('data: ', data);
-        return (
-          <div>
-            <BasicTable
-              pagination={false}
-              dataSource={data}
-              bordered={true}
-              columns={keepDeviceColumns()}
-              style={'color:#61687C'}
-              class={'mr-6'}
-            ></BasicTable>
-          </div>
-        );
-        // }
-      },
-    },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>保养结果</span>;
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '处理情况',
-    },
-    {
-      field: 'imgArr',
-      label: '图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '保养完成时间',
-    },
-    {
-      field: 'applyUserName',
-      label: '验收人',
-      span: 3,
-    },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>验收结果</span>;
-      },
-      show: ({}) => status === '2',
-    },
-    {
-      field: 'applyUserName',
-      label: '验收结果',
-      show: ({}) => status === '2',
-    },
-    {
-      field: 'applyUserName',
-      label: '验收内容',
-      show: ({}) => status === '2',
-    },
-    {
-      field: 'imgArr1',
-      label: '图片',
-      render: () => {
-        return (
-          <>
-            {/* <a-image style={imgStyle} src={'https://gimg3.baidu.com/search/src=http%3A%2F%2Fpics1.baidu.com%2Ffeed%2F54fbb2fb43166d22c89bb9ebfedb69fc9252d2e1.jpeg%40f_auto%3Ftoken%3D582defe7a081a5287a267c64ed1266f3&refer=http%3A%2F%2Fwww.baidu.com&app=2021&size=f360,240&n=0&g=0n&q=75&fmt=auto?sec=1670605200&t=82e586d8c040c29c7a54667ca29f3418'} alt="" /> */}
-          </>
-        );
-      },
-      show: ({}) => status === '2',
-    },
-    {
-      field: 'applyUserName',
-      label: '验收时间',
-      show: ({}) => status === '2',
-    },
-    {
-      field: 'applyUserName',
-      label: '验收人',
-      show: ({}) => status === '2',
     },
   ];
 }
 //保养设备
-export function keepDeviceColumns(): BasicColumn[] {
-  return [
-    {
-      title: '设备名称',
-      dataIndex: 'name',
-    },
-    {
-      title: '所在区域',
-      dataIndex: 'productName',
-    },
-    {
-      title: '所属装置',
-      dataIndex: 'person',
-    },
-    {
-      title: '是否特种设备',
-      dataIndex: 'time',
-    },
-  ];
-}
+// export function keepDeviceColumns(): BasicColumn[] {
+//   return [
+//     {
+//       title: '设备名称',
+//       dataIndex: 'name',
+//     },
+//     {
+//       title: '所在区域',
+//       dataIndex: 'productName',
+//     },
+//     {
+//       title: '所属装置',
+//       dataIndex: 'person',
+//     },
+//     {
+//       title: '是否特种设备',
+//       dataIndex: 'time',
+//     },
+//   ];
+// }
 //验收结果
-export function MaintenanceFormSchema(status: string): FormSchema[] {
+export function MaintenanceFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'acceptResult',
       component: 'RadioGroup',
       label: '验收结果',
       required: true,
-      // colProps: {
-      //   span: 10,
-      // },
       componentProps: {
         options: [
           {
             label: '通过',
-            value: '1',
+            value: '0',
           },
           {
             label: '拒绝',
-            value: '2',
+            value: '1',
           },
         ],
       },
     },
     {
-      field: 'attachment',
+      field: 'acceptImgList',
       component: 'Upload',
       label: '图片',
-      // colProps: {
-      //   span: 10,
-      // },
       componentProps: {
         maxNumber: 5,
         accept: '.jpg,.jpeg,.png',
@@ -394,13 +280,10 @@ export function MaintenanceFormSchema(status: string): FormSchema[] {
       },
     },
     {
-      field: 'name2',
+      field: 'acceptContent',
       component: 'InputTextArea',
       label: '验收内容（备注）',
       required: true,
-      // colProps: {
-      //   span: 10,
-      // },
       componentProps: {
         placeholder: '请输入验收内容（备注）',
         rows: 4,

@@ -16,7 +16,12 @@ enum Api {
   ACCOPT_STAYACCEPT_EXPORT = '/upkeepWorkOrder/accept/stayAccept/export', //待验收工单列表批量导出
   ACCOPT_ACCEPT_EXPORT = '/upkeepWorkOrder/accept/accept/export', //已验收工单列表批量导出
   ACCOPT_COUNT = '/upkeepWorkOrder/accept/accept/count', //查询待验收和已验收工单数量
-  ACCOPT_WORKORDER = '/upkeepWorkOrder/accept/accept', //验收
+  ACCOPT_WORKORDER = '/upkeepWorkOrder/accept/saveAcceptResult', //验收
+  // 使用备件
+  ORDER_SPARE_LIST = '/orderSpare/list', //工单备件使用列表查询
+  SPARE_PART_LIST = '/sparePart/list', //备件列表
+  //流转记录
+  TRANSFER_LIST = '/transfer/list', //根据工单id查询流转记录
 }
 
 /* 保养工单 */
@@ -127,8 +132,29 @@ export const getAcceptCountApi = () =>
   });
 
 //验收
-export const getWorkOrderApi = (params) =>
+export const getSaveAcceptResultApi = (params) =>
   defHttp.post({
     url: Api.ACCOPT_WORKORDER,
+    params,
+  });
+
+//工单备件使用列表查询
+export const getOrderSpareListApi = (params) =>
+  defHttp.post({
+    url: Api.ORDER_SPARE_LIST,
+    params,
+  });
+
+//备件列表
+export const getSpartPartListApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_PART_LIST,
+    params,
+  });
+
+//根据工单id查询流转记录
+export const getTransferListApi = (params) =>
+  defHttp.post({
+    url: Api.TRANSFER_LIST,
     params,
   });

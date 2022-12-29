@@ -498,13 +498,13 @@ export function ResultFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'acceptPeopleIdList',
+      field: 'acceptPeopleId',
       component: 'ApiSelect',
       label: '验收人',
       required: true,
       componentProps: {
         placeholder: '请输入验收人',
-        mode: 'multiple',
+        // mode: 'multiple',
         showSearch: true,
         optionFilterProp: 'label',
         api: getPersonSelectApi,
@@ -558,19 +558,19 @@ export function tablePartColumns(): BasicColumn[] {
   return [
     {
       title: '备件编码',
-      dataIndex: 'name',
+      dataIndex: 'spareCode',
     },
     {
       title: '备件名称',
-      dataIndex: 'name',
+      dataIndex: 'spareName',
     },
     {
       title: '备件分类',
-      dataIndex: 'name',
+      dataIndex: 'spareClassifyText',
     },
     {
       title: '使用数量',
-      dataIndex: 'name',
+      dataIndex: 'useNum',
     },
   ];
 }
@@ -580,27 +580,27 @@ export function deviceTableColumns(): BasicColumn[] {
   return [
     {
       title: '备件编码',
-      dataIndex: 'name1',
+      dataIndex: 'spareCode',
     },
     {
       title: '备件名称',
-      dataIndex: 'name2',
+      dataIndex: 'spareName',
     },
     {
       title: '备件分类',
-      dataIndex: 'name3',
+      dataIndex: 'spareClassify',
     },
     {
       title: '规格型号',
-      dataIndex: 'name4',
+      dataIndex: 'specification',
     },
     {
       title: '单位',
-      dataIndex: 'name5',
+      dataIndex: 'measureUnitText',
     },
     {
       title: '使用数量',
-      dataIndex: 'name6',
+      dataIndex: 'useNum',
       slots: { customRender: 'useNumSlot' },
     },
   ];

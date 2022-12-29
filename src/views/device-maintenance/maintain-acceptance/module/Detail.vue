@@ -2,7 +2,7 @@
   <PageWrapper contentBackground contentFullHeight>
     <a-tabs v-model:activeKey="activeKey" :tabBarStyle="tabBarStyle">
       <a-tab-pane key="1" tab="工单信息">
-        <acceptance-info :status="status" />
+        <acceptance-info />
       </a-tab-pane>
       <a-tab-pane key="2" tab="使用备件">
         <work-part />
@@ -18,12 +18,12 @@
   import { ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { Tabs } from 'ant-design-vue';
-  import { useRoute } from 'vue-router';
+  // import { useRoute } from 'vue-router';
   import acceptanceInfo from './acceptanceInfo.vue';
   import workPart from '../../maintain-workOrder/module/workPart.vue';
   import flowDoc from '../../maintain-workOrder/module/flowDoc.vue';
-  const route = useRoute();
-  const status = route.query?.status as string;
+  // const route = useRoute();
+  // const status = route.query?.status as string;
   const ATabs = Tabs,
     ATabPane = Tabs.TabPane;
   const tabBarStyle = {

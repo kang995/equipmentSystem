@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-import { getPersonSelectApi } from '/@/api/device-maintenance/index';
+import { getPersonSelectApi, getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 import { Image, Tag } from 'ant-design-vue';
 
 //计划详情
@@ -393,27 +393,27 @@ export function partTableColumns(): BasicColumn[] {
   return [
     {
       title: '备件编码',
-      dataIndex: 'name1',
+      dataIndex: 'spareCode',
     },
     {
       title: '备件名称',
-      dataIndex: 'name2',
+      dataIndex: 'spareName',
     },
     {
       title: '备件分类',
-      dataIndex: 'name3',
+      dataIndex: 'spareClassify',
     },
     {
       title: '规格型号',
-      dataIndex: 'name4',
+      dataIndex: 'specification',
     },
     {
       title: '单位',
-      dataIndex: 'name5',
+      dataIndex: 'measureUnitText',
     },
     {
       title: '库存',
-      dataIndex: 'name6',
+      dataIndex: 'inventorySum',
     },
   ];
 }
@@ -421,7 +421,7 @@ export function partTableColumns(): BasicColumn[] {
 export function getPartFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name1',
+      field: 'spareCode',
       component: 'Input',
       label: '备件编码',
       componentProps: {
@@ -429,7 +429,7 @@ export function getPartFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name2',
+      field: 'spareName',
       component: 'Input',
       label: '备件名称',
       componentProps: {
@@ -437,11 +437,18 @@ export function getPartFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name3',
+      field: 'spareClassify',
       component: 'ApiSelect',
       label: '备件分类',
       componentProps: {
         placeholder: '请选择备件分类',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'SPARE_TYPE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
   ];
@@ -455,7 +462,7 @@ export function maintainSchemaDetail(): DescItem[] {
       label: '处理情况',
     },
     {
-      field: 'imgArr',
+      field: 'dealImgList',
       label: '图片',
       render: (data) => {
         if (data) {
@@ -498,7 +505,7 @@ export function receiveSchemaDetail(): DescItem[] {
       label: '验收内容',
     },
     {
-      field: 'imgArr1',
+      field: 'acceptImgList',
       label: '图片',
       render: (data) => {
         if (data) {

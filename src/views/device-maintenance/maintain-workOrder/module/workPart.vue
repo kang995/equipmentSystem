@@ -18,16 +18,20 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { tablePartColumns } from '../data';
+  import { getOrderSpareListApi } from '/@/api/device-maintenance/work';
   const router = useRouter();
-  const dataSource = ref([{}, {}]);
+  const route = useRoute();
+  const id = route.query.id as string;
+
   const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
+    api: getOrderSpareListApi,
     columns: tablePartColumns(),
+    searchInfo: {
+      id, //工单id
+    },
     rowKey: 'id',
     useSearchForm: false, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
@@ -39,9 +43,12 @@
     },
   });
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
-      // name: 'maintainDetails',
+      name: 'BackupDetails',
+      query: {
+        id: record.id,
+      },
     });
   }
 </script>

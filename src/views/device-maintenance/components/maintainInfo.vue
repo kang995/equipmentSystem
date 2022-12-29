@@ -9,16 +9,16 @@
         <a-button v-if="status === '2'" type="primary" @click="handleRecall">撤回</a-button>
         <a-button v-if="status === '3'" type="primary" @click="handleStopPlan">停止计划</a-button>
         <!-- 撤回 -->
-        <recallModel @register="RecallModal" @recallEvent="handleRecallEvent" />
+        <recallModel @register="RecallModal" @recall-event="handleRecallEvent" />
         <!-- 停止计划 -->
-        <planModel @register="planModal" @planEvent="handlePlanEvent" />
+        <planModel @register="planModal" @plan-event="handlePlanEvent" />
       </template>
       <!-- 保养计划审核 -->
       <template v-if="mode === '2' && status === '2'">
         <a-button class="m-4" @click="handleOpenModel('1')">拒绝</a-button>
         <a-button type="primary" @click="handleOpenModel('2')">同意</a-button>
-        <agreeModel @register="registerAgreeModel" @Event="handleApproval" />
-        <rejectModel @register="registerRejectModel" @Event="handleApproval" />
+        <agreeModel @register="registerAgreeModel" @event="handleApproval" />
+        <rejectModel @register="registerRejectModel" @event="handleApproval" />
       </template>
       <!-- 检修计划管理 -->
       <template v-if="mode === '3'">

@@ -96,20 +96,22 @@
     },
   });
   //验收
-  function handleCheck() {
+  function handleCheck(record) {
     router.push({
       name: 'acceptanceDetail',
       query: {
-        status: '1', //待验收：1、已验收：2
+        id: record.id,
+        status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
       },
     });
   }
   //详情
-  function handleDetail() {
+  function handleDetail(record) {
     router.push({
       name: 'acceptanceDetail',
       query: {
-        status: '2', //待验收：1、已验收：2
+        id: record.id,
+        status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
       },
     });
   }

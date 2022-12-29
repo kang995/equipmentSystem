@@ -219,8 +219,8 @@
         // console.log('撤回', data);
         message.success('撤回成功');
       })
-      .catch((err) => {
-        console.log(err);
+      .finally(() => {
+        openRecallModal(false);
       });
   }
   //停止计划
@@ -238,8 +238,8 @@
         // console.log('停止计划', res);
         message.success('停止计划成功');
       })
-      .catch((err) => {
-        console.log(err);
+      .finally(() => {
+        openPlanModal(false);
       });
   }
 

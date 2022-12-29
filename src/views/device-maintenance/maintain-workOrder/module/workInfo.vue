@@ -88,12 +88,12 @@
           >
           <a-button class="mr-4" v-if="Postpone" @click="handleClose">取消</a-button>
           <a-button type="primary" v-if="Postpone" @click="handleSubmitApply">提交</a-button>
-          <a-button type="primary" v-if="Result" @click="handleSubmitAccept">提交</a-button>
+          <!-- <a-button type="primary" v-if="Result" @click="handleSubmitAccept">提交</a-button> -->
         </template>
         <template v-if="status === '5'">
           <a-button type="primary" v-if="!Refuse" @click="handleRefuse">重新提交</a-button>
-          <a-button class="mr-4" v-if="Refuse" @click="Refuse = false">取消</a-button>
-          <a-button type="primary" v-if="Refuse" @click="handleSubmitAccept">提交</a-button>
+          <!-- <a-button class="mr-4" v-if="Refuse" @click="Refuse = false">取消</a-button> -->
+          <!-- <a-button type="primary" v-if="Refuse" @click="handleSubmitAccept">提交</a-button> -->
         </template>
       </div>
     </template>
@@ -127,8 +127,9 @@
     upkeepAnewIssueApi,
     upkeepDelayAuditApi,
     upkeepApplyDelayApi,
-    upkeepDealResultApi,
+    // upkeepDealResultApi,
   } from '/@/api/device-maintenance/work';
+
   // const props = defineProps({
   //   status: {
   //     type: String,
@@ -261,19 +262,23 @@
   const Result = ref<boolean>(false);
   function handleResult() {
     Result.value = true;
+    emit('eventChange', false);
   }
   //提交验收-提交处理结果、提交保养结果
-  async function handleSubmitAccept() {
-    await validateResult();
-    const obj = getFieldsValueResult();
-    obj['workOrderId'] = id;
-    upkeepDealResultApi(obj)
-      .then(() => {
-        createMessage.success('已提交');
-      })
-      .finally(() => {
-        CloseFun();
-      });
+  function handleSubmitAccept() {
+    return new Promise(async (resolve) => {
+      await validateResult();
+      const obj = getFieldsValueResult();
+      obj['workOrderId'] = id;
+      resolve(obj);
+    });
+    // upkeepDealResultApi(obj)
+    //   .then(() => {
+    //     createMessage.success('已提交');
+    //   })
+    //   .finally(() => {
+    //     CloseFun();
+    //   });
   }
   const [registerResultFrom, { validate: validateResult, getFieldsValue: getFieldsValueResult }] =
     useForm({
@@ -318,6 +323,9 @@
       name: 'maintainWorkOrder',
     });
   }
+  defineExpose({
+    handleSubmitAccept,
+  });
 </script>
 
 <style lang="less" scoped></style>
