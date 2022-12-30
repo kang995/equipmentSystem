@@ -10,14 +10,22 @@
       /></template>
       <template #tableSlot>
         <BasicTable @register="registerTable">
-          <template #warehouseIdSlot="{ record }">
-            <Select v-model:value="record.warehouseId" :options="options" placeholder="请选择仓库"
+          <template #warehouseIdSlot="{ record, index }">
+            <Select
+              v-model:value="record.warehouseId"
+              @change="(warehouseId) => handleChange(warehouseId, record, index)"
+              :options="options"
+              placeholder="请选择仓库"
           /></template>
           <template #stockSlot="{ record }">
             <Input v-model:value="record.stock" placeholder="库存数量" :readonly="true" />
           </template>
-          <template #inputSlot="{ record }">
-            <Input v-model:value="record.numberInput" placeholder="请输入数量" />
+          <template #inputSlot="{ record, index }">
+            <Input
+              v-model:value="record.numberInput"
+              placeholder="请输入数量"
+              @change="handleLimt(record.numberInput, index)"
+            />
           </template>
           <template #action="{ record, index }">
             <TableAction
@@ -172,6 +180,23 @@
     api(data).then(() => {
       createMessage.success('新增成功');
     });
+  }
+  //使用数量
+  function handleLimt(num, index) {
+    // const data = getDataSource();
+    // console.log(num,data[index].stock)
+    // if(Number(num) > data[index].stock ){
+    //   createMessage.warn('使用数量不能大于库存数量！');
+    // }
+  }
+  //出库仓库
+  function handleChange(warehouseId, { id }, index) {
+    //仓库id、备件id、index
+    // console.log('warehouseId',warehouseId,id,index);
+    // const data = getDataSource();
+    // data[index].stock = 10;
+    // setTableData(data);
+    // console.log('数据',getDataSource())
   }
   function handleDetail() {}
   function handleOk(ids, data) {
