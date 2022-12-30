@@ -398,10 +398,10 @@ export function ResultDetails(): DescItem[] {
 //使用备件
 export function tablePartColumns(): BasicColumn[] {
   return [
-    {
-      title: '备件编码',
-      dataIndex: 'name',
-    },
+    // {
+    //   title: '备件编码',
+    //   dataIndex: 'name',
+    // },
     {
       title: '备件名称',
       dataIndex: 'name',

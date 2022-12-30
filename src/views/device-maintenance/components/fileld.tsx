@@ -391,10 +391,10 @@ export function getFormSchema(): FormSchema[] {
 //选择备件-表格
 export function partTableColumns(): BasicColumn[] {
   return [
-    {
-      title: '备件编码',
-      dataIndex: 'spareCode',
-    },
+    // {
+    //   title: '备件编码',
+    //   dataIndex: 'spareCode',
+    // },
     {
       title: '备件名称',
       dataIndex: 'spareName',
@@ -420,20 +420,20 @@ export function partTableColumns(): BasicColumn[] {
 //选择备件-表单
 export function getPartFormSchema(): FormSchema[] {
   return [
-    {
-      field: 'spareCode',
-      component: 'Input',
-      label: '备件编码',
-      componentProps: {
-        placeholder: '请输入备件编码',
-      },
-    },
+    // {
+    //   field: 'spareCode',
+    //   component: 'Input',
+    //   label: '备件编码',
+    //   componentProps: {
+    //     placeholder: '请输入备件编码',
+    //   },
+    // },
     {
       field: 'spareName',
       component: 'Input',
       label: '备件名称',
       componentProps: {
-        placeholder: '请输入备件编码',
+        placeholder: '请输入备件名称',
       },
     },
     {

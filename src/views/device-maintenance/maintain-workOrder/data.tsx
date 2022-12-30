@@ -556,10 +556,10 @@ export function ResultFormSchema(): FormSchema[] {
 //使用备件
 export function tablePartColumns(): BasicColumn[] {
   return [
-    {
-      title: '备件编码',
-      dataIndex: 'spareCode',
-    },
+    // {
+    //   title: '备件编码',
+    //   dataIndex: 'spareCode',
+    // },
     {
       title: '备件名称',
       dataIndex: 'spareName',
@@ -578,10 +578,10 @@ export function tablePartColumns(): BasicColumn[] {
 //重选使用备件
 export function deviceTableColumns(): BasicColumn[] {
   return [
-    {
-      title: '备件编码',
-      dataIndex: 'spareCode',
-    },
+    // {
+    //   title: '备件编码',
+    //   dataIndex: 'spareCode',
+    // },
     {
       title: '备件名称',
       dataIndex: 'spareName',

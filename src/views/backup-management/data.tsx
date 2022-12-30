@@ -741,10 +741,10 @@ export const OutboundAdd: FormSchema[] = [
 ];
 //新增物品清单表格 AddTable
 export const AddTable: BasicColumn[] = [
-  {
-    title: '备件编码',
-    dataIndex: 'spareCode',
-  },
+  // {
+  //   title: '备件编码',
+  //   dataIndex: 'spareCode',
+  // },
   {
     title: '备件名称',
     dataIndex: 'spareName',
