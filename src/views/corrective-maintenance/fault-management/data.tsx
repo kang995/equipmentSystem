@@ -1,6 +1,8 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
+import { deviceTreeSelectApi } from '/@/api/corrective-maintenance/fault';
+
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -134,35 +136,53 @@ export function getFormSchema(): FormSchema[] {
 //新增、编辑故障表单
 export function getCommonFormSchema(): FormSchema[] {
   return [
+    // {
+    //   field: 'name',
+    //   component: 'Input',
+    //   label: '故障单号',
+    //   required: true,
+    //   componentProps: {
+    //     placeholder: '请输入故障单号',
+    //   },
+    // },
     {
-      field: 'name',
-      component: 'Input',
-      label: '故障单号',
-      required: true,
-      componentProps: {
-        placeholder: '请输入故障单号',
-      },
-    },
-    {
-      field: 'ApiSelect',
-      component: 'Input',
+      field: 'deviceId',
+      component: 'ApiTreeSelect',
       label: '关联设备',
       required: true,
-      componentProps: {
-        placeholder: '请输入关联设备',
+      componentProps: ({ formModel, formActionType }) => {
+        // const { updateSchema, setFieldsValue } = formActionType;
+        return {
+          placeholder: '请输入关联设备',
+          api: deviceTreeSelectApi,
+          fieldNames: {
+            label: 'label',
+            key: 'id',
+            value: 'id',
+            children: 'children',
+          },
+          onChange: (id: string) => {
+            deviceTreeSelectApi().then((res) => {
+              const pos = res.find((item) => item.id === id);
+              // console.log('pos',pos)
+              formModel.position = pos.position;
+            });
+          },
+        };
       },
+      // slot: 'treeSlot',
     },
     {
-      field: 'name1',
+      field: 'position',
       component: 'Input',
       label: '安装位置',
-      required: true,
+      // required: true,
       componentProps: {
         placeholder: '请输入安装位置',
       },
     },
     {
-      field: 'name2',
+      field: 'findTime',
       component: 'DatePicker',
       label: '发现故障时间',
       required: true,
@@ -171,7 +191,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name3',
+      field: 'troubleType',
       component: 'ApiSelect',
       label: '故障类别',
       componentProps: {
@@ -179,7 +199,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name4',
+      field: 'urgentLevel',
       component: 'ApiSelect',
       label: '紧急程度',
       componentProps: {
@@ -187,7 +207,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name5',
+      field: 'description',
       component: 'InputTextArea',
       label: '故障描述',
       componentProps: {
@@ -197,7 +217,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name6',
+      field: 'expression',
       component: 'InputTextArea',
       label: '表现症状',
       componentProps: {
@@ -207,7 +227,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name7',
+      field: 'reason',
       component: 'InputTextArea',
       label: '故障原因',
       componentProps: {
@@ -217,7 +237,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name8',
+      field: 'reason',
       component: 'InputTextArea',
       label: '采取措施',
       componentProps: {
@@ -227,7 +247,7 @@ export function getCommonFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'attachment',
+      field: 'imgList',
       component: 'Upload',
       label: '图片上传',
       required: true,
