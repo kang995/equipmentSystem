@@ -19,15 +19,15 @@
   import { useRouter, useRoute } from 'vue-router';
   import { ref } from 'vue';
   import { detailedColumns } from '../data';
-  import { postBackupDetailApi } from '/@/api/backup-management/backup';
+  import { postBackupInoutApi } from '/@/api/backup-management/backup';
   const router = useRouter();
   const route = useRoute();
 
   const id = route.query?.id;
   const dataSource = ref([{ receiptType: '出库' }, { receiptType: '入库' }]);
   id &&
-    postBackupDetailApi({ id }).then((res) => {
-      dataSource.value = res.inOutReceiptList;
+    postBackupInoutApi({ id }).then((res) => {
+      dataSource.value = res.records;
     });
   const [register] = useTable({
     dataSource: dataSource,

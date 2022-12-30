@@ -38,7 +38,7 @@
   import { ref } from 'vue';
   import { devicesColumns } from '../data';
   import { useModal } from '/@/components/Modal';
-  import { postBackupDetailApi } from '/@/api/backup-management/backup';
+  import { postBackupListlApi } from '/@/api/backup-management/backup';
   const router = useRouter();
   const route = useRoute();
   const exportLoading = ref(false);
@@ -48,8 +48,8 @@
   const dataSource = ref([]);
   const [registerModal, { openModal: openModal, closeModal }] = useModal();
   id &&
-    postBackupDetailApi({ id }).then((res) => {
-      dataSource.value = res.relevanceList;
+    postBackupListlApi({ id }).then((res) => {
+      dataSource.value = res;
     });
   const [register] = useTable({
     dataSource: dataSource,

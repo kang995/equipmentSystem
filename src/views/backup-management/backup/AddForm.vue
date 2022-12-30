@@ -14,6 +14,7 @@
                 :min="0"
                 placeholder="请输入更换周期"
                 style="width: 100%"
+                type="number"
               >
                 <template #addonAfter>
                   <Select
@@ -39,6 +40,9 @@
                               title: '是否删除？',
                               confirm: handleDelEdit.bind(null, index),
                             },
+                            // ifShow: () => {
+                            //   return id?false:true; // 根据业务控制是否显示
+                            // },
                           },
                         ]"
                       />
@@ -49,10 +53,15 @@
                         placeholder="请选择仓库"
                         :options="options"
                         v-model:value="record.warehouseId"
+                        :disabled="Disabled"
                     /></template>
 
                     <template #NumSlot="{ record }">
-                      <Input placeholder="请输入数量" v-model:value="record.spareNum" />
+                      <Input
+                        :disabled="Disabled"
+                        placeholder="请输入数量"
+                        v-model:value="record.spareNum"
+                      />
                     </template>
                   </BasicTable>
                   <div class="add" @click="clickFirstAdd">
@@ -115,7 +124,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { Tabs } from 'ant-design-vue';
-  import { onMounted, ref } from 'vue';
+  import { onMounted, ref, computed } from 'vue';
   import { sparePartAdd, columnsTable, devicesColumns } from '../data';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
@@ -142,6 +151,14 @@
   const optionsAfter = ref([]);
   const versionVal = ref();
   const ifShow = ref(id ? false : true);
+  //编辑时物品清单不可编辑、删除
+  const Disabled = computed(() => {
+    if (id) {
+      return true;
+    } else {
+      return false;
+    }
+  });
   onMounted(() => {
     funSelect();
   });

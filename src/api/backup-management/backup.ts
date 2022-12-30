@@ -2,7 +2,12 @@ import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
   BACKUP_LIST = '/sparePart/list', //分页动态查询备件列表
-  BACKUP_DETAIL = '/sparePart/detail', //备件详情信息
+  // BACKUP_DETAIL = '/sparePart/detail', //备件详情信息
+  SPARE_PART_INFO = '/sparePart/detail', //备件基础详情信息
+  SPARE_PART_LIST = '/sparePart/device/list', //根据备件id查询关联设备列表
+  SPARE_PART_INVENTORY = '/sparePart/inventory/list', //根据备件id查询库存信息
+  SPARE_PART_INOUT = '/sparePart/inout/list', //根据备件id分页查询出入库列表
+
   BACKUP_ADD = '/sparePart/save', //备件新增
   BACKUP_EDIT = '/sparePart/update', //备件修改
   BACKUP_REMOVE = '/sparePart/remove', //删除
@@ -28,11 +33,37 @@ export const postBackupListApi = (params) =>
     params,
   });
 //备件详情信息
-export const postBackupDetailApi = (params) =>
+// export const postBackupDetailApi = (params) =>
+//   defHttp.post({
+//     url: Api.BACKUP_DETAIL,
+//     params,
+//   });
+
+//备件详情--基本信息
+export const postBackupInfolApi = (params) =>
   defHttp.post({
-    url: Api.BACKUP_DETAIL,
+    url: Api.SPARE_PART_INFO,
     params,
   });
+//备件详情--关联设备
+export const postBackupListlApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_PART_LIST,
+    params,
+  });
+//备件详情--库存
+export const postBackupInventorylApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_PART_INVENTORY,
+    params,
+  });
+//备件详情--出入库明细
+export const postBackupInoutApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_PART_INOUT,
+    params,
+  });
+
 //备件新增
 export const postBackupAddApi = (params) =>
   defHttp.post({

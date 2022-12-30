@@ -169,19 +169,23 @@ export const backupColumns: BasicColumn[] = [
 export const devicesColumns: BasicColumn[] = [
   {
     title: '设备名称',
-    dataIndex: 'deviceName',
+    dataIndex: 'name',
   },
   {
-    title: '所在区域',
-    dataIndex: 'districtName',
+    title: '设备类型',
+    dataIndex: 'facilityTypeText',
   },
-  {
-    title: '所属装置',
-    dataIndex: 'facilitiesName',
-  },
+  // {
+  //   title: '所在区域',
+  //   dataIndex: 'districtName',
+  // },
+  // {
+  //   title: '所属装置',
+  //   dataIndex: 'facilitiesName',
+  // },
   {
     title: '是否特种设备',
-    dataIndex: 'specialEquipment',
+    dataIndex: 'specialEquip',
   },
 ];
 //备件台账详情-基本信息
@@ -265,7 +269,7 @@ export const stockColumns: BasicColumn[] = [
   },
   {
     title: '备件数量',
-    dataIndex: 'inventorySum',
+    dataIndex: 'spareNum',
   },
 ];
 //备件台账详情-出入库明细
@@ -559,6 +563,7 @@ export const sparePartAdd: FormSchema[] = [
     required: true,
     componentProps: {
       placeholder: '请输入最低存储额',
+      type: 'number',
     },
   },
   {
@@ -568,6 +573,7 @@ export const sparePartAdd: FormSchema[] = [
     required: true,
     componentProps: {
       placeholder: '请输入最高存储额',
+      type: 'number',
     },
   },
   {
@@ -586,6 +592,7 @@ export const sparePartAdd: FormSchema[] = [
     required: true,
     componentProps: {
       placeholder: '请输入参考价',
+      type: 'number',
     },
   },
   {

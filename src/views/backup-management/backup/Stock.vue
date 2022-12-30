@@ -24,7 +24,7 @@
   import { useRouter, useRoute } from 'vue-router';
   import { ref } from 'vue';
   import { stockColumns } from '../data';
-  import { postBackupDetailApi } from '/@/api/backup-management/backup';
+  import { postBackupInventorylApi } from '/@/api/backup-management/backup';
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id;
@@ -45,8 +45,8 @@
     },
   });
   id &&
-    postBackupDetailApi({ id }).then((res) => {
-      dataSource.value = res.inventoryList;
+    postBackupInventorylApi({ id }).then((res) => {
+      dataSource.value = res.inventoryVOList;
       countInventorySum.value = res.countInventorySum;
     });
   function handleDetails() {
