@@ -13,6 +13,9 @@
           <template #warehouseIdSlot="{ record }">
             <Select v-model:value="record.warehouseId" :options="options" placeholder="请选择仓库"
           /></template>
+          <template #stockSlot="{ record }">
+            <Input v-model:value="record.stock" placeholder="库存数量" :readonly="true" />
+          </template>
           <template #inputSlot="{ record }">
             <Input v-model:value="record.numberInput" placeholder="请输入数量" />
           </template>
@@ -84,7 +87,7 @@
       });
     });
   }
-  //仓库
+  //仓库 postWarehouseOutListApi
   function funWarehouseList() {
     postWarehouseListApi().then((res) => {
       options.value = res.records.map((v) => {

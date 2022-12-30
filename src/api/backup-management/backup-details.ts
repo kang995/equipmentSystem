@@ -2,6 +2,7 @@ import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
   DETAIL_LIST = '/deviceWarehouse/list', //仓库列表
+  DETAIL_OUT_LIST = '/deviceWarehouse/out/list', //备件出入库--仓库列表
   DETAIL_ADD = '/deviceWarehouse/save', //新增
   DETAIL_EDIT = '/deviceWarehouse/update', //修改
   DETAIL_REMOVE = '/deviceWarehouse/remove', //删除
@@ -23,6 +24,12 @@ export const posWarehouseSpareApi = (params?) =>
 export const postWarehouseListApi = (params?) =>
   defHttp.post({
     url: Api.DETAIL_LIST,
+    params,
+  });
+// 备件出入库--仓库列表
+export const postWarehouseOutListApi = (params?) =>
+  defHttp.post({
+    url: Api.DETAIL_OUT_LIST,
     params,
   });
 

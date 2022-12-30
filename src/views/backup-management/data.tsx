@@ -767,6 +767,11 @@ export const AddTable: BasicColumn[] = [
     slots: { customRender: 'warehouseIdSlot' },
   },
   {
+    title: '库存',
+    dataIndex: 'stock',
+    slots: { customRender: 'stockSlot' },
+  },
+  {
     title: '使用数量',
     dataIndex: 'numberInput',
     slots: { customRender: 'inputSlot' },

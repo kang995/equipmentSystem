@@ -2,7 +2,9 @@ import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
   BACKUP_LIST = '/sparePart/list', //分页动态查询备件列表
-  // BACKUP_DETAIL = '/sparePart/detail', //备件详情信息
+  BACKUP_OUTLIST = '/sparePart/out/list', //出库查询备件列表
+  BACKUP_DETAIL = '/sparePart/detail', //备件详情信息
+
   SPARE_PART_INFO = '/sparePart/detail', //备件基础详情信息
   SPARE_PART_LIST = '/sparePart/device/list', //根据备件id查询关联设备列表
   SPARE_PART_INVENTORY = '/sparePart/inventory/list', //根据备件id查询库存信息
@@ -26,18 +28,25 @@ export const postTreeSelectApi = () =>
   defHttp.post({
     url: Api.TREE_LIST,
   });
-//分页动态查询备件列表
+//分页动态查询备件列表(入库)
 export const postBackupListApi = (params) =>
   defHttp.post({
     url: Api.BACKUP_LIST,
     params,
   });
+//出库查询备件列表
+export const postBackupOutListApi = (params) =>
+  defHttp.post({
+    url: Api.BACKUP_OUTLIST,
+    params,
+  });
+
 //备件详情信息
-// export const postBackupDetailApi = (params) =>
-//   defHttp.post({
-//     url: Api.BACKUP_DETAIL,
-//     params,
-//   });
+export const postBackupDetailApi = (params) =>
+  defHttp.post({
+    url: Api.BACKUP_DETAIL,
+    params,
+  });
 
 //备件详情--基本信息
 export const postBackupInfolApi = (params) =>

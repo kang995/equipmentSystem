@@ -639,7 +639,7 @@ export const tableColumns: BasicColumn[] = [
   },
   {
     title: '库存',
-    dataIndex: 'countInventorySum',
+    dataIndex: 'inventorySum',
   },
 ];
 

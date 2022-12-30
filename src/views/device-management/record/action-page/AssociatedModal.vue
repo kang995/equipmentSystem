@@ -14,12 +14,16 @@
 <script lang="ts" setup>
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicTable, useTable } from '/@/components/Table';
-  import { postBackupListApi } from '/@/api/backup-management/backup';
-
+  import { postBackupListApi, postBackupOutListApi } from '/@/api/backup-management/backup';
   import { tableColumns, formSchema } from '../../data';
+  import { useRoute } from 'vue-router';
+  const route = useRoute();
+  const state = route.query.state;
+  // console.log('state',state)
+
   const [registerModal] = useModalInner(async () => {});
   const [register, { getSelectRowKeys, getSelectRows }] = useTable({
-    api: postBackupListApi,
+    api: state === 'InboundAdd' ? postBackupOutListApi : postBackupListApi,
     columns: tableColumns,
     rowKey: 'id',
     useSearchForm: true,
