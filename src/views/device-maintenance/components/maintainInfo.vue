@@ -153,23 +153,7 @@
   function getDetail() {
     getPlanDetailApi({ id }).then((res) => {
       data.value = res;
-      // console.log('详情', data.value);
     });
-    // switch (mode) {
-    //   case '1':
-    //     getPlanDetailApi({ id }).then((res) => {
-    //       data.value = res;
-    //       console.log('详情', data.value);
-    //     });
-    //     break;
-    //   case '2':
-
-    //     break;
-    //   case '3':
-    //     break;
-    //   case '4':
-    //     break;
-    // }
   }
 </script>
 

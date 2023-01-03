@@ -7,8 +7,26 @@
           :stopButtonPropagation="true"
           :actions="[
             {
+              label: '编辑',
+              onClick: handleEdit.bind(null, record),
+              ifShow: () => {
+                return record.troubleStatus === '0';
+              },
+            },
+            {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+            },
+            {
+              label: '删除',
+              color: 'error',
+              popConfirm: {
+                title: '是否确认删除?',
+                confirm: handleDelete.bind(null, record),
+              },
+              ifShow: () => {
+                return record.troubleStatus === '0';
+              },
             },
           ]"
         />
@@ -29,18 +47,26 @@
 </template>
 <script setup lang="ts">
   import { PageWrapper } from '/@/components/Page';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  import { downloadByData } from '/@/utils/file/download';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import {
+    TroubleListApi,
+    TroubleExportApi,
+    TroubleRemoveApi,
+  } from '/@/api/corrective-maintenance/fault';
+
+  const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
-  const exportLoading = ref(false);
-  const dataSource = ref([{}, {}]);
-  const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
+  // const dataSource = ref([{}, {}]);
+  const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
+    // dataSource: dataSource,
+    api: TroubleListApi,
     columns: tableColumns(),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
@@ -78,16 +104,64 @@
       name: 'faultAdd',
     });
   }
-  //详情
-  function handleDetails() {
+  //编辑
+  function handleEdit(record) {
     router.push({
-      name: 'faultDetails',
+      name: 'faultEdit',
       query: {
-        status: '3', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
+        id: record.id,
       },
     });
   }
-
-  function exportTable() {}
+  //详情
+  function handleDetails(record) {
+    router.push({
+      name: 'faultDetails',
+      query: {
+        id: record.id,
+        troubleDetermine: record.troubleDetermine, //0:自修、1：委外维修 2：列入检修计划
+        status: record.troubleStatus, //0:待确认、1：待处理、2：处理中、3：已解决、4：已转计划
+        // status: '3', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
+      },
+    });
+  }
+  //删除
+  function handleDelete(record) {
+    const { id } = record;
+    setLoading(true);
+    TroubleRemoveApi({ id })
+      .then(() => {
+        createMessage.success('删除成功');
+        reload();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+  //导出
+  const exportLoading = ref(false);
+  function exportTable() {
+    const { current, pageSize } = getPaginationRef() as PaginationProps;
+    exportLoading.value = true;
+    let data = {
+      page: current,
+      pageSize: pageSize,
+      ids: getSelectRowKeys(),
+    };
+    Object.assign(data, getForm().getFieldsValue());
+    TroubleExportApi(data)
+      .then((res) => {
+        if (res) {
+          const filename = '故障列表.xlsx';
+          downloadByData(res.data, filename);
+          createMessage.success('导出成功');
+        } else {
+          createMessage.error('导出失败');
+        }
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
+  }
 </script>
 <style scoped lang="less"></style>

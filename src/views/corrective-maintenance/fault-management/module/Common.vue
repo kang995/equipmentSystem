@@ -20,16 +20,28 @@
 </template>
 
 <script setup lang="ts">
-  // import { onMounted, ref } from 'vue';
+  import { ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { Card } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { getCommonFormSchema } from '../data';
   import { useTabs } from '/@/hooks/web/useTabs';
+  import { useRouter, useRoute } from 'vue-router';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import {
+    putFaultAddListApi,
+    putFaultUpdateListApi,
+    TroubleDetailApi,
+  } from '/@/api/corrective-maintenance/fault';
+  const { createMessage } = useMessage();
+  const { closeCurrent } = useTabs();
+  const router = useRouter();
+  const route = useRoute();
+  const id = route.query?.id as string;
+  const versionVal = ref<any>(); //版本号
   // import { TreeSelect } from 'ant-design-vue';
   // import { deviceTreeSelectApi } from "/@/api/corrective-maintenance/fault"
   // const ATreeSelect = TreeSelect;
-  const { closeCurrent } = useTabs();
 
   // const treeData = ref<any[]>([]);
   // async function treeQuery() {
@@ -43,9 +55,8 @@
   // });
   //
 
-  const [registerFrom] = useForm({
+  const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
-    // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     // baseColProps: {
     //   span: 24,
     // },
@@ -73,10 +84,43 @@
     resetFunc: handleReset,
     submitFunc: handleSubmit,
   });
-
+  //回显
+  id &&
+    TroubleDetailApi({ id }).then((res) => {
+      setFieldsValue(res);
+      versionVal.value = res.version;
+    });
   //提交
   async function handleSubmit() {
-    console.log('提交');
+    await validate();
+    const params = getFieldsValue();
+    if (id) {
+      //修改
+      params['id'] = id;
+      params['version'] = versionVal.value;
+      putFaultUpdateListApi(params)
+        .then(() => {
+          createMessage.success('修改成功');
+          router.push({
+            name: 'faultManagement',
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      //新增
+      putFaultAddListApi(params)
+        .then(() => {
+          createMessage.success('新增成功');
+          router.push({
+            name: 'faultManagement',
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
   //取消
   async function handleReset() {
