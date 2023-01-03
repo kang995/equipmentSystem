@@ -14,7 +14,7 @@
             <Select
               v-model:value="record.warehouseId"
               @change="(warehouseId) => handleChange(warehouseId, record, index)"
-              :options="options"
+              :options="record.options"
               placeholder="请选择仓库"
           /></template>
           <template #stockSlot="{ record }">
@@ -63,12 +63,17 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { ref, onMounted } from 'vue';
   import { Input, Select } from 'ant-design-vue';
-  import { postWarehouseListApi } from '/@/api/backup-management/backup-details';
+  // import { postWarehouseListApi } from '/@/api/backup-management/backup-details';
   import { useModal } from '/@/components/Modal';
   import AssociatedModal from '/@/views/device-management/record/action-page/AssociatedModal.vue';
   import { getPeopleSelect } from '/@/api/sys/systemSetting/systemType';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { posInAddApi, posOUTAddApi } from '/@/api/backup-management/inbound-and-outbound';
+  import {
+    posInAddApi,
+    posOUTAddApi,
+    getSpareListApi,
+  } from '/@/api/backup-management/inbound-and-outbound';
+  import { postWarehouseOutListApi } from '/@/api/backup-management/backup-details';
   const { closeCurrent } = useTabs();
   const { createMessage } = useMessage();
 
@@ -76,12 +81,12 @@
   const route = useRoute();
   const state = route.query.state;
 
-  const options = ref([]);
+  // const options = ref([]);
   const optionsSelect = ref();
   const dataSource = ref<Array<any>>([]);
 
   onMounted(() => {
-    funWarehouseList();
+    // funWarehouseList();
     peopleSelect();
   });
   //经手人
@@ -96,16 +101,16 @@
     });
   }
   //仓库 postWarehouseOutListApi
-  function funWarehouseList() {
-    postWarehouseListApi().then((res) => {
-      options.value = res.records.map((v) => {
-        return {
-          value: v.warehouseId,
-          label: v.warehouseName,
-        };
-      });
-    });
-  }
+  // function funWarehouseList() {
+  //   postWarehouseListApi().then((res) => {
+  //     options.value = res.records.map((v) => {
+  //       return {
+  //         value: v.warehouseId,
+  //         label: v.warehouseName,
+  //       };
+  //     });
+  //   });
+  // }
   const [registerModal, { openModal, closeModal }] = useModal();
 
   function getModal() {
@@ -194,17 +199,47 @@
     //仓库id、备件id、index
     console.log('warehouseId', warehouseId, id, index);
     const data = getDataSource();
-    data[index].stock = 10;
-    setTableData(data);
-    console.log('数据', getDataSource());
+    dataSource.value.some((item, indexs) => {
+      // debugger
+      if (indexs !== index && item.id === id && item.warehouseId === warehouseId) {
+        createMessage.warn('同一备件下，不可选择同一仓库！');
+      } else {
+        //查询库存
+        getSpareListApi({
+          spareId: id, //备件id
+          warehouseId, //仓库id
+        }).then((res) => {
+          // console.log('res',res)
+          data[index].stock = res.records[0].number;
+          setTableData(data);
+        });
+      }
+    });
   }
   function handleDetail() {}
   function handleOk(ids, data) {
     console.log('ids: ', ids, data);
     // dataSource.value = data;
-    dataSource.value.push(...data);
+    const arr = data.map((item) => ({ ...item })); //deepCopy
+    dataSource.value.push(...arr);
+
+    const table = getDataSource();
+    table.map((item) => {
+      postWarehouseOutListApi({ id: item.id }).then((res) => {
+        console.log('res1', res);
+        item['options'] = res.records.map((v) => {
+          return {
+            value: v.warehouseId,
+            label: v.warehouseName,
+          };
+        });
+      });
+    });
+    console.log('table1', table);
+    setTableData(table);
     closeModal();
   }
+
   function handleDel(index) {
     const data = getDataSource();
     data.splice(index, 1);

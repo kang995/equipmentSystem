@@ -18,7 +18,8 @@ enum Api {
   IN_REMOVE_BATCH = '/deviceInReceipt/batch/remove', // 入库批量删除
   IN_REMOVE = '/deviceInReceipt/remove', // 入库删除
   IN_ADD = '/deviceInReceipt/save', // 入库新增
-  //
+  //查询库存详情
+  SPARE_LIST = '/deviceWarehouse/spare/list', //分页动态查询库存详情列表
 }
 //出库
 //分页动态查询 列表
@@ -106,5 +107,12 @@ export const exporInApi = (params) =>
 export const posInReceiptListApi = (params) =>
   defHttp.post({
     url: Api.OUT_LIST,
+    params,
+  });
+
+//查询库存详情
+export const getSpareListApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_LIST,
     params,
   });
