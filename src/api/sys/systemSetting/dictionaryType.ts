@@ -7,6 +7,8 @@ enum Api {
   MANAGEMENT_DICTIONARY_ADD = '/system/dictionary/addLevel', //添加下级
   MANAGEMENT_DICTIONARY_UPDATE = '/system/dictionary/update', //修改字典
   MANAGEMENT_DICTIONARY_SELECT = '/system/dictionary/selectDictByType', //根据类型查询字典
+  MECHANICAL_DEVICENAME = '/mechanical/deviceName/select', //设备管理-机械设备-设备名称-下拉查询
+  SPECIAL_DEVICENAME = '/special/deviceName/select', //设备管理-特种设备-设备名称-下拉查询
 }
 
 //查询字典列表
@@ -42,4 +44,15 @@ export const getDictionarySelectType = (params: DictionarySelectTypeParams) =>
   defHttp.post({
     url: Api.MANAGEMENT_DICTIONARY_SELECT,
     params,
+  });
+//设备管理-机械设备-设备名称-下拉查询
+export const getMechanicalDeviceApi = () =>
+  defHttp.post({
+    url: Api.MECHANICAL_DEVICENAME,
+  });
+
+//设备管理-特种设备-设备名称-下拉查询
+export const getSpecialDeviceApi = () =>
+  defHttp.post({
+    url: Api.SPECIAL_DEVICENAME,
   });

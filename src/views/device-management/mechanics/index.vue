@@ -1,8 +1,9 @@
 <template>
   <TreeTable
     :columns="tabletMechanicaColumns"
-    :formSchema="formMechanicaSchema"
+    :formSchema="formMechanicaSchema('ifMechanics')"
     @export-table="exportTable"
+    :ifMechanics="true"
   />
 </template>
 <script setup lang="ts">

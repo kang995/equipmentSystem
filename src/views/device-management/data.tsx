@@ -4,7 +4,11 @@ import { SvgIcon } from '/@/components/Icon';
 import { Image, Row } from 'ant-design-vue';
 import { h } from 'vue';
 import { Tinymce } from '/@/components/Tinymce';
-import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
+import {
+  getDictionarySelectType,
+  getMechanicalDeviceApi,
+  getSpecialDeviceApi,
+} from '/@/api/sys/systemSetting/dictionaryType';
 import {
   postBindStateApi,
   postDesignSelectApi,
@@ -75,7 +79,7 @@ export const installationFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'status',
+    field: 'itemDesign',
     component: 'ApiSelect',
     label: '所属项目组成部分',
     componentProps: {
@@ -87,9 +91,9 @@ export const installationFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'productId',
+    field: 'district',
     component: 'ApiSelect',
-    label: '所属所属区域',
+    label: '所属区域',
     componentProps: {
       api: postDistrictSelectApi, //后台路径
       resultField: 'data', //后台返回数据字段
@@ -99,7 +103,7 @@ export const installationFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'productId',
+    field: 'type',
     component: 'ApiSelect',
     label: '类型',
     labelWidth: 92,
@@ -112,7 +116,7 @@ export const installationFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'productId',
+    field: 'riskLevel',
     component: 'ApiSelect',
     label: '重大危险源级别',
     componentProps: {
@@ -124,7 +128,7 @@ export const installationFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'productId',
+    field: 'fireRiskClasses',
     component: 'ApiSelect',
     label: '火灾危险性类别',
     componentProps: {
@@ -137,7 +141,7 @@ export const installationFormSchema: FormSchema[] = [
     labelWidth: 120,
   },
   {
-    field: 'productId',
+    field: 'fireResisRat',
     component: 'ApiSelect',
     label: '耐火等级',
     componentProps: {
@@ -150,7 +154,7 @@ export const installationFormSchema: FormSchema[] = [
     labelWidth: 92,
   },
   {
-    field: 'productId',
+    field: 'bindState',
     component: 'ApiSelect',
     label: '模型绑定状态',
     componentProps: {
@@ -796,62 +800,68 @@ export const tabletMechanicaColumns: BasicColumn[] = [
   },
 ];
 //机械设备查询
-export const formMechanicaSchema: FormSchema[] = [
-  {
-    field: 'spareName',
-    component: 'Input',
-    label: '设备名称',
-    labelWidth: 92,
-    componentProps: {
-      placeholder: '请输入设备名称',
-    },
-  },
-  {
-    field: 'status',
-    component: 'ApiSelect',
-    label: '设备类型',
-    componentProps: {
-      api: getDictionarySelectType, //后台路径
-      params: {
-        type: 'DEVICE_TYPE',
+export function formMechanicaSchema(state: string): FormSchema[] {
+  return [
+    {
+      field: 'id',
+      component: 'ApiSelect',
+      label: '设备名称',
+      labelWidth: 92,
+      componentProps: {
+        placeholder: '请输入设备名称',
+        api: state === 'ifMechanics' ? getMechanicalDeviceApi : getSpecialDeviceApi, //后台路径
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name', //设置label字段
+        valueField: 'id', //设置value字段
       },
-      resultField: 'data', //后台返回数据字段
-      labelField: 'itemName', //设置label字段
-      valueField: 'itemValue', //设置value字段
-      placeholder: '请选择设备类型',
     },
-  },
-  {
-    field: 'status',
-    component: 'ApiSelect',
-    label: '设备性质',
-    componentProps: {
-      api: getDictionarySelectType, //后台路径
-      params: {
-        type: 'FACILITY_NATURE',
+    {
+      field: 'facilityType',
+      component: 'ApiSelect',
+      label: '设备类型',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'DEVICE_TYPE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '请选择设备类型',
       },
-      resultField: 'data', //后台返回数据字段
-      labelField: 'itemName', //设置label字段
-      valueField: 'itemValue', //设置value字段
-      placeholder: '请选择设备性质',
     },
-  },
-  {
-    field: 'status',
-    component: 'ApiSelect',
-    label: '绑定模型状态',
-    componentProps: {
-      api: getDictionarySelectType, //后台路径
-      params: {
-        type: 'MODEL_BOUND_STATE',
+    {
+      field: 'facilityQuality',
+      component: 'ApiSelect',
+      label: '设备性质',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'FACILITY_NATURE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '请选择设备性质',
       },
-      resultField: 'data', //后台返回数据字段
-      labelField: 'itemName', //设置label字段
-      valueField: 'itemValue', //设置value字段
-      placeholder: '请选择绑定模型状态',
     },
-  },
-];
+    {
+      field: 'bindState',
+      component: 'ApiSelect',
+      label: '绑定模型状态',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'MODEL_BOUND_STATE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '请选择绑定模型状态',
+      },
+    },
+  ];
+}
 //特种设备台账 tableSpecialColumns, formSpecialSchema
 export const tableSpecialColumns: BasicColumn[] = [
   {

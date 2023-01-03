@@ -78,7 +78,7 @@
 
   const options = ref([]);
   const optionsSelect = ref();
-  const dataSource = ref([]);
+  const dataSource = ref<Array<any>>([]);
 
   onMounted(() => {
     funWarehouseList();
@@ -183,25 +183,26 @@
   }
   //使用数量
   function handleLimt(num, index) {
-    // const data = getDataSource();
-    // console.log(num,data[index].stock)
-    // if(Number(num) > data[index].stock ){
-    //   createMessage.warn('使用数量不能大于库存数量！');
-    // }
+    const data = getDataSource();
+    console.log(num, data[index].stock);
+    if (Number(num) > data[index].stock) {
+      createMessage.warn('使用数量不能大于库存数量！');
+    }
   }
   //出库仓库
   function handleChange(warehouseId, { id }, index) {
     //仓库id、备件id、index
-    // console.log('warehouseId',warehouseId,id,index);
-    // const data = getDataSource();
-    // data[index].stock = 10;
-    // setTableData(data);
-    // console.log('数据',getDataSource())
+    console.log('warehouseId', warehouseId, id, index);
+    const data = getDataSource();
+    data[index].stock = 10;
+    setTableData(data);
+    console.log('数据', getDataSource());
   }
   function handleDetail() {}
   function handleOk(ids, data) {
-    console.log('ids: ', ids);
-    dataSource.value = data;
+    console.log('ids: ', ids, data);
+    // dataSource.value = data;
+    dataSource.value.push(...data);
     closeModal();
   }
   function handleDel(index) {

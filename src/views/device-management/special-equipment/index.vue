@@ -1,7 +1,7 @@
 <template>
   <TreeTable
     :columns="tableSpecialColumns"
-    :formSchema="formMechanicaSchema"
+    :formSchema="formMechanicaSchema('')"
     :ifButton="true"
     @export-table="exportTable"
   />
