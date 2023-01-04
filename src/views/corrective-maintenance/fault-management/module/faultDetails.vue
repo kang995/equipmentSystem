@@ -34,13 +34,6 @@
   const faultData = ref<any>(); //故障确认
   const resultData = ref<any>(); //维修结果、验收结果
 
-  // const props = defineProps({
-  //   status: {
-  //     type: String,
-  //     default:'',
-  //   },
-  // });
-
   let data = ref<any>({});
   const [register] = useDescription({
     data,
