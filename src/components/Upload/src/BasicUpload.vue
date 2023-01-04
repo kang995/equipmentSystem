@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- 图片上视频格式展示方式 -->
-    {{ fileLists }}
     <div v-if="type === 'picture-card'">
       <div class="flex justify-start items-center flex-wrap">
         <div class="file-list flex justify-start items-center flex-wrap" style="margin-top: -14px">
