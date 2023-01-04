@@ -67,6 +67,7 @@
         :multiple="true"
         :action="uploadUrl"
         @change="handleChange"
+        :headers="headersObj"
         :before-upload="beforeUpload"
         :disabled="disabled"
         :accept="accept"
