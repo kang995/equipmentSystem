@@ -711,17 +711,13 @@ export const OutboundAdd: FormSchema[] = [
 ];
 //新增物品清单表格 AddTable
 export const AddTable: BasicColumn[] = [
-  // {
-  //   title: '备件编码',
-  //   dataIndex: 'spareCode',
-  // },
   {
     title: '备件名称',
     dataIndex: 'spareName',
   },
   {
     title: '备件类型',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '规格型号',
@@ -729,7 +725,7 @@ export const AddTable: BasicColumn[] = [
   },
   {
     title: '单位',
-    dataIndex: 'measureUnit',
+    dataIndex: 'measureUnitText',
   },
   {
     title: '出库仓库',
@@ -870,6 +866,7 @@ export const schemasAdd: FormSchema[] = [
     label: '负责人电话',
     required: true,
     componentProps: {
+      disabled: true,
       placeholder: '请输入负责人电话',
     },
   },

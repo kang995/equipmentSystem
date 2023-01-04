@@ -171,9 +171,11 @@
       versionVal.value = res.version;
       dataSource.value = res.inventoryList;
       dataSourceDevice.value = res.relevanceList;
-      res.relevanceList.forEach((v) => {
-        vallist.value.push(v?.id);
-      });
+      if (res?.relevanceList) {
+        res?.relevanceList.forEach((v) => {
+          vallist.value.push(v?.id);
+        });
+      }
       targetKeys.value = vallist.value;
       dataSourceList.value = res?.relevanceList;
       ifShow.value = true;
@@ -296,8 +298,10 @@
   //关闭弹框获取到选择的值
   const DeviceVal = ref([]);
   function handleOk(val, data) {
+    console.log('val, data: ', val, data);
     DeviceVal.value = val;
     dataSourceDevice.value = data;
+    console.log(' dataSourceDevice.value: ', dataSourceDevice.value);
     closeModal();
   }
 

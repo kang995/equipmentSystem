@@ -21,7 +21,14 @@
             >
               <a-menu-item :key="item.id">
                 <div class="flex menu-dropdown">
-                  {{ item.name }}
+                  <div>
+                    <a-typography-paragraph
+                      style="width: 200px; margin-bottom: 0 !important"
+                      :style="{ cursor: 'pointer' }"
+                      :ellipsis="{ tooltip: true }"
+                      :content="`${item.name}`"
+                    />
+                  </div>
                   <a-dropdown>
                     <Icon icon="gonggong_gengduo|svg" :size="20" />
                     <template #overlay>
@@ -76,7 +83,7 @@
   import { useRouter } from 'vue-router';
   import { onMounted, ref } from 'vue';
   import { detailsListColumns, backupFormSchema } from '../data';
-  import { Row, Col, Card, Menu, Dropdown } from 'ant-design-vue';
+  import { Row, Col, Card, Menu, Dropdown, TypographyParagraph } from 'ant-design-vue';
   import { schemaDescItem } from '../data';
   import { Icon } from '/@/components/Icon';
   import {
@@ -91,6 +98,7 @@
   const AMenu = Menu;
   const AMenuItem = Menu.Item;
   const AMenuDivider = Menu.Divider;
+  const ATypographyParagraph = TypographyParagraph;
   const { createMessage } = useMessage();
 
   const searchInfoList = ref<any>({});
@@ -176,11 +184,12 @@
     });
   }
   function handleDetails(data) {
-    const id = data.id;
+    const id = data.spareId;
     router.push({
       name: 'BackupDetails',
       query: {
         id,
+        type: '详情',
       },
     });
   }
@@ -204,7 +213,7 @@
   }
 
   ::v-deep(.ant-card-body) {
-    padding: 16px 16px 0 16px;
+    padding: 16px;
   }
 
   ::v-deep(.ant-form-item) {

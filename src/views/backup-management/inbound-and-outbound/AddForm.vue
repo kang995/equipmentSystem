@@ -21,7 +21,8 @@
             <Input v-model:value="record.stock" placeholder="库存数量" :readonly="true" />
           </template>
           <template #inputSlot="{ record, index }">
-            <Input
+            <InputNumber
+              :controls="false"
               v-model:value="record.numberInput"
               placeholder="请输入数量"
               @change="handleLimt(record.numberInput, index)"
@@ -62,7 +63,7 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { ref, onMounted } from 'vue';
-  import { Input, Select } from 'ant-design-vue';
+  import { Input, Select, InputNumber } from 'ant-design-vue';
   // import { postWarehouseListApi } from '/@/api/backup-management/backup-details';
   import { useModal } from '/@/components/Modal';
   import AssociatedModal from '/@/views/device-management/record/action-page/AssociatedModal.vue';
@@ -81,12 +82,10 @@
   const route = useRoute();
   const state = route.query.state;
 
-  // const options = ref([]);
   const optionsSelect = ref();
   const dataSource = ref<Array<any>>([]);
 
   onMounted(() => {
-    // funWarehouseList();
     peopleSelect();
   });
   //经手人
@@ -100,17 +99,7 @@
       });
     });
   }
-  //仓库 postWarehouseOutListApi
-  // function funWarehouseList() {
-  //   postWarehouseListApi().then((res) => {
-  //     options.value = res.records.map((v) => {
-  //       return {
-  //         value: v.warehouseId,
-  //         label: v.warehouseName,
-  //       };
-  //     });
-  //   });
-  // }
+
   const [registerModal, { openModal, closeModal }] = useModal();
 
   function getModal() {
@@ -216,7 +205,16 @@
       }
     });
   }
-  function handleDetail() {}
+  function handleDetail(data) {
+    const id = data.id;
+    router.push({
+      name: 'BackupDetails',
+      query: {
+        id,
+        type: '详情',
+      },
+    });
+  }
   function handleOk(ids, data) {
     console.log('ids: ', ids, data);
     // dataSource.value = data;

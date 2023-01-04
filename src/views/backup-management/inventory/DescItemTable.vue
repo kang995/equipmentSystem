@@ -54,6 +54,7 @@
       name: 'BackupDetails',
       query: {
         id,
+        type: '详情',
       },
     });
   }
