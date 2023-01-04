@@ -18,6 +18,7 @@ import {
   postRiskLevelSelectApi,
   postTypeSelectApi,
 } from '/@/api/device-management/installation';
+import { postSelectUnitFacilityApi } from '/@/api/device-management/special-equipment';
 
 export const installationColumns: BasicColumn[] = [
   {
@@ -285,7 +286,7 @@ export const installationSchema: DescItem[] = [
 //新建特种设备
 export const schemasAdd: FormSchema[] = [
   {
-    field: 'dutyTypeId',
+    field: 'name',
     component: 'Input',
     label: '设备名称',
     required: true,
@@ -294,68 +295,93 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'dutyPersonId',
+    field: 'proId',
     component: 'ApiSelect',
     label: '所属项目',
     required: true,
     componentProps: {
+      api: postDesignSelectApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择所属项目',
     },
   },
   {
-    field: 'checkDate',
+    field: 'parentId',
     component: 'ApiSelect',
     label: '所属装置设施',
+    required: true,
     componentProps: {
+      api: postSelectUnitFacilityApi, //后台路径
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name', //设置label字段
+      valueField: 'id', //设置value字段
       placeholder: '请选择所属装置设施',
     },
   },
   {
-    field: 'checkDate',
+    field: 'facilityType',
     component: 'ApiSelect',
     label: '设备类型',
     required: true,
     componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'DEVICE_TYPE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
       placeholder: '请选择设备类型',
     },
   },
   {
-    field: 'disclosure',
-    component: 'RadioGroup',
+    field: 'facilityQuality',
+    component: 'ApiRadioGroup',
     label: '设备性质',
     required: true,
+    defaultValue: '0',
     componentProps: {
-      options: [
-        {
-          label: '动设备',
-          value: '1',
-        },
-        {
-          label: '静设备',
-          value: '2',
-        },
-      ],
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'FACILITY_NATURE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
     },
   },
   {
-    field: 'checkPersonId',
+    field: 'facilityCode',
     component: 'Input',
     label: '设备编码',
     componentProps: {
       placeholder: '请输入设备编码',
     },
+    ifShow: ({ values }) => {
+      console.log('data: ', values);
+      return true;
+    },
   },
   {
-    field: 'checkPersonPost',
+    field: 'useStatus',
     component: 'ApiSelect',
     label: '使用状态',
     required: true,
     componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'USE_STATUS',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
       placeholder: '选择使用状态',
     },
   },
   {
-    field: 'checkPersonPhone',
+    field: 'facilityRegistratCode',
     component: 'Input',
     label: '设备注册代码',
     componentProps: {
@@ -363,7 +389,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkPersonPhone',
+    field: 'useCardCode',
     component: 'Input',
     label: '使用证编号',
     componentProps: {
@@ -371,7 +397,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkPersonPhone',
+    field: 'manufactureEnterprise',
     component: 'Input',
     label: '制造单位',
     componentProps: {
@@ -379,7 +405,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkPersonPhone',
+    field: 'inspectionResponsibilityEnterprise',
     component: 'Input',
     label: '检验责任所在单位',
     componentProps: {
@@ -387,24 +413,23 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkDate',
+    field: 'managementPeopleId',
     component: 'ApiSelect',
     label: '管理人员',
-    componentProps: {
-      placeholder: '请选择管理人员',
-    },
+    slot: 'personSlot',
   },
   {
     //自动代入
-    field: 'checkPersonPhone',
+    field: 'phone',
     component: 'Input',
     label: '管理人员联系方式',
     componentProps: {
       placeholder: '请输入管理人员联系方式',
+      disabled: true,
     },
   },
   {
-    field: 'contentAndMode',
+    field: 'medium',
     component: 'Input',
     label: '介质',
     required: true,
@@ -414,7 +439,7 @@ export const schemasAdd: FormSchema[] = [
   },
 
   {
-    field: 'conditionDescribe',
+    field: 'bitNumber',
     component: 'Input',
     label: '位号',
     componentProps: {
@@ -423,7 +448,7 @@ export const schemasAdd: FormSchema[] = [
   },
 
   {
-    field: 'problem',
+    field: 'specifModels',
     component: 'Input',
     label: '规格型号',
     componentProps: {
@@ -432,7 +457,7 @@ export const schemasAdd: FormSchema[] = [
   },
 
   {
-    field: 'result',
+    field: 'subjectTexture',
     component: 'Input',
     label: '主体材质',
     componentProps: {
@@ -440,7 +465,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'result',
+    field: 'temperature',
     component: 'Input',
     label: '操作温度（°C）',
     componentProps: {
@@ -448,7 +473,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'result',
+    field: 'pressure',
     component: 'Input',
     label: '操作压力（MPa）',
     componentProps: {
@@ -456,7 +481,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'result',
+    field: 'designTemp',
     component: 'Input',
     label: '设计温度（°C）',
     componentProps: {
@@ -464,7 +489,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'result',
+    field: 'designPres',
     component: 'Input',
     label: '设计压力（MPa）',
     componentProps: {
@@ -472,7 +497,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'result',
+    field: 'position',
     component: 'Input',
     label: '地理位置',
     componentProps: {
@@ -482,13 +507,13 @@ export const schemasAdd: FormSchema[] = [
     //选择经纬度
   },
   {
-    field: 'warehouseId',
+    field: 'positionList',
     label: ' ',
     component: 'ApiSelect',
     slot: 'position',
   },
   {
-    field: 'attachment',
+    field: 'blueprintList',
     component: 'Upload',
     label: '图纸',
     componentProps: {
@@ -500,7 +525,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'securityPermis',
+    field: 'basicInformat',
     component: 'Input',
     label: '基本信息',
     render: ({ model, field }) => {
@@ -513,7 +538,7 @@ export const schemasAdd: FormSchema[] = [
     },
   },
   {
-    field: 'attachment',
+    field: 'affixList',
     component: 'Upload',
     label: '上传附件',
     required: true,
@@ -521,7 +546,7 @@ export const schemasAdd: FormSchema[] = [
       type: '',
       maxNumber: 5,
       maxSize: 5,
-      accept: '.jpg,.png,.jpeg',
+      accept: '.rar,.zip,.docx,.pdf,.jpg',
       helpText: '请上传附件',
     },
   },

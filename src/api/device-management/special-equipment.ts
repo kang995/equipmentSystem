@@ -8,7 +8,9 @@ enum Api {
   SPECIAL_EXPORT = '/special/export', //批量导出
   ADD = '/special/save', //新增
   SELECT_STATE = '/special/deviceName/select', //设备名称-下拉查询
+  SELECT_UNIT_FACILITY = '/unitFacility/unitFacility/select', //装置设施-下拉查询
 }
+
 //分页查询特种设备列表
 export const postSpecialListApi = (params) =>
   defHttp.post({
@@ -44,8 +46,12 @@ export const postSpecialAddApi = (params) =>
     params,
   });
 //设备名称-下拉查询
-export const postSpecialSelectApi = (params) =>
+export const postSelectDeviceNameApi = () =>
   defHttp.post({
     url: Api.SELECT_STATE,
-    params,
+  });
+//装置设施-下拉查询
+export const postSelectUnitFacilityApi = () =>
+  defHttp.post({
+    url: Api.SELECT_UNIT_FACILITY,
   });

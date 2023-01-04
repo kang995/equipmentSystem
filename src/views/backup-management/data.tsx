@@ -131,12 +131,8 @@ export const detailsListColumns: BasicColumn[] = [
     dataIndex: 'spareName',
   },
   {
-    title: '编号',
-    dataIndex: 'spareCode',
-  },
-  {
     title: '备件分类',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '数量',
@@ -150,7 +146,7 @@ export const backupColumns: BasicColumn[] = [
   },
   {
     title: '备件分类',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '库存下限',
@@ -364,7 +360,7 @@ export const columnsWarehousing: BasicColumn[] = [
   },
   {
     title: '创建人',
-    dataIndex: 'createBy',
+    dataIndex: 'createByName',
   },
   {
     title: '经手人',
@@ -376,12 +372,7 @@ export const columnsWarehousing: BasicColumn[] = [
   },
   {
     title: '入库单状态',
-    dataIndex: 'receiptStatus',
-    //（0：正常；1：作废）
-    customRender: ({ text }) => {
-      console.log('text: ', text);
-      return text === 0 ? '正常' : '作废';
-    },
+    dataIndex: 'receiptStatusText',
   },
 ];
 export const columnsIssue: BasicColumn[] = [
@@ -403,7 +394,7 @@ export const columnsIssue: BasicColumn[] = [
   },
   {
     title: '创建人',
-    dataIndex: 'createBy',
+    dataIndex: 'createByName',
   },
   {
     title: '经手人',
@@ -415,7 +406,7 @@ export const columnsIssue: BasicColumn[] = [
   },
   {
     title: '入库单状态',
-    dataIndex: 'receiptStatus',
+    dataIndex: 'receiptStatusText',
     //（0：正常；1：作废）
   },
 ];
@@ -491,12 +482,10 @@ export const formSchemaWarehousing: FormSchema[] = [
 //备件新增
 export const sparePartAdd: FormSchema[] = [
   {
-    //没保存上，没有url
     field: 'spareImgList',
     component: 'Upload',
     label: '备件图片',
     colProps: {},
-    required: true,
     componentProps: {
       maxNumber: 5,
       accept: '.jpg,.jpeg,.png',
@@ -510,8 +499,6 @@ export const sparePartAdd: FormSchema[] = [
     label: '备件名称',
     required: true,
     componentProps: {
-      //OUT_WAREHOUSE_TYPE
-      //
       placeholder: '请输入备件名称',
     },
   },
@@ -551,7 +538,6 @@ export const sparePartAdd: FormSchema[] = [
     field: 'specification',
     component: 'Input',
     label: '规格',
-    required: true,
     componentProps: {
       placeholder: '请输入规格',
     },
@@ -570,7 +556,6 @@ export const sparePartAdd: FormSchema[] = [
     field: 'storageHigh',
     component: 'Input',
     label: '最高存储额',
-    required: true,
     componentProps: {
       placeholder: '请输入最高存储额',
       type: 'number',
@@ -580,7 +565,6 @@ export const sparePartAdd: FormSchema[] = [
     field: 'manufacturer',
     component: 'Input',
     label: '生产厂商',
-    required: true,
     componentProps: {
       placeholder: '请输入生产厂商',
     },
@@ -589,7 +573,6 @@ export const sparePartAdd: FormSchema[] = [
     field: 'referencePrice',
     component: 'Input',
     label: '参考价',
-    required: true,
     componentProps: {
       placeholder: '请输入参考价',
       type: 'number',
@@ -599,14 +582,12 @@ export const sparePartAdd: FormSchema[] = [
     field: 'replacementPeriod',
     label: '更换周期',
     component: 'Input',
-    required: true,
     slot: 'combination1',
   },
   {
     field: 'replacementPeriodUnit',
     label: '',
     component: 'Input',
-    required: true,
     defaultValue: '0',
     show: false,
   },
@@ -616,18 +597,7 @@ export const sparePartAdd: FormSchema[] = [
     field: 'warehouseSpareAddVOList',
     component: 'Input',
     label: '物品清单',
-    // required: true,
     slot: 'tableSlot',
-  },
-  {
-    field: 'problem',
-    component: 'InputTextArea',
-    label: '备注',
-    componentProps: {
-      placeholder: '请输入备注',
-      rows: 4,
-      maxlength: 200,
-    },
   },
 ];
 //新增出库
@@ -789,11 +759,8 @@ export const inboundDescItem: DescItem[] = [
     label: '创建时间',
   },
   {
-    field: 'receiptStatus',
+    field: 'receiptStatusText',
     label: '出库单状态',
-    render: (data) => {
-      return data === 0 ? '正常' : '作废';
-    },
   },
   {
     field: 'inOutType',
@@ -1144,7 +1111,7 @@ const inboundTableColumns: BasicColumn[] = [
   },
   {
     title: '备件类型',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '规格型号',
