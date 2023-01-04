@@ -4,6 +4,11 @@ import { Image } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 import { getAgainFormSchema } from '/@/views/device-service/components/field';
+import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
+import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
+import { maintainIsshowApi } from '/@/api/corrective-maintenance/repair';
+import { Tag } from 'ant-design-vue';
+
 export interface TabItem {
   key: string;
   name: string;
@@ -23,65 +28,112 @@ export const achieveList: TabItem[] = [
 ];
 //根据状态判断当前用户身份
 (() => {
-  const identity = '3'; //1负责人 2执行人 3具有两者身份
-  if (identity === '1') {
-    achieveList.splice(1, 1);
-  } else if (identity === '2') {
-    achieveList.splice(0, 1);
-    achieveList[0].key = '1';
-  }
+  maintainIsshowApi().then((res) => {
+    //type 1显示负责工单 2显示执行工单 3都显示
+    const { type } = res;
+    // console.log('身份',type)
+    if (type === '1') {
+      achieveList.splice(1, 1);
+    } else if (type === '2') {
+      achieveList.splice(0, 1);
+      achieveList[0].key = '1';
+    }
+  });
 })();
+
+// (() => {
+//   const identity = '3'; //1负责人 2执行人 3具有两者身份
+//   if (identity === '1') {
+//     achieveList.splice(1, 1);
+//   } else if (identity === '2') {
+//     achieveList.splice(0, 1);
+//     achieveList[0].key = '1';
+//   }
+// })();
 
 //列表--负责工单、执行工单
 export function tableColumns(): BasicColumn[] {
   return [
     {
       title: '工单单号',
-      dataIndex: 'name',
+      dataIndex: 'jobCode',
     },
     {
       title: '工单名称',
-      dataIndex: 'productName',
+      dataIndex: 'jobName',
     },
     {
       title: '负责人',
-      dataIndex: 'person',
+      dataIndex: 'principalPeopleName',
     },
     {
       title: '起止时间',
-      dataIndex: 'time',
+      dataIndex: 'jobStartTimeAndEndTime',
     },
     {
       title: '关联设备',
-      dataIndex: 'status',
+      dataIndex: 'deviceName',
     },
     {
       title: '所属装置设施',
-      dataIndex: 'status',
+      dataIndex: 'plantName',
     },
     {
       title: '故障类别',
-      dataIndex: 'status',
+      dataIndex: 'troubleTypeText',
     },
     {
       title: '故障等级',
-      dataIndex: 'status',
+      dataIndex: 'urgentLevel',
+      customRender: ({ record }) => {
+        if (record.urgentLevel === '0') {
+          //紧急
+          return <Tag color={'red'}>{record.urgentLevelText}</Tag>;
+        } else if (record.urgentLevel === '1') {
+          //高
+          return <Tag color={'orange'}>{record.urgentLevelText}</Tag>;
+        } else if (record.urgentLevel === '2') {
+          //中
+          return <Tag color={'cyan'}>{record.urgentLevelText}</Tag>;
+        } else if (record.urgentLevel === '3') {
+          //低
+          return <Tag color={'blue'}>{record.urgentLevelText}</Tag>;
+        }
+      },
     },
     {
       title: '故障描述',
-      dataIndex: 'status',
+      dataIndex: 'description',
     },
     {
       title: '工单状态',
-      dataIndex: 'status',
+      dataIndex: 'maintainStatus',
+      customRender: ({ record }) => {
+        if (record.maintainStatus === '0') {
+          //待处理
+          return <Tag color={'default'}>{record.maintainStatusText}</Tag>;
+        } else if (record.maintainStatus === '1') {
+          //待处理(延期申请)
+          return <Tag color={'orange'}>{record.maintainStatusText}</Tag>;
+        } else if (record.maintainStatus === '2') {
+          //待验收
+          return <Tag color={'orange'}>{record.maintainStatusText}</Tag>;
+        } else if (record.maintainStatus === '3') {
+          //验收未通过
+          return <Tag color={'green'}>{record.maintainStatusText}</Tag>;
+        } else if (record.maintainStatus === '4') {
+          //完成
+          return <Tag color={'default'}>{record.maintainStatusText}</Tag>;
+        }
+      },
     },
     {
       title: '处理人',
-      dataIndex: 'status',
+      dataIndex: 'disposePeopleNames',
     },
     {
       title: '完成时间',
-      dataIndex: 'status',
+      dataIndex: 'overTime',
     },
   ];
 }
@@ -89,7 +141,7 @@ export function tableColumns(): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name1',
+      field: 'jobCode',
       component: 'Input',
       label: '工单单号',
       componentProps: {
@@ -97,7 +149,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'jobName',
       component: 'Input',
       label: '工单名称',
       labelWidth: 96,
@@ -106,7 +158,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'principalPeopleId',
       component: 'Input',
       label: '负责人',
       labelWidth: 64,
@@ -115,7 +167,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'time',
+      field: 'jobStartTimeAndEndTime',
       component: 'RangePicker',
       label: '起止时间',
       componentProps: {
@@ -124,58 +176,90 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'deviceName',
       component: 'ApiSelect',
       label: '关联设备',
       componentProps: {
         placeholder: '请选择关联设备',
+        api: deviceNameSelectApi,
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'productId',
+      field: 'plantId',
       component: 'ApiSelect',
       label: '所属装置设施',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择所属装置设施',
+        api: UnitFacilityApi,
+        fieldNames: {
+          value: 'id',
+          key: 'id',
+          label: 'label',
+          children: 'children',
+        },
       },
     },
     {
-      field: 'productId',
+      field: 'troubleType',
       component: 'ApiSelect',
       label: '故障类别',
       labelWidth: 64,
       componentProps: {
         placeholder: '请选择故障类别',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'TROUBLE_TYPE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'productId',
+      field: 'urgentLevel',
       component: 'ApiSelect',
       label: '故障等级',
       componentProps: {
         placeholder: '请选择故障等级',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'URGENT_LEVEL',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'productId',
+      field: 'maintainStatus',
       component: 'ApiSelect',
       label: '工单状态',
       componentProps: {
         placeholder: '请选择工单状态',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'MAINTAIN_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'productId',
-      component: 'ApiSelect',
+      field: 'disposePeopleNames',
+      component: 'Input',
       label: '处理人',
       labelWidth: 96,
       componentProps: {
-        placeholder: '请选择处理人',
+        placeholder: '请输入处理人姓名',
       },
     },
     {
-      field: 'time1',
+      field: 'overTime',
       component: 'RangePicker',
       label: '完成时间',
       labelWidth: 64,
@@ -200,99 +284,108 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'jobCode',
       label: '工单单号',
     },
     {
-      field: 'applyUserName',
+      field: 'jobName',
       label: '工单名称',
     },
     {
-      field: 'applyUserName',
+      field: 'principalPeopleName',
       label: '负责人',
     },
     {
-      field: 'applyUserName',
+      field: 'maintainStatusText',
       label: '工单状态',
     },
     {
-      field: 'applyUserName',
+      field: 'issueTime',
       label: '下发时间',
     },
     {
-      field: 'applyUserName',
+      field: 'createTime',
       label: '创建时间',
     },
     {
-      field: 'applyUserName',
+      field: 'disposeUnitName',
       label: '处理岗位',
     },
     {
-      field: 'applyUserName',
+      field: 'overTime',
       label: '完成时间',
     },
     {
-      field: 'applyUserName',
+      field: 'jobStartTimeAndEndTime',
       label: '执行时间',
     },
     {
-      field: 'applyUserName',
+      field: 'disposePeopleNames',
       label: '处理人',
     },
     {
-      field: 'applyUserName',
+      field: 'plantName',
       label: '所属装置设施',
     },
     {
-      field: 'applyUserName',
+      field: 'deviceName',
       label: '关联设备',
     },
     {
-      field: 'applyUserName',
+      field: 'troubleTypeText',
       label: '故障类别',
     },
     {
-      field: 'applyUserName',
+      field: 'urgentLevelText',
       label: '紧急程度',
     },
     {
-      field: 'applyUserName',
+      field: 'createByPhone',
       label: '联系电话',
     },
     {
-      field: 'applyUserName',
+      field: 'createByName',
       label: '故障上报人',
     },
     {
-      field: 'applyUserName',
+      field: 'expression',
       label: '表新症状',
     },
     {
-      field: 'applyUserName',
+      field: 'description',
       label: '故障描述',
     },
     {
-      field: 'applyUserName',
+      field: 'measure',
       label: '采取措施',
     },
     {
-      field: 'applyUserName',
+      field: 'reason',
       label: '故障原因',
     },
     {
-      field: 'applyUserName',
+      field: 'maintainPlan',
       label: '维修方案',
     },
     {
-      field: 'imgArr',
+      field: 'imgList',
       label: '图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
   ];
@@ -739,3 +832,25 @@ const titleStyle: any = {
   ImageBox: any = {
     width: '80px',
   };
+
+const fileBox = {
+  padding: '0px',
+  height: '100px',
+  width: 'auto',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};
+const noFileBox: any = {
+  textAlign: 'center',
+  lineHeight: '100px',
+  fontWeight: '600',
+  fontSize: '16px',
+  color: '#999',
+  userSelect: 'none',
+  height: '100px',
+  width: '200px',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};

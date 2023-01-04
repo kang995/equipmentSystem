@@ -14,7 +14,9 @@
       </template>
       <!-- 维修结果、验收结果 -->
       <template v-if="status === '2' || status === '3'">
-        <Description :bordered="false" :column="2" :data="resultData" :schema="resultschema()" />
+        <template v-for="(item, index) in resultData" :key="item.id">
+          <Description :bordered="false" :column="2" :data="item" :schema="resultschema(index)" />
+        </template>
       </template>
     </div>
   </PageWrapper>
@@ -26,7 +28,7 @@
   import { Description, useDescription } from '/@/components/Description';
   import { faultDetailSchema, faultschema, resultschema } from '../data';
   import { useRoute } from 'vue-router';
-  import { TroubleDetailApi } from '/@/api/corrective-maintenance/fault';
+  import { TroubleDetailApi, MaintainDetailApi } from '/@/api/corrective-maintenance/fault';
   const route = useRoute();
   const status = route.query.status as string;
   const id = route.query.id as string;
@@ -55,8 +57,12 @@
           : troubleDetermine === '1'
           ? res.deviceTroubleOutsourceVO
           : res.deviceTroubleOverhaulVO;
-      //维修结果、验收结果
-      resultData.value = res;
+    });
+  //维修结果、验收结果
+  id &&
+    status === '3' &&
+    MaintainDetailApi({ id }).then((res) => {
+      resultData.value = res.acceptList;
     });
 </script>
 

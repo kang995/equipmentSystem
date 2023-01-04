@@ -1,6 +1,8 @@
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
+  DEVICE_NAME_SELECT = '/mechanical/deviceName/select', //设备名称-下拉查询
+  UNITFACILITY_TREE = '/unitFacility/areaUnitFacility/tree/select', //查询区域-装置设施树
   DEVICE_TREE_SELECT = '/special/device/tree/select', //查询区域-装置设施-设备树
   TROUBLE_LIST = '/trouble/list', //故障列表
   TROUBLE_EXPORT = '/trouble/export', //故障列表批量导出
@@ -8,9 +10,21 @@ enum Api {
   FAULT_LIST_ADD = '/trouble/save', //故障管理新增
   FAULT_LIST_UPDATE = '/trouble/update', //故障管理修改
   TROUBLE_DETAIL = '/trouble/detail', //故障详情
+  MAINTAIN_DETAIL = '/maintain/detail', //维修工单详情（维修结果、验收结果）
+  TROUBLE_DETERMINE = '/trouble/determine', //故障确认
 }
 
 /* 1、故障管理 */
+//设备名称-下拉查询
+export const deviceNameSelectApi = () =>
+  defHttp.post({
+    url: Api.DEVICE_NAME_SELECT,
+  });
+//查询区域-装置设施树
+export const UnitFacilityApi = () =>
+  defHttp.post({
+    url: Api.UNITFACILITY_TREE,
+  });
 //设备树
 export const deviceTreeSelectApi = () =>
   defHttp.post({
@@ -60,5 +74,16 @@ export const TroubleDetailApi = (params) =>
     url: Api.TROUBLE_DETAIL,
     params,
   });
+//维修结果、验收结果
+export const MaintainDetailApi = (params) =>
+  defHttp.post({
+    url: Api.MAINTAIN_DETAIL,
+    params,
+  });
 
 /* 2、故障确认 */
+export const TroubleDeterMineApi = (params) =>
+  defHttp.post({
+    url: Api.TROUBLE_DETERMINE,
+    params,
+  });

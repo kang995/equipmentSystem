@@ -1,7 +1,11 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
-import { deviceTreeSelectApi } from '/@/api/corrective-maintenance/fault';
+import {
+  deviceTreeSelectApi,
+  deviceNameSelectApi,
+  UnitFacilityApi,
+} from '/@/api/corrective-maintenance/fault';
 import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 import { Tag } from 'ant-design-vue';
 
@@ -127,15 +131,26 @@ export function getFormSchema(): FormSchema[] {
       label: '关联设备',
       componentProps: {
         placeholder: '请选择关联设备',
+        api: deviceNameSelectApi,
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'plantName',
-      component: 'ApiSelect',
+      field: 'plantId',
+      component: 'ApiTreeSelect',
       label: '所属装置设施',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择所属装置设施',
+        api: UnitFacilityApi,
+        fieldNames: {
+          value: 'id',
+          key: 'id',
+          label: 'label',
+          children: 'children',
+        },
       },
     },
     {
@@ -392,15 +407,15 @@ export function faultDetailSchema(status: string): DescItem[] {
     },
     //
     {
-      field: 'applyUserName',
+      field: 'position',
       label: '地理位置',
     },
     {
-      field: 'troubleType',
+      field: 'troubleTypeText',
       label: '故障类别',
     },
     {
-      field: 'urgentLevel',
+      field: 'urgentLevelText',
       label: '紧急程度',
     },
     {
@@ -567,7 +582,7 @@ export function faultschema(troubleDetermine: string): DescItem[] {
   ];
 }
 //维修结果、验收结果
-export function resultschema(): DescItem[] {
+export function resultschema(index: number): DescItem[] {
   return [
     {
       field: '',
@@ -575,15 +590,15 @@ export function resultschema(): DescItem[] {
       labelMinWidth: 0,
       span: 2,
       render: () => {
-        return <span style={titleStyle}>维修结果</span>;
+        return <span style={titleStyle}>维修结果{index + 1}</span>;
       },
     },
     {
-      field: 'applyUserName',
+      field: 'dealCase',
       label: '处理结果',
     },
     {
-      field: 'applyUserName',
+      field: 'beforeDealImgList',
       label: '维修前图片',
       render: (data) => {
         if (data) {
@@ -604,7 +619,7 @@ export function resultschema(): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'dealImgList',
       label: '维修后图片',
       render: (data) => {
         if (data) {
@@ -625,11 +640,14 @@ export function resultschema(): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'stopFlag',
       label: '是否停机',
+      render: (curVal, data) => {
+        return curVal === '0' ? '是' : '否';
+      },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptPeopleName',
       label: '验收人',
       span: 2,
     },
@@ -639,15 +657,18 @@ export function resultschema(): DescItem[] {
       labelMinWidth: 0,
       span: 2,
       render: () => {
-        return <span style={titleStyle}>验收结果</span>;
+        return <span style={titleStyle}>验收结果{index + 1}</span>;
       },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptResult',
       label: '验收结果',
+      render: (curVal, data) => {
+        return curVal === '0' ? '通过' : '不通过';
+      },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptCase',
       label: '验收描述',
     },
   ];
