@@ -145,29 +145,32 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
       label: '备注',
       span: 2,
     },
+  ];
+}
+export function MaintainDetails(state: string, mode: string): DescItem[] {
+  return [
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 2,
+    //   render: () => {
+    //     return <span style={titleStyle}>审核信息</span>;
+    //   },
+    //   show: (data) => mode === '1' && (state === '3' || state === '4'),
+    // },
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>审核信息</span>;
-      },
-      show: (data) => mode === '1' && (state === '3' || state === '4'),
-    },
-    {
-      field: 'applyUserName',
+      field: 'approvalStatusText',
       label: '审核结果',
       show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
     {
-      field: 'applyUserName',
+      field: 'remark',
       label: '原因（备注）',
       show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
   ];
 }
-
 //设备保养
 export function tableDeviceColumns(): BasicColumn[] {
   return [

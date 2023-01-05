@@ -1,7 +1,15 @@
 <template>
   <div class="px-15">
     <Description @register="register" />
-    <div class="absolute bottom-0 left-0">
+    <!-- <div class="sub-title text-body1 text-14px font-bold mt-6 mb-6">审核信息</div> -->
+    <Description
+      title="审核信息"
+      :column="2"
+      :data="data"
+      :schema="MaintainDetails(status, mode)"
+    />
+    <!-- class="absolute bottom-0 left-0" -->
+    <div>
       <!-- 保养计划管理 -->
       <template v-if="mode === '1'">
         <a-button v-if="status !== '4'" class="m-4" @click="handleBack">取消</a-button>
@@ -40,7 +48,7 @@
   import { Modal, message } from 'ant-design-vue';
   import { ref, createVNode, onMounted } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
-  import { MaintainDetail } from './fileld';
+  import { MaintainDetail, MaintainDetails } from './fileld';
   import { useRoute, useRouter } from 'vue-router';
   import { getPlanDetailApi } from '/@/api/device-maintenance/index';
   import { useModal } from '/@/components/Modal';
@@ -72,6 +80,13 @@
     column: 2,
     size: 'default',
   });
+  // const [registerCheck] = useDescription({
+  //   data,
+  //   schema: MaintainDetails(status, mode),
+  //   bordered: true,
+  //   column: 2,
+  //   size: 'default',
+  // });
   function backFun() {
     router.go(-1);
   }
