@@ -61,9 +61,6 @@
     targetKeys.value = data;
   });
 
-  const props = defineProps<{
-    targetval?: Array<any>;
-  }>();
   const targetKeys = ref<any>([]);
   let tData: any = [];
 
@@ -74,7 +71,6 @@
   }
   onMounted(() => {
     funTreeSelect();
-    targetKeys.value = props.targetval;
   });
   function funTreeSelect() {
     postTreeSelectApi().then((res) => {
@@ -127,7 +123,13 @@
   const onChange = (keys: string[]) => {
     dataSourceList.value = [];
     postTreeSelectIdsApi(keys).then((res) => {
-      dataSourceList.value = res;
+      dataSourceList.value = res.map((v) => {
+        return {
+          name: v.deviceName,
+          facilityTypeText: v.deviceTypeName,
+          specialEquip: v.specialEquipment,
+        };
+      });
     });
     targetKeys.value = keys;
   };

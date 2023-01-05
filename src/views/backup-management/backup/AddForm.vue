@@ -35,14 +35,10 @@
                         :actions="[
                           {
                             label: '删除',
-                            //  color: 'error',
                             popConfirm: {
                               title: '是否删除？',
                               confirm: handleDelEdit.bind(null, index),
                             },
-                            // ifShow: () => {
-                            //   return id?false:true; // 根据业务控制是否显示
-                            // },
                           },
                         ]"
                       />
@@ -57,14 +53,15 @@
                     /></template>
 
                     <template #NumSlot="{ record }">
-                      <Input
+                      <InputNumber
+                        :min="0"
                         :disabled="Disabled"
                         placeholder="请输入数量"
                         v-model:value="record.spareNum"
                       />
                     </template>
                   </BasicTable>
-                  <div class="add" @click="clickFirstAdd">
+                  <div class="add" @click="clickFirstAdd" v-if="!Disabled">
                     <SvgIcon name="gonggong_tianjia_xianxing" size="20" class="ml-4px" />
                     <span>添加</span>
                   </div>
@@ -103,13 +100,8 @@
         </div>
       </a-tab-pane>
     </Tabs>
-    <SelectDevice
-      v-if="ifShow"
-      @register="registerModal"
-      :minHeight="400"
-      @handle-ok="handleOk"
-      :targetval="targetKeys"
-    />
+
+    <SelectDevice v-if="ifShow" @register="registerModal" :minHeight="400" @handle-ok="handleOk" />
     <div class="btn mb-4">
       <a-button @click="resetFunc" class="mr-4">取消</a-button>
       <a-button type="primary" @click="submitFunc()">保存</a-button>
@@ -120,7 +112,7 @@
 <script lang="ts" setup>
   import SelectDevice from '../components/SelectDevice.vue';
   import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
-  import { Input, Form, Select } from 'ant-design-vue';
+  import { InputNumber, Form, Select, Input } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { Tabs } from 'ant-design-vue';
@@ -133,6 +125,8 @@
     postBackupAddApi,
     postBackupDetailApi,
     postBackupEditApi,
+    postBackupInventorylApi,
+    postBackupListlApi,
   } from '/@/api/backup-management/backup';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useRouter, useRoute } from 'vue-router';
@@ -161,25 +155,32 @@
   });
   onMounted(() => {
     funSelect();
+    funDetail();
   });
   const targetKeys = ref<any>([]);
-  const vallist = ref<any>([]);
   const dataSourceList = ref<any>([]);
-  id &&
-    postBackupDetailApi({ id }).then((res) => {
-      setFieldsValue(res);
-      versionVal.value = res.version;
-      dataSource.value = res.inventoryList;
-      dataSourceDevice.value = res.relevanceList;
-      if (res?.relevanceList) {
-        res?.relevanceList.forEach((v) => {
-          vallist.value.push(v?.id);
-        });
-      }
-      targetKeys.value = vallist.value;
-      dataSourceList.value = res?.relevanceList;
-      ifShow.value = true;
-    });
+  function funDetail() {
+    id &&
+      postBackupDetailApi({ id }).then((res) => {
+        setFieldsValue(res);
+        versionVal.value = res.version;
+        dataSource.value = res.inventoryList; //物品清单
+        dataSourceList.value = res?.relevanceList;
+      });
+    id &&
+      postBackupListlApi({ id }).then((res) => {
+        //关联设备
+        if (res) {
+          dataSourceDevice.value = res;
+        }
+        ifShow.value = true;
+      });
+    id &&
+      postBackupInventorylApi({ id }).then((res) => {
+        //物品清单
+        dataSource.value = res.inventoryVOList;
+      });
+  }
 
   function funSelect() {
     postWarehouseListApi().then((res) => {
@@ -258,7 +259,6 @@
   function clickFirstAdd() {
     const data = getDataSource();
     data.push({
-      warehouseId: '',
       spareNum: '',
     });
     setTableData(data);
@@ -290,7 +290,7 @@
     const data = getDataSourceDevice();
     const ids = [] as any; //deviceId
     data.map((v) => {
-      ids.push(v.deviceId);
+      ids.push(v.id);
     });
     targetKeys.value = ids;
     openModal(true, targetKeys.value);

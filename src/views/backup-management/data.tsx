@@ -550,6 +550,8 @@ export const sparePartAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入最低存储额',
       type: 'number',
+      controls: false,
+      min: 0,
     },
   },
   {
@@ -559,6 +561,8 @@ export const sparePartAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入最高存储额',
       type: 'number',
+      controls: false,
+      min: 0,
     },
   },
   {
@@ -576,6 +580,8 @@ export const sparePartAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入参考价',
       type: 'number',
+      controls: false,
+      min: 0,
     },
   },
   {
