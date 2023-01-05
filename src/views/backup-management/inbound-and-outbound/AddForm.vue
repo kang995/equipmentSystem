@@ -56,7 +56,7 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { inboundAdd, AddTable, OutboundAdd } from '../data';
+  import { inboundAdd, AddTable, OutboundAdd, inboundAddTable } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { useRouter, useRoute } from 'vue-router';
@@ -64,7 +64,10 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { ref, onMounted } from 'vue';
   import { Input, Select, InputNumber } from 'ant-design-vue';
-  // import { postWarehouseListApi } from '/@/api/backup-management/backup-details';
+  import {
+    postWarehouseListApi,
+    postWarehouseOutListApi,
+  } from '/@/api/backup-management/backup-details';
   import { useModal } from '/@/components/Modal';
   import AssociatedModal from '/@/views/device-management/record/action-page/AssociatedModal.vue';
   import { getPeopleSelect } from '/@/api/sys/systemSetting/systemType';
@@ -74,7 +77,6 @@
     posOUTAddApi,
     getSpareListApi,
   } from '/@/api/backup-management/inbound-and-outbound';
-  import { postWarehouseOutListApi } from '/@/api/backup-management/backup-details';
   const { closeCurrent } = useTabs();
   const { createMessage } = useMessage();
 
@@ -101,13 +103,20 @@
   }
 
   const [registerModal, { openModal, closeModal }] = useModal();
-
+  const targetKeys = ref<any>([]);
   function getModal() {
+    const data = getDataSource();
+    const ids = [] as any; //deviceId
+    data.map((v) => {
+      ids.push(v.id);
+    });
+    targetKeys.value = ids;
+    openModal(true, targetKeys.value);
     openModal(true);
   }
   const [registerTable, { getDataSource, setTableData }] = useTable({
     dataSource: dataSource,
-    columns: AddTable,
+    columns: state === 'OutboundAdd' ? AddTable : inboundAddTable,
     rowKey: 'id',
     actionColumn: {
       title: '操作',
@@ -116,7 +125,7 @@
     },
     pagination: false,
   });
-  const [register, { getFieldsValue }] = useForm({
+  const [register, { validateFields }] = useForm({
     labelCol: {
       span: 5,
     },
@@ -151,7 +160,7 @@
   }
 
   async function sumitForm() {
-    const data = getFieldsValue();
+    const data = await validateFields();
     const table = getDataSource();
     console.log('table: ', table);
     const tableList = table.map((v) => {
@@ -216,15 +225,20 @@
     });
   }
   function handleOk(ids, data) {
-    console.log('ids: ', ids, data);
-    // dataSource.value = data;
-    const arr = data.map((item) => ({ ...item })); //deepCopy
-    dataSource.value.push(...arr);
+    console.log('ids: ', ids);
+    dataSource.value = data;
+    if (state === 'OutboundAdd') {
+      funSelect(postWarehouseListApi); //入库
+    } else {
+      funSelect(postWarehouseOutListApi); //出库
+    }
 
+    closeModal();
+  }
+  function funSelect(api) {
     const table = getDataSource();
     table.map((item) => {
-      postWarehouseOutListApi({ id: item.id }).then((res) => {
-        console.log('res1', res);
+      api({ id: item.id }).then((res) => {
         item['options'] = res.records.map((v) => {
           return {
             value: v.warehouseId,
@@ -233,11 +247,8 @@
         });
       });
     });
-    console.log('table1', table);
     setTableData(table);
-    closeModal();
   }
-
   function handleDel(index) {
     const data = getDataSource();
     data.splice(index, 1);

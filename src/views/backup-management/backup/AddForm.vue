@@ -156,6 +156,7 @@
   onMounted(() => {
     funSelect();
     funDetail();
+    // setFieldsValue({ spareName: '1', spareClassify: '1', measureUnit: '2', storageLow: 1 });
   });
   const targetKeys = ref<any>([]);
   const dataSourceList = ref<any>([]);
@@ -202,7 +203,7 @@
   }
 
   //表单
-  const [register, { getFieldsValue, setFieldsValue }] = useForm({
+  const [register, { setFieldsValue, validateFields }] = useForm({
     labelCol: {
       span: 5,
     },
@@ -259,9 +260,7 @@
   //表格操作
   function clickFirstAdd() {
     const data = getDataSource();
-    data.push({
-      spareNum: '',
-    });
+    data.push({});
     setTableData(data);
   }
   function handleDelEdit(index) {
@@ -299,10 +298,8 @@
   //关闭弹框获取到选择的值
   const DeviceVal = ref([]);
   function handleOk(val, data) {
-    console.log('val, data: ', val, data);
     DeviceVal.value = val;
     dataSourceDevice.value = data;
-    console.log(' dataSourceDevice.value: ', dataSourceDevice.value);
     closeModal();
   }
 
@@ -310,12 +307,37 @@
   function resetFunc() {
     getRouter();
   }
+
   //新增
-  function submitFunc() {
-    const data = getFieldsValue();
-    const warehouseSpareAddVOList = getDataSource();
+  async function submitFunc() {
+    const data = await validateFields();
+    const list = getDataSource();
+    const spareAddVOList = getDataSource();
+    let index1 = [] as any;
+    list.map((v, index) => {
+      // if (v.spareNum && !v.warehouseId) {
+      //   createMessage.error('请选择仓库');
+      // }
+      // if (v.warehouseId && !v.spareNum) {
+      //   createMessage.error('请输入数量');
+      // }
+      if (!v.spareNum && !v.warehouseId) {
+        index1.push(index);
+      }
+    });
+
+    const warehouseSpareAddVOList = spareAddVOList.map((v) => {
+      return {
+        spareNum: v.spareNum,
+        warehouseId: v.warehouseId,
+      };
+    });
+    index1.map((v) => {
+      warehouseSpareAddVOList.splice(v, 1);
+    });
+
+    data['warehouseSpareAddVOList'] = warehouseSpareAddVOList;
     data['deviceIdList'] = DeviceVal.value; //关联设备
-    data['warehouseSpareAddVOList'] = warehouseSpareAddVOList; //物品清单
     if (id) {
       data['id'] = id;
       data['version'] = versionVal.value;
@@ -325,10 +347,12 @@
     }
   }
   function funAdd(api, data, test) {
-    api(data).then(() => {
-      createMessage.success(test);
-      getRouter();
-    });
+    api(data)
+      .then(() => {
+        createMessage.success(test);
+        getRouter();
+      })
+      .finally(() => {});
   }
   async function getRouter() {
     await closeCurrent();

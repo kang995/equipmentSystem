@@ -255,6 +255,14 @@ export const informationDescItem: DescItem[] = [
   {
     label: '更换周期',
     field: 'replacementPeriod',
+    render: (text, data) => {
+      console.log('data: ', data, data.replacementPeriodUnitText);
+      if (text) {
+        return text + data.replacementPeriodUnitText;
+      } else {
+        return '';
+      }
+    },
   },
 ];
 //备件台账详情-库存
@@ -716,7 +724,7 @@ export const OutboundAdd: FormSchema[] = [
   },
 ];
 //新增物品清单表格 AddTable
-export const AddTable: BasicColumn[] = [
+export const inboundAddTable: BasicColumn[] = [
   {
     title: '备件名称',
     dataIndex: 'spareName',
@@ -749,7 +757,40 @@ export const AddTable: BasicColumn[] = [
     slots: { customRender: 'inputSlot' },
   },
 ];
-
+//入库
+export const AddTable: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'spareName',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'spareClassifyText',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'specification',
+  },
+  {
+    title: '单位',
+    dataIndex: 'measureUnitText',
+  },
+  {
+    title: '入库仓库',
+    dataIndex: 'warehouseId',
+    slots: { customRender: 'warehouseIdSlot' },
+  },
+  {
+    title: '库存',
+    dataIndex: 'stock',
+    slots: { customRender: 'stockSlot' },
+  },
+  {
+    title: '使用数量',
+    dataIndex: 'numberInput',
+    slots: { customRender: 'inputSlot' },
+  },
+];
 //出库详情
 export const inboundDescItem: DescItem[] = [
   {
@@ -805,7 +846,7 @@ export const OutboundDescItem: DescItem[] = [
     label: '入库单号',
   },
   {
-    field: 'riskLevelName',
+    field: 'createTime',
     label: '创建时间',
   },
   {
@@ -823,16 +864,13 @@ export const OutboundDescItem: DescItem[] = [
     field: 'peopleName',
     label: '经手人',
   },
+
   {
-    field: 'hazardTypeText',
-    label: '入手仓库',
-  },
-  {
-    field: 'hazardTypeText',
+    field: 'inOutTime',
     label: '入库时间',
   },
   {
-    field: 'hazardTypeText',
+    field: 'remark',
     label: '备注',
   },
   {
