@@ -68,7 +68,7 @@
   const [register] = useDescription({
     data,
     schema: MaintainDetail(status, mode),
-    bordered: false,
+    bordered: true,
     column: 2,
     size: 'default',
   });
