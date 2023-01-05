@@ -7,13 +7,22 @@
   import { testingAdd } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { useTabs } from '/@/hooks/web/useTabs';
-
+  import { onMounted } from 'vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { postSpecialRecordAddApi } from '/@/api/device-management/special-equipment';
+  const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
+  const route = useRoute();
+  const name = route.query.name;
+  const id = route.query.id;
 
-  const [register, {}] = useForm({
+  onMounted(() => {
+    setFieldsValue({ deviceName: name, position: '地理位置' });
+  });
+  const [register, { setFieldsValue, getFieldsValue }] = useForm({
     labelCol: {
       span: 8,
     },
@@ -38,13 +47,21 @@
     submitFunc: sumitForm,
   });
   async function resetSubmitFunc() {
-    await closeCurrent();
-    router.push({
-      name: 'specialEquipment',
-    });
+    getRouter();
   }
 
   async function sumitForm() {
+    const data = getFieldsValue();
+    data['deviceId'] = id;
+    funAdd(postSpecialRecordAddApi, data, '新增成功');
+  }
+  function funAdd(api, data, test) {
+    api(data).then(() => {
+      createMessage.success(test);
+      getRouter();
+    });
+  }
+  async function getRouter() {
     await closeCurrent();
     router.push({
       name: 'specialEquipment',

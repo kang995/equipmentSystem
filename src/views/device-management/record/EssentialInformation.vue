@@ -24,11 +24,16 @@
     equipmentDescItem,
   } from './data';
   import { useRoute } from 'vue-router';
+  import { postSpecialDetailApi } from '/@/api/device-management/special-equipment';
   const route = useRoute();
   const state = route.query.state as string;
+  const id = route.query.id as string;
+  const dataSource = route.query.dataSource as string;
+
   console.log('id: ', state);
   onMounted(() => {
     displayDate();
+    funDetail();
   });
   // 获取dom的click事件
   async function displayDate() {
@@ -67,5 +72,10 @@
     labelStyle: { width: '180px' },
     column: 1,
   });
-  //
+  function funDetail() {
+    id &&
+      postSpecialDetailApi({ id, dataSource }).then((res) => {
+        console.log('res: ', res);
+      });
+  } //
 </script>

@@ -39,7 +39,10 @@
     component?: any;
     ifShow: boolean;
   }
-  //机械动：1 机械静：2 特种静：3 特种动：4
+  //机械动：1 MechanicsDetailsMove
+  //机械静：2  MechanicsDetails
+  //特种静：3 specialEquipmentDetails
+  //特种动：4 specialEquipmentDetailsMove
   const activeList: TabItem[] = [
     {
       key: '1',

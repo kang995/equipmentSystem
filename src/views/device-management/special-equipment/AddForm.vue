@@ -35,16 +35,23 @@
   import { schemasAdd } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { useTabs } from '/@/hooks/web/useTabs';
   import { onMounted, ref } from 'vue';
-  // import {
-  //   postSpecialAddApi,
-  //   postSpecialEditApi,
-  // } from '/@/api/device-management/special-equipment';
+  import {
+    postSpecialAddApi,
+    postSpecialEditApi,
+    postSpecialDetailApi,
+  } from '/@/api/device-management/special-equipment';
   import { getPeopleSelect } from '/@/api/sys/systemSetting/systemType';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
+  const route = useRoute();
+  const id = route.query?.id as string;
+  const dataSource = route.query?.dataSource as string;
+  const versionVal = ref();
   // 预览位置
   const [registerModal, { openModal }] = useModal();
   //位置信息 经纬度
@@ -75,14 +82,17 @@
   }
   onMounted(() => {
     peopleSelect();
-    // if (id) {
-    //   postWarehouseDetailApi({ id: id }).then((res) => {
-    //     setFieldsValue(res);
-    //   });
-    // }
+    funDetail();
   });
-  //showSubmitButton showResetButton
-  const [register, { setFieldsValue }] = useForm({
+  function funDetail() {
+    id &&
+      postSpecialDetailApi({ id: id, dataSource: dataSource }).then((res) => {
+        setFieldsValue(res);
+        versionVal.value = res.version;
+      });
+  }
+
+  const [register, { setFieldsValue, getFieldsValue }] = useForm({
     labelCol: {
       span: 8,
     },
@@ -106,22 +116,37 @@
     resetFunc: resetSubmitFunc,
     submitFunc: sumitForm,
   });
+
   async function resetSubmitFunc() {
-    await closeCurrent();
-    router.push({
-      name: 'specialEquipment',
-    });
+    getRouter();
   }
 
-  async function sumitForm() {
-    await closeCurrent();
-    router.push({
-      name: 'specialEquipment',
-    });
-  }
   function handleChangeCheck(val) {
     const { phone } = PeopleSelect.value.find((item) => item.id == val);
     setFieldsValue({ phone: phone });
+  }
+  async function sumitForm() {
+    const data = getFieldsValue();
+    if (id) {
+      data['id'] = id;
+      data['version'] = versionVal.value;
+      data['dataSource'] = dataSource;
+      funAdd(postSpecialEditApi, data, '编辑成功');
+    } else {
+      funAdd(postSpecialAddApi, data, '新增成功');
+    }
+  }
+  function funAdd(api, data, test) {
+    api(data).then(() => {
+      createMessage.success(test);
+      getRouter();
+    });
+  }
+  async function getRouter() {
+    await closeCurrent();
+    router.push({
+      name: 'specialEquipment',
+    });
   }
   // postSpecialAddApi
 </script>

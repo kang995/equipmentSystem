@@ -19,10 +19,12 @@
   import { useRoute } from 'vue-router';
   const route = useRoute();
   const state = route.query.state;
-  // console.log('state',state)
 
-  const [registerModal] = useModalInner(async () => {});
-  const [register, { getSelectRowKeys, getSelectRows }] = useTable({
+  const [registerModal] = useModalInner(async (data) => {
+    setSelectedRowKeys(data);
+  });
+
+  const [register, { getSelectRowKeys, getSelectRows, setSelectedRowKeys }] = useTable({
     api: state === 'InboundAdd' ? postBackupOutListApi : postBackupListApi,
     columns: tableColumns,
     rowKey: 'id',

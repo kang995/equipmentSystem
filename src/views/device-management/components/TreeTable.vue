@@ -150,22 +150,35 @@
     selectedKeys.value = [];
     reload();
   }
-  function handleDetails() {
+  function handleDetails(data) {
     let name;
-    let id;
     let state;
+    const natureName = data.deviceNatureName; //设备类型
+    const dataSource = data.dataSource; //数据来源(1:企业综合；2：本系统)
+    const id = data.id;
     if (props.ifButton) {
-      name = 'specialEquipmentDetails'; //特种设备详情静
-      state = '3';
+      if (natureName === '静设备') {
+        name = 'specialEquipmentDetails'; //特种设备详情静
+        state = '3';
+      } else {
+        name = 'specialEquipmentDetailsMove'; //特种设备详情静
+        state = '4';
+      }
     } else {
-      name = 'MechanicsDetails'; //机械设备详情静
-      state = '2';
+      if (natureName === '静设备') {
+        name = 'MechanicsDetails'; //机械设备详情静
+        state = '2';
+      } else {
+        name = 'MechanicsDetailsMove'; //机械设备详情动
+        state = '1';
+      }
     }
     router.push({
       name: name,
       query: {
         id,
         state,
+        dataSource,
       },
     });
   }
@@ -174,14 +187,26 @@
       name: 'specialEquipmentAdd',
     });
   }
-  function handleEdit() {
+  function handleEdit(data) {
+    const id = data.id;
+    const dataSource = data.dataSource;
     router.push({
       name: 'specialEquipmentEdit',
+      query: {
+        id,
+        dataSource,
+      },
     });
   }
-  function handleTestingAdd() {
+  function handleTestingAdd(data) {
+    const name = data.name;
+    const id = data.id;
     router.push({
       name: 'TestingAdd',
+      query: {
+        name,
+        id,
+      },
     });
   }
   function handleModal() {

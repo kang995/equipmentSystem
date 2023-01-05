@@ -1,6 +1,5 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import ClickButton from './action-page/ClickButton.vue';
 
 //装置设置
 export const installationColumns: BasicColumn[] = [
@@ -140,14 +139,6 @@ export const mechanicsDescItem: DescItem[] = [
   {
     field: 'aaaa',
     label: '设备性质',
-    render: (data) => {
-      return (
-        <div>
-          {/* /静设备时跳转到机械设备详情动 路由name: MechanicsDetailsMove  state='1' */}
-          <ClickButton name={'MechanicsDetailsMove'} state={'2'} />
-        </div>
-      );
-    },
   },
   {
     field: 'hazardTypeText',
@@ -236,14 +227,6 @@ export const mechanicsDescItemMove: DescItem[] = [
   {
     field: 'aaaa',
     label: '设备性质',
-    render: (data) => {
-      return (
-        <div>
-          {/* /动设备时跳转到机械设备详情静 路由name: MechanicsDetails  state='1' */}
-          <ClickButton name={'MechanicsDetails'} state={'1'} />
-        </div>
-      );
-    },
   },
   {
     field: 'hazardTypeText',
@@ -340,14 +323,6 @@ export const equipmentDescItem: DescItem[] = [
   {
     field: 'aaaa',
     label: '设备性质',
-    render: (data) => {
-      return (
-        //静设备时跳转到特种设备详情动  路由name: specialEquipmentDetailsMove  state='4'
-        <div>
-          <ClickButton name={'specialEquipmentDetailsMove'} state={'4'} />
-        </div>
-      );
-    },
   },
   {
     field: 'hazardTypeText',
@@ -469,14 +444,6 @@ export const equipmentDescItemMove: DescItem[] = [
   {
     field: 'aaaa',
     label: '设备性质',
-    render: (data) => {
-      return (
-        //动设备时跳转到特种设备详情静  路由name: specialEquipmentDetails  state='4'
-        <div>
-          <ClickButton name={'specialEquipmentDetails'} state={'3'} />
-        </div>
-      );
-    },
   },
   {
     field: 'hazardTypeText',

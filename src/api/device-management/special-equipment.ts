@@ -9,8 +9,16 @@ enum Api {
   ADD = '/special/save', //新增
   SELECT_STATE = '/special/deviceName/select', //设备名称-下拉查询
   SELECT_UNIT_FACILITY = '/unitFacility/unitFacility/select', //装置设施-下拉查询
-}
 
+  //检测
+  ADD_SPECIAL = '/specialRecord/save', //新增
+}
+//新增
+export const postSpecialRecordAddApi = (params) =>
+  defHttp.post({
+    url: Api.ADD_SPECIAL,
+    params,
+  });
 //分页查询特种设备列表
 export const postSpecialListApi = (params) =>
   defHttp.post({

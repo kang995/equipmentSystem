@@ -152,7 +152,7 @@ export const installationFormSchema: FormSchema[] = [
       valueField: 'id', //设置value字段
       placeholder: '请选择耐火等级',
     },
-    labelWidth: 92,
+    labelWidth: 65,
   },
   {
     field: 'bindState',
@@ -360,8 +360,7 @@ export const schemasAdd: FormSchema[] = [
       placeholder: '请输入设备编码',
     },
     ifShow: ({ values }) => {
-      console.log('data: ', values);
-      return true;
+      return values.facilityQuality === '0';
     },
   },
   {
@@ -379,6 +378,9 @@ export const schemasAdd: FormSchema[] = [
       valueField: 'itemValue', //设置value字段
       placeholder: '选择使用状态',
     },
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
+    },
   },
   {
     field: 'facilityRegistratCode',
@@ -386,6 +388,9 @@ export const schemasAdd: FormSchema[] = [
     label: '设备注册代码',
     componentProps: {
       placeholder: '请输入设备注册代码',
+    },
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
     },
   },
   {
@@ -395,6 +400,9 @@ export const schemasAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入使用证编号',
     },
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
+    },
   },
   {
     field: 'manufactureEnterprise',
@@ -402,6 +410,9 @@ export const schemasAdd: FormSchema[] = [
     label: '制造单位',
     componentProps: {
       placeholder: '请输入制造单位',
+    },
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
     },
   },
   {
@@ -411,12 +422,18 @@ export const schemasAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入检验责任所在单位',
     },
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
+    },
   },
   {
     field: 'managementPeopleId',
     component: 'ApiSelect',
     label: '管理人员',
     slot: 'personSlot',
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
+    },
   },
   {
     //自动代入
@@ -426,6 +443,9 @@ export const schemasAdd: FormSchema[] = [
     componentProps: {
       placeholder: '请输入管理人员联系方式',
       disabled: true,
+    },
+    ifShow: ({ values }) => {
+      return values.facilityQuality === '0';
     },
   },
   {
@@ -541,11 +561,10 @@ export const schemasAdd: FormSchema[] = [
     field: 'affixList',
     component: 'Upload',
     label: '上传附件',
-    required: true,
     componentProps: {
       type: '',
-      maxNumber: 5,
-      maxSize: 5,
+      maxNumber: 10,
+      maxSize: 10,
       accept: '.rar,.zip,.docx,.pdf,.jpg',
       helpText: '请上传附件',
     },
@@ -554,7 +573,7 @@ export const schemasAdd: FormSchema[] = [
 //新增检测记录
 export const testingAdd: FormSchema[] = [
   {
-    field: 'dutyTypeId',
+    field: 'deviceName',
     component: 'Input',
     label: '设备名称',
     required: true,
@@ -564,7 +583,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'dutyPersonId',
+    field: 'position',
     component: 'Input',
     label: '地理位置',
     required: true,
@@ -574,7 +593,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'problem',
+    field: 'detectionOrgan',
     component: 'Input',
     label: '检测机构',
     required: true,
@@ -583,7 +602,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'problem',
+    field: 'detectionContent',
     component: 'InputTextArea',
     label: '检测内容',
     componentProps: {
@@ -592,7 +611,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'status',
+    field: 'detectionDate',
     component: 'DatePicker',
     label: '检测时间',
     required: true,
@@ -601,7 +620,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkDate',
+    field: 'certificateCode',
     component: 'Input',
     label: '证书编号',
     componentProps: {
@@ -609,7 +628,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'checkDate',
+    field: 'detectionResult',
     component: 'Input',
     label: '检测结论',
     required: true,
@@ -618,7 +637,7 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'status',
+    field: 'detectionNextDate',
     component: 'DatePicker',
     label: '下次检测日期',
     required: true,
@@ -627,19 +646,19 @@ export const testingAdd: FormSchema[] = [
     },
   },
   {
-    field: 'attachment',
+    field: 'safeAffixList',
     component: 'Upload',
     label: '安全附件',
     componentProps: {
       type: '',
       maxNumber: 5,
-      maxSize: 5,
-      accept: '.jpg,.png,.jpeg',
+      maxSize: 10,
+      accept: '.rar,.zip,.docx,.pdf,.jpg',
       helpText: '请上传附件',
     },
   },
   {
-    field: 'problem',
+    field: 'remark',
     component: 'InputTextArea',
     label: '备注',
     componentProps: {
