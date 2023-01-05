@@ -252,6 +252,7 @@
       width: 150,
       title: '操作',
       dataIndex: 'action',
+      ifShow: Disabled.value ? false : true,
       slots: { customRender: 'action' },
     },
   });

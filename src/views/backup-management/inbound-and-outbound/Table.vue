@@ -18,8 +18,11 @@
           },
           {
             label: '删除',
-            onClick: handleDel.bind(null, record),
             delBtn: true,
+            popConfirm: {
+              title: '是否确认删除',
+              confirm: handleDel.bind(null, record),
+            },
           },
         ]"
     /></template>

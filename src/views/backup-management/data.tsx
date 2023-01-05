@@ -840,7 +840,7 @@ export const OutboundDescItem: DescItem[] = [
     label: '物品清单',
     render: (data) => {
       if (data) {
-        return <DescItemTable dataSource={data} columns={inboundTableColumns} ifAction={true} />;
+        return <DescItemTable dataSource={data} columns={inboundTableColumns1} ifAction={true} />;
       }
     },
   },
@@ -1090,7 +1090,6 @@ export const inventoryDescItem: DescItem[] = [
     label: '物品清单',
     render: (val, data) => {
       const status = data.stockStatus;
-      console.log('status: ', status);
       if (val) {
         if (status === 2) {
           return <DescItemTable dataSource={val} columns={inventoryTableColumns} />;
@@ -1122,10 +1121,42 @@ const inboundTableColumns: BasicColumn[] = [
   },
   {
     title: '单位',
-    dataIndex: 'measureUnit',
+    dataIndex: 'measureUnitText',
   },
   {
-    title: '使用数量',
+    title: '出库仓库',
+    dataIndex: 'warehouseName',
+  },
+  {
+    title: '数量',
+    dataIndex: 'number',
+  },
+];
+//入库详情物品清单
+
+const inboundTableColumns1: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'spareName',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'spareClassifyText',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'specification',
+  },
+  {
+    title: '单位',
+    dataIndex: 'measureUnitText',
+  },
+  {
+    title: '入库仓库',
+    dataIndex: 'warehouseName',
+  },
+  {
+    title: '数量',
     dataIndex: 'number',
   },
 ];
