@@ -2,6 +2,95 @@
   <PageWrapper>
     <Card>
       <BasicForm @register="registerFrom">
+        <!-- 任务周期 -->
+        <template #taskSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入天数"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['taskCycleUnit']"
+                style="min-width: 100px"
+                :options="optionsCycle"
+              />
+            </template>
+          </Input>
+        </template>
+        <!-- 任务执行时长 -->
+        <template #ExecuteSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入任务执行时长"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['taskExecuteUnit']"
+                style="min-width: 100px"
+                :options="optionsExecute"
+              />
+            </template>
+          </Input>
+        </template>
+        <!-- 工单生成及下发 -->
+        <!-- <template #RadioGroupSlot="{ model, field }">
+          <RadioGroup v-model:value="model[field]" @change="handleRadio">
+            <template v-for="item in getOptions" :key="`${item.value}`">
+              <Radio :value="item.value" >
+                {{ item.label }}
+              </Radio>
+            </template>
+            <template #addonAfter>
+              <InputNumber
+                :min="0"
+                placeholder="请输入"
+                v-model:value="model['workOrderNum']"
+              />
+            </template>
+          </RadioGroup>
+        </template> -->
+        <!-- 临期提醒 -->
+        <template #RemindSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入临期提醒"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['adventRemindUnit']"
+                style="min-width: 100px"
+                :options="optionsRemind"
+              />
+            </template>
+          </Input>
+        </template>
+        <!-- 超时提醒间隔 -->
+        <template #timeoutSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入超时提醒间隔"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['timeoutRemindUnit']"
+                style="min-width: 100px"
+                :options="optionsTimeout"
+              />
+            </template>
+          </Input>
+        </template>
         <template #tableSlot>
           <AFormItemRest>
             <BasicTable @register="registerTable">
@@ -34,22 +123,14 @@
           </AFormItemRest>
         </template>
       </BasicForm>
-      <!-- <div class="mt-[20px] flex justify-center items-center">
-        <a-button class="mr-4">取消</a-button>
-        <a-button type="primary">确定</a-button>
-      </div> -->
     </Card>
-    <selectDevice
-      @register="registerDeviceModal"
-      @handleOk="handleEcho"
-      :targetval="targetKeys"
-      :dataSource="dataSourceList"
-    />
+    <selectDevice @register="registerDeviceModal" @handleOk="handleEcho" />
   </PageWrapper>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import { Select, Input } from 'ant-design-vue';
   import { useRouter, useRoute } from 'vue-router';
   import { Card, Form } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
@@ -68,7 +149,9 @@
     getDeviceSelectApi,
     getPeopleSelectApi,
     getStationPeopleSelectApi,
+    getDictionarySelectTypeApi,
   } from '/@/api/device-maintenance/index';
+  // const RadioGroup =  Radio.Group;
   const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
@@ -77,6 +160,11 @@
   const approvalStatus = route.query?.approvalStatus as string;
   const id = route.query?.id as string;
   const versionVal = ref();
+  const optionsCycle = ref([]);
+  const optionsExecute = ref([]);
+  const optionsRemind = ref([]);
+  const optionsTimeout = ref([]);
+  // const getOptions = ref<any>([]);
   const [registerDeviceModal, { openModal: openDeviceModal }] = useModal();
   const [registerFrom, { validate, getFieldsValue, setFieldsValue, updateSchema }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
@@ -86,10 +174,10 @@
     // },
     // labelWidth: 120,
     labelCol: {
-      span: 5,
+      span: 6,
     },
     wrapperCol: {
-      span: 16,
+      span: 12,
     },
     actionColOptions: {
       offset: 5,
@@ -128,6 +216,54 @@
       slots: { customRender: 'action' },
     },
   });
+  onMounted(() => {
+    funUnit();
+  });
+  //单位
+  function funUnit() {
+    getDictionarySelectTypeApi({ type: 'TASK_CYCLE_UNIT' }).then((res) => {
+      optionsCycle.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    getDictionarySelectTypeApi({ type: 'TASK_EXECUTE_UNIT' }).then((res) => {
+      optionsExecute.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    getDictionarySelectTypeApi({ type: 'ADVENT_REMIND_UNIT' }).then((res) => {
+      optionsRemind.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    getDictionarySelectTypeApi({ type: 'TIMEOUT_REMIND_UNIT' }).then((res) => {
+      optionsTimeout.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    //工单生成及下发
+    // getDictionarySelectTypeApi({ type: 'WORK_ORDER' }).then((res) => {
+    //   getOptions.value = res.map((v) => {
+    //     return {
+    //       value: v.itemValue,
+    //       label: v.itemName,
+    //     };
+    //   });
+    // });
+  }
+
   //保养设备回显
   const DeviceVal = ref([]);
   function handleEcho(val, data) {
@@ -140,6 +276,10 @@
   //详情
   id &&
     getPlanDetailApi({ id }).then((res) => {
+      //按条数生成并下发
+      if (res['workOrder'] === '3') {
+        updateSchema({ field: 'workOrderNum', ifShow: true });
+      }
       //岗位
       res.dealStationId &&
         getStationPeopleSelectApi([res.dealStationId]).then((res2) => {
@@ -155,6 +295,7 @@
       res.Time = [res['effectStartDate'], res['effectEndDate']]; //计划生效时间
       setFieldsValue(res);
       getDeviceSelectApi(res['deviceIdList']).then((res1) => {
+        console.log('deviceIdList', res1);
         dataSourceList.value = res1;
       });
       versionVal.value = res.version;

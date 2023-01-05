@@ -185,8 +185,8 @@ export function getFormSchema(): FormSchema[] {
       component: 'RangePicker',
       label: '起止时间',
       componentProps: {
-        // showTime: true,
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
       },
     },
     {
@@ -285,8 +285,8 @@ export function getFormSchema(): FormSchema[] {
       label: '完成时间',
       labelWidth: 64,
       componentProps: {
-        // showTime: true,
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
       },
     },
   ];

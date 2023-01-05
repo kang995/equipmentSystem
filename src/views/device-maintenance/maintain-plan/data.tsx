@@ -143,8 +143,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '计划生效时间',
       required: true,
       componentProps: {
-        // showTime: true,
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
         getPopupContainer: () => document.body,
       },
     },
@@ -154,8 +154,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '任务起始时间',
       required: true,
       componentProps: {
-        // showTime: true,
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
         getPopupContainer: () => document.body,
       },
     },
@@ -164,120 +164,144 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'Input',
       label: '任务周期',
       required: true,
-      // slot:'taskSlot',
-      componentProps: {
-        placeholder: '请输入天数',
-      },
-      colProps: {
-        span: 17,
-      },
-      itemProps: {
-        labelCol: {
-          span: 7,
-        },
-        wrapperCol: {
-          span: 18,
-        },
-      },
+      slot: 'taskSlot',
+      // componentProps: {
+      //   placeholder: '请输入天数',
+      // },
+      // colProps: {
+      //   span: 17,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 7,
+      //   },
+      //   wrapperCol: {
+      //     span: 18,
+      //   },
+      // },
     },
     {
       field: 'taskCycleUnit',
-      component: 'ApiSelect',
-      label: ' ',
-      componentProps: {
-        placeholder: '请选择单位',
-        getPopupContainer: () => document.body,
-        api: getDictionarySelectTypeApi,
-        params: {
-          type: 'TASK_CYCLE_UNIT',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName',
-        valueField: 'itemValue',
-      },
-      colProps: {
-        span: 4,
-      },
-      itemProps: {
-        labelCol: {
-          span: 0,
-        },
-        wrapperCol: {
-          span: 24,
-        },
-      },
+      label: '',
+      component: 'Input',
+      defaultValue: '2',
+      show: false,
+      // componentProps: {
+      //   placeholder: '请选择单位',
+      //   getPopupContainer: () => document.body,
+      //   api: getDictionarySelectTypeApi,
+      //   params: {
+      //     type: 'TASK_CYCLE_UNIT',
+      //   },
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'itemName',
+      //   valueField: 'itemValue',
+      // },
+      // colProps: {
+      //   span: 4,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 0,
+      //   },
+      //   wrapperCol: {
+      //     span: 24,
+      //   },
+      // },
     },
     {
       field: 'taskExecute',
       component: 'Input',
       label: '任务执行时长',
       required: true,
-      componentProps: {
-        placeholder: '请输入任务执行时长',
-      },
-      colProps: {
-        span: 17,
-      },
-      itemProps: {
-        labelCol: {
-          span: 7,
-        },
-        wrapperCol: {
-          span: 18,
-        },
-      },
+      slot: 'ExecuteSlot',
+      // componentProps: {
+      //   placeholder: '请输入任务执行时长',
+      // },
+      // colProps: {
+      //   span: 17,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 7,
+      //   },
+      //   wrapperCol: {
+      //     span: 18,
+      //   },
+      // },
     },
     {
       field: 'taskExecuteUnit',
-      component: 'ApiSelect',
-      label: ' ',
-      componentProps: {
-        placeholder: '请选择单位',
-        getPopupContainer: () => document.body,
-        api: getDictionarySelectTypeApi,
-        params: {
-          type: 'TASK_EXECUTE_UNIT',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName',
-        valueField: 'itemValue',
-      },
-      colProps: {
-        span: 4,
-      },
-      itemProps: {
-        labelCol: {
-          span: 0,
-        },
-        wrapperCol: {
-          span: 24,
-        },
-      },
+      component: 'Input',
+      label: '',
+      defaultValue: '2',
+      show: false,
+      // componentProps: {
+      //   placeholder: '请选择单位',
+      //   getPopupContainer: () => document.body,
+      //   api: getDictionarySelectTypeApi,
+      //   params: {
+      //     type: 'TASK_EXECUTE_UNIT',
+      //   },
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'itemName',
+      //   valueField: 'itemValue',
+      // },
+      // colProps: {
+      //   span: 4,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 0,
+      //   },
+      //   wrapperCol: {
+      //     span: 24,
+      //   },
+      // },
     },
     {
       field: 'workOrder',
       component: 'ApiRadioGroup',
       label: '工单生成及下发',
       required: true,
-      colProps: {
-        span: 17,
+      defaultValue: '1',
+      // slot:'RadioGroupSlot',
+      componentProps: ({ formActionType }) => {
+        const { updateSchema } = formActionType;
+        return {
+          api: getDictionarySelectTypeApi, //后台路径
+          params: {
+            type: 'WORK_ORDER',
+          },
+          resultField: 'data',
+          labelField: 'itemName',
+          valueField: 'itemValue',
+          onChange: (e) => {
+            if (e === '3') {
+              updateSchema({
+                field: 'workOrderNum',
+                component: 'InputNumber',
+                ifShow: true,
+              });
+            } else {
+              updateSchema({
+                field: 'workOrderNum',
+                component: 'InputNumber',
+                ifShow: false,
+              });
+            }
+          },
+        };
       },
-      componentProps: {
-        api: getDictionarySelectTypeApi, //后台路径
-        params: {
-          type: 'WORK_ORDER',
-        },
-        resultField: 'data',
-        labelField: 'itemName',
-        valueField: 'itemValue',
-        onChange: (e) => {},
+      colProps: {
+        span: 16,
       },
       itemProps: {
         labelCol: {
-          span: 7,
+          span: 9,
         },
         wrapperCol: {
-          span: 20,
+          span: 15,
         },
       },
     },
@@ -285,11 +309,15 @@ export function getCommonFormSchema(): FormSchema[] {
       field: 'workOrderNum',
       component: 'InputNumber',
       label: '',
-      colProps: {
-        span: 6,
-      },
+      ifShow: false,
       componentProps: {
         addonAfter: '条',
+      },
+      colProps: {
+        span: 2,
+        style: {
+          marginLeft: '-30px',
+        },
       },
     },
     {
@@ -297,94 +325,100 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'Input',
       label: '临期提醒',
       required: true,
-      componentProps: {
-        placeholder: '请输入临期提醒',
-      },
-      colProps: {
-        span: 17,
-      },
-      itemProps: {
-        labelCol: {
-          span: 7,
-        },
-        wrapperCol: {
-          span: 18,
-        },
-      },
+      slot: 'RemindSlot',
+      // componentProps: {
+      //   placeholder: '请输入临期提醒',
+      // },
+      // colProps: {
+      //   span: 17,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 7,
+      //   },
+      //   wrapperCol: {
+      //     span: 18,
+      //   },
+      // },
     },
     {
       field: 'adventRemindUnit',
-      component: 'ApiSelect',
-      label: ' ',
-      componentProps: {
-        placeholder: '请选择单位',
-        getPopupContainer: () => document.body,
-        api: getDictionarySelectTypeApi,
-        params: {
-          type: 'ADVENT_REMIND_UNIT',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName',
-        valueField: 'itemValue',
-      },
-      colProps: {
-        span: 4,
-      },
-      itemProps: {
-        labelCol: {
-          span: 0,
-        },
-        wrapperCol: {
-          span: 24,
-        },
-      },
+      component: 'Input',
+      label: '',
+      defaultValue: '1',
+      show: false,
+      // componentProps: {
+      //   placeholder: '请选择单位',
+      //   getPopupContainer: () => document.body,
+      //   api: getDictionarySelectTypeApi,
+      //   params: {
+      //     type: 'ADVENT_REMIND_UNIT',
+      //   },
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'itemName',
+      //   valueField: 'itemValue',
+      // },
+      // colProps: {
+      //   span: 4,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 0,
+      //   },
+      //   wrapperCol: {
+      //     span: 24,
+      //   },
+      // },
     },
     {
       field: 'timeoutRemind',
       component: 'Input',
       label: '超时提醒间隔',
       required: true,
-      componentProps: {
-        placeholder: '请输入超时提醒间隔',
-      },
-      colProps: {
-        span: 17,
-      },
-      itemProps: {
-        labelCol: {
-          span: 7,
-        },
-        wrapperCol: {
-          span: 18,
-        },
-      },
+      slot: 'timeoutSlot',
+      // componentProps: {
+      //   placeholder: '请输入超时提醒间隔',
+      // },
+      // colProps: {
+      //   span: 17,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 7,
+      //   },
+      //   wrapperCol: {
+      //     span: 18,
+      //   },
+      // },
     },
     {
       field: 'timeoutRemindUnit',
-      component: 'ApiSelect',
-      label: ' ',
-      componentProps: {
-        placeholder: '请选择单位',
-        getPopupContainer: () => document.body,
-        api: getDictionarySelectTypeApi,
-        params: {
-          type: 'TIMEOUT_REMIND_UNIT',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName',
-        valueField: 'itemValue',
-      },
-      colProps: {
-        span: 4,
-      },
-      itemProps: {
-        labelCol: {
-          span: 0,
-        },
-        wrapperCol: {
-          span: 24,
-        },
-      },
+      component: 'Input',
+      label: '',
+      defaultValue: '1',
+      show: false,
+      // componentProps: {
+      //   placeholder: '请选择单位',
+      //   getPopupContainer: () => document.body,
+      //   api: getDictionarySelectTypeApi,
+      //   params: {
+      //     type: 'TIMEOUT_REMIND_UNIT',
+      //   },
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'itemName',
+      //   valueField: 'itemValue',
+      // },
+      // colProps: {
+      //   span: 4,
+      // },
+      // itemProps: {
+      //   labelCol: {
+      //     span: 0,
+      //   },
+      //   wrapperCol: {
+      //     span: 24,
+      //   },
+      // },
     },
     {
       field: 'upkeepType',
@@ -592,35 +626,21 @@ export function planTableColumns(): BasicColumn[] {
     {
       title: '设备名称',
       dataIndex: 'deviceName',
-      customRender: ({ record }) => {
-        if (record.deviceName) {
-          return <span>{record.deviceName}</span>;
-        } else {
-          return '--';
-        }
-      },
+      // customRender: ({ record }) => {
+      //   if (record.deviceName) {
+      //     return <span>{record.deviceName}</span>;
+      //   } else {
+      //     return '--';
+      //   }
+      // },
     },
     {
       title: '所在区域',
       dataIndex: 'districtName',
-      customRender: ({ record }) => {
-        if (record.districtName) {
-          return <span>{record.districtName}</span>;
-        } else {
-          return '--';
-        }
-      },
     },
     {
-      title: '所在装置',
+      title: '所属装置',
       dataIndex: 'facilitiesName',
-      customRender: ({ record }) => {
-        if (record.facilitiesName) {
-          return <span>{record.facilitiesName}</span>;
-        } else {
-          return '--';
-        }
-      },
     },
     {
       title: '是否特种设备',

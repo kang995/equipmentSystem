@@ -671,7 +671,7 @@
       component: 'ApiTree',
       label: '远程Tree',
       helpMessage: ['ApiTree组件', '使用接口提供的数据生成选项'],
-      required: true,
+      required: false,
       componentProps: {
         api: treeOptionsListApi,
         params: {
