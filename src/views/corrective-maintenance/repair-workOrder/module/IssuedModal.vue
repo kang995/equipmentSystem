@@ -19,7 +19,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { getAgainFormSchemas } from '../data';
 
-  const emit = defineEmits(['register', 'Event']);
+  const emit = defineEmits(['register', 'event']);
   const modalData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
     modalData.value = data;
@@ -47,8 +47,8 @@
   async function submitForm() {
     await validate();
     const data = getFieldsValue();
-    data.id = modalData.value.id;
-    emit('Event', data);
+    data['determineId'] = modalData.value.id;
+    emit('event', data);
   }
   //取消
   async function goBack() {

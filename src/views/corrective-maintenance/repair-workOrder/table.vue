@@ -44,7 +44,7 @@
       </div>
     </template>
   </BasicTable>
-  <basicModel @register="IssuedModal" />
+  <basicModel @register="IssuedModal" @event="handleIssue" />
 </template>
 <script setup lang="ts">
   import { useModal } from '/@/components/Modal';
@@ -56,7 +56,11 @@
   import { Tooltip } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
-  import { maintainListApi, MaintainExportApi } from '/@/api/corrective-maintenance/repair';
+  import {
+    maintainListApi,
+    MaintainExportApi,
+    maintainAgainApi,
+  } from '/@/api/corrective-maintenance/repair';
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const { createMessage } = useMessage();
   const router = useRouter();
@@ -103,7 +107,8 @@
     router.push({
       name: 'repairDetail',
       query: {
-        id: record.id,
+        determineId: record.determineId, //维修工单id
+        id: record.id, //故障id
         status: record.maintainStatus, //0:待处理、 1：待处理(延期申请)、2：待验收、3：验收未通过、4：完成
         identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
         // status: '2', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
@@ -111,27 +116,50 @@
     });
   }
   //重新下发
-  function handleAgain() {
-    openIssuedModal(true, {});
+  function handleAgain(record) {
+    openIssuedModal(true, {
+      id: record.id, //故障id
+    });
+  }
+  //重新下发-确认
+  function handleIssue(data) {
+    console.log('data', data);
+    //处理部门、处理岗位一个字段
+    if (data['dealStationId'] && data.hasOwnProperty('dealStationId')) {
+      data['disposeUnitId'] = data['dealStationId'];
+      delete data['dealStationId'];
+    }
+    maintainAgainApi(data)
+      .then(() => {
+        createMessage.success('已重新下发');
+      })
+      .finally(() => {
+        openIssuedModal(false);
+      });
   }
   //申请延期
-  function handlePostpone() {
+  function handlePostpone(record) {
     router.push({
       name: 'repairDetail',
       query: {
+        id: record.id,
         identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
-        status: '1', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
+        status: record.maintainStatus, //0:待处理、 1：待处理(延期申请)、2：待验收、3：验收未通过、4：完成
+        // status: '1', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
         isShow: 'true',
       },
     });
   }
+
   //重新提交
-  function handleReSubmit() {
+  function handleReSubmit(record) {
     router.push({
       name: 'repairDetail',
       query: {
-        identity: '2', //负责人：1、执行人：2
-        status: '4', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
+        id: record.id,
+        identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
+        status: record.maintainStatus, //0:待处理、 1：待处理(延期申请)、2：待验收、3：验收未通过、4：完成
+        // status: '4', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
         isSbumit: 'true',
       },
     });

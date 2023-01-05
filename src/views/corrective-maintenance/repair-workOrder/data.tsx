@@ -3,9 +3,16 @@ import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
-import { getAgainFormSchema } from '/@/views/device-service/components/field';
+// import { getAgainFormSchema } from '/@/views/device-service/components/field';
 import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
-import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
+import {
+  getDictionarySelectTypeApi,
+  getDepartmentSelectApi,
+  getPeopleSelectApi,
+  getStationSelectApi,
+  getStationPeopleSelectApi,
+  getPersonSelectApi,
+} from '/@/api/device-maintenance/index';
 import { maintainIsshowApi } from '/@/api/corrective-maintenance/repair';
 import { Tag } from 'ant-design-vue';
 
@@ -120,10 +127,10 @@ export function tableColumns(): BasicColumn[] {
           return <Tag color={'orange'}>{record.maintainStatusText}</Tag>;
         } else if (record.maintainStatus === '3') {
           //验收未通过
-          return <Tag color={'green'}>{record.maintainStatusText}</Tag>;
+          return <Tag color={'red'}>{record.maintainStatusText}</Tag>;
         } else if (record.maintainStatus === '4') {
           //完成
-          return <Tag color={'default'}>{record.maintainStatusText}</Tag>;
+          return <Tag color={'green'}>{record.maintainStatusText}</Tag>;
         }
       },
     },
@@ -159,11 +166,18 @@ export function getFormSchema(): FormSchema[] {
     },
     {
       field: 'principalPeopleId',
-      component: 'Input',
+      component: 'ApiSelect',
       label: '负责人',
       labelWidth: 64,
       componentProps: {
         placeholder: '请输入负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
@@ -251,11 +265,18 @@ export function getFormSchema(): FormSchema[] {
     },
     {
       field: 'disposePeopleNames',
-      component: 'Input',
+      component: 'ApiSelect',
       label: '处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请输入处理人姓名',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
@@ -394,43 +415,128 @@ export function WorkDetail(): DescItem[] {
 //工单信息-重新下发
 export function getAgainFormSchemas(): FormSchema[] {
   return [
-    ...getAgainFormSchema(),
-    // {
-    //   field: 'name',
-    //   component: 'RadioGroup',
-    //   label: '任务指派',
-    //   required: true,
-    //   componentProps: {
-    //     options: [
-    //       {
-    //         label: '人员',
-    //         value: '1',
-    //       },
-    //       {
-    //         label: '岗位',
-    //         value: '2',
-    //       },
-    //     ],
-    //   },
-    // },
-    // {
-    //   field: 'name',
-    //   component: 'ApiSelect',
-    //   label: '处理部门',
-    //   required: true,
-    //   componentProps: {
-    //     placeholder: '请选择处理部门',
-    //   },
-    // },
-    // {
-    //   field: 'name',
-    //   component: 'ApiSelect',
-    //   label: '处理人',
-    //   required: true,
-    //   componentProps: {
-    //     placeholder: '请选择处理人',
-    //   },
-    // },
+    // ...getAgainFormSchema(),
+    {
+      field: 'assignType',
+      component: 'ApiRadioGroup',
+      label: '任务指派',
+      required: true,
+      defaultValue: '1',
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          api: getDictionarySelectTypeApi, //后台路径
+          params: {
+            type: 'DESIGNATE_TYPE',
+          },
+          resultField: 'data',
+          labelField: 'itemName',
+          valueField: 'itemValue',
+          onChange: (e) => {
+            formModel.disposePeopleIdList = undefined;
+            if (e === '2') {
+              formModel.disposeUnitId = undefined;
+              updateSchema({
+                field: 'disposeUnitId',
+                ifShow: false,
+              });
+              updateSchema({
+                field: 'dealStationId',
+                ifShow: true,
+              });
+            } else {
+              formModel.dealStationId = undefined;
+              updateSchema({
+                field: 'dealStationId',
+                ifShow: false,
+              });
+              updateSchema({
+                field: 'disposeUnitId',
+                ifShow: true,
+              });
+            }
+          },
+        };
+      },
+    },
+    // 人员
+    {
+      field: 'disposeUnitId',
+      component: 'ApiSelect',
+      label: '处理部门',
+      required: true,
+      ifShow: true,
+      componentProps: ({ formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          placeholder: '请选择处理部门',
+          api: getDepartmentSelectApi,
+          params: {
+            // type: 'PLAN_STATUS'
+          },
+          resultField: 'data', //后台返回数据字段
+          labelField: 'label',
+          valueField: 'id',
+          getPopupContainer: () => document.body,
+          onChange: (e: any) => {
+            // console.log(e);
+            getPeopleSelectApi([e]).then((res) => {
+              updateSchema({
+                field: 'disposePeopleIdList',
+                componentProps: {
+                  options: res,
+                },
+              });
+            });
+          },
+        };
+      },
+    },
+    // 岗位
+    {
+      field: 'dealStationId',
+      component: 'ApiSelect',
+      label: '处理岗位',
+      required: true,
+      ifShow: false,
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
+        return {
+          api: getStationSelectApi,
+          resultField: 'data', //后台返回数据字段
+          labelField: 'name',
+          valueField: 'id',
+          getPopupContainer: () => document.body,
+          onChange: (en) => {
+            console.log(en);
+            getStationPeopleSelectApi([en]).then((res) => {
+              console.log(res);
+              updateSchema({
+                field: 'disposePeopleIdList',
+                componentProps: {
+                  options: res,
+                  mode: 'multiple',
+                },
+              });
+              formModel.disposePeopleIdList = res.map((item) => item.id);
+            });
+          },
+        };
+      },
+    },
+    {
+      field: 'disposePeopleIdList',
+      component: 'Select',
+      label: '处理人',
+      required: true,
+      componentProps: {
+        placeholder: '请选择处理人',
+        mode: 'multiple',
+        options: [],
+        fieldNames: { label: 'name', value: 'id' },
+        getPopupContainer: () => document.body,
+      },
+    },
   ];
 }
 
@@ -447,15 +553,15 @@ export function PostponeDetail(): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'oldEndTime',
       label: '原截至时间',
     },
     {
-      field: 'applyUserName',
+      field: 'newEndTime',
       label: '延期时间',
     },
     {
-      field: 'applyUserName',
+      field: 'delayReason',
       label: '延期原因',
     },
   ];
@@ -465,31 +571,25 @@ export function PostponeDetail(): DescItem[] {
 export function getPostponeFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
-      component: 'RadioGroup',
-      label: '任务指派',
+      field: 'auditResult',
+      component: 'ApiRadioGroup',
+      label: '审核结果',
       required: true,
       componentProps: {
-        options: [
-          {
-            label: '同意',
-            value: '1',
-          },
-          {
-            label: '拒绝',
-            value: '2',
-          },
-        ],
+        api: getDictionarySelectTypeApi, //后台路径
+        params: {
+          type: 'AUDIT_RESULT',
+        },
+        resultField: 'data',
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'name1',
+      field: 'declineReason',
       component: 'InputTextArea',
       label: '拒绝原因',
       required: true,
-      // colProps: {
-      //   span: 10,
-      // },
       componentProps: {
         placeholder: '请输入拒绝原因',
         rows: 4,
@@ -499,7 +599,7 @@ export function getPostponeFormSchema(): FormSchema[] {
 }
 
 //工单信息-维修结果
-export function RepairDetail(): DescItem[] {
+export function RepairDetail(index: number): DescItem[] {
   return [
     {
       field: '',
@@ -507,50 +607,71 @@ export function RepairDetail(): DescItem[] {
       labelMinWidth: 0,
       span: 2,
       render: () => {
-        return <span style={titleStyle}>维修结果</span>;
+        return <span style={titleStyle}>维修结果{index + 1}</span>;
       },
     },
     {
-      field: 'applyUserName',
+      field: 'dealCase',
       label: '处理结果',
     },
     {
-      field: 'applyUserName',
+      field: 'beforeDealImgList',
       label: '维修前图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
     {
-      field: 'applyUserName',
+      field: 'dealImgList',
       label: '维修后图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
     {
-      field: 'applyUserName',
+      field: 'stopFlagText',
       label: '是否停机',
+      // render: (curVal) => {
+      //   return curVal === '0' ? '是' : '否';
+      // },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptPeopleName',
       label: '验收人',
     },
   ];
 }
 
 //工单信息-验收结果
-export function ResultDetail(): DescItem[] {
+export function ResultDetail(index: number): DescItem[] {
   return [
     {
       field: '',
@@ -558,27 +679,39 @@ export function ResultDetail(): DescItem[] {
       labelMinWidth: 0,
       span: 2,
       render: () => {
-        return <span style={titleStyle}>验收结果</span>;
+        return <span style={titleStyle}>验收结果{index + 1}</span>;
       },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptResultText',
       label: '验收结果',
+      // render: (curVal) => {
+      //   return curVal === '0' ? '通过' : '不通过';
+      // },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptCase',
       label: '验收描述',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptImgList',
       label: '图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
   ];
@@ -588,59 +721,56 @@ export function ResultDetail(): DescItem[] {
 export function getApplyFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'oldEndTime',
       component: 'DatePicker',
       label: '原截止时间',
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
-        // placeholder: '请输入',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        showTime: true,
+        disabled: true,
       },
     },
     {
-      field: 'name1',
+      field: 'newEndTime',
       component: 'DatePicker',
       label: '延期时间',
       required: true,
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
         placeholder: '请选择时间',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        showTime: true,
       },
     },
     {
-      field: 'name2',
-      component: 'Input',
+      field: 'delayReason',
+      component: 'InputTextArea',
       label: ' 延期原因',
       required: true,
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
         placeholder: '请输入原因',
+        rows: 4,
+        maxlength: 200,
       },
     },
   ];
 }
 //工单信息-维修结果
-export function getAcceptFormSchema(): FormSchema[] {
+export function getAcceptFormSchema(status: string): FormSchema[] {
+  console.log('status', status);
   return [
     {
-      field: 'name',
+      field: 'dealCase',
       component: 'InputTextArea',
-      label: '处理情况',
+      label: '处理结果',
       required: true,
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
         placeholder: '请输入处理情况',
+        rows: 4,
+        maxlength: 200,
       },
     },
     {
-      field: 'attachment',
+      field: 'beforeDealImgList',
       component: 'Upload',
       label: '维修前图片',
       required: true,
@@ -652,7 +782,7 @@ export function getAcceptFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'attachment1',
+      field: 'dealImgList',
       component: 'Upload',
       label: '维修后图片',
       required: true,
@@ -664,141 +794,145 @@ export function getAcceptFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name',
-      component: 'RadioGroup',
+      field: 'stopFlag',
+      component: 'ApiRadioGroup',
       label: '是否停机',
       required: true,
       componentProps: {
-        options: [
-          {
-            label: '是',
-            value: '1',
-          },
-          {
-            label: '否',
-            value: '2',
-          },
-        ],
+        api: getDictionarySelectTypeApi, //（0是，1否）
+        params: {
+          type: 'STOP_FLAG',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'name2',
+      field: 'acceptPeopleId',
       component: 'ApiSelect',
       label: '验收人',
       required: true,
       componentProps: {
         placeholder: '请选择验收人',
+        showSearch: true,
+        optionFilterProp: 'label',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
+      ifShow: ({}) => status === '1',
     },
   ];
 }
 //工单信息-待验收-维修结果
-export function ShowResultDetail(): DescItem[] {
-  return [
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>维修结果</span>;
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '处理结果',
-    },
-    {
-      field: 'applyUserName',
-      label: '维修前图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '维修后图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '是否停机',
-    },
-    {
-      field: 'applyUserName',
-      label: '验收人',
-    },
-  ];
-}
+// export function ShowResultDetail(): DescItem[] {
+//   return [
+//     {
+//       field: '',
+//       label: '',
+//       labelMinWidth: 0,
+//       span: 2,
+//       render: () => {
+//         return <span style={titleStyle}>维修结果</span>;
+//       },
+//     },
+//     {
+//       field: 'applyUserName',
+//       label: '处理结果',
+//     },
+//     {
+//       field: 'applyUserName',
+//       label: '维修前图片',
+//       render: () => {
+//         return (
+//           <Image
+//             style={ImageBox}
+//             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+//           />
+//         );
+//       },
+//     },
+//     {
+//       field: 'applyUserName',
+//       label: '维修后图片',
+//       render: () => {
+//         return (
+//           <Image
+//             style={ImageBox}
+//             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+//           />
+//         );
+//       },
+//     },
+//     {
+//       field: 'applyUserName',
+//       label: '是否停机',
+//     },
+//     {
+//       field: 'applyUserName',
+//       label: '验收人',
+//     },
+//   ];
+// }
 //工单信息-拒绝-维修结果
-export function getSubmitAcceptFormSchema(): FormSchema[] {
-  return [
-    {
-      field: 'name',
-      component: 'InputTextArea',
-      label: '处理结果',
-      required: true,
-      componentProps: {
-        placeholder: '请输入处理结果',
-        rows: 4,
-      },
-    },
-    {
-      field: 'attachment',
-      component: 'Upload',
-      label: '维修前图片',
-      required: true,
-      componentProps: {
-        maxNumber: 5,
-        accept: '.jpg,.jpeg,.png',
-        maxSize: 5,
-        helpText: '请上传图片',
-      },
-    },
-    {
-      field: 'attachment1',
-      component: 'Upload',
-      label: '维修后图片',
-      required: true,
-      componentProps: {
-        maxNumber: 5,
-        accept: '.jpg,.jpeg,.png',
-        maxSize: 5,
-        helpText: '请上传图片',
-      },
-    },
-    {
-      field: 'name',
-      component: 'RadioGroup',
-      label: '是否停机',
-      required: true,
-      componentProps: {
-        options: [
-          {
-            label: '是',
-            value: '1',
-          },
-          {
-            label: '否',
-            value: '2',
-          },
-        ],
-      },
-    },
-  ];
-}
+// export function getSubmitAcceptFormSchema(): FormSchema[] {
+//   return [
+//     {
+//       field: 'dealCase',
+//       component: 'InputTextArea',
+//       label: '处理结果',
+//       required: true,
+//       componentProps: {
+//         placeholder: '请输入处理结果',
+//         rows: 4,
+//       },
+//     },
+//     {
+//       field: 'beforeDealImgList',
+//       component: 'Upload',
+//       label: '维修前图片',
+//       required: true,
+//       componentProps: {
+//         maxNumber: 5,
+//         accept: '.jpg,.jpeg,.png',
+//         maxSize: 5,
+//         helpText: '请上传图片',
+//       },
+//     },
+//     {
+//       field: 'dealImgList',
+//       component: 'Upload',
+//       label: '维修后图片',
+//       required: true,
+//       componentProps: {
+//         maxNumber: 5,
+//         accept: '.jpg,.jpeg,.png',
+//         maxSize: 5,
+//         helpText: '请上传图片',
+//       },
+//     },
+//     {
+//       field: 'stopFlag',
+//       component: 'ApiRadioGroup',
+//       label: '是否停机',
+//       required: true,
+//       componentProps: {
+//         api: getDictionarySelectTypeApi,//（0是，1否）
+//         params: {
+//           type: 'STOP_FLAG',
+//         },
+//         resultField: 'data', //后台返回数据字段
+//         labelField: 'itemName',
+//         valueField: 'itemValue',
+//       },
+//     },
+//   ];
+// }
 
 //使用备件
 export function tablePartColumns(): BasicColumn[] {

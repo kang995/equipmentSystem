@@ -10,7 +10,7 @@
         <TabPane :tab="item.name" />
       </template>
     </Tabs>
-    <component :is="activeComponent" :activeKey="activeKey" />
+    <component :is="activeComponent" />
   </PageWrapper>
 </template>
 
@@ -19,7 +19,7 @@
   import { Tabs } from 'ant-design-vue';
   import { achieveList } from './data';
   import { computed, ref } from 'vue';
-
+  import { DetermineCountApi } from '/@/api/corrective-maintenance/repair';
   const TabPane = Tabs.TabPane;
 
   const activeKey = ref('1');
@@ -29,6 +29,14 @@
   const handleChange = (val) => {
     activeKey.value = val;
   };
+  //待验收和已验收工单数量
+  DetermineCountApi().then((res) => {
+    achieveList[0].name = '待验收';
+    achieveList[1].name = '已验收';
+    achieveList[0].name = achieveList[0].name + `(${res['stayAcceptCount']})`;
+    achieveList[1].name = achieveList[1].name + `(${res['acceptCount']})`;
+    // console.log('数量',res,achieveList)
+  });
 </script>
 
 <style scoped lang="less">

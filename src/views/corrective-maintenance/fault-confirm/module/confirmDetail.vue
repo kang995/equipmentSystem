@@ -65,7 +65,7 @@
     const obj = getFieldsValue();
     obj['troubleId'] = id;
     //处理部门、处理岗位一个字段
-    if (obj.hasOwnProperty('dealStationId')) {
+    if (obj['dealStationId'] && obj.hasOwnProperty('dealStationId')) {
       obj['disposeUnitId'] = obj['dealStationId'];
       delete obj['dealStationId'];
     }
