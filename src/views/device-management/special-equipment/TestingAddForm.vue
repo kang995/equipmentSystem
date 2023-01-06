@@ -18,9 +18,10 @@
   const route = useRoute();
   const name = route.query.name;
   const id = route.query.id;
+  const position = route.query.position;
 
   onMounted(() => {
-    setFieldsValue({ deviceName: name, position: '地理位置' });
+    setFieldsValue({ deviceName: name, position: position });
   });
   const [register, { setFieldsValue, getFieldsValue }] = useForm({
     labelCol: {

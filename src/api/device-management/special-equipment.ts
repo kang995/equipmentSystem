@@ -32,7 +32,6 @@ export const postSectionListApi = () =>
   defHttp.post({
     url: Api.SYSTEM_SELECT,
   });
-
 //分页查询特种设备检测记录
 export const postSpecialRecordListApi = (params) =>
   defHttp.post({

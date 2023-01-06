@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="addressList">
-      <div class="addressList_list" v-for="(item, index) in data" :key="index">
+      <div class="addressList_list" v-for="(item, index) in sites" :key="index">
         <div class="addressList_index">{{ index + 1 }}</div>
-        <a-input class="addressList_input" :value="item" disabled />
+        <a-input class="addressList_input" :value="`${item[0]},${item[1]}`" disabled />
       </div>
     </div>
     <div class="map">
@@ -11,90 +11,51 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
   import { useMap } from '/@/components/Map/src/useMap';
-  import { ref } from 'vue';
+  import { reactive, nextTick } from 'vue';
   import { Map } from '/@/components/Map';
-  import { nextTick, onMounted } from 'vue';
-  const [register, { drawPolygon }] = useMap();
-  onMounted(async () => {
-    await nextTick();
-  });
-  interface dataListType {
-    longAndLatiType: string;
-    longitude: string;
-    latitude: string;
-  }
-  // 父组件传值
+
+  const [register, { drawPolygon, addMarker, converFrom }] = useMap();
   const props = defineProps({
     dataList: {
       type: Array as PropType<dataListType[]>,
     },
   });
-  // console.log('props:', props.dataList);
-  backReturn();
-  const data = ref<string[]>([]);
-  function backReturn() {
-    return new Promise(function () {
-      dataChange();
-      async function dataChange() {
-        const { dataList } = props;
-        // console.log('dataList', dataList);
-        // const AMap: any = await loadAMap();
-        data.value = [];
-        const arr = ref<any>([]);
-        dataList?.map(async (item) => {
-          // console.log('item:', item);
-          arr.value.push(testPromise(item));
-          // console.log('arr:', arr.value);
-        });
-        Promise.all(arr.value).then((res) => {
-          // console.log('Promise.all', res);
-          data.value = res;
-          draPolygon(res);
-        });
-      }
-    });
+
+  interface dataListType {
+    longAndLatiType: string;
+    longitude: string;
+    latitude: string;
   }
 
-  function testPromise(item) {
-    // console.log('item:', item);
-    return new Promise((resolve) => {
-      let gps = [parseFloat(item.longitude), parseFloat(item.latitude)];
-      if (item.longAndLatiType !== 'MARS_SYSTEM') {
-        let type = 'gps';
-        if (item.longAndLatiType === 'BAIDU_SYSTEM') {
-          type = 'baidu';
-        }
-        AMap.convertFrom(gps, type, function (status, result) {
-          console.log('status:', status);
-          if (result.info === 'ok') {
-            // console.log('result:', result);
-            let lnglats = result.locations[0].toString();
-            // console.log('lnglats:', lnglats);
-            resolve(lnglats);
-          }
-        });
-      } else {
-        resolve(item.longitude + ',' + item.latitude);
-      }
-    });
-  }
+  //坐标系类型
+  const mapType = {
+    EARTH_SYSTEM: 'gps',
+    BAIDU_SYSTEM: 'baidu',
+  };
+
+  //存储处理后地理位置信息
+  const sites: Array<Array<string>> = reactive([]);
+
+  //处理地理位置数据
+  const readerMap = async (data) => {
+    for (let item of data) {
+      const { latitude, longitude, longAndLatiType } = item,
+        gps = [longitude, latitude],
+        type = mapType[longAndLatiType],
+        site: Array<string> = type ? await converFrom({ gps, type }) : gps;
+      sites.push(site);
+    }
+    draPolygon(sites);
+  };
+  nextTick(() => readerMap(props.dataList));
 
   // 画多边形
-  async function draPolygon(res) {
-    if (res.length > 0) {
-      const path = ref<number[][]>([]);
-      console.log(res.length);
-      res.map((item) => {
-        const address = item.split(',');
-        const position = [parseFloat(address[0]), parseFloat(address[1])];
-        path.value.push(position);
-      });
-      await drawPolygon(path.value);
-    }
-  }
-  // 其他类型坐标转高德
+  const draPolygon = async (position) => {
+    position.length === 1 ? addMarker(position[0]) : drawPolygon(position);
+  };
 </script>
 <style lang="less" scoped>
   .addressList {

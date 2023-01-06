@@ -2,11 +2,11 @@ import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getManagementDictionaryList } from '/@/api/sys/systemSetting/dictionaryType';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
+
 import {
   postPlanNameListApi,
   postSectionListApi,
-} from '/@/api/device-management/special-equipment';
-//装置设置
+} from '/@/api/device-management/special-equipment'; //装置设置
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',

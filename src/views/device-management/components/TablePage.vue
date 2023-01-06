@@ -19,6 +19,7 @@
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
   import { useRoute } from 'vue-router';
+  import { downloadByData } from '/@/utils/file/download';
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
   const route = useRoute();
@@ -32,9 +33,11 @@
     ifExport?: any;
     api?: any;
     ifDataSource?: any; //定期检测记录传dataSource
+    apiExport?: any; //
+    textExport?: string;
   }>();
 
-  const [register] = useTable({
+  const [register, { getSelectRowKeys }] = useTable({
     api: props.api,
     searchInfo: {
       deviceId,
@@ -69,9 +72,24 @@
       },
     },
   });
-  const emit = defineEmits(['exportTable']);
   function exportTable() {
-    emit('exportTable');
+    const ids = getSelectRowKeys();
+    exportLoading.value = true;
+    let data = {
+      ids: ids,
+      deviceId,
+    };
+    Object.assign(data);
+    props
+      .apiExport(data)
+      .then((res) => {
+        downloadByData(res, props.textExport + '列表.xlsx');
+        exportLoading.value = false;
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
+    exportLoading.value = true;
   }
 </script>
 <style scoped lang="less"></style>

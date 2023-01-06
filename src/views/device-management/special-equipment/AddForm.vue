@@ -3,7 +3,6 @@
     <BasicForm @register="register">
       <template #personSlot="{ model, field }">
         <Select
-          :disabled="dataSource === '2' ? true : false"
           v-model:value="model[field]"
           showSearch
           optionFilterProp="label"
@@ -37,7 +36,7 @@
   import ModalMap from '../components/ModalMap.vue';
   import Position from '../components/MapPosition.vue';
   import { useModal, BasicModal } from '/@/components/Modal';
-  import { schemasAdd, schemasEdit } from '../data';
+  import { schemasAdd } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { useRouter, useRoute } from 'vue-router';
@@ -94,7 +93,7 @@
       postSpecialDetailApi({ id: id, dataSource: dataSource }).then((res) => {
         setFieldsValue(res);
         versionVal.value = res.version;
-        res?.managementPeopleId && handleChangeCheck(res.managementPeopleId);
+        res.positionList && setLatitudeLongitude(res.positionList);
       });
   }
 
@@ -129,10 +128,26 @@
 
   function handleChangeCheck(val) {
     const { phone } = PeopleSelect.value.find((item) => item.id == val);
-    setFieldsValue({ phone: phone });
+    setFieldsValue({ managementPeoplePhone: phone });
   }
   async function sumitForm() {
     const data = getFieldsValue();
+    const geographicalPositionValue = PositionData.value as any;
+    if (
+      geographicalPositionValue[0].longitude !== '' ||
+      geographicalPositionValue[0].latitude !== ''
+    ) {
+      geographicalPositionValue.forEach((item) => {
+        if (item.longitude === '' || item.latitude === '') {
+          PositionData.value = geographicalPositionValue.filter(
+            (val) => val.latitude !== '' && val.longitude !== '',
+          );
+        }
+      });
+    }
+    Object.assign(data, {
+      positionList: PositionData.value,
+    });
     if (id) {
       data['id'] = id;
       data['version'] = versionVal.value;
@@ -155,5 +170,24 @@
       name: 'specialEquipment',
     });
   }
-  // postSpecialAddApi
+  //回显地理位置
+  function setLatitudeLongitude(siteList: any[]) {
+    if (siteList.length > 0) {
+      siteList.forEach((item, index) => {
+        if (index === 0) {
+          PositionData.value.forEach((itemData) => {
+            itemData.longAndLatiType = item.longAndLatiType;
+            itemData.latitude = item.latitude;
+            itemData.longitude = item.longitude;
+          });
+        } else {
+          PositionData.value.push({
+            longAndLatiType: item.longAndLatiType,
+            longitude: item.longitude,
+            latitude: item.latitude,
+          });
+        }
+      });
+    }
+  }
 </script>

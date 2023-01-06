@@ -4,6 +4,8 @@
     :columns="timingDetectionColumns"
     :formSchema="timingDetectionFormSchema"
     :ifDataSource="true"
+    :api-export="postSpecialRExportApi"
+    :textExport="'定期检测记录'"
   >
     <template #tableAction="record">
       <TableAction
@@ -25,12 +27,22 @@
   import { TableAction } from '/@/components/Table';
   import TablePage from '../components/TablePage.vue';
   import { useRouter } from 'vue-router';
-  import { postSpecialRecordListApi } from '/@/api/device-management/special-equipment';
+  import {
+    postSpecialRecordListApi,
+    postSpecialRExportApi,
+  } from '/@/api/device-management/special-equipment';
   const router = useRouter();
   // 定期检测记录
-  function handleDetails() {
+  function handleDetails(data) {
+    const dataSource = data.dataSource;
+    const id = data.id;
     router.push({
       name: 'TimingDetectionDetail',
+      query: {
+        id,
+        dataSource,
+      },
     });
   }
+  //postSpecialRExportApi
 </script>

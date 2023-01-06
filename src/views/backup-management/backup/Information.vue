@@ -18,7 +18,7 @@
     data: mockData,
     schema: informationDescItem,
     size: 'default',
-    column: 1,
+    column: 2,
     labelStyle: { width: '180px' },
   });
   id &&

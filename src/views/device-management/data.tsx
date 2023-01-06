@@ -15,6 +15,7 @@ import {
   postDistrictSelectApi,
   postFireResisRatSelectApi,
   postFireRiskClassesSelectApi,
+  postProjectNameSelectApi,
   postRiskLevelSelectApi,
   postTypeSelectApi,
 } from '/@/api/device-management/installation';
@@ -293,7 +294,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: '请输入设备名称',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
     {
@@ -302,12 +303,12 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '所属项目',
       required: true,
       componentProps: {
-        api: postDesignSelectApi, //后台路径
+        api: postProjectNameSelectApi, //后台路径
         resultField: 'data', //后台返回数据字段
         labelField: 'name', //设置label字段
         valueField: 'id', //设置value字段
         placeholder: '请选择所属项目',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
     {
@@ -321,7 +322,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         labelField: 'name', //设置label字段
         valueField: 'id', //设置value字段
         placeholder: '请选择所属装置设施',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
     {
@@ -338,24 +339,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
         placeholder: '请选择设备类型',
-        disabled: dataSource === '1' ? true : false,
-      },
-    },
-    {
-      field: 'facilityQuality',
-      component: 'ApiRadioGroup',
-      label: '设备性质',
-      required: true,
-      defaultValue: '0',
-      componentProps: {
-        api: getDictionarySelectType, //后台路径
-        params: {
-          type: 'FACILITY_NATURE',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName', //设置label字段
-        valueField: 'itemValue', //设置value字段
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
     {
@@ -382,21 +366,12 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         placeholder: '选择使用状态',
       },
     },
-
-    {
-      field: 'facilityRegistratCode',
-      component: 'Input',
-      label: '设备注册代码',
-      componentProps: {
-        placeholder: '请输入设备注册代码',
-      },
-    },
     {
       field: 'useCardCode',
       component: 'Input',
-      label: '使用证编号',
+      label: '特种设备使用证编号',
       componentProps: {
-        placeholder: '请输入使用证编号',
+        placeholder: '请输入特种设备使用证编号',
       },
     },
     {
@@ -415,7 +390,14 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         placeholder: '请输入检验责任所在单位',
       },
     },
-
+    {
+      field: 'detectionNextDate',
+      component: 'DatePicker',
+      label: '首次检测日期',
+      componentProps: {
+        placeholder: '请输入首次检测日期',
+      },
+    },
     {
       field: 'managementPeopleId',
       component: 'ApiSelect',
@@ -424,12 +406,30 @@ export function schemasAdd(dataSource: string): FormSchema[] {
     },
     {
       //自动代入
-      field: 'phone',
+      field: 'managementPeoplePhone',
       component: 'Input',
       label: '管理人员联系方式',
       componentProps: {
         placeholder: '请输入管理人员联系方式',
-        disabled: dataSource === '1' ? false : true,
+        disabled: true,
+      },
+    },
+
+    {
+      field: 'facilityQuality',
+      component: 'ApiRadioGroup',
+      label: '设备性质',
+      required: true,
+      defaultValue: '0',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'FACILITY_NATURE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        disabled: dataSource === '1',
       },
     },
 
@@ -440,7 +440,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: '请输入介质',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
 
@@ -450,17 +450,43 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '位号',
       componentProps: {
         placeholder: '请输入位号',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '1';
       },
     },
-
+    {
+      field: 'specifModels',
+      component: 'Input',
+      label: '设备型号',
+      componentProps: {
+        placeholder: '请输入设备型号',
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '0';
+      },
+    },
+    {
+      field: 'mediumTemp',
+      component: 'Input',
+      label: '介质温度',
+      componentProps: {
+        placeholder: '请输入介质温度',
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '0';
+      },
+    },
     {
       field: 'specifModels',
       component: 'Input',
       label: '规格型号',
       componentProps: {
         placeholder: '请输入规格型号',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
 
@@ -470,7 +496,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '主体材质',
       componentProps: {
         placeholder: '请输入主体材质',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
     {
@@ -479,16 +505,23 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '操作温度（°C）',
       componentProps: {
         placeholder: '请输入操作温度',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '1';
       },
     },
+
     {
       field: 'pressure',
       component: 'Input',
       label: '操作压力（MPa）',
       componentProps: {
         placeholder: '请输入操作压力',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '1';
       },
     },
     {
@@ -497,7 +530,10 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '设计温度（°C）',
       componentProps: {
         placeholder: '请输入设计温度',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '1';
       },
     },
     {
@@ -506,7 +542,58 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '设计压力（MPa）',
       componentProps: {
         placeholder: '请输入设计压力',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '1';
+      },
+    },
+    {
+      field: 'temperature',
+      component: 'Input',
+      label: '设计流量（m³/h）',
+      componentProps: {
+        placeholder: '请输入设计流量',
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '0';
+      },
+    },
+    {
+      field: 'designLift',
+      component: 'Input',
+      label: '设计扬程（m）',
+      componentProps: {
+        placeholder: '请输入设计扬程',
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '0';
+      },
+    },
+    {
+      field: 'designShaftPower',
+      component: 'Input',
+      label: '设计轴功率（kw）',
+      componentProps: {
+        placeholder: '请输入设计轴功率',
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '0';
+      },
+    },
+    {
+      field: 'designRevolutions',
+      component: 'Input',
+      label: '设计转数（rpm）',
+      componentProps: {
+        placeholder: '请输入设计转数',
+        disabled: dataSource === '1',
+      },
+      ifShow: ({ values }) => {
+        return values.facilityQuality === '0';
       },
     },
     {
@@ -515,7 +602,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       label: '地理位置',
       componentProps: {
         placeholder: '请输入地理位置',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
 
       //选择经纬度
@@ -535,19 +622,17 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         maxSize: 5,
         accept: '.jpg,.png,.jpeg',
         helpText: '请上传图片',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
     {
       field: 'basicInformat',
       component: 'Input',
       label: '基本信息',
-      componentProps: {
-        disabled: dataSource === '1' ? true : false,
-      },
       render: ({ model, field }) => {
         return h(Tinymce, {
           value: model[field],
+          options: { readonly: dataSource === '1' },
           onChange: (value: string) => {
             model[field] = value;
           },
@@ -564,7 +649,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         maxSize: 10,
         accept: '.rar,.zip,.docx,.pdf,.jpg',
         helpText: '请上传附件',
-        disabled: dataSource === '1' ? true : false,
+        disabled: dataSource === '1',
       },
     },
   ];
@@ -585,7 +670,6 @@ export const testingAdd: FormSchema[] = [
     field: 'position',
     component: 'Input',
     label: '地理位置',
-    required: true,
     componentProps: {
       disabled: true,
       placeholder: '请输入地理位置',

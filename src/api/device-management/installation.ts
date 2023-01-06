@@ -13,6 +13,7 @@ enum Api {
   RISK_LEVEL_SELECT = '/unitFacility/risk/level/select', //重大危险源级别-下拉查询
   TYPE_SELECT = '/unitFacility/type/select', //类型-下拉查询
   BIND_STATE = '/unitFacility/bindState/select', //模型绑定状态-下拉查询
+  A_SELECT = '/special/projectName/select', //所属项目
 }
 //批量导出
 export const postFacilityExportApi = (params) =>
@@ -80,5 +81,11 @@ export const postRiskLevelSelectApi = (params) =>
 export const postTypeSelectApi = (params) =>
   defHttp.post({
     url: Api.TYPE_SELECT,
+    params,
+  });
+//所属项目
+export const postProjectNameSelectApi = (params) =>
+  defHttp.post({
+    url: Api.A_SELECT,
     params,
   });

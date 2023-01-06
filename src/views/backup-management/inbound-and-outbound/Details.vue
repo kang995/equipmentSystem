@@ -21,7 +21,7 @@
     data: mockData,
     schema: props.name === '出库' ? inboundDescItem : OutboundDescItem,
     size: 'default',
-    column: 1,
+    column: 2,
   });
   function getDetail(api) {
     id &&

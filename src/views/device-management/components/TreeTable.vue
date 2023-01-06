@@ -201,11 +201,13 @@
   function handleTestingAdd(data) {
     const name = data.name;
     const id = data.id;
+    const position = data.position;
     router.push({
       name: 'TestingAdd',
       query: {
         name,
         id,
+        position,
       },
     });
   }

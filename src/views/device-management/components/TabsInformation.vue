@@ -25,7 +25,6 @@
   import TimingDetection from '../record/TimingDetection.vue';
   import EmergencyDrillRecord from '../record/EmergencyDrillRecord.vue';
   import EmergencyPlan from '../record/EmergencyPlan.vue';
-  import VehicleRecord from '../record/VehicleRecord.vue';
   import AssociatedSpareParts from '../record/AssociatedSpareParts.vue';
   import SparePart from '../record/SparePart.vue';
   import { useRoute } from 'vue-router';
@@ -84,28 +83,22 @@
       key: '7',
       name: '应急演练记录', //1 3 4
       component: EmergencyDrillRecord,
-      ifShow: state === '2' ? false : true,
+      ifShow: true,
     },
     {
       key: '8',
       name: '应急预案', //1 3 4
       component: EmergencyPlan,
-      ifShow: state === '2' ? false : true,
+      ifShow: true,
     },
     {
       key: '9',
-      name: '开停车记录', // 2
-      component: VehicleRecord,
-      ifShow: state === '2' ? true : false,
-    },
-    {
-      key: '10',
       name: '关联备件', //1 2 3 4
       component: AssociatedSpareParts,
       ifShow: true,
     },
     {
-      key: '11',
+      key: '10',
       name: '备件更换记录', //1 2 3 4
       component: SparePart,
       ifShow: true,

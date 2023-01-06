@@ -182,4 +182,8 @@
       border-radius: 6px 0 0 6px;
     }
   }
+
+  ::v-deep(.ant-input-group.ant-input-group-compact) {
+    display: flex;
+  }
 </style>

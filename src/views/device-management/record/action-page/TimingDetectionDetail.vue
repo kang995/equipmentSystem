@@ -9,9 +9,10 @@
   import { ref } from 'vue';
   import { installationSchema } from '../../data';
   import { useRoute } from 'vue-router';
+  import { postSpecialRDetailApi } from '/@/api/device-management/special-equipment';
   const route = useRoute();
   const id = route.query.id as string;
-  console.log('id: ', id);
+  const dataSource = route.query.dataSource as string;
 
   const mockData = ref<any>([]);
   const [register] = useDescription({
@@ -21,5 +22,8 @@
     column: 1,
     labelStyle: { width: '180px' },
   });
-  //
+  id &&
+    postSpecialRDetailApi({ id, dataSource }).then((res) => {
+      mockData.value = res;
+    });
 </script>
