@@ -147,7 +147,7 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     },
   ];
 }
-export function MaintainDetails(state: string, mode: string): DescItem[] {
+export function MaintainDetails(): DescItem[] {
   return [
     // {
     //   field: '',
@@ -162,12 +162,12 @@ export function MaintainDetails(state: string, mode: string): DescItem[] {
     {
       field: 'approvalStatusText',
       label: '审核结果',
-      show: (data) => mode === '1' && (state === '3' || state === '4'),
+      // show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
     {
       field: 'remark',
       label: '原因（备注）',
-      show: (data) => mode === '1' && (state === '3' || state === '4'),
+      // show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
   ];
 }

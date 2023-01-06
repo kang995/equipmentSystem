@@ -2,12 +2,9 @@
   <div class="px-15">
     <Description @register="register" />
     <!-- <div class="sub-title text-body1 text-14px font-bold mt-6 mb-6">审核信息</div> -->
-    <Description
-      title="审核信息"
-      :column="2"
-      :data="data"
-      :schema="MaintainDetails(status, mode)"
-    />
+    <template v-if="mode === '1' && (status === '3' || status === '4')">
+      <Description title="审核信息" :column="2" :data="data" :schema="MaintainDetails()" />
+    </template>
     <!-- class="absolute bottom-0 left-0" -->
     <div>
       <!-- 保养计划管理 -->
