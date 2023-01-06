@@ -4,7 +4,7 @@ enum Api {
   //机械设备台账
   MECHANICAL_List = '/mechanical/list', //分页查询机械设备列表
   MECHANICAL_EXPORT = '/mechanical/export', //机械设备列表批量导出
-  Q = '/mechanical/detail', //获取机械设备详细信息
+  MECHANICAL_DETAIL = '/mechanical/detail', //获取机械设备详细信息
 
   //选择下拉
   SELECT_STATE = '/mechanical/deviceName/select', //设备名称-下拉查询
@@ -41,7 +41,12 @@ export const postMechanicalListApi = (params) =>
     url: Api.MECHANICAL_List,
     params,
   });
-
+////获取机械设备详细信息
+export const postMechanicalDetailApi = (params) =>
+  defHttp.post({
+    url: Api.MECHANICAL_DETAIL,
+    params,
+  });
 //批量导出
 export const postMechanicalExportApi = (params) =>
   defHttp.post(

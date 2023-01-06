@@ -25,6 +25,7 @@
   } from './data';
   import { useRoute } from 'vue-router';
   import { postSpecialDetailApi } from '/@/api/device-management/special-equipment';
+  import { postMechanicalDetailApi } from '/@/api/device-management/mechanics';
   const route = useRoute();
   const state = route.query.state as string;
   const id = route.query.id as string;
@@ -73,9 +74,19 @@
     column: 1,
   });
   function funDetail() {
-    id &&
-      postSpecialDetailApi({ id, dataSource }).then((res) => {
-        console.log('res: ', res);
-      });
+    if (state === '3' || state === '4') {
+      //特种设备详情
+      id &&
+        postSpecialDetailApi({ id, dataSource }).then((res) => {
+          console.log('res: ', res);
+          mockData.value = res;
+        });
+    } else {
+      id &&
+        postMechanicalDetailApi({ id, dataSource }).then((res) => {
+          console.log('res: ', res);
+          mockData.value = res;
+        });
+    }
   } //
 </script>

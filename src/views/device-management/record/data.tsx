@@ -2,6 +2,7 @@ import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getManagementDictionaryList } from '/@/api/sys/systemSetting/dictionaryType';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
+
 //装置设置
 export const installationColumns: BasicColumn[] = [
   {
@@ -126,7 +127,7 @@ export const installationFormSchema: FormSchema[] = [
 //基本信息  机械设备静 state === '1'
 export const mechanicsDescItem: DescItem[] = [
   {
-    field: 'dangerName',
+    field: 'name',
     label: '设备名称/机械设备静/1',
   },
   {
@@ -134,55 +135,55 @@ export const mechanicsDescItem: DescItem[] = [
     label: '所属项目',
   },
   {
-    field: 'riskLevelName',
+    field: 'facilitiesName',
     label: '所属装置设施',
   },
   {
-    field: 'aaaa',
+    field: 'deviceNatureName',
     label: '设备性质',
   },
   {
-    field: 'hazardTypeText',
+    field: 'deviceTypeName',
     label: '设备类型',
   },
   {
-    field: 'hazardTypeText',
+    field: 'medium',
     label: '介质',
   },
   {
-    field: 'hazardTypeText',
+    field: 'bitNumber',
     label: '位号',
   },
   {
-    field: 'hazardTypeText',
+    field: 'specifModels',
     label: '规格型号',
   },
   {
-    field: 'hazardTypeText',
+    field: 'subjectTexture',
     label: '主体材质',
   },
   {
-    field: 'hazardTypeText',
+    field: 'temperature',
     label: '操作温度（°C）',
   },
   {
-    field: 'hazardTypeText',
+    field: 'pressure',
     label: '操作压力（MPa）',
   },
   {
-    field: 'hazardTypeText',
+    field: 'designTemp',
     label: '设计温度（°C）',
   },
   {
-    field: 'hazardTypeText',
+    field: 'designPres',
     label: '设计压力（MPa）',
   },
   {
-    field: 'hazardTypeText',
+    field: 'position',
     label: '地理位置',
   },
   {
-    field: 'position',
+    field: 'siteList',
     label: '经纬度',
     render: (val) => {
       if (val) {
@@ -199,15 +200,15 @@ export const mechanicsDescItem: DescItem[] = [
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'basicInformat',
     label: '基本信息',
   },
   {
-    field: 'hazardTypeText',
+    field: 'pictureList',
     label: '图纸',
   },
   {
-    field: 'hazardTypeText',
+    field: 'affixList',
     label: '附件',
   },
 ];
@@ -836,36 +837,36 @@ export const overhaulFormSchema: FormSchema[] = [
 export const timingDetectionColumns: BasicColumn[] = [
   {
     title: '检测时间',
-    dataIndex: 'name',
+    dataIndex: 'detectionDate',
   },
   {
     title: '特种设备名称',
-    dataIndex: 'productName',
+    dataIndex: 'deviceName',
   },
   {
     title: '安全附件名称',
-    dataIndex: 'status',
+    dataIndex: 'safeAffixName',
   },
   {
     title: '证书编号',
-    dataIndex: 'status',
+    dataIndex: 'certificateCode',
   },
   {
     title: '检验结论',
-    dataIndex: 'status',
+    dataIndex: 'detectionResult',
   },
   {
     title: '下次检验日期',
-    dataIndex: 'status',
+    dataIndex: 'detectionNextDate',
   },
   {
     title: '备注',
-    dataIndex: 'status',
+    dataIndex: 'remark',
   },
 ];
 export const timingDetectionFormSchema: FormSchema[] = [
   {
-    field: '[]',
+    field: '[detectionStartDate,detectionEndDate]',
     component: 'RangePicker',
     label: '检测时间',
     componentProps: {
@@ -874,7 +875,7 @@ export const timingDetectionFormSchema: FormSchema[] = [
     },
   },
   {
-    field: '[]',
+    field: '[detectionNextStartDate,detectionNextEndDate]',
     component: 'RangePicker',
     label: '下次检验日期',
     componentProps: {

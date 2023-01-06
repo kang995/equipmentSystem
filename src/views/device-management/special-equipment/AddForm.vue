@@ -3,17 +3,22 @@
     <BasicForm @register="register">
       <template #personSlot="{ model, field }">
         <Select
+          :disabled="dataSource === '2' ? true : false"
           v-model:value="model[field]"
           showSearch
           optionFilterProp="label"
           style="width: 100%"
-          placeholder="请选择检查人"
+          placeholder="请选择管理人员"
           :options="options"
           @change="handleChangeCheck"
         />
       </template>
       <template #position>
-        <Position @view-map="viewMap" :positionData="PositionData" />
+        <Position
+          @view-map="viewMap"
+          :positionData="PositionData"
+          :testState="dataSource === '1' ? true : false"
+        />
       </template>
     </BasicForm>
     <BasicModal
@@ -32,7 +37,7 @@
   import ModalMap from '../components/ModalMap.vue';
   import Position from '../components/MapPosition.vue';
   import { useModal, BasicModal } from '/@/components/Modal';
-  import { schemasAdd } from '../data';
+  import { schemasAdd, schemasEdit } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { useRouter, useRoute } from 'vue-router';
@@ -89,6 +94,7 @@
       postSpecialDetailApi({ id: id, dataSource: dataSource }).then((res) => {
         setFieldsValue(res);
         versionVal.value = res.version;
+        res?.managementPeopleId && handleChangeCheck(res.managementPeopleId);
       });
   }
 
@@ -99,7 +105,7 @@
     wrapperCol: {
       span: 10,
     },
-    schemas: schemasAdd,
+    schemas: schemasAdd(dataSource ? dataSource : '2'),
     actionColOptions: {
       offset: 8,
       span: 10,
@@ -130,6 +136,7 @@
     if (id) {
       data['id'] = id;
       data['version'] = versionVal.value;
+      console.log('versionVal.value: ', versionVal.value);
       data['dataSource'] = dataSource;
       funAdd(postSpecialEditApi, data, '编辑成功');
     } else {

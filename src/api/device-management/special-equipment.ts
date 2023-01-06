@@ -16,7 +16,14 @@ enum Api {
 
   //检测
   ADD_SPECIAL = '/specialRecord/save', //新增
+  RECORD_LIST = '/specialRecord/list', //分页查询特种设备检测记录
 }
+//分页查询特种设备检测记录
+export const postSpecialRecordListApi = (params) =>
+  defHttp.post({
+    url: Api.RECORD_LIST,
+    params,
+  });
 //新增
 export const postSpecialRecordAddApi = (params) =>
   defHttp.post({

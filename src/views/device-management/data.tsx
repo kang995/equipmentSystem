@@ -284,292 +284,291 @@ export const installationSchema: DescItem[] = [
 ];
 
 //新建特种设备
-export const schemasAdd: FormSchema[] = [
-  {
-    field: 'name',
-    component: 'Input',
-    label: '设备名称',
-    required: true,
-    componentProps: {
-      placeholder: '请输入设备名称',
-    },
-  },
-  {
-    field: 'proId',
-    component: 'ApiSelect',
-    label: '所属项目',
-    required: true,
-    componentProps: {
-      api: postDesignSelectApi, //后台路径
-      resultField: 'data', //后台返回数据字段
-      labelField: 'name', //设置label字段
-      valueField: 'id', //设置value字段
-      placeholder: '请选择所属项目',
-    },
-  },
-  {
-    field: 'parentId',
-    component: 'ApiSelect',
-    label: '所属装置设施',
-    required: true,
-    componentProps: {
-      api: postSelectUnitFacilityApi, //后台路径
-      resultField: 'data', //后台返回数据字段
-      labelField: 'name', //设置label字段
-      valueField: 'id', //设置value字段
-      placeholder: '请选择所属装置设施',
-    },
-  },
-  {
-    field: 'facilityType',
-    component: 'ApiSelect',
-    label: '设备类型',
-    required: true,
-    componentProps: {
-      api: getDictionarySelectType, //后台路径
-      params: {
-        type: 'DEVICE_TYPE',
+export function schemasAdd(dataSource: string): FormSchema[] {
+  return [
+    {
+      field: 'name',
+      component: 'Input',
+      label: '设备名称',
+      required: true,
+      componentProps: {
+        placeholder: '请输入设备名称',
+        disabled: dataSource === '1' ? true : false,
       },
-      resultField: 'data', //后台返回数据字段
-      labelField: 'itemName', //设置label字段
-      valueField: 'itemValue', //设置value字段
-      placeholder: '请选择设备类型',
     },
-  },
-  {
-    field: 'facilityQuality',
-    component: 'ApiRadioGroup',
-    label: '设备性质',
-    required: true,
-    defaultValue: '0',
-    componentProps: {
-      api: getDictionarySelectType, //后台路径
-      params: {
-        type: 'FACILITY_NATURE',
+    {
+      field: 'proId',
+      component: 'ApiSelect',
+      label: '所属项目',
+      required: true,
+      componentProps: {
+        api: postDesignSelectApi, //后台路径
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name', //设置label字段
+        valueField: 'id', //设置value字段
+        placeholder: '请选择所属项目',
+        disabled: dataSource === '1' ? true : false,
       },
-      resultField: 'data', //后台返回数据字段
-      labelField: 'itemName', //设置label字段
-      valueField: 'itemValue', //设置value字段
     },
-  },
-  {
-    field: 'facilityCode',
-    component: 'Input',
-    label: '设备编码',
-    componentProps: {
-      placeholder: '请输入设备编码',
-    },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'useStatus',
-    component: 'ApiSelect',
-    label: '使用状态',
-    required: true,
-    componentProps: {
-      api: getDictionarySelectType, //后台路径
-      params: {
-        type: 'USE_STATUS',
+    {
+      field: 'parentId',
+      component: 'ApiSelect',
+      label: '所属装置设施',
+      required: true,
+      componentProps: {
+        api: postSelectUnitFacilityApi, //后台路径
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name', //设置label字段
+        valueField: 'id', //设置value字段
+        placeholder: '请选择所属装置设施',
+        disabled: dataSource === '1' ? true : false,
       },
-      resultField: 'data', //后台返回数据字段
-      labelField: 'itemName', //设置label字段
-      valueField: 'itemValue', //设置value字段
-      placeholder: '选择使用状态',
     },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'facilityRegistratCode',
-    component: 'Input',
-    label: '设备注册代码',
-    componentProps: {
-      placeholder: '请输入设备注册代码',
-    },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'useCardCode',
-    component: 'Input',
-    label: '使用证编号',
-    componentProps: {
-      placeholder: '请输入使用证编号',
-    },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'manufactureEnterprise',
-    component: 'Input',
-    label: '制造单位',
-    componentProps: {
-      placeholder: '请输入制造单位',
-    },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'inspectionResponsibilityEnterprise',
-    component: 'Input',
-    label: '检验责任所在单位',
-    componentProps: {
-      placeholder: '请输入检验责任所在单位',
-    },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'managementPeopleId',
-    component: 'ApiSelect',
-    label: '管理人员',
-    slot: 'personSlot',
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    //自动代入
-    field: 'phone',
-    component: 'Input',
-    label: '管理人员联系方式',
-    componentProps: {
-      placeholder: '请输入管理人员联系方式',
-      disabled: true,
-    },
-    ifShow: ({ values }) => {
-      return values.facilityQuality === '0';
-    },
-  },
-  {
-    field: 'medium',
-    component: 'Input',
-    label: '介质',
-    required: true,
-    componentProps: {
-      placeholder: '请输入介质',
-    },
-  },
-
-  {
-    field: 'bitNumber',
-    component: 'Input',
-    label: '位号',
-    componentProps: {
-      placeholder: '请输入位号',
-    },
-  },
-
-  {
-    field: 'specifModels',
-    component: 'Input',
-    label: '规格型号',
-    componentProps: {
-      placeholder: '请输入规格型号',
-    },
-  },
-
-  {
-    field: 'subjectTexture',
-    component: 'Input',
-    label: '主体材质',
-    componentProps: {
-      placeholder: '请输入主体材质',
-    },
-  },
-  {
-    field: 'temperature',
-    component: 'Input',
-    label: '操作温度（°C）',
-    componentProps: {
-      placeholder: '请输入操作温度',
-    },
-  },
-  {
-    field: 'pressure',
-    component: 'Input',
-    label: '操作压力（MPa）',
-    componentProps: {
-      placeholder: '请输入操作压力',
-    },
-  },
-  {
-    field: 'designTemp',
-    component: 'Input',
-    label: '设计温度（°C）',
-    componentProps: {
-      placeholder: '请输入设计温度',
-    },
-  },
-  {
-    field: 'designPres',
-    component: 'Input',
-    label: '设计压力（MPa）',
-    componentProps: {
-      placeholder: '请输入设计压力',
-    },
-  },
-  {
-    field: 'position',
-    component: 'Input',
-    label: '地理位置',
-    componentProps: {
-      placeholder: '请输入地理位置',
-    },
-
-    //选择经纬度
-  },
-  {
-    field: 'positionList',
-    label: ' ',
-    component: 'ApiSelect',
-    slot: 'position',
-  },
-  {
-    field: 'blueprintList',
-    component: 'Upload',
-    label: '图纸',
-    componentProps: {
-      type: '',
-      maxNumber: 5,
-      maxSize: 5,
-      accept: '.jpg,.png,.jpeg',
-      helpText: '请上传图片',
-    },
-  },
-  {
-    field: 'basicInformat',
-    component: 'Input',
-    label: '基本信息',
-    render: ({ model, field }) => {
-      return h(Tinymce, {
-        value: model[field],
-        onChange: (value: string) => {
-          model[field] = value;
+    {
+      field: 'facilityType',
+      component: 'ApiSelect',
+      label: '设备类型',
+      required: true,
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'DEVICE_TYPE',
         },
-      });
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '请选择设备类型',
+        disabled: dataSource === '1' ? true : false,
+      },
     },
-  },
-  {
-    field: 'affixList',
-    component: 'Upload',
-    label: '上传附件',
-    componentProps: {
-      type: '',
-      maxNumber: 10,
-      maxSize: 10,
-      accept: '.rar,.zip,.docx,.pdf,.jpg',
-      helpText: '请上传附件',
+    {
+      field: 'facilityQuality',
+      component: 'ApiRadioGroup',
+      label: '设备性质',
+      required: true,
+      defaultValue: '0',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'FACILITY_NATURE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        disabled: dataSource === '1' ? true : false,
+      },
     },
-  },
-];
+    {
+      field: 'facilityCode',
+      component: 'Input',
+      label: '设备编码',
+      componentProps: {
+        placeholder: '请输入设备编码',
+      },
+    },
+    {
+      field: 'useStatus',
+      component: 'ApiSelect',
+      label: '使用状态',
+      required: true,
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'USE_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '选择使用状态',
+      },
+    },
+
+    {
+      field: 'facilityRegistratCode',
+      component: 'Input',
+      label: '设备注册代码',
+      componentProps: {
+        placeholder: '请输入设备注册代码',
+      },
+    },
+    {
+      field: 'useCardCode',
+      component: 'Input',
+      label: '使用证编号',
+      componentProps: {
+        placeholder: '请输入使用证编号',
+      },
+    },
+    {
+      field: 'manufactureEnterprise',
+      component: 'Input',
+      label: '制造单位',
+      componentProps: {
+        placeholder: '请输入制造单位',
+      },
+    },
+    {
+      field: 'inspectionResponsibilityEnterprise',
+      component: 'Input',
+      label: '检验责任所在单位',
+      componentProps: {
+        placeholder: '请输入检验责任所在单位',
+      },
+    },
+
+    {
+      field: 'managementPeopleId',
+      component: 'ApiSelect',
+      label: '管理人员',
+      slot: 'personSlot',
+    },
+    {
+      //自动代入
+      field: 'phone',
+      component: 'Input',
+      label: '管理人员联系方式',
+      componentProps: {
+        placeholder: '请输入管理人员联系方式',
+        disabled: dataSource === '1' ? false : true,
+      },
+    },
+
+    {
+      field: 'medium',
+      component: 'Input',
+      label: '介质',
+      required: true,
+      componentProps: {
+        placeholder: '请输入介质',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+
+    {
+      field: 'bitNumber',
+      component: 'Input',
+      label: '位号',
+      componentProps: {
+        placeholder: '请输入位号',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+
+    {
+      field: 'specifModels',
+      component: 'Input',
+      label: '规格型号',
+      componentProps: {
+        placeholder: '请输入规格型号',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+
+    {
+      field: 'subjectTexture',
+      component: 'Input',
+      label: '主体材质',
+      componentProps: {
+        placeholder: '请输入主体材质',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+    {
+      field: 'temperature',
+      component: 'Input',
+      label: '操作温度（°C）',
+      componentProps: {
+        placeholder: '请输入操作温度',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+    {
+      field: 'pressure',
+      component: 'Input',
+      label: '操作压力（MPa）',
+      componentProps: {
+        placeholder: '请输入操作压力',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+    {
+      field: 'designTemp',
+      component: 'Input',
+      label: '设计温度（°C）',
+      componentProps: {
+        placeholder: '请输入设计温度',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+    {
+      field: 'designPres',
+      component: 'Input',
+      label: '设计压力（MPa）',
+      componentProps: {
+        placeholder: '请输入设计压力',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+    {
+      field: 'position',
+      component: 'Input',
+      label: '地理位置',
+      componentProps: {
+        placeholder: '请输入地理位置',
+        disabled: dataSource === '1' ? true : false,
+      },
+
+      //选择经纬度
+    },
+    {
+      field: 'positionList',
+      label: ' ',
+      component: 'ApiSelect',
+      slot: 'position',
+    },
+    {
+      field: 'blueprintList',
+      component: 'Upload',
+      label: '图纸',
+      componentProps: {
+        maxNumber: 5,
+        maxSize: 5,
+        accept: '.jpg,.png,.jpeg',
+        helpText: '请上传图片',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+    {
+      field: 'basicInformat',
+      component: 'Input',
+      label: '基本信息',
+      componentProps: {
+        disabled: dataSource === '1' ? true : false,
+      },
+      render: ({ model, field }) => {
+        return h(Tinymce, {
+          value: model[field],
+          onChange: (value: string) => {
+            model[field] = value;
+          },
+        });
+      },
+    },
+    {
+      field: 'affixList',
+      component: 'Upload',
+      label: '上传附件',
+      componentProps: {
+        type: '',
+        maxNumber: 10,
+        maxSize: 10,
+        accept: '.rar,.zip,.docx,.pdf,.jpg',
+        helpText: '请上传附件',
+        disabled: dataSource === '1' ? true : false,
+      },
+    },
+  ];
+}
 //新增检测记录
 export const testingAdd: FormSchema[] = [
   {

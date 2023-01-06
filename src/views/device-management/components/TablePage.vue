@@ -18,23 +18,28 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
+  import { useRoute } from 'vue-router';
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
+  const route = useRoute();
+  const deviceId = route.query.id as string;
+  const dataSource = route.query.dataSource as string;
+
   const props = defineProps<{
-    dataSource: any;
+    dataSource?: any;
     columns: any;
     formSchema: any;
     ifExport?: any;
     api?: any;
-    deviceId?: any;
+    ifDataSource?: any; //定期检测记录传dataSource
   }>();
-  console.log('dataSource', props.dataSource);
+
   const [register] = useTable({
     api: props.api,
     searchInfo: {
-      deviceId: props.deviceId,
+      deviceId,
+      dataSource: props.ifDataSource ? dataSource : '',
     },
-    // dataSource: props.dataSource,
     columns: props.columns,
     rowKey: 'id',
     useSearchForm: true,
