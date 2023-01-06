@@ -30,9 +30,12 @@
   const router = useRouter();
 
   const dataSource = ref([{}]);
-  function handleDetails() {
+  function handleDetails({ record }) {
     router.push({
       name: 'EmergencyDetail',
+      query: {
+        id: record.id,
+      },
     });
   }
 </script>

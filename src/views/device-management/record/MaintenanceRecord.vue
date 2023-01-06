@@ -31,10 +31,17 @@
   const dataSource = ref([]);
 
   //详情
-  function handleDetails() {
+  function handleDetails({ record }) {
+    // console.log('record',record)
     //跳转到设备保养详情
     router.push({
-      name: 'planDetails',
+      name: 'workOrderDetail',
+      query: {
+        id: record.id,
+        identity: '1',
+        status: record.workOrderStatus, //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+        // delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
+      },
     });
   }
 </script>
