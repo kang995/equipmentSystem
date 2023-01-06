@@ -6,7 +6,7 @@
       @done="handleDone"
       v-if="showImageUpload"
       v-show="editorRef"
-      :disabled="disabled"
+      :disabled="disabledUpload ? disabledUpload : disabled"
     />
     <textarea
       :id="tinymceId"
@@ -117,6 +117,10 @@
     showImageUpload: {
       type: Boolean,
       default: true,
+    },
+    disabledUpload: {
+      type: Boolean,
+      default: false,
     },
   };
 

@@ -4,6 +4,7 @@
       name="file"
       multiple
       @change="handleChange"
+      :headers="headersObj"
       :action="uploadUrl"
       :showUploadList="false"
       accept=".jpg,.jpeg,.gif,.png,.webp"
@@ -15,12 +16,14 @@
   </div>
 </template>
 <script lang="ts">
-  import { defineComponent, computed } from 'vue';
+  import { defineComponent, computed, ref } from 'vue';
 
   import { Upload } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useGlobSetting } from '/@/hooks/setting';
   import { useI18n } from '/@/hooks/web/useI18n';
+  import { getToken } from '/@/utils/auth';
+  import { HttpRequestHeader } from 'ant-design-vue/lib/upload/interface';
 
   export default defineComponent({
     name: 'TinymceImageUpload',
@@ -36,6 +39,8 @@
     },
     emits: ['uploading', 'done', 'error'],
     setup(props, { emit }) {
+      const token = getToken() as string;
+      const headersObj = ref<HttpRequestHeader>({ Authorization: token });
       let uploading = false;
 
       const { uploadUrl } = useGlobSetting();
@@ -53,7 +58,7 @@
         console.log('info', info);
         const file = info.file;
         const status = file?.status;
-        const url = file?.response?.data;
+        const url = file?.response?.data.url;
         const name = file?.name;
 
         if (status === 'uploading') {
@@ -76,6 +81,7 @@
         uploadUrl,
         t,
         getButtonProps,
+        headersObj,
       };
     },
   });
