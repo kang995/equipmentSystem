@@ -21,6 +21,7 @@ enum Api {
   //检测
   ADD_SPECIAL = '/specialRecord/save', //新增
   RECORD_LIST = '/specialRecord/list', //分页查询特种设备检测记录
+  RECORD_DETAIL = '/device/specialRecord/detail',
 }
 //演练对象-下拉查询
 export const postPlanNameListApi = () =>
@@ -36,6 +37,12 @@ export const postSectionListApi = () =>
 export const postSpecialRecordListApi = (params) =>
   defHttp.post({
     url: Api.RECORD_LIST,
+    params,
+  });
+//详情
+export const postSpecialRDetailApi = (params) =>
+  defHttp.post({
+    url: Api.RECORD_DETAIL,
     params,
   });
 //新增
