@@ -1,5 +1,11 @@
 <template>
-  <TablePage :dataSource="dataSource" :columns="emergencyColumns" :formSchema="emergencyFormSchema">
+  <TablePage
+    :api="DeviceMechanicalListApi"
+    :deviceId="id"
+    :dataSource="dataSource"
+    :columns="emergencyColumns"
+    :formSchema="emergencyFormSchema"
+  >
     <template #tableAction="record">
       <TableAction
         :divider="false"
@@ -20,8 +26,12 @@
   import { emergencyColumns, emergencyFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
   import TablePage from '../components/TablePage.vue';
-  import { useRouter } from 'vue-router';
+  import { DeviceMechanicalListApi } from '/@/api/device-management/special-equipment';
+  import { useRouter, useRoute } from 'vue-router';
   const router = useRouter();
+  const route = useRoute();
+  const id = route.query.id as string;
+
   const dataSource = ref([{}]);
   function handleDetails() {
     router.push({

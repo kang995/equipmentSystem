@@ -972,32 +972,32 @@ export const maintenanceFormSchema: FormSchema[] = [
 export const emergencyColumns: BasicColumn[] = [
   {
     title: '演练名称',
-    dataIndex: 'name',
+    dataIndex: 'planIdName',
   },
   {
     title: '计划开始时间',
-    dataIndex: 'productName',
+    dataIndex: 'planStartTime',
   },
   {
     title: '实际开始时间',
-    dataIndex: 'status',
+    dataIndex: 'actualStartDate',
   },
   {
     title: '计划演练时长',
-    dataIndex: 'status',
+    dataIndex: 'duration',
   },
   {
     title: '演练对象',
-    dataIndex: 'status',
+    dataIndex: 'planIdName',
   },
   {
     title: '演练范围',
-    dataIndex: 'status',
+    dataIndex: 'departmentIdName',
   },
 ];
 export const emergencyFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'drillName',
     component: 'Input',
     label: '演练名称',
     componentProps: {
@@ -1005,23 +1005,27 @@ export const emergencyFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'status',
-    component: 'DatePicker',
+    field: '[planStartTime,planEndTime]',
+    component: 'RangePicker',
     label: '计划开始时间',
     componentProps: {
-      placeholder: '请选择计划开始时间',
+      format: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
+      showTime: true,
     },
   },
   {
-    field: 'status',
-    component: 'DatePicker',
+    field: '[actualStartTime,actualEndTime]',
+    component: 'RangePicker',
     label: '实际开始时间',
     componentProps: {
-      placeholder: '请选择实际开始时间',
+      format: 'YYYY-MM-DD HH:mm:ss',
+      placeholder: ['开始时间', '结束时间'],
+      showTime: true,
     },
   },
   {
-    field: 'productId',
+    field: 'planId',
     component: 'ApiSelect',
     label: '演练对象',
     componentProps: {
@@ -1029,7 +1033,7 @@ export const emergencyFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'productId',
+    field: 'departmentId',
     component: 'ApiSelect',
     label: '演练部门',
     componentProps: {
