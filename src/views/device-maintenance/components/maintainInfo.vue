@@ -1,5 +1,5 @@
 <template>
-  <div class="px-15">
+  <div class="px-4">
     <Description @register="register" />
     <!-- <div class="sub-title text-body1 text-14px font-bold mt-6 mb-6">审核信息</div> -->
     <template v-if="mode === '1' && (status === '3' || status === '4')">

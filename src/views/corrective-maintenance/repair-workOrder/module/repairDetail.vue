@@ -15,7 +15,7 @@
     <!-- 提交维修结果 -->
     <template v-if="!partFlag && (activeKey === '1' || activeKey === '2')">
       <div class="m-4">
-        <a-button type="primary" @click="handleSubmit">提交1</a-button>
+        <a-button type="primary" @click="handleSubmit">提交</a-button>
       </div>
     </template>
   </PageWrapper>

@@ -1,7 +1,6 @@
 <template>
   <TablePage
     :api="DeviceMechanicalListApi"
-    :deviceId="id"
     :dataSource="dataSource"
     :columns="emergencyColumns"
     :formSchema="emergencyFormSchema"
@@ -27,10 +26,8 @@
   import { TableAction } from '/@/components/Table';
   import TablePage from '../components/TablePage.vue';
   import { DeviceMechanicalListApi } from '/@/api/device-management/special-equipment';
-  import { useRouter, useRoute } from 'vue-router';
+  import { useRouter } from 'vue-router';
   const router = useRouter();
-  const route = useRoute();
-  const id = route.query.id as string;
 
   const dataSource = ref([{}]);
   function handleDetails() {

@@ -13,6 +13,9 @@ enum Api {
   SERVICE_LIST = '', //检修记录列表
   UPKEEP_LIST = '/mechanical/upkeepWorkOrder/list', //保养记录列表
   MECHANICAL_LIST = '/mechanical/drillRecord/list', //应急演练记录列表
+  //下拉查询
+  PLANID_NAME_SELECT = '/mechanical/planIdName/select', //演练对象-下拉查询
+  SYSTEM_SELECT = '/system/department/tree/select', //部门下拉框查询
 
   //检测
   ADD_SPECIAL = '/specialRecord/save', //新增

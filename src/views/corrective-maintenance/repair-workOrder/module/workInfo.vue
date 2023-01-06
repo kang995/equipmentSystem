@@ -87,7 +87,7 @@
         <!-- <BasicForm @register="registerSubmitAccept" /> -->
       </div>
       <div class="mt-[12px] flex">
-        <template v-if="status === '1'">
+        <template v-if="status === '0'">
           <a-button class="mt-45 mr-4" type="primary" v-if="!apply && !accept" @click="handleApply"
             >申请延期</a-button
           >
