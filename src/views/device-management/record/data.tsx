@@ -1,7 +1,13 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import { getManagementDictionaryList } from '/@/api/sys/systemSetting/dictionaryType';
+import {
+  getDictionarySelectType,
+  getManagementDictionaryList,
+} from '/@/api/sys/systemSetting/dictionaryType';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
+import { SvgIcon } from '/@/components/Icon';
+import { getBlob, saveAs } from '/@/utils/downloadFile';
+import { Image, Row } from 'ant-design-vue';
 
 import {
   postPlanNameListApi,
@@ -127,11 +133,11 @@ export const installationFormSchema: FormSchema[] = [
   },
 ];
 
-//基本信息  机械设备静 state === '1'
+//基本信息   特种设备'
 export const mechanicsDescItem: DescItem[] = [
   {
     field: 'name',
-    label: '设备名称/机械设备静/1',
+    label: '设备名称',
   },
   {
     field: 'projectName',
@@ -150,12 +156,63 @@ export const mechanicsDescItem: DescItem[] = [
     label: '设备类型',
   },
   {
+    field: 'facilityCode',
+    label: '设备编码',
+  },
+  {
+    field: 'useStatus',
+    label: '使用状态',
+  },
+  {
+    field: 'useCardCode',
+    label: '特种设备使用证编号',
+  },
+  {
+    field: 'manufactureEnterprise',
+    label: '制造单位',
+  },
+  {
+    field: 'inspectionResponsibilityEnterprise',
+    label: '检验责任所在单位',
+  },
+  {
+    field: 'detectionNextDate',
+    label: '首次检测日期',
+  },
+  {
+    field: 'managementPeopleName',
+    label: '管理人员',
+  },
+  {
+    field: 'managementPeoplePhone',
+    label: '管理人员联系方式',
+  },
+
+  {
     field: 'medium',
     label: '介质',
   },
   {
     field: 'bitNumber',
     label: '位号',
+    show: (data) => {
+      return data.facilityQuality == '1';
+    },
+  },
+
+  {
+    field: 'specifModels',
+    label: '设备型号',
+    show: (data) => {
+      return data.facilityQuality == '0';
+    },
+  },
+  {
+    field: 'mediumTemp',
+    label: '介质温度',
+    show: (data) => {
+      return data.facilityQuality == '0';
+    },
   },
   {
     field: 'specifModels',
@@ -168,31 +225,72 @@ export const mechanicsDescItem: DescItem[] = [
   {
     field: 'temperature',
     label: '操作温度（°C）',
+    show: (data) => {
+      return data.facilityQuality == '1';
+    },
   },
   {
     field: 'pressure',
     label: '操作压力（MPa）',
+    show: (data) => {
+      return data.facilityQuality == '1';
+    },
   },
   {
     field: 'designTemp',
     label: '设计温度（°C）',
+    show: (data) => {
+      return data.facilityQuality == '1';
+    },
   },
   {
     field: 'designPres',
     label: '设计压力（MPa）',
+    show: (data) => {
+      return data.facilityQuality == '1';
+    },
+  },
+  {
+    field: 'temperature',
+    label: '设计流量（m³/h）',
+    show: (data) => {
+      return data.facilityQuality == '0';
+    },
+  },
+  {
+    field: 'designLift',
+    label: '设计扬程（m）',
+    show: (data) => {
+      console.log('data.facilityQuality: ', data.facilityQuality);
+      return data.facilityQuality == '0';
+    },
+  },
+  {
+    field: 'designShaftPower',
+    label: '设计轴功率（kw）',
+    show: (data) => {
+      return data.facilityQuality == '0';
+    },
+  },
+  {
+    field: 'designRevolutions',
+    label: '设计转数（rpm）',
+    show: (data) => {
+      return data.facilityQuality == '0';
+    },
   },
   {
     field: 'position',
     label: '地理位置',
   },
   {
-    field: 'siteList',
+    field: 'positionList',
     label: '经纬度',
     render: (val) => {
+      console.log('val: ', val);
       if (val) {
         return (
           <div>
-            <p>{val}</p>
             <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
               预览位置
             </a-button>
@@ -205,211 +303,187 @@ export const mechanicsDescItem: DescItem[] = [
   {
     field: 'basicInformat',
     label: '基本信息',
+    render: (val: string) => {
+      return <div class="overflow-auto max-h-[150px]" v-html={val}></div>;
+    },
   },
   {
-    field: 'pictureList',
+    field: 'blueprintList',
     label: '图纸',
+    render: (data) => {
+      console.log('data:333 ', data);
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            {data.map((item) => {
+              return <Image width={100} src={item.url} />;
+            })}
+          </ARow>
+        );
+      }
+    },
   },
   {
     field: 'affixList',
     label: '附件',
+    render: (data) => {
+      if (data) {
+        return (
+          <div>
+            {data.map((item) => {
+              return (
+                <div class="flex items-center">
+                  <SvgIcon name="gonggong_fujian" class={'mr-2'} />
+                  <span class={'mr-6 text-[#61687C]'}>{item.name}</span>
+                  <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
+                  <button
+                    onClick={async () => saveAs(await getBlob(item.url), item.name)}
+                    class={'text-[#4D79FF]'}
+                  >
+                    下载
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+    },
   },
 ];
-//基本信息  机械设备动 state === '2'
-export const mechanicsDescItemMove: DescItem[] = [
+
+//基本信息  机械设备
+export const equipmentDescItem: DescItem[] = [
   {
-    field: 'dangerName',
-    label: '设备名称/机械设备动/2',
+    field: 'name',
+    label: '设备名称',
   },
   {
     field: 'projectName',
     label: '所属项目',
   },
   {
-    field: 'riskLevelName',
+    field: 'facilitiesName',
     label: '所属装置设施',
   },
   {
-    field: 'aaaa',
+    field: 'deviceNatureName',
     label: '设备性质',
+    //0 动 1 静
   },
   {
-    field: 'hazardTypeText',
+    field: 'deviceTypeName',
     label: '设备类型',
   },
   {
-    field: 'hazardTypeText',
-    label: '介质',
+    field: 'useStatus',
+    label: '设备状态',
   },
   {
-    field: 'hazardTypeText',
-    label: '位号',
-  },
-  {
-    field: 'hazardTypeText',
+    field: 'facilityModel',
     label: '设备型号',
+    show: (data) => {
+      return data.deviceNature == '0';
+    },
   },
   {
-    field: 'hazardTypeText',
-    label: '介质温度（°C）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '规格型号',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '主体材质',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计流量（m³/h）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计轴功率（kw）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计扬程（m）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计转数（rpm）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '地理位置',
-  },
-  {
-    field: 'position',
-    label: '经纬度',
-    render: (val) => {
-      if (val) {
-        return (
-          <div>
-            <p>{val}</p>
-            <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
-              预览位置
-            </a-button>
-          </div>
-        );
-      } else {
-      }
+    field: 'districtName',
+    label: '位号',
+    show: (data) => {
+      return data.deviceNature == '1';
     },
   },
   {
     field: 'hazardTypeText',
-    label: '基本信息',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '图纸',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '附件',
-  },
-];
-//基本信息  特种设备静 state === '3'
-export const equipmentDescItem: DescItem[] = [
-  {
-    field: 'dangerName',
-    label: '设备名称/特种设备静/3',
-  },
-  {
-    field: 'projectName',
-    label: '所属项目',
-  },
-  {
-    field: 'riskLevelName',
-    label: '所属装置设施',
-  },
-  {
-    field: 'aaaa',
-    label: '设备性质',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设备类型',
-  },
-  {
-    field: 'dangerName',
-    label: '设备编号',
-  },
-  {
-    field: 'riskLevelName',
-    label: '使用状态',
-  },
-  {
-    field: 'projectName',
-    label: '设备注册代码',
-  },
-
-  {
-    field: 'districtName',
-    label: '使用证编号',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '下次检测日期',
-  },
-  {
-    field: 'projectName',
-    label: '制造单位',
-  },
-  {
-    field: 'districtName',
-    label: '检测责任所在单位',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '管理人员',
-  },
-  {
-    field: 'districtName',
-    label: '位号',
-  },
-  {
-    field: 'hazardTypeText',
     label: '介质',
   },
   {
     field: 'hazardTypeText',
     label: '主体材质',
   },
+
   {
-    field: 'hazardTypeText',
+    field: 'specifModels',
     label: '规格型号',
   },
   {
+    field: 'mediumTemp',
+    label: '介质温度（°C）',
+    show: (data) => {
+      return data.deviceNature == '0';
+    },
+  },
+  {
+    field: 'temperature',
+    label: '设计流量（m³/h）',
+    show: (data) => {
+      return data.deviceNature == '2';
+    },
+  },
+  {
+    field: 'designLift',
+    label: '设计扬程（m）',
+    show: (data) => {
+      return data.deviceNature == '2';
+    },
+  },
+  {
+    field: 'designShaftPower',
+    label: '设计轴功率（kw）',
+    show: (data) => {
+      return data.deviceNature == '2';
+    },
+  },
+  {
+    field: 'designRevolutions',
+    label: '设计转数（rpm）',
+    show: (data) => {
+      return data.deviceNature == '2';
+    },
+  },
+
+  {
     field: 'hazardTypeText',
     label: '操作压力（MPa）',
+    show: (data) => {
+      return data.deviceNature == '1';
+    },
   },
   {
     field: 'hazardTypeText',
     label: '操作温度（°C）',
+    show: (data) => {
+      return data.deviceNature == '1';
+    },
+  },
+
+  {
+    field: 'hazardTypeText',
+    label: '设计压力（MPa）',
+    show: (data) => {
+      return data.deviceNature == '1';
+    },
   },
   {
     field: 'hazardTypeText',
     label: '设计温度（°C）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计压力（MPa）',
+    show: (data) => {
+      return data.deviceNature == '1';
+    },
   },
   {
     field: 'hazardTypeText',
     label: '地理位置',
   },
   {
-    field: 'position',
+    field: 'positionList',
     label: '经纬度',
     render: (val) => {
+      console.log('val: ', val);
       if (val) {
         return (
           <div>
-            <p>{val}</p>
             <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
               预览位置
             </a-button>
@@ -420,145 +494,54 @@ export const equipmentDescItem: DescItem[] = [
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'basicInformat',
     label: '基本信息',
+    render: (val: string) => {
+      return <div class="overflow-auto max-h-[150px]" v-html={val}></div>;
+    },
   },
   {
-    field: 'hazardTypeText',
+    field: 'pictureList',
     label: '图纸',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '附件',
-  },
-];
-//基本信息  特种设备动 state === '4'
-export const equipmentDescItemMove: DescItem[] = [
-  {
-    field: 'dangerName',
-    label: '设备名称/特种设备动/4',
-  },
-  {
-    field: 'projectName',
-    label: '所属项目',
-  },
-  {
-    field: 'riskLevelName',
-    label: '所属装置设施',
-  },
-  {
-    field: 'aaaa',
-    label: '设备性质',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设备类型',
-  },
-  {
-    field: 'dangerName',
-    label: '设备编号',
-  },
-  {
-    field: 'riskLevelName',
-    label: '使用状态',
-  },
-  {
-    field: 'projectName',
-    label: '设备注册代码',
-  },
-
-  {
-    field: 'districtName',
-    label: '使用证编号',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '下次检测日期',
-  },
-  {
-    field: 'projectName',
-    label: '制造单位',
-  },
-  {
-    field: 'districtName',
-    label: '检测责任所在单位',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '管理人员',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '介质',
-  },
-  {
-    field: 'districtName',
-    label: '设备型号',
-  },
-  {
-    field: 'districtName',
-    label: '介质温度（°C）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '规格型号',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '主体材质',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计流量（m³/h）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计轴功率（kw）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计扬程（m）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '操作压力（MPa）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '设计转数（rpm）',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '地理位置',
-  },
-  {
-    field: 'position',
-    label: '经纬度',
-    render: (val) => {
-      if (val) {
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
         return (
-          <div>
-            <p>{val}</p>
-            <a-button id="testReviewBtn" preIcon="gonggong_dingwei|svg">
-              预览位置
-            </a-button>
-          </div>
+          <ARow gutter={24}>
+            {data.map((item) => {
+              return <Image width={100} src={item.url} />;
+            })}
+          </ARow>
         );
-      } else {
       }
     },
   },
   {
-    field: 'hazardTypeText',
-    label: '基本信息',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '图纸',
-  },
-  {
-    field: 'hazardTypeText',
+    field: 'affixList',
     label: '附件',
+    render: (data) => {
+      if (data) {
+        return (
+          <div>
+            {data.map((item) => {
+              return (
+                <div class="flex items-center">
+                  <SvgIcon name="gonggong_fujian" class={'mr-2'} />
+                  <span class={'mr-6 text-[#61687C]'}>{item.name}</span>
+                  <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
+                  <button
+                    onClick={async () => saveAs(await getBlob(item.url), item.name)}
+                    class={'text-[#4D79FF]'}
+                  >
+                    下载
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+    },
   },
 ];
 
@@ -1183,23 +1166,30 @@ export const sparePartColumns: BasicColumn[] = [
 ];
 export const sparePartFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    component: 'ApiSelect',
+    field: 'spareName',
+    component: 'Input',
     label: '备件名称',
     componentProps: {
-      placeholder: '请选择备件名称',
+      placeholder: '请输入备件名称',
     },
   },
   {
-    field: 'name',
+    field: 'spareClassify',
     component: 'ApiSelect',
     label: '备件分类',
     componentProps: {
+      api: getDictionarySelectType, //后台路径
+      params: {
+        type: 'SPARE_TYPE',
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'itemName', //设置label字段
+      valueField: 'itemValue', //设置value字段
       placeholder: '请选择备件分类',
     },
   },
   {
-    field: 'name',
+    field: 'dealPeopleName',
     component: 'Input',
     label: '处理人',
     componentProps: {
@@ -1207,7 +1197,7 @@ export const sparePartFormSchema: FormSchema[] = [
     },
   },
   {
-    field: '[]',
+    field: '[finishStartTime,finishEndTime]',
     component: 'RangePicker',
     label: '完成时间',
     componentProps: {

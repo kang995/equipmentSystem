@@ -21,8 +21,16 @@ enum Api {
   //检测
   ADD_SPECIAL = '/specialRecord/save', //新增
   RECORD_LIST = '/specialRecord/list', //分页查询特种设备检测记录
-  RECORD_DETAIL = '/device/specialRecord/detail',
+  RECORD_DETAIL = '/specialRecord/detail',
+  RECORD_EXPORT = '/specialRecord/export', //批量导出
+  //更换备件记录
+  SPARE_LIST = '/mechanical/orderSpare/list',
 }
+export const postSpareListApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_LIST,
+    params,
+  });
 //演练对象-下拉查询
 export const postPlanNameListApi = () =>
   defHttp.post({
@@ -126,3 +134,13 @@ export const DeviceDrillAffixApi = (params) =>
     url: Api.DRILLAFFIX,
     params,
   });
+//批量导出
+export const postSpecialRExportApi = (params) =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      params,
+      url: Api.RECORD_EXPORT,
+    },
+    { isTransformResponse: false },
+  );

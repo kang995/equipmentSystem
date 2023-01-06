@@ -170,94 +170,51 @@ export const installationFormSchema: FormSchema[] = [
 ];
 export const installationSchema: DescItem[] = [
   {
-    field: 'name',
-    label: '装置名称',
+    field: 'createByName',
+    label: '创建人',
   },
   {
-    field: 'proName',
-    label: '所属项目',
-  },
-  {
-    field: 'itemDesignName',
-    label: '所属项目组成部分',
+    field: 'detectionDate',
+    label: '检测时间',
   },
 
   {
-    field: 'districtName',
-    label: '所属区域',
+    field: 'deviceName',
+    label: '特种设备',
   },
   {
-    field: 'typeName',
-    label: '类型',
+    field: 'itemDesignName',
+    label: '所属装置设施',
+  },
+
+  {
+    field: 'detectionOrgan',
+    label: '检测机构',
   },
   {
-    field: 'monitorDirectionValue',
-    label: '监测方向',
+    field: 'detectionContent',
+    label: '检测内容',
   },
   {
-    field: 'riskLevelName',
-    label: '重大危险源级别',
+    field: 'detectionDate',
+    label: '检测时间',
   },
   {
-    field: 'position',
-    label: '地理位置',
+    field: 'certificateCode',
+    label: '证书编号',
   },
   {
-    field: 'developStateName',
-    label: '建筑状态',
+    field: 'detectionResult',
+    label: '检验结论',
   },
   {
-    field: 'floorArea',
-    label: '占地面积',
+    field: 'detectionNextDate',
+    label: '下次检验日期',
   },
+
   {
-    field: 'coveredArea',
-    label: '建筑面积',
-  },
-  {
-    field: 'buildStruct',
-    label: '建筑结构',
-  },
-  {
-    field: 'storeyHeight',
-    label: '层高',
-  },
-  {
-    field: 'fireRiskClassesName',
-    label: '火灾危险性类别',
-  },
-  {
-    field: 'fireResisRatName',
-    label: '耐火级别',
-  },
-  {
-    field: 'basicInformat',
-    label: '基本信息',
-    span: 4,
-    render: (val: string) => {
-      return <div style="overflow: auto; max-height: 200px" v-html={val}></div>;
-    },
-  },
-  {
-    field: 'pictureList',
-    label: '图纸',
-    span: 4,
-    render: (data) => {
-      const ARow = Row;
-      if (data) {
-        return (
-          <ARow gutter={24}>
-            {data.map((item) => {
-              return <Image width={100} src={item} />;
-            })}
-          </ARow>
-        );
-      }
-    },
-  },
-  {
-    field: 'affixList',
-    label: '附件',
+    field: 'safeAffixList',
+    label: '安全附件',
     span: 4,
     render: (data) => {
       if (data) {
@@ -281,6 +238,10 @@ export const installationSchema: DescItem[] = [
         );
       }
     },
+  },
+  {
+    field: 'remark',
+    label: '备注',
   },
 ];
 

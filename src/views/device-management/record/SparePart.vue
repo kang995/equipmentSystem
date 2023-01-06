@@ -1,6 +1,6 @@
 <template>
   <TablePage
-    :dataSource="dataSource"
+    :api="postSpareListApi"
     :columns="sparePartColumns"
     :formSchema="sparePartFormSchema"
     :ifExport="true"
@@ -21,14 +21,14 @@
   </TablePage>
 </template>
 <script setup lang="ts">
-  import { ref } from 'vue';
   import { sparePartColumns, sparePartFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
   import TablePage from '../components/TablePage.vue';
+  import { postSpareListApi } from '/@/api/device-management/special-equipment';
   const router = useRouter();
-  const dataSource = ref([{}]);
-  function handleDetails() {
+  function handleDetails(data) {
+    console.log('data: ', data);
     router.push({
       name: 'BackupDetails',
     });

@@ -34,8 +34,9 @@
   const router = useRouter();
   // 定期检测记录
   function handleDetails(data) {
-    const dataSource = data.dataSource;
-    const id = data.id;
+    const dataSource = data.record.dataSource;
+    const id = data.record.id;
+    console.log('id: ', id);
     router.push({
       name: 'TimingDetectionDetail',
       query: {
