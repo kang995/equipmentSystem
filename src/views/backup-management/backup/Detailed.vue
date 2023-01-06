@@ -33,9 +33,7 @@
     dataSource: dataSource,
     columns: detailedColumns,
     rowKey: 'id',
-    rowSelection: {
-      type: 'checkbox',
-    },
+
     pagination: true,
     actionColumn: {
       width: 280,

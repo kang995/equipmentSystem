@@ -177,12 +177,14 @@
     } else {
       funAdd(posOUTAddApi, data);
     }
-    getRouter();
   }
   function funAdd(api, data) {
-    api(data).then(() => {
-      createMessage.success('新增成功');
-    });
+    api(data)
+      .then(() => {
+        createMessage.success('新增成功');
+        getRouter();
+      })
+      .finally(() => {});
   }
   //使用数量
   function handleLimt(num, index) {

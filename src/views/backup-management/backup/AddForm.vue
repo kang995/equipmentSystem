@@ -230,9 +230,7 @@
       dataSource: dataSourceDevice,
       columns: devicesColumns,
       rowKey: 'id',
-      rowSelection: {
-        type: 'checkbox',
-      },
+
       actionColumn: {
         width: 280,
         title: '操作',
