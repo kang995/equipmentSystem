@@ -13,6 +13,7 @@ enum Api {
   SERVICE_LIST = '', //检修记录列表
   UPKEEP_LIST = '/mechanical/upkeepWorkOrder/list', //保养记录列表
   MECHANICAL_LIST = '/mechanical/drillRecord/list', //应急演练记录列表
+  DRILLAFFIX = '/mechanical/drillAffix', //查看演练报告
   //下拉查询
   PLANID_NAME_SELECT = '/mechanical/planIdName/select', //演练对象-下拉查询
   SYSTEM_SELECT = '/system/department/tree/select', //部门下拉框查询
@@ -21,6 +22,17 @@ enum Api {
   ADD_SPECIAL = '/specialRecord/save', //新增
   RECORD_LIST = '/specialRecord/list', //分页查询特种设备检测记录
 }
+//演练对象-下拉查询
+export const postPlanNameListApi = () =>
+  defHttp.post({
+    url: Api.PLANID_NAME_SELECT,
+  });
+//部门下拉框查询
+export const postSectionListApi = () =>
+  defHttp.post({
+    url: Api.SYSTEM_SELECT,
+  });
+
 //分页查询特种设备检测记录
 export const postSpecialRecordListApi = (params) =>
   defHttp.post({
@@ -100,5 +112,11 @@ export const DeviceUpkeepListApi = (params) =>
 export const DeviceMechanicalListApi = (params) =>
   defHttp.post({
     url: Api.MECHANICAL_LIST,
+    params,
+  });
+//查看演练报告
+export const DeviceDrillAffixApi = (params) =>
+  defHttp.post({
+    url: Api.DRILLAFFIX,
     params,
   });

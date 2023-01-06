@@ -445,7 +445,7 @@ export function confirmFormSchema(): FormSchema[] {
     //人员
     {
       field: 'disposeUnitId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
       colProps: {
@@ -456,12 +456,19 @@ export function confirmFormSchema(): FormSchema[] {
         return {
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
-          params: {
-            // type: 'PLAN_STATUS'
+          // params: {
+          //   // type: 'PLAN_STATUS'
+          // },
+          // resultField: 'data', //后台返回数据字段
+          // labelField: 'label',
+          // valueField: 'id',
+          fieldNames: {
+            numberToString: true,
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
           },
-          resultField: 'data', //后台返回数据字段
-          labelField: 'label',
-          valueField: 'id',
           onChange: (e: any) => {
             // console.log(e);
             getPeopleSelectApi([e]).then((res) => {

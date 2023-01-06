@@ -57,7 +57,7 @@ export function getAgainFormSchema(): FormSchema[] {
     // 人员
     {
       field: 'dealDeptId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
       ifShow: true,
@@ -66,12 +66,13 @@ export function getAgainFormSchema(): FormSchema[] {
         return {
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
-          params: {
-            // type: 'PLAN_STATUS'
+          fieldNames: {
+            numberToString: true,
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
           },
-          resultField: 'data', //后台返回数据字段
-          labelField: 'label',
-          valueField: 'id',
           getPopupContainer: () => document.body,
           onChange: (e: any) => {
             // console.log(e);

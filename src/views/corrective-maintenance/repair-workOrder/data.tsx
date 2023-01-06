@@ -462,7 +462,7 @@ export function getAgainFormSchemas(): FormSchema[] {
     // 人员
     {
       field: 'disposeUnitId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
       ifShow: true,
@@ -471,12 +471,13 @@ export function getAgainFormSchemas(): FormSchema[] {
         return {
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
-          params: {
-            // type: 'PLAN_STATUS'
+          fieldNames: {
+            numberToString: true,
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
           },
-          resultField: 'data', //后台返回数据字段
-          labelField: 'label',
-          valueField: 'id',
           getPopupContainer: () => document.body,
           onChange: (e: any) => {
             // console.log(e);
@@ -756,7 +757,6 @@ export function getApplyFormSchema(): FormSchema[] {
 }
 //工单信息-维修结果
 export function getAcceptFormSchema(status: string): FormSchema[] {
-  console.log('status', status);
   return [
     {
       field: 'dealCase',
@@ -825,7 +825,7 @@ export function getAcceptFormSchema(status: string): FormSchema[] {
         labelField: 'name',
         valueField: 'id',
       },
-      ifShow: ({}) => status === '1',
+      // ifShow: ({}) => status === '1',
     },
   ];
 }

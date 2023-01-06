@@ -2,7 +2,10 @@ import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getManagementDictionaryList } from '/@/api/sys/systemSetting/dictionaryType';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
-
+import {
+  postPlanNameListApi,
+  postSectionListApi,
+} from '/@/api/device-management/special-equipment';
 //装置设置
 export const installationColumns: BasicColumn[] = [
   {
@@ -1030,14 +1033,32 @@ export const emergencyFormSchema: FormSchema[] = [
     label: '演练对象',
     componentProps: {
       placeholder: '请选择演练对象',
+      api: postPlanNameListApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
   {
     field: 'departmentId',
-    component: 'ApiSelect',
+    component: 'ApiTreeSelect',
     label: '演练部门',
     componentProps: {
       placeholder: '请选择演练部门',
+      api: postSectionListApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      fieldNames: {
+        numberToString: true,
+        value: 'id',
+        key: 'id',
+        label: 'label',
+        children: 'children',
+      },
     },
   },
 ];

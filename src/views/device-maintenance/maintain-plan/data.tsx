@@ -143,8 +143,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '计划生效时间',
       required: true,
       componentProps: {
-        showTime: true,
-        format: 'YYYY-MM-DD HH:mm:ss',
+        // showTime: true,
+        format: 'YYYY-MM-DD',
         getPopupContainer: () => document.body,
       },
     },
@@ -529,7 +529,7 @@ export function getCommonFormSchema(): FormSchema[] {
     // 人员
     {
       field: 'dealDeptId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
       ifShow: true,
@@ -538,14 +538,15 @@ export function getCommonFormSchema(): FormSchema[] {
         return {
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
-          params: {
-            // type: 'PLAN_STATUS'
+          fieldNames: {
+            numberToString: true,
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
           },
-          resultField: 'data', //后台返回数据字段
-          labelField: 'label',
-          valueField: 'id',
           onChange: (e: any) => {
-            // console.log(e);
+            console.log(e);
             getPeopleSelectApi([e]).then((res) => {
               updateSchema({
                 field: 'dealUserIdList',

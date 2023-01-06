@@ -30,11 +30,6 @@
   const router = useRouter();
   const dataSource = ref([]);
 
-  // DeviceUpkeepListApi({deviceId:id}).then(res=>{
-  //   dataSource.value = res.records;
-  //   console.log('ressss',res)
-  // })
-
   //详情
   function handleDetails() {
     //跳转到设备保养详情

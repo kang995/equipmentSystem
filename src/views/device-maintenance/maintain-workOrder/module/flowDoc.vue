@@ -37,11 +37,17 @@
     AStep = Steps.Step;
   const route = useRoute();
   const id = route.query?.id as string;
-
+  // const type = route.query?.type as string;
+  const props = defineProps({
+    type: {
+      type: String,
+      default: '',
+    },
+  });
   //流转记录
   const listData = ref<Array<any>>([]);
   id &&
-    getTransferListApi({ id }).then((res) => {
+    getTransferListApi({ id, type: props.type }).then((res) => {
       listData.value = res;
       // console.log('流转记录',res)
     });
