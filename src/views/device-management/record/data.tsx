@@ -1,6 +1,7 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
-
+import { getManagementDictionaryList } from '/@/api/sys/systemSetting/dictionaryType';
+import { getPersonSelectApi } from '/@/api/device-maintenance/index';
 //装置设置
 export const installationColumns: BasicColumn[] = [
   {
@@ -615,40 +616,40 @@ export const patrolInspectionFormSchema: FormSchema[] = [
 export const failureColumns: BasicColumn[] = [
   {
     title: '故障单号',
-    dataIndex: 'name',
+    dataIndex: 'troubleCode',
   },
   {
     title: '上报人',
-    dataIndex: 'productName',
+    dataIndex: 'createBy',
   },
   {
     title: '上报时间',
-    dataIndex: 'status',
+    dataIndex: 'createTime',
   },
   {
     title: '故障类型',
-    dataIndex: 'status',
+    dataIndex: 'troubleTypeText',
   },
   {
     title: '故障等级',
-    dataIndex: 'status',
+    dataIndex: 'urgentLevelText',
   },
   {
     title: '故障描述',
-    dataIndex: 'status',
+    dataIndex: 'description',
   },
   {
     title: '处理状态',
-    dataIndex: 'status',
+    dataIndex: 'troubleDetermineText',
   },
   {
     title: '关联工单',
-    dataIndex: 'status',
+    dataIndex: 'jobCode',
   },
 ];
 export const failureFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'troubleCode',
     component: 'Input',
     label: '故障单号',
     componentProps: {
@@ -656,7 +657,7 @@ export const failureFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'productId',
+    field: 'createBy',
     component: 'ApiSelect',
     label: '上报人',
     componentProps: {
@@ -665,35 +666,64 @@ export const failureFormSchema: FormSchema[] = [
     labelWidth: 64,
   },
   {
-    field: 'status',
+    field: 'createTime',
     component: 'DatePicker',
     label: '上报时间',
     componentProps: {
       placeholder: '请选择上报时间',
     },
   },
+  // {
+  //   field: 'productId',
+  //   component: 'ApiSelect',
+  //   label: '巡检结果',
+  //   componentProps: {
+  //     placeholder: '请选择巡检结果',
+  //   },
+  // },
   {
-    field: 'productId',
+    field: 'troubleType',
     component: 'ApiSelect',
-    label: '巡检结果',
+    label: '故障类型',
     componentProps: {
-      placeholder: '请选择巡检结果',
+      placeholder: '请选择故障类型',
+      api: getManagementDictionaryList,
+      params: {
+        type: 'TROUBLE_TYPE',
+      },
+      resultField: 'records', //后台返回数据字段
+      labelField: 'itemName',
+      valueField: 'itemValue',
     },
   },
   {
-    field: 'productId',
+    field: 'urgentLevel',
     component: 'ApiSelect',
     label: '故障等级',
     componentProps: {
       placeholder: '请选择故障等级',
+      api: getManagementDictionaryList,
+      params: {
+        type: 'URGENT_LEVEL',
+      },
+      resultField: 'records', //后台返回数据字段
+      labelField: 'itemName',
+      valueField: 'itemValue',
     },
   },
   {
-    field: 'productId',
+    field: 'troubleStatus',
     component: 'ApiSelect',
     label: '处理状态',
     componentProps: {
       placeholder: '请选择处理状态',
+      api: getManagementDictionaryList,
+      params: {
+        type: 'TROUBLE_STATUS',
+      },
+      resultField: 'records', //后台返回数据字段
+      labelField: 'itemName',
+      valueField: 'itemValue',
     },
   },
 ];
@@ -857,28 +887,28 @@ export const timingDetectionFormSchema: FormSchema[] = [
 export const maintenanceColumns: BasicColumn[] = [
   {
     title: '保养工单编号',
-    dataIndex: 'name',
+    dataIndex: 'code',
   },
   {
     title: '负责人',
-    dataIndex: 'productName',
+    dataIndex: 'chargePeopleName',
   },
   {
     title: '处理人',
-    dataIndex: 'status',
+    dataIndex: 'dealUserName',
   },
   {
-    title: '完全时间',
-    dataIndex: 'status',
+    title: '完成时间',
+    dataIndex: 'finishTime',
   },
   {
     title: '关联计划',
-    dataIndex: 'status',
+    dataIndex: 'upkeepPlanName',
   },
 ];
 export const maintenanceFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'code',
     component: 'Input',
     label: '工单编号',
     componentProps: {
@@ -887,33 +917,49 @@ export const maintenanceFormSchema: FormSchema[] = [
   },
   {
     //输入选择
-    field: 'productId',
+    field: 'chargePeopleId',
     component: 'ApiSelect',
     label: '负责人',
     componentProps: {
       placeholder: '请输入选择负责人',
+      api: getPersonSelectApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
   {
     //输入选择
-    field: 'productId',
+    field: 'dealUserIdList',
     component: 'ApiSelect',
     label: '处理人',
     componentProps: {
       placeholder: '请输入选择处理人',
+      mode: 'multiple',
+      api: getPersonSelectApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
   {
-    field: '[]',
+    field: '[finishStartTime,finishEndTime]',
     component: 'RangePicker',
     label: '保养完成时间',
     componentProps: {
       format: 'YYYY-MM-DD HH:mm:ss',
       placeholder: ['开始时间', '结束时间'],
+      showTime: true,
     },
   },
   {
-    field: 'productId',
+    field: 'upkeepPlanId',
     component: 'ApiSelect',
     label: '关联计划',
     componentProps: {

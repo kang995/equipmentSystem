@@ -9,6 +9,10 @@ enum Api {
   ADD = '/special/save', //新增
   SELECT_STATE = '/special/deviceName/select', //设备名称-下拉查询
   SELECT_UNIT_FACILITY = '/unitFacility/unitFacility/select', //装置设施-下拉查询
+  TROUBLE_LIST = '/trouble/list', //故障记录列表
+  SERVICE_LIST = '', //检修记录列表
+  UPKEEP_LIST = '/mechanical/upkeepWorkOrder/list', //保养记录列表
+  MECHANICAL_LIST = '/mechanical/drillRecord/list', //应急演练记录列表
 
   //检测
   ADD_SPECIAL = '/specialRecord/save', //新增
@@ -62,4 +66,29 @@ export const postSelectDeviceNameApi = () =>
 export const postSelectUnitFacilityApi = () =>
   defHttp.post({
     url: Api.SELECT_UNIT_FACILITY,
+  });
+
+//故障列表
+export const DeviceTroubleListApi = (params) =>
+  defHttp.post({
+    url: Api.TROUBLE_LIST,
+    params,
+  });
+//检修记录列表
+export const DeviceServiceListApi = (params) =>
+  defHttp.post({
+    url: Api.SERVICE_LIST,
+    params,
+  });
+//保养记录列表
+export const DeviceUpkeepListApi = (params) =>
+  defHttp.post({
+    url: Api.UPKEEP_LIST,
+    params,
+  });
+//应急演练记录列表
+export const DeviceMechanicalListApi = (params) =>
+  defHttp.post({
+    url: Api.MECHANICAL_LIST,
+    params,
   });

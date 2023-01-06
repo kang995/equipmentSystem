@@ -76,7 +76,7 @@
     },
     {
       key: '6',
-      name: '定时检测记录', // 3 4
+      name: '定期检测记录', // 3 4
       component: TimingDetection,
       ifShow: state === '3' || state === '4' ? true : false,
     },

@@ -1,5 +1,7 @@
 <template>
   <TablePage
+    :api="DeviceUpkeepListApi"
+    :deviceId="id"
     :dataSource="dataSource"
     :columns="maintenanceColumns"
     :formSchema="maintenanceFormSchema"
@@ -23,10 +25,20 @@
   import { ref } from 'vue';
   import { maintenanceColumns, maintenanceFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import TablePage from '../components/TablePage.vue';
+  import { DeviceUpkeepListApi } from '/@/api/device-management/special-equipment';
   const router = useRouter();
-  const dataSource = ref([{}]);
+  const route = useRoute();
+  const id = route.query.id as string;
+  const dataSource = ref([]);
+
+  // DeviceUpkeepListApi({deviceId:id}).then(res=>{
+  //   dataSource.value = res.records;
+  //   console.log('ressss',res)
+  // })
+
+  //详情
   function handleDetails() {
     //跳转到设备保养详情
     router.push({

@@ -25,9 +25,16 @@
     columns: any;
     formSchema: any;
     ifExport?: any;
+    api?: any;
+    deviceId?: any;
   }>();
+  console.log('dataSource', props.dataSource);
   const [register] = useTable({
-    dataSource: props.dataSource,
+    api: props.api,
+    searchInfo: {
+      deviceId: props.deviceId,
+    },
+    // dataSource: props.dataSource,
     columns: props.columns,
     rowKey: 'id',
     useSearchForm: true,
