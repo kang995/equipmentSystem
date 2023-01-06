@@ -28,7 +28,7 @@
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id;
-  const dataSource = ref([{}]);
+  const dataSource = ref([]);
   const countInventorySum = ref();
   const [register] = useTable({
     dataSource: dataSource,

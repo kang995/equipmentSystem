@@ -228,26 +228,28 @@
     console.log('ids: ', ids);
     dataSource.value = data;
     if (state === 'OutboundAdd') {
-      funSelect(postWarehouseListApi); //入库
-    } else {
-      funSelect(postWarehouseOutListApi); //出库
-    }
-
-    closeModal();
-  }
-  function funSelect(api) {
-    const table = getDataSource();
-    table.map((item) => {
-      api({ id: item.id }).then((res) => {
-        item['options'] = res.records.map((v) => {
-          return {
-            value: v.warehouseId,
-            label: v.warehouseName,
-          };
+      dataSource.value.map((item) => {
+        postWarehouseListApi().then((res) => {
+          item['options'] = funOptions(res.records);
         });
       });
+    } else {
+      dataSource.value.map((item) => {
+        postWarehouseOutListApi({ id: item.id }).then((res) => {
+          item['options'] = funOptions(res.records);
+        });
+      });
+    }
+    closeModal();
+  }
+  function funOptions(res) {
+    const data = res.map((v) => {
+      return {
+        value: v.warehouseId,
+        label: v.warehouseName,
+      };
     });
-    setTableData(table);
+    return data;
   }
   function handleDel(index) {
     const data = getDataSource();

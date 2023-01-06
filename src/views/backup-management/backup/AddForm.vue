@@ -290,7 +290,7 @@
     const data = getDataSourceDevice();
     const ids = [] as any; //deviceId
     data.map((v) => {
-      ids.push(v.id);
+      ids.push(v.deviceId);
     });
     targetKeys.value = ids;
     openModal(true, targetKeys.value);
@@ -314,17 +314,20 @@
     const list = getDataSource();
     const spareAddVOList = getDataSource();
     let index1 = [] as any;
-    list.map((v, index) => {
-      // if (v.spareNum && !v.warehouseId) {
-      //   createMessage.error('请选择仓库');
-      // }
-      // if (v.warehouseId && !v.spareNum) {
-      //   createMessage.error('请输入数量');
-      // }
-      if (!v.spareNum && !v.warehouseId) {
-        index1.push(index);
+    for (let i = 0; i < list.length; i++) {
+      list[i];
+      if (list[i].spareNum && !list[i].warehouseId) {
+        createMessage.error('请选择仓库');
+        return;
       }
-    });
+      if (list[i].warehouseId && !list[i].spareNum) {
+        createMessage.error('请输入数量');
+        return;
+      }
+      if (!list[i].spareNum && !list[i].warehouseId) {
+        index1.push(i);
+      }
+    }
 
     const warehouseSpareAddVOList = spareAddVOList.map((v) => {
       return {

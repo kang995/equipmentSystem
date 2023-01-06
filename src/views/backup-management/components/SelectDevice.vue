@@ -67,7 +67,10 @@
   //确认
   const dataSourceList = ref<any>([]);
   function handleOk() {
-    emit('handleOk', [...new Set(targetKeys.value)], dataSourceList.value);
+    postTreeSelectIdsApi(targetKeys.value).then((res) => {
+      dataSourceList.value = res;
+      emit('handleOk', [...new Set(targetKeys.value)], dataSourceList.value);
+    });
   }
   onMounted(() => {
     funTreeSelect();
@@ -87,6 +90,7 @@
       return {
         key: v.id,
         title: v.label,
+        children: v?.children,
       };
     });
     return data;
@@ -121,16 +125,6 @@
     onItemSelect(eventKey, !isChecked(checkedKeys, eventKey));
   };
   const onChange = (keys: string[]) => {
-    dataSourceList.value = [];
-    postTreeSelectIdsApi(keys).then((res) => {
-      dataSourceList.value = res.map((v) => {
-        return {
-          name: v.deviceName,
-          facilityTypeText: v.deviceTypeName,
-          specialEquip: v.specialEquipment,
-        };
-      });
-    });
     targetKeys.value = keys;
   };
 </script>

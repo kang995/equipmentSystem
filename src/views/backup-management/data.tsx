@@ -161,27 +161,38 @@ export const backupColumns: BasicColumn[] = [
     dataIndex: 'createTime',
   },
 ];
-//备件台账详情- 关联设备
+
+//备件台账新增- 关联设备
 export const devicesColumns: BasicColumn[] = [
   {
     title: '设备名称',
-    dataIndex: 'name',
+    dataIndex: 'deviceName',
   },
   {
-    title: '设备类型',
-    dataIndex: 'facilityTypeText',
+    title: '所在区域',
+    dataIndex: 'districtName',
+    customRender: ({ text }) => {
+      if (text) {
+        return text;
+      } else {
+        return '--';
+      }
+    },
   },
-  // {
-  //   title: '所在区域',
-  //   dataIndex: 'districtName',
-  // },
-  // {
-  //   title: '所属装置',
-  //   dataIndex: 'facilitiesName',
-  // },
+  {
+    title: '所属装置',
+    dataIndex: 'facilitiesName',
+    customRender: ({ text }) => {
+      if (text) {
+        return text;
+      } else {
+        return '--';
+      }
+    },
+  },
   {
     title: '是否特种设备',
-    dataIndex: 'specialEquip',
+    dataIndex: 'specialEquipment',
   },
 ];
 //备件台账详情-基本信息
