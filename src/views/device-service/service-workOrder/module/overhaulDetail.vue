@@ -9,7 +9,7 @@
         <repeat-work-part v-else />
       </a-tab-pane>
       <a-tab-pane key="3" tab="流转记录">
-        <flow-doc />
+        <flow-doc :type="'3'" />
       </a-tab-pane>
       <a-tab-pane key="4" tab="关联故障">
         <relevant-failure />

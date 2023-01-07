@@ -9,7 +9,7 @@
         <repeat-work-part ref="spareRef" v-else />
       </a-tab-pane>
       <a-tab-pane key="3" tab="流转记录">
-        <flow-doc />
+        <flow-doc :type="'2'" />
       </a-tab-pane>
     </a-tabs>
     <!-- 提交维修结果 -->
