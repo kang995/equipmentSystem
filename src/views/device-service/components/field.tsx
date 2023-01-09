@@ -1,4 +1,4 @@
-import { BasicColumn, FormSchema } from '/@/components/Table';
+import { FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { Image } from 'ant-design-vue';
 import {

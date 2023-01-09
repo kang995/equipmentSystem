@@ -1,7 +1,190 @@
 <template>
-  <div> 设备报废管理 </div>
+  <PageWrapper>
+    <BasicTable @register="register">
+      <template #action="{ record }">
+        <TableAction
+          :divider="false"
+          :stopButtonPropagation="true"
+          :actions="[
+            {
+              label: '详情',
+              onClick: handleDetails.bind(null, record),
+            },
+            {
+              label: '编辑',
+              onClick: handleEdit.bind(null, record),
+              ifShow: record.scrapStatus !== '2',
+            },
+            {
+              label: '删除',
+              color: 'error',
+              popConfirm: {
+                title: '是否确认删除?',
+                confirm: handleDelete.bind(null, record),
+              },
+            },
+          ]"
+          :dropDownActions="[
+            {
+              label: '撤销',
+              popConfirm: {
+                title: '是否确认撤销?',
+                confirm: handleRecall.bind(null, record),
+              },
+              ifShow: record.scrapStatus !== '2',
+            },
+          ]"
+        />
+      </template>
+      <template #tableTitle>
+        <div class="flex flex-1 space-x-4">
+          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+            >新增</a-button
+          >
+          <a-tooltip>
+            <template #title>不选择即导出全部数据</template>
+            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          </a-tooltip>
+        </div>
+      </template>
+    </BasicTable>
+  </PageWrapper>
 </template>
+<script setup lang="ts">
+  import { ref } from 'vue';
+  import { PageWrapper } from '/@/components/Page';
+  import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
+  import { tableColumns, getFormSchema } from './data';
+  import { useRouter } from 'vue-router';
+  import { Tooltip, message } from 'ant-design-vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { downloadByData } from '/@/utils/file/download';
+  import {
+    deleteListApi,
+    exportPlanDataApi,
+    getScrapListApi,
+    revokeListApi,
+  } from '/@/api/device-scrap/data';
+  const { createMessage } = useMessage();
+  const router = useRouter();
+  const ATooltip = Tooltip;
+  const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
+    api: getScrapListApi,
+    columns: tableColumns(),
+    rowKey: 'id',
+    useSearchForm: true, //开启搜索表单
+    showTableSetting: false, //开启表格设置工具
+    clickToRowSelect: false, //是否开启点击行选中
+    rowSelection: {
+      type: 'checkbox',
+    },
+    actionColumn: {
+      title: '操作',
+      dataIndex: 'action',
+      width: 200,
+      slots: { customRender: 'action' },
+    },
+    formConfig: {
+      schemas: getFormSchema(),
+      autoSubmitOnEnter: true,
+      showAdvancedButton: false, //是否显示收起展开按钮
+      resetButtonOptions: {
+        preIcon: 'gonggong_zhongzhi|svg',
+      },
+      submitButtonOptions: {
+        preIcon: 'gonggong_sousuo|svg',
+      },
+      baseColProps: {
+        span: 6,
+      },
+      rowProps: {
+        gutter: 16,
+      },
+    },
+  });
+  //详情
+  function handleDetails(record) {
+    router.push({
+      name: 'planDetails',
+      query: {
+        status: record.approvalStatus,
+        // status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
+        mode: '1', //保养计划管理：1、检修计划管理：2、
+        id: record.id,
+      },
+    });
+  }
+  // 编辑
+  function handleEdit(record) {
+    router.push({
+      name: 'scrapEdit',
+      query: {
+        id: record.id,
+        location: record.location,
+      },
+    });
+  }
+  // 删除
+  function handleDelete(record) {
+    const { id } = record;
+    deleteApi({
+      id: id,
+    });
+  }
+  //删除api
+  function deleteApi(ids) {
+    setLoading(true);
+    deleteListApi(ids)
+      .then(() => {
+        createMessage.success('删除成功');
+        reload();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+  //撤回
+  function handleRecall(data) {
+    revokeListApi(data)
+      .then(() => {
+        message.success('撤销成功');
+        reload();
+      })
+      .catch(() => {
+        message.success('撤销失败');
+      });
+  }
 
-<script setup lang="ts"></script>
-
-<style lang="less" scoped></style>
+  //新增
+  function handleAdd() {
+    router.push({
+      name: 'scrapAdd',
+    });
+  }
+  //导出
+  const exportLoading = ref(false);
+  function exportTable() {
+    const { current, pageSize } = getPaginationRef() as PaginationProps;
+    exportLoading.value = true;
+    let data = {
+      page: current,
+      pageSize: pageSize,
+      ids: getSelectRowKeys(),
+    };
+    Object.assign(data, getForm().getFieldsValue());
+    exportPlanDataApi(data)
+      .then((res) => {
+        if (res) {
+          const filename = '设备报废列表.xlsx';
+          downloadByData(res.data, filename);
+          createMessage.success('导出成功');
+        } else {
+          createMessage.error('导出失败');
+        }
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
+  }
+</script>
+<style scoped lang="less"></style>
