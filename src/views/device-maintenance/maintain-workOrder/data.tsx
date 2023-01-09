@@ -105,13 +105,13 @@ export function tableColumns(): BasicColumn[] {
       customRender: ({ record }) => {
         if (record.delayFlag === '0') {
           //0:否
-          return <Tag color={'default'}>否</Tag>;
+          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
         } else if (record.delayFlag === '1') {
           //1：是
-          return <Tag color={'default'}>是</Tag>;
+          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
         } else if (record.delayFlag === '2') {
           //2：延期审核
-          return <Tag color={'red'}>延期审核</Tag>;
+          return <Tag color={'red'}>{record.delayFlagText}</Tag>;
         }
       },
     },
@@ -149,13 +149,14 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'dealUserName',
+      field: 'dealUserIdList',
       component: 'ApiSelect',
       label: '工单处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单处理人',
         api: getPersonSelectApi,
+        mode: 'multiple',
         params: {
           // type: 'APPROVAL_STATUS',
         },

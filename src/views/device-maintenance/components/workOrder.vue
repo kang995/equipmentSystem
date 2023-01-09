@@ -10,7 +10,7 @@
               label: '重新下发',
               onClick: handleAgain.bind(null, record),
               ifShow: () => {
-                return record.workOrderStatus === '2'; // 根据业务控制是否显示
+                return mode === '1' && record.workOrderStatus === '2'; // 根据业务控制是否显示
               },
             },
             {
@@ -49,7 +49,7 @@
     upkeepExportApi,
     upkeepAnewIssueApi,
   } from '/@/api/device-maintenance/work';
-
+  import { UpkeepWorkOrderListApi, UpkeepWorkOrderExportApi } from '/@/api/device-service/service';
   const { createMessage } = useMessage();
   const router = useRouter();
   const route = useRoute();
@@ -59,9 +59,15 @@
 
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef }] = useTable({
-    api: mode === '1' ? getPlanListApi : undefined,
-    searchInfo: {
-      upkeepPlanId: id, //保养计划id
+    api: mode === '1' ? getPlanListApi : UpkeepWorkOrderListApi,
+    // searchInfo: {
+    //   upkeepPlanId: id, //保养计划id
+    // },
+    // 请求之前对参数进行处理
+    beforeFetch: (res) => {
+      const arg = mode === '1' ? 'upkeepPlanId' : 'overhaulPlanId'; //保养计划id、检修计划id
+      res[arg] = id;
+      return res;
     },
     columns: mode === '1' ? tableColumns() : tableColumn(),
     rowKey: 'id',
@@ -80,6 +86,11 @@
       schemas: getFormSchema(),
       autoSubmitOnEnter: true,
       showAdvancedButton: false, //是否显示收起展开按钮
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['executeTime', ['executeStartTime', 'executeEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['finishTime', ['finishStartTime', 'finishEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+      ],
       resetButtonOptions: {
         preIcon: 'gonggong_zhongzhi|svg',
       },
@@ -114,9 +125,15 @@
   }
 
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
-      name: 'overhaulDetail',
+      name: mode === '1' ? 'workOrderDetail' : 'overhaulDetail',
+      query: {
+        id: record.id,
+        identity: '1', //负责人：1、执行人：2
+        status: record.workOrderStatus, //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+        delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
+      },
     });
   }
   //导出
@@ -124,31 +141,28 @@
   function exportTable() {
     const { current, pageSize } = getPaginationRef() as PaginationProps;
     exportLoading.value = true;
-    if (mode === '1') {
-      //保养计划管理
-      let data = {
-        page: current,
-        pageSize: pageSize,
-        ids: getSelectRowKeys(),
-        upkeepPlanId: id,
-      };
-      Object.assign(data, getForm().getFieldsValue());
-      upkeepExportApi(data)
-        .then((res) => {
-          if (res) {
-            const filename = '关联工单列表.xlsx';
-            downloadByData(res.data, filename);
-            createMessage.success('导出成功');
-          } else {
-            createMessage.error('导出失败');
-          }
-        })
-        .finally(() => {
-          exportLoading.value = false;
-        });
-    } else {
-      //检修计划管理
-    }
+    let data = {
+      page: current,
+      pageSize: pageSize,
+      ids: getSelectRowKeys(),
+      // upkeepPlanId: id,
+    };
+    const arg = mode === '1' ? 'upkeepPlanId' : 'overhaulPlanId'; //保养计划id、检修计划id
+    data[arg] = id;
+    Object.assign(data, getForm().getFieldsValue());
+    (mode === '1' ? upkeepExportApi(data) : UpkeepWorkOrderExportApi(data))
+      .then((res) => {
+        if (res) {
+          const filename = '关联工单列表.xlsx';
+          downloadByData(res.data, filename);
+          createMessage.success('导出成功');
+        } else {
+          createMessage.error('导出失败');
+        }
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
   }
 </script>
 <style scoped lang="less"></style>

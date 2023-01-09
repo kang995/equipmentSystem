@@ -217,39 +217,72 @@ export function tableColumn(): BasicColumn[] {
   return [
     {
       title: '工单编号',
-      dataIndex: 'name',
+      dataIndex: 'code',
     },
     {
       title: '计划负责人',
-      dataIndex: 'person',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '创建时间',
-      dataIndex: 'time',
+      dataIndex: 'createTime',
     },
     {
       title: '工单处理人',
-      dataIndex: 'time',
+      dataIndex: 'dealUserName',
     },
     {
       title: '工单执行时间',
-      dataIndex: 'status',
+      dataIndex: 'executeTimeStr',
     },
     {
       title: '关联计划',
-      dataIndex: 'status',
+      dataIndex: 'upkeepPlanName',
     },
     {
       title: '工单状态',
-      dataIndex: 'status',
+      dataIndex: 'workOrderStatus',
+      customRender: ({ record }) => {
+        if (record.workOrderStatus === '1') {
+          //1：未开始
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '2') {
+          //2：待执行
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '3') {
+          //3：待验收
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '4') {
+          //4：已完成
+          return <Tag color={'green'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '5') {
+          //5：验收未通过
+          return <Tag color={'red'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '6') {
+          //6：计划终止
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        }
+      },
     },
     {
       title: '是否延期',
-      dataIndex: 'status',
+      dataIndex: 'delayFlag',
+      customRender: ({ record }) => {
+        if (record.delayFlag === '0') {
+          //0:否
+          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
+        } else if (record.delayFlag === '1') {
+          //1：是
+          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
+        } else if (record.delayFlag === '2') {
+          //2：延期审核
+          return <Tag color={'red'}>{record.delayFlagText}</Tag>;
+        }
+      },
     },
     {
       title: '完成时间',
-      dataIndex: 'time',
+      dataIndex: 'finishTime',
     },
   ];
 }
@@ -351,13 +384,14 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'dealUserName',
+      field: 'dealUserIdList',
       component: 'ApiSelect',
       label: '工单处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单处理人',
         api: getPersonSelectApi,
+        mode: 'multiple',
         params: {
           // type: 'APPROVAL_STATUS',
         },
@@ -372,8 +406,9 @@ export function getFormSchema(): FormSchema[] {
       label: '工单执行时间',
       labelWidth: 96,
       componentProps: {
-        showTime: true,
-        format: 'YYYY-MM-DD HH:mm:ss',
+        // showTime: true,
+        // format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
       },
     },
     {
@@ -382,6 +417,13 @@ export function getFormSchema(): FormSchema[] {
       label: '工单状态',
       componentProps: {
         placeholder: '请选择工单状态',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'WORK_ORDER_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
@@ -391,6 +433,13 @@ export function getFormSchema(): FormSchema[] {
       labelWidth: 80,
       componentProps: {
         placeholder: '请选择工单延期',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'DELAY_FLAG',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
@@ -399,8 +448,9 @@ export function getFormSchema(): FormSchema[] {
       label: '工单完成时间',
       labelWidth: 96,
       componentProps: {
-        showTime: true,
-        format: 'YYYY-MM-DD HH:mm:ss',
+        // showTime: true,
+        // format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
       },
     },
   ];
