@@ -12,6 +12,8 @@ enum Api {
   TROUBLE_DETAIL = '/trouble/detail', //故障详情
   MAINTAIN_DETAIL = '/maintain/detail', //维修工单详情（维修结果、验收结果）
   TROUBLE_DETERMINE = '/trouble/determine', //故障确认
+  TROUBLEPLAN_LIST = '/overhaulPlan/trouble/list', //故障确认-检修计划下拉列表
+  TROUBLE_WORK_ORDER = '/overhaulWorkOrder/trouble/list', //故障确认-检修工单下拉列表
 }
 
 /* 1、故障管理 */
@@ -85,5 +87,17 @@ export const MaintainDetailApi = (params) =>
 export const TroubleDeterMineApi = (params) =>
   defHttp.post({
     url: Api.TROUBLE_DETERMINE,
+    params,
+  });
+//故障确认-检修计划下拉列表
+export const TroublePlanListApi = () =>
+  defHttp.post({
+    url: Api.TROUBLEPLAN_LIST,
+    // params,
+  });
+//故障确认-检修工单下拉列表
+export const TroubleWorkOrderListApi = (params) =>
+  defHttp.post({
+    url: Api.TROUBLE_WORK_ORDER,
     params,
   });

@@ -3,7 +3,7 @@ import { DescItem } from '/@/components/Description';
 import { getPersonSelectApi, getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 import { Image, Tag } from 'ant-design-vue';
 
-//计划详情
+//保养计划详情
 export function MaintainDetail(state: string, mode: string): DescItem[] {
   // console.log('模块', mode);
   return [
@@ -13,7 +13,7 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
       show: (data) => mode === '1' || mode === '2',
     },
     {
-      field: 'applyUserName',
+      field: 'code',
       label: '检修计划编号',
       show: (data) => mode === '3' || mode === '4',
     },
@@ -35,7 +35,7 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     },
     //
     {
-      field: 'applyUserName',
+      field: 'overhaulTypeText',
       label: '检修类型',
       show: (data) => mode === '3' || mode === '4',
     },
@@ -50,23 +50,26 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     {
       field: 'taskCycle',
       label: '任务周期',
-      // render: (data) => {
-      //   return <span class="text-red-500">{data}</span>;
-      // },
+      render: (curVal, data) => {
+        return `${data.taskCycleUnit}/${data.taskCycleUnitText}`;
+      },
     },
     {
       field: 'taskExecute',
       label: '任务执行时长',
+      render: (curVal, data) => {
+        return `${data.taskExecuteUnit}/${data.taskExecuteUnitText}`;
+      },
     },
     {
       field: 'workOrder',
-      label: '工单生成及下发',
-      render: (data) => {
-        if (data === '1') {
+      label: '工单下发',
+      render: (curVal) => {
+        if (curVal === '1') {
           return <span>{'一次性全部生成并下发'}</span>;
-        } else if (data === '2') {
+        } else if (curVal === '2') {
           return <span>{'定时生成并下发'}</span>;
-        } else if (data === '3') {
+        } else if (curVal === '3') {
           return <span>{'按条数生成并下发'}</span>;
         }
       },
@@ -74,25 +77,31 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     {
       field: 'adventRemind',
       label: '临期提醒',
+      render: (curVal, data) => {
+        return `${data.adventRemindUnit}/${data.adventRemindUnitText}`;
+      },
     },
     {
       field: 'timeoutRemind',
       label: '超时提醒间隔',
+      render: (curVal, data) => {
+        return `${data.timeoutRemindUnit}/${data.timeoutRemindUnitText}`;
+      },
     },
     {
       field: 'chargePeopleName',
       label: '计划负责人',
     },
     {
-      field: 'designateType',
+      field: 'designateTypeText',
       label: '任务指派',
-      render: (data) => {
-        if (data === '1') {
-          return <span>{'人员'}</span>;
-        } else if (data === '2') {
-          return <span>{'岗位'}</span>;
-        }
-      },
+      // render: (data) => {
+      //   if (data === '1') {
+      //     return <span>{'人员'}</span>;
+      //   } else if (data === '2') {
+      //     return <span>{'岗位'}</span>;
+      //   }
+      // },
     },
     {
       field: 'dealDeptName',
@@ -104,17 +113,17 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     },
     //
     {
-      field: 'applyUserName',
+      field: 'overhaulContent',
       label: '检修方案',
       show: (data) => mode === '3' || mode === '4',
     },
     {
-      field: 'applyUserName',
+      field: 'safeRule',
       label: '安全措施',
       show: (data) => mode === '3' || mode === '4',
     },
     {
-      field: 'applyUserName',
+      field: 'overhaulStandard',
       label: '检修质量标准',
       show: (data) => mode === '3' || mode === '4',
     },
@@ -139,7 +148,6 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
       label: '安全规则',
       show: (data) => mode === '1' || mode === '2',
     },
-
     {
       field: 'remark',
       label: '备注',
@@ -147,27 +155,29 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     },
   ];
 }
+//保养计划审核信息
 export function MaintainDetails(): DescItem[] {
   return [
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 2,
-    //   render: () => {
-    //     return <span style={titleStyle}>审核信息</span>;
-    //   },
-    //   show: (data) => mode === '1' && (state === '3' || state === '4'),
-    // },
     {
       field: 'approvalStatusText',
       label: '审核结果',
-      // show: (data) => mode === '1' && (state === '3' || state === '4'),
     },
     {
       field: 'remark',
       label: '原因（备注）',
-      // show: (data) => mode === '1' && (state === '3' || state === '4'),
+    },
+  ];
+}
+//检修计划审核信息
+export function ServiceDetails(): DescItem[] {
+  return [
+    {
+      field: 'approvalResultText',
+      label: '审核结果',
+    },
+    {
+      field: 'remark',
+      label: '原因（备注）',
     },
   ];
 }
@@ -181,10 +191,16 @@ export function tableDeviceColumns(): BasicColumn[] {
     {
       title: '设备地点',
       dataIndex: 'districtName',
+      customRender: ({ text }) => {
+        return text ? text : '--';
+      },
     },
     {
       title: '所属装置',
       dataIndex: 'facilitiesName',
+      customRender: ({ text }) => {
+        return text ? text : '--';
+      },
     },
     {
       title: '设备类型',

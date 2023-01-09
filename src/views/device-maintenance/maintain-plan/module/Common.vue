@@ -294,6 +294,7 @@
         });
       res.Time = [res['effectStartDate'], res['effectEndDate']]; //计划生效时间
       setFieldsValue(res);
+      //设备保养
       getDeviceSelectApi(res['deviceIdList']).then((res1) => {
         console.log('deviceIdList', res1);
         dataSourceList.value = res1;
@@ -367,9 +368,12 @@
     closeCurrent();
   }
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
       name: 'specialEquipmentDetails',
+      query: {
+        id: record.deviceId,
+      },
     });
   }
 </script>

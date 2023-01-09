@@ -10,6 +10,38 @@
               label: '详情',
               onClick: handleDetails.bind(null, record),
             },
+            {
+              label: record.approvalStatus === '1' ? '编辑' : '重新编辑',
+              onClick: handleEdit.bind(null, record),
+              ifShow: () => {
+                return record.approvalStatus === '1' || record.approvalStatus === '4';
+              },
+            },
+            {
+              label: '删除',
+              color: 'error',
+              popConfirm: {
+                title: '是否确认删除?',
+                confirm: handleDelete.bind(null, record),
+              },
+              ifShow: () => {
+                return record.approvalStatus === '1';
+              },
+            },
+          ]"
+          :dropDownActions="[
+            {
+              label: '提交',
+              onClick: handleSubmit.bind(null, record),
+            },
+            {
+              label: '撤回',
+              onClick: handleRecall.bind(null, record),
+            },
+            {
+              label: '停止计划',
+              onClick: handleStopPlan.bind(null, record),
+            },
           ]"
         />
       </template>
@@ -22,26 +54,47 @@
             <template #title>不选择即导出全部数据</template>
             <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
           </a-tooltip>
-          <a-button>批量删除</a-button>
+          <a-button @click="handleDelete">批量删除</a-button>
         </div>
       </template>
     </BasicTable>
+    <!-- 撤回 -->
+    <recallModel @register="RecallModal" @recallEvent="handleRecallEvent" />
+    <!-- 停止计划 -->
+    <planModel @register="planModal" @planEvent="handlePlanEvent" />
   </PageWrapper>
 </template>
 <script setup lang="ts">
   import { PageWrapper } from '/@/components/Page';
-  import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
-  import { Tooltip } from 'ant-design-vue';
+  import { ref, h, createVNode } from 'vue';
+  import { Tooltip, Modal, message } from 'ant-design-vue';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { downloadByData } from '/@/utils/file/download';
+  import { useModal } from '/@/components/Modal';
+  import recallModel from '/@/views/device-maintenance/components/recallModel.vue';
+  import planModel from '/@/views/device-maintenance/components/stopPlanModel.vue';
+  import {
+    OverhaulPlanListApi,
+    OverhaulExportApi,
+    BatchDeleteApi,
+    OverhaulSubmitApi,
+    OverhaulWithDrawApi,
+    OverhaulStopPlanApi,
+  } from '/@/api/device-service/index';
+  const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
-  const exportLoading = ref(false);
-  const dataSource = ref([{}, {}]);
-  const [register] = useTable({
-    dataSource: dataSource,
-    // api: thresholdListApi,
+
+  const [RecallModal, { openModal: openRecallModal }] = useModal();
+  const [planModal, { openModal: openPlanModal }] = useModal();
+  const [
+    register,
+    { reload, getSelectRowKeys, getForm, getPaginationRef, getSelectRows, setLoading },
+  ] = useTable({
+    api: OverhaulPlanListApi,
     columns: tableColumns(),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
@@ -73,23 +126,158 @@
       },
     },
   });
+  //详情
+  function handleDetails(record) {
+    router.push({
+      name: 'planManagementDetails',
+      query: {
+        status: record.approvalStatus, //1：待提交；2：审核中；3：审核通过；4：审核拒绝
+        // status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
+        mode: '3', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+        id: record.id,
+      },
+    });
+  }
+  //提交
+  function handleSubmit(record) {
+    const { id } = record;
+    Modal.confirm({
+      title: '检修计划提交',
+      content: createVNode('span', { style: 'color:black;' }, '确认要提交检修计划？'),
+      centered: true,
+      onOk() {
+        OverhaulSubmitApi({ id }).then(() => {
+          message.success('提交成功');
+          reload();
+        });
+      },
+    });
+  }
+  //撤回
+  function handleRecall(record) {
+    openRecallModal(true, {
+      id: record.id,
+      title: '检修计划撤回',
+      isFlag: '1',
+    });
+  }
+  // //撤回-提交
+  function handleRecallEvent(data) {
+    OverhaulWithDrawApi(data)
+      .then(() => {
+        // console.log('撤回', data);
+        message.success('撤回成功');
+      })
+      .finally(() => {
+        openRecallModal(false);
+        reload();
+      });
+  }
+  //停止计划
+  function handleStopPlan(record) {
+    openPlanModal(true, {
+      id: record.id,
+      title: '检修计划停止',
+      isShow: '1',
+    });
+  }
+  //停止计划-确定
+  function handlePlanEvent(data) {
+    OverhaulStopPlanApi(data)
+      .then(() => {
+        // console.log('停止计划', res);
+        message.success('停止计划成功');
+      })
+      .finally(() => {
+        openPlanModal(false);
+        reload();
+      });
+  }
   //新增
   function handleAdd() {
     router.push({
       name: 'planManagementAdd',
-    });
-  }
-  //详情
-  function handleDetails() {
-    router.push({
-      name: 'planManagementDetails',
       query: {
-        status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
-        mode: '2', //保养计划管理：1、检修计划管理：2、
+        isEdit: 'false',
       },
     });
   }
-
-  function exportTable() {}
+  // 编辑
+  function handleEdit(record) {
+    console.log('planManagementAdd', record);
+    router.push({
+      name: 'planManagementAdd',
+      query: {
+        id: record.id,
+        approvalStatus: record.approvalStatus, //1：待提交；2：审核中；3：审核通过；4：审核拒绝
+        isEdit: 'true',
+      },
+    });
+  }
+  //导出
+  const exportLoading = ref(false);
+  function exportTable() {
+    const { current, pageSize } = getPaginationRef() as PaginationProps;
+    exportLoading.value = true;
+    let data = {
+      page: current,
+      pageSize: pageSize,
+      ids: getSelectRowKeys(),
+    };
+    Object.assign(data, getForm().getFieldsValue());
+    OverhaulExportApi(data)
+      .then((res) => {
+        if (res) {
+          const filename = '检修计划清单.xlsx';
+          downloadByData(res.data, filename);
+          createMessage.success('导出成功');
+        } else {
+          createMessage.error('导出失败');
+        }
+      })
+      .finally(() => {
+        exportLoading.value = false;
+      });
+  }
+  //删除
+  function handleDelete(record) {
+    const { id } = record;
+    let ids = ref<string[]>([]);
+    if (id) {
+      //单条删除
+      ids.value = [record.id];
+      deleteApi(ids.value);
+    } else {
+      //批量删除
+      const data = getSelectRows();
+      if (data.length > 0) {
+        ids.value = data.map((item) => item.id);
+      } else {
+        createMessage.warning('请先选择需要删除的数据');
+        return;
+      }
+      createConfirm({
+        iconType: 'warning',
+        title: () => h('span', '提示'),
+        content: () => h('span', `是否要删除${ids.value.length}条数据？`),
+        okText: '删除',
+        onOk: async () => {
+          deleteApi(ids.value);
+        },
+      });
+    }
+  }
+  //删除api
+  function deleteApi(ids: string[]) {
+    setLoading(true);
+    BatchDeleteApi(ids)
+      .then(() => {
+        createMessage.success('删除成功');
+        reload();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 </script>
 <style scoped lang="less"></style>

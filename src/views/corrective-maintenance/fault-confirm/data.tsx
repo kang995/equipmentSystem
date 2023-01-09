@@ -11,7 +11,12 @@ import {
   getStationSelectApi,
   getStationPeopleSelectApi,
 } from '/@/api/device-maintenance/index';
-import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
+import {
+  deviceNameSelectApi,
+  UnitFacilityApi,
+  TroublePlanListApi,
+  TroubleWorkOrderListApi,
+} from '/@/api/corrective-maintenance/fault';
 import { Tag } from 'ant-design-vue';
 export interface TabItem {
   key: string;
@@ -629,8 +634,37 @@ export function confirmFormSchema(): FormSchema[] {
       colProps: {
         span: 16,
       },
-      componentProps: {
-        placeholder: '请选择关联检修计划',
+      componentProps: ({ formActionType }) => {
+        const { updateSchema } = formActionType;
+        return {
+          placeholder: '请选择关联检修计划',
+          api: TroublePlanListApi,
+          // params: {
+          //   type: 'TROUBLE_STATUS',
+          // },
+          resultField: 'data', //后台返回数据字段
+          labelField: 'name',
+          valueField: 'id',
+          onChange: (e: any) => {
+            TroubleWorkOrderListApi({ id: e }).then((res) => {
+              console.log('e', e);
+              const data = res.map((item) => {
+                return {
+                  label: item.code,
+                  value: item.id,
+                  key: item.id,
+                };
+              });
+              updateSchema({
+                field: 'overhaulJobId',
+                component: 'Select',
+                componentProps: {
+                  options: data,
+                },
+              });
+            });
+          },
+        };
       },
       ifShow: ({ values }) => {
         return values?.troubleDetermine === '2';
@@ -638,7 +672,7 @@ export function confirmFormSchema(): FormSchema[] {
     },
     {
       field: 'overhaulJobId',
-      component: 'ApiSelect',
+      component: 'Select',
       label: '关联检修工单',
       required: true,
       colProps: {
@@ -646,6 +680,7 @@ export function confirmFormSchema(): FormSchema[] {
       },
       componentProps: {
         placeholder: '请选择关联检修工单',
+        options: [],
       },
       ifShow: ({ values }) => {
         return values?.troubleDetermine === '2';

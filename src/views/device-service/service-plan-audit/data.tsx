@@ -1,7 +1,7 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import handling from './handling/index.vue';
 import handled from './handled/index.vue';
-
+import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 export interface TabItem {
   key: string;
   name: string;
@@ -21,35 +21,35 @@ export const achieveList: TabItem[] = [
 ];
 
 //检修计划审核-待处理、已处理
-export function tableColumns(activeKey: string): BasicColumn[] {
+export function tableColumns(): BasicColumn[] {
   return [
     {
       title: '检修计划编号',
-      dataIndex: 'name',
+      dataIndex: 'code',
     },
     {
       title: '检修计划名称',
-      dataIndex: 'productName',
+      dataIndex: 'name',
     },
     {
       title: '计划时间',
-      dataIndex: 'person',
+      dataIndex: 'planDateStr',
     },
     {
       title: '检修方案',
-      dataIndex: 'time',
+      dataIndex: 'overhaulContent',
     },
     {
       title: '检修类型',
-      dataIndex: 'status',
+      dataIndex: 'overhaulTypeText',
     },
     {
       title: '负责人',
-      dataIndex: 'status',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '审核状态',
-      dataIndex: 'status',
+      dataIndex: 'approvalStatusText',
     },
   ];
 }
@@ -57,7 +57,7 @@ export function tableColumns(activeKey: string): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name1',
+      field: 'code',
       component: 'Input',
       label: '检修计划编号',
       componentProps: {
@@ -65,7 +65,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'status',
+      field: 'name',
       component: 'Input',
       label: '检修计划名称',
       componentProps: {
@@ -73,11 +73,18 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'productId',
+      field: 'overhaulType',
       component: 'ApiSelect',
       label: '检修类型',
       componentProps: {
         placeholder: '请选择检修类型',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'OVERHAUL_TYPE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
   ];

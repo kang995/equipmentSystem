@@ -2,6 +2,78 @@
   <PageWrapper>
     <Card>
       <BasicForm @register="registerFrom">
+        <!-- 任务周期 -->
+        <template #taskSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入天数"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['taskCycleUnit']"
+                style="min-width: 100px"
+                :options="optionsCycle"
+              />
+            </template>
+          </Input>
+        </template>
+        <!-- 任务执行时长 -->
+        <template #ExecuteSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入任务执行时长"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['taskExecuteUnit']"
+                style="min-width: 100px"
+                :options="optionsExecute"
+              />
+            </template>
+          </Input>
+        </template>
+        <!-- 临期提醒 -->
+        <template #RemindSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入临期提醒"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['adventRemindUnit']"
+                style="min-width: 100px"
+                :options="optionsRemind"
+              />
+            </template>
+          </Input>
+        </template>
+        <!-- 超时提醒间隔 -->
+        <template #timeoutSlot="{ model, field }">
+          <Input
+            v-model:value="model[field]"
+            :min="0"
+            placeholder="请输入超时提醒间隔"
+            style="width: 100%"
+            type="number"
+          >
+            <template #addonAfter>
+              <Select
+                v-model:value="model['timeoutRemindUnit']"
+                style="min-width: 100px"
+                :options="optionsTimeout"
+              />
+            </template>
+          </Input>
+        </template>
         <template #tableSlot>
           <AFormItemRest>
             <BasicTable @register="registerTable">
@@ -10,7 +82,7 @@
                   <a-button type="primary" @click="handleModal">选择设备</a-button>
                 </div>
               </template>
-              <template #action="{ record }">
+              <template #action="{ record, index }">
                 <TableAction
                   :divider="false"
                   :stopButtonPropagation="true"
@@ -21,6 +93,11 @@
                     },
                     {
                       label: '删除',
+                      color: 'error',
+                      popConfirm: {
+                        title: '是否确认删除?',
+                        confirm: handleDelete.bind(null, index),
+                      },
                     },
                   ]"
                 />
@@ -29,19 +106,15 @@
           </AFormItemRest>
         </template>
       </BasicForm>
-      <div class="mt-[20px] flex justify-center items-center">
-        <a-button class="mr-4" @click="handleSave">保存</a-button>
-        <a-button type="primary" @click="handleSubmit">提交</a-button>
-      </div>
     </Card>
-    <selectDevice @register="registerDeviceModal" />
+    <selectDevice @register="registerDeviceModal" @handleOk="handleEcho" />
   </PageWrapper>
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { Card, Form } from 'ant-design-vue';
+  import { ref, onMounted } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
+  import { Card, Form, Input, Select } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { getCommonFormSchema, planTableColumns } from '../data';
   import { BasicForm, useForm } from '/@/components/Form/index';
@@ -49,20 +122,43 @@
   import { useModal } from '/@/components/Modal';
   import selectDevice from '/@/views/backup-management/components/SelectDevice.vue';
   import { useTabs } from '/@/hooks/web/useTabs';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import {
+    getDictionarySelectTypeApi,
+    getStationPeopleSelectApi,
+    getPeopleSelectApi,
+    getDeviceSelectApi,
+  } from '/@/api/device-maintenance/index';
+  import {
+    AddOverhaulPlanApi,
+    OverhaulPlanUpdateApi,
+    OverhaulPlanReUpdateApi,
+    OverhaulPlanDetailsApi,
+  } from '/@/api/device-service/index';
+  const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
-  const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
+  const route = useRoute();
+  const isEdit = route.query?.isEdit as string;
+  const approvalStatus = route.query?.approvalStatus as string;
+  const id = route.query?.id as string;
+  const versionVal = ref();
+  const optionsCycle = ref([]);
+  const optionsExecute = ref([]);
+  const optionsRemind = ref([]);
+  const optionsTimeout = ref([]);
+  const [registerFrom, { validate, getFieldsValue, setFieldsValue, updateSchema }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
-    showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
+    // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     // baseColProps: {
     //   span: 24,
     // },
     // labelWidth: 120,
     labelCol: {
-      span: 5,
+      span: 6,
     },
     wrapperCol: {
-      span: 16,
+      span: 12,
     },
     actionColOptions: {
       offset: 5,
@@ -72,12 +168,24 @@
         marginTop: '24px',
       },
     },
+    submitButtonOptions: {
+      text: '保存',
+    },
+    resetButtonOptions: {
+      text: '取消',
+    },
+    resetFunc: resetSubmitFunc,
+    submitFunc: sumitForm,
+    fieldMapToTime: [
+      //更改RangePicker的返回字段
+      ['Time', ['effectStartDate', 'effectEndDate'], 'YYYY-MM-DD'],
+    ],
   });
   const [registerDeviceModal, { openModal: openDeviceModal }] = useModal();
   const AFormItemRest = Form.ItemRest;
-  const dataSource = ref([{}]);
-  const [registerTable] = useTable({
-    dataSource: dataSource,
+  const dataSourceList = ref([]);
+  const [registerTable, { getDataSource, setTableData }] = useTable({
+    dataSource: dataSourceList,
     // api: thresholdListApi,
     columns: planTableColumns(),
     rowKey: 'id',
@@ -90,23 +198,145 @@
       slots: { customRender: 'action' },
     },
   });
-  //保存
-  function handleSave() {
-    closeCurrent();
+  onMounted(() => {
+    funUnit();
+  });
+  //单位
+  function funUnit() {
+    getDictionarySelectTypeApi({ type: 'TASK_CYCLE_UNIT' }).then((res) => {
+      optionsCycle.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    getDictionarySelectTypeApi({ type: 'TASK_EXECUTE_UNIT' }).then((res) => {
+      optionsExecute.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    getDictionarySelectTypeApi({ type: 'ADVENT_REMIND_UNIT' }).then((res) => {
+      optionsRemind.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
+    getDictionarySelectTypeApi({ type: 'TIMEOUT_REMIND_UNIT' }).then((res) => {
+      optionsTimeout.value = res.map((v) => {
+        return {
+          value: v.itemValue,
+          label: v.itemName,
+        };
+      });
+    });
   }
-  //提交
-  function handleSubmit() {
+  //保养设备回显
+  const DeviceVal = ref([]);
+  function handleEcho(val, data) {
+    console.log('回显', val, data);
+    dataSourceList.value = data;
+    DeviceVal.value = val;
+    openDeviceModal(false);
+  }
+  //详情
+  id &&
+    OverhaulPlanDetailsApi({ id }).then((res) => {
+      //按条数生成并下发
+      if (res['workOrder'] === '3') {
+        updateSchema({ field: 'workOrderNum', ifShow: true });
+      }
+      //岗位
+      res.dealStationId &&
+        getStationPeopleSelectApi([res.dealStationId]).then((res2) => {
+          updateSchema({ field: 'dealStationId', ifShow: true });
+          updateSchema({ field: 'dealDeptId', ifShow: false });
+          updateSchema({ field: 'dealUserIdList', componentProps: { options: res2 } });
+        });
+      //人员
+      res.dealDeptId &&
+        getPeopleSelectApi([res.dealDeptId]).then((res) => {
+          updateSchema({ field: 'dealUserIdList', componentProps: { options: res } });
+        });
+      res.Time = [res['effectStartDate'], res['effectEndDate']]; //计划生效时间
+      setFieldsValue(res);
+      //设备保养
+      getDeviceSelectApi(res['deviceIdList']).then((res1) => {
+        console.log('deviceIdList', res1);
+        dataSourceList.value = res1;
+      });
+      versionVal.value = res.version;
+      DeviceVal.value = res.deviceIdList;
+    });
+
+  //保存
+  async function sumitForm() {
+    await validate();
+    let params = getFieldsValue();
+    params['deviceIdList'] = [...DeviceVal.value]; //保养设备idList
+    //判断新增、编辑、重新编辑
+    if (isEdit === 'false') {
+      AddOverhaulPlanApi(params)
+        .then(() => {
+          router.go(-1);
+          createMessage.success('新增成功');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      id && (params['id'] = id);
+      params['version'] = versionVal.value;
+      if (approvalStatus === '1') {
+        //待提交
+        OverhaulPlanUpdateApi(params)
+          .then(() => {
+            router.go(-1);
+            createMessage.success('编辑成功');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        //拒绝
+        OverhaulPlanReUpdateApi(params)
+          .then(() => {
+            router.go(-1);
+            createMessage.success('编辑成功');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  }
+  //取消
+  async function resetSubmitFunc() {
     closeCurrent();
   }
   //选择设备
   function handleModal() {
-    openDeviceModal(true, {});
+    openDeviceModal(true);
   }
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
-      name: '',
+      name: 'specialEquipmentDetails',
+      query: {
+        id: record.deviceId,
+      },
     });
+  }
+  //删除table
+  function handleDelete(index) {
+    const data = getDataSource();
+    data.splice(index, 1);
+    setTableData(data);
   }
 </script>
 

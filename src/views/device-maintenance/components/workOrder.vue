@@ -54,7 +54,7 @@
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id as string;
-  const mode = route.query?.mode as string; //保养计划管理：1、检修计划管理：2、
+  const mode = route.query?.mode as string; //保养计划：1、检修计划：3、
   const ATooltip = Tooltip;
 
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();

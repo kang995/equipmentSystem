@@ -29,17 +29,14 @@
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
   // import { ref } from 'vue';
-  import { getProcessingListApi, getProcessedListApi } from '/@/api/device-maintenance/index';
-
+  import { ApprovalPendListApi, ApprovalDealListApi } from '/@/api/device-service/index';
   const router = useRouter();
   const props = defineProps<{
     ifIssue?: any;
   }>();
 
-  // const dataSource = ref<any>([]);
   const [register] = useTable({
-    // dataSource: dataSource,
-    api: props.ifIssue ? getProcessingListApi : getProcessedListApi,
+    api: props.ifIssue ? ApprovalPendListApi : ApprovalDealListApi,
     columns: tableColumns(),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
@@ -72,14 +69,15 @@
       },
     },
   });
-
+  //审核
   function handleAudit(record) {
     router.push({
-      name: 'maintainDetails',
+      name: 'planAuditDetails',
       query: {
+        status: record.approvalStatus, //1:待提交、2：审核中、3：审核通过、4：审核拒绝
+        // status: '5', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
         id: record.id,
-        status: record.approvalStatus, //审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
-        mode: '2', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+        mode: '4', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
       },
     });
   }

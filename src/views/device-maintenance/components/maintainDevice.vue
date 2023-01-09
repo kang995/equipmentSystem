@@ -18,14 +18,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter, useRoute } from 'vue-router';
   import { tableDeviceColumns } from './fileld';
   import { selectListDeviceApi } from '/@/api/device-maintenance/index';
+  import { OverhaulPlanDevicelsApi } from '/@/api/device-service';
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id as string;
+  const mode = route.query?.mode as string;
   const dataSource = ref([{}, {}]);
   const [register] = useTable({
     dataSource: dataSource,
@@ -41,10 +43,25 @@
       slots: { customRender: 'action' },
     },
   });
-  id &&
+
+  onMounted(() => {
+    id && (mode === '1' || mode === '2') && getMaintaindEevice();
+    id && (mode === '3' || mode === '4') && getServiceEevice();
+  });
+
+  //查询保养设备
+  function getMaintaindEevice() {
     selectListDeviceApi({ id }).then((res) => {
       dataSource.value = res;
     });
+  }
+  //查询检修设备
+  function getServiceEevice() {
+    OverhaulPlanDevicelsApi({ id }).then((res) => {
+      dataSource.value = res;
+    });
+  }
+
   //详情
   function handleDetails() {
     router.push({
