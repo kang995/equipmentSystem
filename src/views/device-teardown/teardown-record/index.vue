@@ -52,9 +52,17 @@
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
+  const handleClick = (res) => {
+    router.push({
+      name: 'teardownDetails',
+      query: {
+        id: res.demolishId,
+      },
+    });
+  };
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
     api: getRecordListApi,
-    columns: tableColumns(),
+    columns: tableColumns(handleClick),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
@@ -130,6 +138,7 @@
       name: 'recordAdd',
     });
   }
+
   //导出
   const exportLoading = ref(false);
   function exportTable() {

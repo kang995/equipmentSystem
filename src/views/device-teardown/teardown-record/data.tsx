@@ -1,17 +1,10 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getDepartmentSelectApi, getPeopleSelectApi } from '/@/api/device-maintenance/index';
 import { getSelectApi } from '/@/api/device-removal/data';
+import { Row, Image } from 'ant-design-vue';
 import { DescItem } from '/@/components/Description';
-import { useRouter } from 'vue-router';
-const router = useRouter();
-
-function handleClick() {
-  router.push({
-    name: 'teardownAdd',
-  });
-}
 //列表
-export function tableColumns(): BasicColumn[] {
+export function tableColumns(handleClick?): BasicColumn[] {
   return [
     {
       title: '拆除时间',
@@ -33,9 +26,10 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '关联拆除单',
       dataIndex: 'demolishStr',
+      ifShow: handleClick ? true : false,
       customRender({ record }) {
         return (
-          <a class="pointer" onClick={handleClick}>
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
             {record.demolishStr}
           </a>
         );
@@ -237,7 +231,9 @@ export const informationDescItem: DescItem[] = [
     label: '设备拆除时间',
     field: 'endDate',
     render(_val, data) {
-      return data.startDate + '至' + data.endDate;
+      if (data) {
+        return data.startDate + '至' + data.endDate;
+      }
     },
   },
   {
@@ -247,9 +243,54 @@ export const informationDescItem: DescItem[] = [
   {
     label: '附件',
     field: 'affixList',
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            <div class="flex-col pl-4">
+              {data.map((item) => {
+                const name = item.url.substring(item.url.lastIndexOf('.') + 1);
+                if (name == 'png' || name == 'jpg' || name == 'jpeg') {
+                  return (
+                    <div class="flex flex-1">
+                      <Image width={100} src={item.url} />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div class="flex flex-1">
+                      <a href={item.url}>{item.name}</a>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </ARow>
+        );
+      }
+    },
   },
   {
     label: '图片',
     field: 'imgList',
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            <div class="flex flex-1 items-center">
+              {data.map((item) => {
+                return (
+                  <div class="pl-4 pr-4">
+                    <Image width={100} src={item.url} />
+                  </div>
+                );
+              })}
+            </div>
+          </ARow>
+        );
+      }
+    },
   },
 ];
