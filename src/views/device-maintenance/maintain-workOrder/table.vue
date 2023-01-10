@@ -173,6 +173,7 @@
   function handlePostpone(record) {
     openMaintainModal(true, {
       id: record.id,
+      title: '保养工单延期申请',
     });
   }
   //申请延期-确认

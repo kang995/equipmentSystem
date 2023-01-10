@@ -7,6 +7,7 @@ import {
   getPeopleSelectApi,
   getStationSelectApi,
   getStationPeopleSelectApi,
+  getPersonSelectApi,
 } from '/@/api/device-maintenance/index';
 //工单信息-重新下发
 export function getAgainFormSchema(): FormSchema[] {
@@ -143,6 +144,7 @@ export function getPostponeFormSchema(): FormSchema[] {
       component: 'RadioGroup',
       label: '审核结果',
       required: true,
+      defaultValue: '0',
       componentProps: {
         options: [
           {
@@ -172,31 +174,40 @@ export function getPostponeFormSchema(): FormSchema[] {
 export function ResultSchemaDetail(): DescItem[] {
   return [
     {
-      field: 'applyUserName',
+      field: 'acceptContent',
       label: '检修内容',
     },
     {
-      field: 'applyUserName',
+      field: 'dealImgList',
       label: '图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
     {
-      field: 'applyUserName',
+      field: 'stopFlag',
       label: '是否停机',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptPeopleNameStr',
       label: '验收人',
     },
     {
-      field: 'applyUserName',
+      field: 'finishTime',
       label: '检修完成时间',
     },
   ];
@@ -247,41 +258,50 @@ export function ResultsSchema(): DescItem[] {
 //工单信息-验收结果
 export function ResultsSchemas(): DescItem[] {
   return [
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 2,
+    //   render: () => {
+    //     return <span style={titleStyle}>验收结果</span>;
+    //   },
+    // },
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>验收结果</span>;
-      },
-    },
-    {
-      field: 'applyUserName',
+      field: 'acceptResult',
       label: '验收结果',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptContent',
       label: '验收内容',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptImgList',
       label: '图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
     {
-      field: 'applyUserName',
+      field: 'acceptTime',
       label: '验收时间',
     },
     {
-      field: 'applyUserName',
+      field: 'acceptPeopleNameStr',
       label: '验收人',
     },
   ];
@@ -291,38 +311,36 @@ export function ResultsSchemas(): DescItem[] {
 export function getApplyFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name',
+      field: 'oldEndTime',
       component: 'DatePicker',
       label: '原截止时间',
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
         // placeholder: '请输入',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        showTime: true,
+        // disabled: true,
       },
     },
     {
-      field: 'name1',
+      field: 'delayTime',
       component: 'DatePicker',
       label: '延期时间',
       required: true,
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
         placeholder: '请选择时间',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        showTime: true,
       },
     },
     {
-      field: 'name2',
-      component: 'Input',
+      field: 'delayReason',
+      component: 'InputTextArea',
       label: ' 延期原因',
       required: true,
-      // colProps: {
-      //   span: 14,
-      // },
       componentProps: {
         placeholder: '请输入原因',
+        rows: 4,
+        maxlength: 200,
       },
     },
   ];
@@ -331,7 +349,7 @@ export function getApplyFormSchema(): FormSchema[] {
 export function getAcceptFormSchema(status: string): FormSchema[] {
   return [
     {
-      field: 'name1',
+      field: 'dealCase',
       component: 'InputTextArea',
       label: '检修结果',
       required: true,
@@ -341,7 +359,7 @@ export function getAcceptFormSchema(status: string): FormSchema[] {
       },
     },
     {
-      field: 'attachment',
+      field: 'dealImgList',
       component: 'Upload',
       label: '图片',
       required: ({}) => status === '1',
@@ -353,30 +371,37 @@ export function getAcceptFormSchema(status: string): FormSchema[] {
       },
     },
     {
-      field: 'name',
-      component: 'RadioGroup',
+      field: 'stopFlag',
+      component: 'ApiRadioGroup',
       label: '是否停机',
       required: true,
+      defaultValue: '0',
       componentProps: {
-        options: [
-          {
-            label: '是',
-            value: '1',
-          },
-          {
-            label: '否',
-            value: '2',
-          },
-        ],
+        api: getDictionarySelectTypeApi, //（0是，1否）
+        params: {
+          type: 'STOP_FLAG',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
       },
     },
     {
-      field: 'name2',
+      field: 'acceptPeopleId',
       component: 'ApiSelect',
       label: '验收人',
       required: true,
       componentProps: {
         placeholder: '请选择验收人',
+        showSearch: true,
+        optionFilterProp: 'label',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
       ifShow: ({}) => status !== '1',
     },
@@ -393,3 +418,24 @@ const titleStyle: any = {
   ImageBox: any = {
     width: '80px',
   };
+const fileBox = {
+  padding: '0px',
+  height: '100px',
+  width: 'auto',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};
+const noFileBox: any = {
+  textAlign: 'center',
+  lineHeight: '100px',
+  fontWeight: '600',
+  fontSize: '16px',
+  color: '#999',
+  userSelect: 'none',
+  height: '100px',
+  width: '200px',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};

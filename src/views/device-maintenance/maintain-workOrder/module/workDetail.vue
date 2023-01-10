@@ -67,15 +67,12 @@
       });
     let objs = { ...res1, orderSpareNumDTOList };
     // console.log('数据',objs)
-    upkeepDealResultApi(objs)
-      .then(() => {
-        createMessage.success('已提交');
-      })
-      .finally(() => {
-        router.push({
-          name: 'maintainWorkOrder',
-        });
+    upkeepDealResultApi(objs).then(() => {
+      createMessage.success('已提交');
+      router.push({
+        name: 'maintainWorkOrder',
       });
+    });
   }
 </script>
 

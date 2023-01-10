@@ -2,8 +2,9 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
-import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { Image, Tag } from 'ant-design-vue';
+import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
+import { whetherShowApi } from '/@/api/device-service/service';
 
 export interface TabItem {
   key: string;
@@ -24,14 +25,28 @@ export const achieveList: TabItem[] = [
 ];
 //根据状态判断当前用户身份
 (() => {
-  const identity = '3'; //1负责人 2执行人 3具有两者身份
-  if (identity === '1') {
-    achieveList.splice(1, 1);
-  } else if (identity === '2') {
-    achieveList.splice(0, 1);
-    achieveList[0].key = '1';
-  }
+  whetherShowApi().then((res) => {
+    //type 1显示负责工单 2显示执行工单 3都显示
+    const { type } = res;
+    // console.log('身份',type)
+    if (type === '1') {
+      achieveList.splice(1, 1);
+    } else if (type === '2') {
+      achieveList.splice(0, 1);
+      achieveList[0].key = '1';
+    }
+  });
 })();
+
+// (() => {
+//   const identity = '3'; //1负责人 2执行人 3具有两者身份
+//   if (identity === '1') {
+//     achieveList.splice(1, 1);
+//   } else if (identity === '2') {
+//     achieveList.splice(0, 1);
+//     achieveList[0].key = '1';
+//   }
+// })();
 
 //列表
 export function tableColumns(): BasicColumn[] {
@@ -223,41 +238,47 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'code',
       label: '工单编号',
     },
     {
-      field: 'applyUserName',
+      field: 'upkeepPlanName',
       label: '关联检修计划',
     },
     {
-      field: 'applyUserName',
+      field: 'chargePeopleName',
       label: '计划负责人',
     },
     {
-      field: 'applyUserName',
+      field: 'createTime',
       label: '工单创建时间',
     },
     {
-      field: 'applyUserName',
+      field: 'executeStartTime',
       label: '工单执行时间',
+      render: (curVal, data) => {
+        return `${data.executeStartTime}至${data.executeEndTime}`;
+      },
     },
     {
-      field: 'applyUserName',
+      field: 'workOrderStatusText',
       label: '工单状态',
     },
     {
-      field: 'applyUserName',
+      field: 'dealDeptName',
       label: '处理部门',
     },
     {
-      field: 'applyUserName',
+      field: 'dealUserName',
       label: '处理人',
     },
     {
-      field: 'applyUserName',
+      field: 'finishTime',
       label: '完成时间',
       span: 3,
+      render: (curVal) => {
+        return curVal ? curVal : '--';
+      },
     },
     {
       field: '',
@@ -269,23 +290,23 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'applyUserName',
+      field: 'overhaulTypeText',
       label: '检修类型',
     },
     {
-      field: 'applyUserName',
+      field: 'overhaulContent',
       label: '检修方案',
     },
     {
-      field: 'applyUserName',
+      field: 'safeRule',
       label: '安全措施',
     },
     {
-      field: 'applyUserName',
+      field: 'overhaulStandard',
       label: '检修质量标椎',
     },
     {
-      field: 'applyUserName',
+      field: 'remark',
       label: '备注',
       span: 3,
     },
@@ -296,19 +317,95 @@ export function deviceTableColumns(): BasicColumn[] {
   return [
     {
       title: '设备名称',
-      dataIndex: 'name',
+      dataIndex: 'deviceName',
     },
     {
       title: '所在区域',
-      dataIndex: 'name',
+      dataIndex: 'districtName',
+      customRender: ({ record }) => {
+        if (record.districtName) {
+          return <span>{record.districtName}</span>;
+        } else {
+          return <span>--</span>;
+        }
+      },
     },
     {
-      title: '所在装置',
-      dataIndex: 'name',
+      title: '所属装置',
+      dataIndex: 'facilitiesName',
+      customRender: ({ record }) => {
+        if (record.facilitiesName) {
+          return <span>{record.facilitiesName}</span>;
+        } else {
+          return <span>--</span>;
+        }
+      },
     },
     {
       title: '是否特种设备',
-      dataIndex: 'name',
+      dataIndex: 'specialEquipment',
+    },
+  ];
+}
+//工单信息-检修结果
+export function getAcceptFormSchema(): FormSchema[] {
+  return [
+    {
+      field: 'dealCase',
+      component: 'InputTextArea',
+      label: '检修结果',
+      required: true,
+      componentProps: {
+        placeholder: '请输入检修结果',
+        rows: 4,
+      },
+    },
+    {
+      field: 'dealImgList',
+      component: 'Upload',
+      label: '图片',
+      // required: ({}) => status === '1',
+      componentProps: {
+        maxNumber: 5,
+        accept: '.jpg,.jpeg,.png',
+        maxSize: 5,
+        helpText: '请上传图片',
+      },
+    },
+    {
+      field: 'stopFlag',
+      component: 'ApiRadioGroup',
+      label: '是否停机',
+      required: true,
+      defaultValue: '0',
+      componentProps: {
+        api: getDictionarySelectTypeApi, //（0是，1否）
+        params: {
+          type: 'STOP_FLAG',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
+      },
+    },
+    {
+      field: 'acceptPeopleId',
+      component: 'ApiSelect',
+      label: '验收人',
+      required: true,
+      componentProps: {
+        placeholder: '请选择验收人',
+        showSearch: true,
+        optionFilterProp: 'label',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
+      },
+      // ifShow: ({}) => status !== '1',
     },
   ];
 }

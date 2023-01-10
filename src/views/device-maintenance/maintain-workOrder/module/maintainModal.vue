@@ -1,7 +1,7 @@
 <template>
   <BasicModal
     v-bind="$attrs"
-    title="保养工单延期申请"
+    :title="delayData['title']"
     :destroy-on-close="true"
     :mask-closable="false"
     @ok="submitForm"
@@ -20,7 +20,7 @@
   import { postponeFormSchema } from '../data';
 
   const emit = defineEmits(['register', 'postponeEvent']);
-  const delayData = ref<any>();
+  const delayData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
     delayData.value = data;
   });

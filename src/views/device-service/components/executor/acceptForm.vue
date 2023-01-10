@@ -17,12 +17,22 @@
       default: '',
     },
   });
-  const [registerAccept, {}] = useForm({
+  const [registerAccept, { validate, getFieldsValue }] = useForm({
     schemas: getAcceptFormSchema(props.reSubmit), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     baseColProps: {
       span: 24,
     },
+  });
+  function handleSubmitAccept() {
+    return new Promise(async (resolve) => {
+      await validate();
+      const obj = getFieldsValue();
+      resolve(obj);
+    });
+  }
+  defineExpose({
+    handleSubmitAccept,
   });
 </script>
 

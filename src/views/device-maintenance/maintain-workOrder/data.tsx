@@ -255,7 +255,7 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'workOrderStatus',
+      field: 'workOrderStatusText',
       label: '工单状态',
     },
     {
@@ -269,6 +269,9 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'finishTime',
       label: '完成时间',
+      render: (curVal) => {
+        return curVal ? curVal : '--';
+      },
     },
     {
       field: '',

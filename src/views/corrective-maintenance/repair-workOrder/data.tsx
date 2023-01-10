@@ -417,7 +417,7 @@ export function getAgainFormSchemas(): FormSchema[] {
   return [
     // ...getAgainFormSchema(),
     {
-      field: 'assignType',
+      field: 'designateType',
       component: 'ApiRadioGroup',
       label: '任务指派',
       required: true,
@@ -435,9 +435,9 @@ export function getAgainFormSchemas(): FormSchema[] {
           onChange: (e) => {
             formModel.disposePeopleIdList = undefined;
             if (e === '2') {
-              formModel.disposeUnitId = undefined;
+              formModel.dealDeptId = undefined;
               updateSchema({
-                field: 'disposeUnitId',
+                field: 'dealDeptId',
                 ifShow: false,
               });
               updateSchema({
@@ -451,7 +451,7 @@ export function getAgainFormSchemas(): FormSchema[] {
                 ifShow: false,
               });
               updateSchema({
-                field: 'disposeUnitId',
+                field: 'dealDeptId',
                 ifShow: true,
               });
             }
@@ -461,7 +461,7 @@ export function getAgainFormSchemas(): FormSchema[] {
     },
     // 人员
     {
-      field: 'disposeUnitId',
+      field: 'dealDeptId',
       component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
@@ -483,7 +483,7 @@ export function getAgainFormSchemas(): FormSchema[] {
             // console.log(e);
             getPeopleSelectApi([e]).then((res) => {
               updateSchema({
-                field: 'disposePeopleIdList',
+                field: 'dealUserIdList',
                 componentProps: {
                   options: res,
                 },
@@ -513,20 +513,20 @@ export function getAgainFormSchemas(): FormSchema[] {
             getStationPeopleSelectApi([en]).then((res) => {
               console.log(res);
               updateSchema({
-                field: 'disposePeopleIdList',
+                field: 'dealUserIdList',
                 componentProps: {
                   options: res,
                   mode: 'multiple',
                 },
               });
-              formModel.disposePeopleIdList = res.map((item) => item.id);
+              formModel.dealUserIdList = res.map((item) => item.id);
             });
           },
         };
       },
     },
     {
-      field: 'disposePeopleIdList',
+      field: 'dealUserIdList',
       component: 'Select',
       label: '处理人',
       required: true,
@@ -798,6 +798,7 @@ export function getAcceptFormSchema(status: string): FormSchema[] {
       component: 'ApiRadioGroup',
       label: '是否停机',
       required: true,
+      defaultValue: '0',
       componentProps: {
         api: getDictionarySelectTypeApi, //（0是，1否）
         params: {

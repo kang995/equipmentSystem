@@ -47,7 +47,8 @@
   async function submitForm() {
     await validate();
     const data = getFieldsValue();
-    data['determineId'] = modalData.value.id;
+    // data['determineId'] = modalData.value.id;
+    data['id'] = modalData.value.id;
     emit('event', data);
   }
   //取消

@@ -17,29 +17,31 @@
       </template>
     </BasicTable>
     <!-- 负责人 -->
-    <template v-if="props.identity === '1'">
+    <template v-if="identity === '1'">
       <!-- 重新下发 -->
-      <reIssueForm v-if="again" />
+      <reIssueForm ref="reIssueRef" v-if="again" />
       <!-- 延期审核 -->
-      <postponeForm v-if="postpone" />
+      <template v-if="delayFlag === '2'">
+        <applyDescription :delayData="delayData" />
+        <postponeForm ref="postponeRef" v-if="postpone" />
+      </template>
       <!-- 检修结果 -->
-      <overhaulDescription
-        v-if="props.status === '3' || props.status === '4' || props.status === '5'"
-      />
+      <template v-if="status === '3' || status === '4' || status === '5'">
+        <overhaulDescription :acceptList="acceptList" />
+      </template>
       <!-- 验收结果 -->
-      <template v-if="props.status === '4' || props.status === '5'">
-        <!-- <resultDescription/> -->
-        <resultDescriptions />
+      <template v-if="status === '4' || status === '5'">
+        <resultDescriptions :acceptList="acceptList" />
       </template>
       <div class="mt-[12px] flex">
-        <template v-if="props.status === '1' || props.status === '2'">
+        <template v-if="status === '2'">
           <a-button class="mr-4" v-if="again" @click="again = false">取消</a-button>
+          <a-button type="primary" v-if="again" @click="handleSubmitTask">提交</a-button>
           <a-button class="mr-4" type="primary" v-if="!again && !postpone" @click="handleAgain"
             >重新下发</a-button
           >
-          <a-button type="primary" v-if="again" @click="handleSubmitTask">提交</a-button>
         </template>
-        <template v-if="props.status === '2'">
+        <template v-if="status === '2' && delayFlag === '2'">
           <a-button type="primary" v-if="!again && !postpone" @click="handlePostpone"
             >延期审核</a-button
           >
@@ -49,22 +51,32 @@
       </div>
     </template>
     <!-- 执行人 -->
-    <template v-if="props.identity === '2'">
+    <template v-if="identity === '2'">
       <!-- 申请延期 -->
-      <applyForm v-if="apply" />
+      <applyForm v-if="apply" ref="appplyRef" />
+      <!-- 提交检修结果 -->
+      <!-- <acceptForm v-if="accept" ref="overhaulRef"/> -->
+      <template v-if="accept">
+        <div class="font-black text-[#414960] text-[15px] my-[16px]">检修结果</div>
+        <BasicForm @register="registerAccept" />
+      </template>
       <!-- 检修结果 -->
-      <acceptForm v-if="accept" />
-      <!-- 检修结果反显 -->
-      <overhaulDescription
-        v-if="props.status === '3' || props.status === '4' || props.status === '5'"
-      />
-      <!-- 验收结果反显  -->
-      <resultDescriptions v-if="props.status === '4' || props.status === '5'" />
-      <!-- 检修结果重新提交 -->
-      <acceptForm v-if="SubmitAccept" :reSubmit="'1'" />
+      <template v-if="status === '3' || status === '4' || status === '5'">
+        <overhaulDescription :acceptList="acceptList" />
+      </template>
+      <!-- 验收结果  -->
+      <template v-if="status === '4' || status === '5'">
+        <resultDescriptions :acceptList="acceptList" />
+      </template>
+      <!-- 重新提交检修结果 -->
+      <!-- <acceptForm v-if="SubmitAccept" /> -->
+      <template v-if="SubmitAccept">
+        <div class="font-black text-[#414960] text-[15px] my-[16px]">检修结果</div>
+        <BasicForm @register="registerAccept" />
+      </template>
 
       <div class="mt-[44px] flex">
-        <template v-if="props.status === '1'">
+        <template v-if="status === '2'">
           <a-button class="mr-4" type="primary" v-if="!apply && !accept" @click="handleApply"
             >申请延期</a-button
           >
@@ -73,13 +85,13 @@
           >
           <a-button class="mr-4" v-if="apply" @click="handleClose">取消</a-button>
           <a-button type="primary" v-if="apply" @click="handleSubmitApply">提交</a-button>
-          <a-button type="primary" v-if="accept" @click="handleSubmitAccept">提交</a-button>
+          <!-- <a-button type="primary" v-if="accept" @click="handleSubmitAccept">提交</a-button> -->
         </template>
-        <template v-if="props.status === '4'">
+        <template v-if="status === '5'">
           <a-button class="mt-[12px]" type="primary" v-if="!SubmitAccept" @click="handleAgainSubmit"
             >重新提交</a-button
           >
-          <a-button type="primary" v-if="SubmitAccept" @click="handleSubmitResult">提交</a-button>
+          <!-- <a-button type="primary" v-if="SubmitAccept" @click="handleSubmitResult">提交</a-button> -->
         </template>
       </div>
     </template>
@@ -90,52 +102,112 @@
   import { ref, onMounted } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { BasicForm, useForm } from '/@/components/Form/index';
   import { useRouter, useRoute } from 'vue-router';
+  import { useMessage } from '/@/hooks/web/useMessage';
   //申请人
   import reIssueForm from '../../components/petitioner/reIssueForm.vue';
   import postponeForm from '../../components/petitioner/postponeForm.vue';
+  import applyDescription from '/@/views/device-maintenance/components/petitioner/applyDescription.vue';
+
   import overhaulDescription from '../../components/petitioner/overhaulDescription.vue';
-  // import resultDescription from '../../components/petitioner/resultDescription.vue'
   import resultDescriptions from '../../components/petitioner/resultDescriptions.vue';
   //执行人
   import applyForm from '../../components/executor/applyForm.vue';
-  import acceptForm from '../../components/executor/acceptForm.vue';
-
-  import { WorkDetail, deviceTableColumns } from '../data';
-  const props = defineProps({
-    status: {
-      type: String,
-      default: '',
-    },
-    identity: {
-      type: String,
-      default: '',
-    },
-  });
+  // import acceptForm from '../../components/executor/acceptForm.vue';
+  import { WorkDetail, deviceTableColumns, getAcceptFormSchema } from '../data';
+  import {
+    UpkeepWorkOrderDetailsApi,
+    UpkeepWorkOrderAnewIssueApi,
+    UpkeepWorkOrderDelayAuditApi,
+    UpkeepWorkOrderApplyDelayApi,
+  } from '/@/api/device-service/service';
+  // const props = defineProps({
+  //   status: {
+  //     type: String,
+  //     default: '',
+  //   },
+  //   identity: {
+  //     type: String,
+  //     default: '',
+  //   },
+  // });
+  const postponeRef = ref();
+  const reIssueRef = ref();
+  const appplyRef = ref();
+  // const overhaulRef = ref();
+  const { createMessage } = useMessage();
   const emit = defineEmits(['eventChange']);
   const router = useRouter();
   const route = useRoute();
   const isShow = route.query?.isShow as string;
+  const id = route.query?.id as string;
+  const status = route.query?.status as string;
+  const identity = route.query?.identity as string;
+  const delayFlag = route.query?.delayFlag as string;
+  // const oldEndTime = ref<any>();
+
   onMounted(() => {
     isShow && (apply.value = true);
   });
+  // 详情
+  const delayData = ref();
+  const acceptList = ref();
+  id &&
+    UpkeepWorkOrderDetailsApi({ id }).then((res) => {
+      infoData.value = { ...res.workOrderInfoVO, ...res.overhaulPlanInfoVO }; // 工单信息、检修明细
+      dataSource.value = res.overhaulPlanInfoVO.deviceList; //检修设备
+      delayData.value = res.delay; //延期申请
+      acceptList.value = res.acceptList; //检修结果和验收结果
+      //原截止时间
+      // oldEndTime.value = res.delay.oldEndTime;
+    });
+
   //执行人
   //申请延期
   const apply = ref<boolean>(false);
   function handleApply() {
     apply.value = true;
+    // setTimeout(() => {
+    //   appplyRef.value.setFieldsValue({
+    //     oldEndTime: oldEndTime.value,
+    //   });
+    // });
   }
-  //提交验收
+  //申请延期--提交
+  async function handleSubmitApply() {
+    let [res] = await Promise.all([appplyRef.value.handleSubmitApply()]);
+    res['workOrderId'] = id;
+    UpkeepWorkOrderApplyDelayApi(res)
+      .then(() => {
+        createMessage.success('已提交');
+      })
+      .finally(() => {
+        CloseFun();
+      });
+  }
+  //提交验收（检修结果）
   const accept = ref<boolean>(false);
   function handleAccept() {
     accept.value = true;
+    emit('eventChange', false);
   }
-  //重新提交
+  //重新提交（检修结果）
   const SubmitAccept = ref<boolean>(false);
   function handleAgainSubmit() {
     SubmitAccept.value = true;
     emit('eventChange', false);
   }
+  //检修结果--提交
+  function handleSubmitAccept() {
+    return new Promise(async (resolve) => {
+      await validateResult();
+      const obj = getFieldsValueResult();
+      obj['workOrderId'] = id;
+      resolve(obj);
+    });
+  }
+
   //取消
   function handleClose() {
     if (isShow) {
@@ -144,20 +216,24 @@
       apply.value = false;
     }
   }
-  //提交--申请延期
-  function handleSubmitApply() {
-    CloseFun();
-  }
-  //提交--维修结果
-  function handleSubmitAccept() {
-    CloseFun();
-  }
+
+  const [registerAccept, { validate: validateResult, getFieldsValue: getFieldsValueResult }] =
+    useForm({
+      schemas: getAcceptFormSchema(), //表单配置
+      showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
+      labelCol: {
+        span: 3,
+      },
+      wrapperCol: {
+        span: 12,
+      },
+    });
 
   //负责人
   // 工单信息、检修明细
-  let data = ref<any>({});
+  let infoData = ref<any>({});
   const [registerOverhaul] = useDescription({
-    data,
+    data: infoData,
     schema: WorkDetail(),
     bordered: false,
     column: 3,
@@ -181,8 +257,13 @@
   });
 
   //重新下发-提交
-  function handleSubmitTask() {
-    CloseFun();
+  async function handleSubmitTask() {
+    const [res] = await Promise.all([reIssueRef.value.submitFun()]);
+    res['id'] = id;
+    UpkeepWorkOrderAnewIssueApi(res).then(() => {
+      createMessage.success('已重新下发');
+      CloseFun();
+    });
   }
   //重新下发
   const again = ref<boolean>(false);
@@ -190,8 +271,13 @@
     again.value = true;
   }
   //延期审核-提交
-  function handleSubmitResult() {
-    CloseFun();
+  async function handleSubmitResult() {
+    const [res] = await Promise.all([postponeRef.value.submitFun()]);
+    res['id'] = id;
+    UpkeepWorkOrderDelayAuditApi(res).then(() => {
+      createMessage.success('已提交');
+      CloseFun();
+    });
   }
   //延期审核
   const postpone = ref<boolean>(false);
@@ -201,7 +287,7 @@
   //详情
   function handleDetails() {
     router.push({
-      // name: 'maintainDetails',
+      name: 'specialEquipmentDetails',
     });
   }
   function CloseFun() {
@@ -209,6 +295,9 @@
       name: 'serviceWorkOrder',
     });
   }
+  defineExpose({
+    handleSubmitAccept,
+  });
 </script>
 
 <style lang="less" scoped></style>

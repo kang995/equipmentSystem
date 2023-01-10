@@ -42,11 +42,19 @@
       </div>
     </template>
   </BasicTable>
-  <basicModel @register="IssuedModal" />
+  <!-- 申请延期 -->
+  <maintainModel @register="maintainModal" @postponeEvent="handlePostpones" />
+  <!-- 重新下发 -->
+  <IssueModel @register="IssuedModal" @event="handleIssue" />
+  <!-- 延期审核 -->
+  <delayModal @register="delayModals" @events="handleDelay" />
 </template>
 <script setup lang="ts">
   import { useModal } from '/@/components/Modal';
-  import basicModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
+  // import maintainModel from './module/maintainModal.vue';
+  import maintainModel from '/@/views/device-maintenance/maintain-workOrder/module/maintainModal.vue';
+  import IssueModel from '/@/views/corrective-maintenance/repair-workOrder/module/IssuedModal.vue';
+  import delayModal from '/@/views/device-service/components/petitioner/postponeModal.vue';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
@@ -54,9 +62,17 @@
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { UpkeepWorkOrderListApi, UpkeepWorkOrderExportApi } from '/@/api/device-service/service';
-  const { createMessage } = useMessage();
+  import {
+    UpkeepWorkOrderListApi,
+    UpkeepWorkOrderExportApi,
+    UpkeepWorkOrderAnewIssueApi,
+    UpkeepWorkOrderDelayAuditApi,
+    UpkeepWorkOrderApplyDelayApi,
+  } from '/@/api/device-service/service';
+  const [maintainModal, { openModal: openMaintainModal }] = useModal();
+  const [delayModals, { openModal: openDelayModal }] = useModal();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
+  const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
   const props = defineProps<{
@@ -104,33 +120,73 @@
       ],
     },
   });
-  //详情
-  function handleDetails() {
+  //详情 record.workOrderStatus
+  function handleDetails(record) {
     router.push({
       name: 'overhaulDetail',
       query: {
-        identity: '1', //负责人：1、执行人：2
-        status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5、未开始：6、计划终止：7
+        id: record.id,
+        identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
+        status: '5', //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+        delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
+        // status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5、未开始：6、计划终止：7
       },
     });
   }
   //重新下发
-  function handleAgain() {
-    openIssuedModal(true, {});
+  function handleAgain(record) {
+    openIssuedModal(true, {
+      id: record.id,
+    });
+  }
+  //重新下发-确认
+  function handleIssue(data) {
+    // console.log('data', data);
+    UpkeepWorkOrderAnewIssueApi(data)
+      .then(() => {
+        createMessage.success('已重新下发');
+      })
+      .finally(() => {
+        openIssuedModal(false);
+        reload();
+      });
   }
   //延期审核
   function handleAudit(record) {
-    // openDelayModal(true, {
-    //   id: record.id,
-    // });
+    openDelayModal(true, {
+      id: record.id,
+    });
+  }
+  //延期审核-确认
+  function handleDelay(data) {
+    console.log('data11', data);
+    UpkeepWorkOrderDelayAuditApi(data)
+      .then(() => {
+        createMessage.success('已提交');
+      })
+      .finally(() => {
+        openDelayModal(false);
+        reload();
+      });
   }
   //申请延期
   function handlePostpone(record) {
-    // openMaintainModal(true, {
-    //   id: record.id,
-    // });
+    openMaintainModal(true, {
+      id: record.id,
+      title: '检修工单延期申请',
+    });
   }
-
+  //申请延期-确认
+  function handlePostpones(data) {
+    UpkeepWorkOrderApplyDelayApi(data)
+      .then(() => {
+        createMessage.success('已提交');
+      })
+      .finally(() => {
+        openMaintainModal(false);
+        reload();
+      });
+  }
   //导出
   const exportLoading = ref(false);
   function exportTable() {

@@ -11,12 +11,24 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { getApplyFormSchema } from '../field';
 
-  const [registerApply, {}] = useForm({
+  const [registerApply, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getApplyFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     baseColProps: {
       span: 24,
     },
+  });
+
+  function handleSubmitApply() {
+    return new Promise(async (resolve) => {
+      await validate();
+      const obj = getFieldsValue();
+      resolve(obj);
+    });
+  }
+  defineExpose({
+    handleSubmitApply,
+    setFieldsValue,
   });
 </script>
 
