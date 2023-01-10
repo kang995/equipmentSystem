@@ -1,11 +1,9 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
-import {
-  getDepartmentSelectApi,
-  getDictionarySelectTypeApi,
-  getPeopleSelectApi,
-  getPersonSelectApi,
-} from '/@/api/device-maintenance/index';
+import { getDepartmentSelectApi, getPeopleSelectApi } from '/@/api/device-maintenance/index';
 import { treeListApi } from '/@/api/device-scrap/data';
+import { Row, Image } from 'ant-design-vue';
+import { DescItem } from '/@/components/Description';
+import { itemProps } from '/@/components/Menu/src/props';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -64,64 +62,27 @@ export function getFormSchema(): FormSchema[] {
     {
       field: 'code',
       component: 'Input',
-      label: '设备保养编号',
-      labelWidth: 96,
+      label: '报废单编号',
       componentProps: {
-        placeholder: '请输入设备保养编号',
+        placeholder: '请输入报废单编号',
       },
     },
     {
-      field: 'name',
+      field: 'deviceName',
       component: 'Input',
-      label: '保养计划名称',
+      label: '设备名称',
       componentProps: {
-        placeholder: '请选择保养计划名称',
+        placeholder: '请选择设备名称',
       },
     },
     {
-      field: 'chargePeopleId',
-      component: 'ApiSelect',
-      label: '负责人',
+      field: 'time',
+      component: 'RangePicker',
+      label: '申请时间',
       componentProps: {
-        placeholder: '请选择负责人',
-        api: getPersonSelectApi,
-        params: {
-          // type: 'PLAN_STATUS'
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
-      },
-    },
-    {
-      field: 'planStatus',
-      component: 'ApiSelect',
-      label: '计划状态',
-      componentProps: {
-        placeholder: '请选择计划状态',
-        api: getDictionarySelectTypeApi,
-        params: {
-          type: 'PLAN_STATUS',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName',
-        valueField: 'itemValue',
-      },
-    },
-    {
-      field: 'approvalStatus',
-      component: 'ApiSelect',
-      label: '审核状态',
-      labelWidth: 96,
-      componentProps: {
-        placeholder: '请选择审核状态',
-        api: getDictionarySelectTypeApi,
-        params: {
-          type: 'APPROVAL_STATUS',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'itemName',
-        valueField: 'itemValue',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
+        getPopupContainer: () => document.body,
       },
     },
   ];
@@ -363,8 +324,8 @@ export function schemasAdd(location): FormSchema[] {
       componentProps: {
         maxNumber: 5,
         maxSize: 5,
-        accept: '.jpg,.png,.jpeg',
-        helpText: '请上传图片',
+        type: '',
+        helpText: '请上传附件',
       },
     },
     {
@@ -378,3 +339,125 @@ export function schemasAdd(location): FormSchema[] {
     },
   ];
 }
+export const informationDescItem: DescItem[] = [
+  {
+    label: '报废单编号',
+    field: 'code',
+  },
+
+  {
+    label: '状态',
+    field: 'scrapStatusText',
+  },
+  {
+    label: '提交部门',
+    field: 'commitDeptName',
+  },
+  {
+    label: '提交人',
+    field: 'createByName',
+  },
+  {
+    label: '提交时间',
+    field: 'createTime',
+  },
+  {
+    label: '设备名称',
+    field: 'deviceName',
+  },
+  {
+    label: '设备安装位置',
+    field: 'location',
+  },
+  {
+    label: '负责部门',
+    field: 'chargeDeptName',
+  },
+  {
+    label: '负责人',
+    field: 'chargePeopleName',
+  },
+  {
+    label: '设备单价',
+    field: 'unitPrice',
+    render: (value) => {
+      return value + '万元';
+    },
+  },
+  {
+    label: '设备折旧',
+    field: 'depreciation',
+    render: (value) => {
+      return value + '万元';
+    },
+  },
+  {
+    label: '设备出厂日期',
+    field: 'manufactureDate',
+  },
+  {
+    label: '设备报废时间',
+    field: 'scrapDate',
+  },
+  {
+    label: '设备使用时间',
+    field: 'useDate',
+  },
+  {
+    label: '设备固定使用期限',
+    field: 'regularUseYear',
+    render: (value) => {
+      return value + '年';
+    },
+  },
+  {
+    label: '设备已使用期限',
+    field: 'usedYear',
+    render: (value) => {
+      return value + '年';
+    },
+  },
+  {
+    label: '设备现状',
+    field: 'actuality',
+  },
+  {
+    label: '设备报废原因',
+    field: 'scrapReason',
+  },
+  {
+    label: '附件',
+    field: 'affixList',
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            <div class="flex-col">
+              {data.map((item) => {
+                const name = item.url.substring(item.url.lastIndexOf('.') + 1);
+                if (name == 'png' || name == 'jpg' || name == 'jpeg') {
+                  return (
+                    <div class="flex flex-1">
+                      <Image width={100} src={item.url} />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div class="flex flex-1">
+                      <a href={item.url}>{item.name}</a>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          </ARow>
+        );
+      }
+    },
+  },
+  {
+    label: '备注',
+    field: 'remark',
+  },
+];

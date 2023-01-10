@@ -279,7 +279,6 @@
     }
 
     if (status === 'done') {
-      // console.log(status, !status, 'done');
       let files = {
         name: file.name,
         type: file.type,
@@ -322,7 +321,7 @@
     if (props.accept.includes('jpg')) {
       typeList.push('JPEG');
     }
-    if (props.accept === 'image/*') {
+    if (props.accept.includes('image/*')) {
       typeList.push(...['jpg', 'jpeg', 'png', 'GIF', 'JPG', 'PNG']);
     }
     const fileType: string = file.name.split('.').pop() as string;
@@ -339,6 +338,8 @@
         return false;
       }
     } else {
+      console.log(fileType);
+      console.log(typeList);
       createMessage.error(`${fileType}格式不允许上传`);
       return false;
     }

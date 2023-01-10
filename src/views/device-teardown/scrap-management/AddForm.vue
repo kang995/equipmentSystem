@@ -11,7 +11,7 @@
   import { useTabs } from '/@/hooks/web/useTabs';
   import { addListApi, editListApi, getDetailsApi } from '/@/api/device-scrap/data';
   import { message } from 'ant-design-vue';
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { getPeopleSelectApi } from '/@/api/device-maintenance';
   const { closeCurrent } = useTabs();
   const router = useRouter();
@@ -45,12 +45,13 @@
   onMounted(() => {
     routeId && getDetails();
   });
-
+  const version = ref('');
   function getDetails() {
     getDetailsApi({
       id: routeId,
     }).then((res) => {
       setFieldsValue(res);
+      version.value = res.version;
       getPeopleSelectApi([res.chargeDeptId]).then((res) => {
         updateSchema({
           field: 'chargePeopleId',
@@ -68,9 +69,11 @@
   async function sumitForm() {
     const data = getFieldsValue();
     if (routeId) {
+      delete data.deviceId;
       editListApi({
-        deviceId: routeId,
         ...data,
+        version: version.value,
+        id: routeId,
       })
         .then(() => {
           message.success('修改成功');

@@ -100,16 +100,14 @@
       rowProps: {
         gutter: 16,
       },
+      fieldMapToTime: [['time', ['startTime', 'endTime'], 'YYYY-MM-DD HH:mm:ss']],
     },
   });
   //详情
   function handleDetails(record) {
     router.push({
-      name: 'planDetails',
+      name: 'scrapDetails',
       query: {
-        status: record.approvalStatus,
-        // status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
-        mode: '1', //保养计划管理：1、检修计划管理：2、
         id: record.id,
       },
     });

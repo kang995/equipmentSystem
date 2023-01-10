@@ -1,7 +1,6 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
-import { Image, Row } from 'ant-design-vue';
 import { h } from 'vue';
 import { Tinymce } from '/@/components/Tinymce';
 import {
