@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-white m-4 a">
-    <Description class="p-4" @register="register" />
+  <div class="bg-white p-4 a">
+    <Description @register="register" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -8,7 +8,7 @@
   import { ref } from 'vue';
   import { informationDescItem } from './data';
   import { useRoute } from 'vue-router';
-  import { getDetailsApi } from '/@/api/device-scrap/data';
+  import { getDetailsApi } from '/@/api/device-demolishi/data';
   const route = useRoute();
   const id = route.query.id as string;
 

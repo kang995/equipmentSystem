@@ -143,7 +143,9 @@
   }
   //撤回
   function handleRecall(data) {
-    revokeListApi(data)
+    revokeListApi({
+      id: data.id,
+    })
       .then(() => {
         message.success('撤销成功');
         reload();

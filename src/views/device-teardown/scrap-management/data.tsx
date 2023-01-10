@@ -380,14 +380,14 @@ export const informationDescItem: DescItem[] = [
     label: '设备单价',
     field: 'unitPrice',
     render: (value) => {
-      return value + '万元';
+      return value ? value + '万元' : '';
     },
   },
   {
     label: '设备折旧',
     field: 'depreciation',
     render: (value) => {
-      return value + '万元';
+      return value ? value + '万元' : '';
     },
   },
   {
@@ -406,14 +406,14 @@ export const informationDescItem: DescItem[] = [
     label: '设备固定使用期限',
     field: 'regularUseYear',
     render: (value) => {
-      return value + '年';
+      return value ? value + '年' : '';
     },
   },
   {
     label: '设备已使用期限',
     field: 'usedYear',
     render: (value) => {
-      return value + '年';
+      return value ? value + '年' : '';
     },
   },
   {
