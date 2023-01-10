@@ -5,11 +5,13 @@
       class="basic-data-tab"
       :tabBarStyle="{ margin: 0, paddingLeft: '16px' }"
     >
-      <template v-for="item in achieveList" :key="item.key">
+      <template v-for="item in newAchieveList" :key="item.key">
         <TabPane :tab="item.name" />
       </template>
     </Tabs>
-    <component :is="activeComponent" />
+    <template v-if="newAchieveList.length">
+      <component :is="activeComponent" />
+    </template>
   </PageWrapper>
 </template>
 
@@ -26,12 +28,13 @@
     return achieveList.filter((item) => item.key == activeKey.value)[0].component;
   });
   //待验收和已验收工单数量
+  const newAchieveList = ref<any>([]);
   getAcceptCountApi().then((res) => {
     achieveList[0].name = '待验收';
     achieveList[1].name = '已验收';
     achieveList[0].name = achieveList[0].name + `(${res['stayAcceptCount']})`;
     achieveList[1].name = achieveList[1].name + `(${res['acceptCount']})`;
-    // console.log('数量',res,achieveList)
+    newAchieveList.value = achieveList;
   });
 </script>
 

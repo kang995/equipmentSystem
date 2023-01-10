@@ -2,7 +2,8 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import checking from './checking/index.vue';
 import checked from './checked/index.vue';
-
+import { Tag } from 'ant-design-vue';
+import { getPersonSelectApi } from '/@/api/device-maintenance/index';
 export interface TabItem {
   key: string;
   name: string;
@@ -22,40 +23,61 @@ export const achieveList: TabItem[] = [
 ];
 
 //检修工单验收-待验收、已验收
-export function tableColumns(activeKey: string): BasicColumn[] {
+export function tableColumns(ifIssue: any): BasicColumn[] {
   return [
     {
       title: '工单编号',
-      dataIndex: 'name',
+      dataIndex: 'code',
     },
     {
       title: '创建时间',
-      dataIndex: 'person',
+      dataIndex: 'createTime',
     },
     {
       title: '计划负责人',
-      dataIndex: 'time',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '工单处理人',
-      dataIndex: 'status',
+      dataIndex: 'dealUserName',
     },
     {
       title: '工单执行时间',
-      dataIndex: 'status',
+      dataIndex: 'executeTimeStr',
     },
     {
       title: '关联计划',
-      dataIndex: 'status',
+      dataIndex: 'upkeepPlanName',
     },
     {
       title: '工单状态',
-      dataIndex: 'status',
+      dataIndex: 'workOrderStatus',
+      customRender: ({ record }) => {
+        if (record.workOrderStatus === '1') {
+          //1：未开始
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '2') {
+          //2：待执行
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '3') {
+          //3：待验收
+          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '4') {
+          //4：已完成
+          return <Tag color={'green'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '5') {
+          //5：验收未通过
+          return <Tag color={'red'}>{record.workOrderStatusText}</Tag>;
+        } else if (record.workOrderStatus === '6') {
+          //6：计划终止
+          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+        }
+      },
     },
     {
       title: '完成时间',
-      dataIndex: 'status',
-      ifShow: activeKey === '2' ? true : false,
+      dataIndex: 'finishTime',
+      ifShow: !ifIssue,
     },
   ];
 }
@@ -63,73 +85,51 @@ export function tableColumns(activeKey: string): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'name1',
+      field: 'code',
       component: 'Input',
-      label: '故障单号',
+      label: '工单编号',
       labelWidth: 96,
       componentProps: {
-        placeholder: '请输入故障单号',
+        placeholder: '请输入工单编号',
       },
     },
     {
-      field: 'status',
-      component: 'Input',
-      label: '上报人',
-      labelWidth: 64,
+      field: 'chargePeopleId',
+      component: 'ApiSelect',
+      label: '计划负责人',
       componentProps: {
-        placeholder: '请输入上报人',
+        placeholder: '请选择计划负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
       },
     },
     {
-      field: 'name',
+      field: 'dealPeopleId',
+      component: 'ApiSelect',
+      label: '工单处理人',
+      componentProps: {
+        placeholder: '请选择工单处理人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
+      },
+    },
+    {
+      field: 'Time',
       component: 'RangePicker',
-      label: '上报时间',
+      label: '工单执行时间',
       componentProps: {
-        showTime: true,
-        format: 'YYYY-MM-DD HH:mm:ss',
-        getPopupContainer: () => document.body,
-      },
-    },
-    {
-      field: 'productId',
-      component: 'ApiSelect',
-      label: '关联设备',
-      componentProps: {
-        placeholder: '请选择关联设备',
-      },
-    },
-    {
-      field: 'productId',
-      component: 'ApiSelect',
-      label: '所属装置设施',
-      labelWidth: 96,
-      componentProps: {
-        placeholder: '请选择所属装置设施',
-      },
-    },
-    {
-      field: 'productId',
-      component: 'ApiSelect',
-      label: '故障类别',
-      labelWidth: 64,
-      componentProps: {
-        placeholder: '请选择故障类别',
-      },
-    },
-    {
-      field: 'productId',
-      component: 'ApiSelect',
-      label: '故障等级',
-      componentProps: {
-        placeholder: '请选择故障等级',
-      },
-    },
-    {
-      field: 'productId',
-      component: 'ApiSelect',
-      label: '故障状态',
-      componentProps: {
-        placeholder: '请选择故障状态',
+        // showTime: true,
+        format: 'YYYY-MM-DD',
       },
     },
   ];
@@ -248,7 +248,7 @@ export function deviceTableColumns(): BasicColumn[] {
 export function getResultFormSchema(): FormSchema[] {
   return [
     {
-      field: 'result',
+      field: 'acceptResult',
       component: 'RadioGroup',
       label: '验收结果',
       required: true,
@@ -256,17 +256,17 @@ export function getResultFormSchema(): FormSchema[] {
         options: [
           {
             label: '通过',
-            value: '1',
+            value: '0',
           },
           {
             label: '拒绝',
-            value: '2',
+            value: '1',
           },
         ],
       },
     },
     {
-      field: 'attachment',
+      field: 'acceptImgList',
       component: 'Upload',
       label: '图片',
       required: true,
@@ -278,12 +278,13 @@ export function getResultFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'name1',
+      field: 'acceptContent',
       component: 'InputTextArea',
       label: '验收内容（备注）',
       componentProps: {
         placeholder: '请输入验收内容（备注）',
         rows: 4,
+        maxlength: 200,
       },
     },
   ];

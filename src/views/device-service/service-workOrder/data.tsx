@@ -413,75 +413,84 @@ export function getAcceptFormSchema(): FormSchema[] {
 export function WorkInfoSchema(): DescItem[] {
   return [
     {
-      field: 'applyUserName',
+      field: 'troubleCode',
       label: '故障单号',
     },
     {
-      field: 'applyUserName',
+      field: 'troubleStatusText',
       label: '故障状态',
     },
     {
-      field: 'applyUserName',
+      field: 'createByName',
       label: '上报人',
     },
     {
-      field: 'applyUserName',
+      field: 'phone',
       label: '联系电话',
     },
     {
-      field: 'applyUserName',
+      field: 'createTime',
       label: '上报时间',
     },
     {
-      field: 'applyUserName',
+      field: 'findTime',
       label: '发现故障时间',
     },
     {
-      field: 'applyUserName',
+      field: 'deviceName',
       label: '关联设备',
     },
     {
-      field: 'applyUserName',
+      field: 'plantName',
       label: '所属装置设施',
     },
     {
-      field: 'applyUserName',
+      field: 'position',
       label: '地理位置',
     },
     {
-      field: 'applyUserName',
+      field: 'troubleTypeText',
       label: '故障类别',
     },
     {
-      field: 'applyUserName',
+      field: 'urgentLevelText',
       label: '紧急程度',
     },
     {
-      field: 'applyUserName',
+      field: 'description',
       label: '故障描述',
     },
     {
-      field: 'applyUserName',
+      field: 'expression',
       label: '表新症状',
     },
     {
-      field: 'applyUserName',
+      field: 'reason',
       label: '故障原因',
     },
     {
-      field: 'applyUserName',
+      field: 'measure',
       label: '采取措施',
     },
     {
-      field: 'applyUserName',
+      field: 'imgList',
       label: '图片',
-      render: () => {
-        return (
-          <Image
-            style={ImageBox}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-          />
-        );
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
       },
     },
   ];
@@ -497,3 +506,24 @@ const titleStyle: any = {
   ImageBox: any = {
     width: '80px',
   };
+const fileBox = {
+  padding: '0px',
+  height: '100px',
+  width: 'auto',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};
+const noFileBox: any = {
+  textAlign: 'center',
+  lineHeight: '100px',
+  fontWeight: '600',
+  fontSize: '16px',
+  color: '#999',
+  userSelect: 'none',
+  height: '100px',
+  width: '200px',
+  border: 'dashed 2px #bfbfbf',
+  borderRadius: '6px',
+  overflow: 'hidden',
+};

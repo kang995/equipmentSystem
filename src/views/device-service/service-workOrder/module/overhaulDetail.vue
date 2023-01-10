@@ -11,7 +11,7 @@
       <a-tab-pane key="3" tab="流转记录">
         <flow-doc :type="'3'" />
       </a-tab-pane>
-      <a-tab-pane key="4" tab="关联故障">
+      <a-tab-pane key="4" tab="关联故障" v-if="status === '2'">
         <relevant-failure />
       </a-tab-pane>
     </a-tabs>
@@ -28,7 +28,7 @@
   import { ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
   import { Tabs } from 'ant-design-vue';
-  // import { useRoute } from 'vue-router';
+  import { useRoute } from 'vue-router';
   import workInfo from './workInfo.vue';
   import workPart from '/@/views/device-maintenance/maintain-workOrder/module/workPart.vue';
   import repeatWorkPart from '/@/views/device-maintenance/maintain-workOrder/module/repeatWorkPart.vue';
@@ -41,9 +41,9 @@
   const router = useRouter();
   const infoRef = ref();
   const spareRef = ref();
-  // const route = useRoute();
-  // const status = route.query?.status as string;
-  // const identity = route.query?.identity as string;
+  const route = useRoute();
+  const status = route.query?.status as string;
+
   const ATabs = Tabs,
     ATabPane = Tabs.TabPane;
   const tabBarStyle = {

@@ -11,12 +11,25 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { getResultFormSchema } from '../data';
 
-  const [registerResult, {}] = useForm({
+  const [registerResult, { validate, getFieldsValue }] = useForm({
     schemas: getResultFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-    baseColProps: {
-      span: 24,
+    labelCol: {
+      span: 3,
     },
+    wrapperCol: {
+      span: 12,
+    },
+  });
+  function submitFun() {
+    return new Promise(async (resolve) => {
+      await validate();
+      const obj = getFieldsValue();
+      resolve(obj);
+    });
+  }
+  defineExpose({
+    submitFun,
   });
 </script>
 

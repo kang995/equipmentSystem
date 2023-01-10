@@ -120,14 +120,14 @@
       ],
     },
   });
-  //详情 record.workOrderStatus
+  //详情
   function handleDetails(record) {
     router.push({
       name: 'overhaulDetail',
       query: {
         id: record.id,
         identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
-        status: '5', //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+        status: record.workOrderStatus, //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
         delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
         // status: '1', //待执行：1、延期审核：2、待验收：3、验收未通过：4、验收通过：5、未开始：6、计划终止：7
       },
