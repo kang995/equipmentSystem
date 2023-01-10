@@ -3,7 +3,6 @@ import { getDepartmentSelectApi, getPeopleSelectApi } from '/@/api/device-mainte
 import { treeListApi } from '/@/api/device-scrap/data';
 import { Row, Image } from 'ant-design-vue';
 import { DescItem } from '/@/components/Description';
-import { itemProps } from '/@/components/Menu/src/props';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
