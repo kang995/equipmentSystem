@@ -8,7 +8,7 @@
   import { ref } from 'vue';
   import { informationDescItem } from './data';
   import { useRoute } from 'vue-router';
-  import { getDetailsApi } from '/@/api/device-scrap/data';
+  import { getDetailsApi } from '/@/api/device-removal/data';
   const route = useRoute();
   const id = route.query.id as string;
 

@@ -166,7 +166,14 @@
       name: 'teardownAdd',
     });
   }
-  function handleAddDismantle() {}
+  function handleAddDismantle(record) {
+    router.push({
+      name: 'recordAdd',
+      query: {
+        codeId: record.id,
+      },
+    });
+  }
   //导出
   const exportLoading = ref(false);
   function exportTable() {
@@ -181,7 +188,7 @@
     exportPlanDataApi(data)
       .then((res) => {
         if (res) {
-          const filename = '设备报废列表.xlsx';
+          const filename = '设备拆除列表.xlsx';
           downloadByData(res.data, filename);
           createMessage.success('导出成功');
         } else {

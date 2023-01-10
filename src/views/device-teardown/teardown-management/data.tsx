@@ -58,7 +58,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'time',
+      field: 'facilityCode',
       component: 'Input',
       label: '设备编号',
       componentProps: {

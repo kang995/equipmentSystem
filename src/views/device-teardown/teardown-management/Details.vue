@@ -18,7 +18,7 @@
   import { Tabs } from 'ant-design-vue';
   import { computed, ref } from 'vue';
   import DetailsDescription from './DetailsDescription.vue';
-  // import AssociatedDevices from './AssociatedDevices.vue';
+  import AssociatedDevices from '../teardown-record/indexCooment.vue';
   const TabPane = Tabs.TabPane;
   const activeKey = ref('1');
 
@@ -35,8 +35,8 @@
     },
     {
       key: '2',
-      name: '关联设备', //1 2 3 4
-      // component: AssociatedDevices,
+      name: '拆除情况',
+      component: AssociatedDevices,
     },
   ];
   const activeComponent = computed(() => {

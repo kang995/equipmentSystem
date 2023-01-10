@@ -1,59 +1,61 @@
 <template>
-  <PageWrapper>
-    <BasicTable @register="register">
-      <template #action="{ record }">
-        <TableAction
-          :divider="false"
-          :stopButtonPropagation="true"
-          :actions="[
-            {
-              label: '详情',
-              onClick: handleDetails.bind(null, record),
+  <BasicTable @register="register">
+    <template #action="{ record }">
+      <TableAction
+        :divider="false"
+        :stopButtonPropagation="true"
+        :actions="[
+          {
+            label: '详情',
+            onClick: handleDetails.bind(null, record),
+          },
+          {
+            label: '编辑',
+            onClick: handleEdit.bind(null, record),
+          },
+          {
+            label: '删除',
+            color: 'error',
+            popConfirm: {
+              title: '是否确认删除?',
+              confirm: handleDelete.bind(null, record),
             },
-            {
-              label: '编辑',
-              onClick: handleEdit.bind(null, record),
-            },
-            {
-              label: '删除',
-              color: 'error',
-              popConfirm: {
-                title: '是否确认删除?',
-                confirm: handleDelete.bind(null, record),
-              },
-            },
-          ]"
-        />
-      </template>
-      <template #tableTitle>
-        <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
-            >新增</a-button
-          >
-          <a-tooltip>
-            <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
-          </a-tooltip>
-        </div>
-      </template>
-    </BasicTable>
-  </PageWrapper>
+          },
+        ]"
+      />
+    </template>
+    <template #tableTitle>
+      <div class="flex flex-1 space-x-4">
+        <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          >新增</a-button
+        >
+        <a-tooltip>
+          <template #title>不选择即导出全部数据</template>
+          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+        </a-tooltip>
+      </div>
+    </template>
+  </BasicTable>
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
-  import { useRouter } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import { Tooltip } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
   import { deleteListApi, getRecordListApi, exportPlanDataApi } from '/@/api/device-removal/data';
   const { createMessage } = useMessage();
   const router = useRouter();
+  const route = useRoute();
+  const routeCodeId = route.query.id as string;
   const ATooltip = Tooltip;
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
     api: getRecordListApi,
+    searchInfo: {
+      demolishId: routeCodeId,
+    },
     columns: tableColumns(),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
@@ -62,6 +64,7 @@
     rowSelection: {
       type: 'checkbox',
     },
+    inTabs: true,
     actionColumn: {
       title: '操作',
       dataIndex: 'action',
@@ -128,6 +131,9 @@
   function handleAdd() {
     router.push({
       name: 'recordAdd',
+      query: {
+        codeId: routeCodeId,
+      },
     });
   }
   //导出
