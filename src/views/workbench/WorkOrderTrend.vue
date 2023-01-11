@@ -5,13 +5,12 @@
         <template #QueryBtn>
           <RadioButtonGroup
             :options="options"
-            v-model:value="value"
+            v-model:value="Btnvalue"
             buttonStyle="button"
             @change="getChange"
           /> </template
       ></Title>
-
-      <ChartLine />
+      <ChartLine :lineList="lineList" />
     </Card>
   </div>
 </template>
@@ -20,7 +19,8 @@
   import { RadioButtonGroup } from '/@/components/Form';
   import Title from './components/Title.vue';
   import ChartLine from './ChartLine.vue';
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import { dataOrderApi } from '/@/api/workbench/index';
 
   const titleList = [
     {
@@ -30,21 +30,36 @@
   ];
   const options = [
     {
-      label: '全部',
-      value: '1',
-    },
-    {
-      label: '报警',
+      label: '本周',
       value: '2',
     },
     {
-      label: '销警',
+      label: '本月',
       value: '3',
     },
+    {
+      label: '本季',
+      value: '4',
+    },
+    {
+      label: '本年',
+      value: '5',
+    },
   ];
-  const value = ref<string>('1');
+  const Btnvalue = ref<string>('2');
   function getChange(val) {
-    value.value = val;
+    Btnvalue.value = val;
+    handleCount();
+  }
+  onMounted(() => {
+    handleCount();
+  });
+  //工作趋势
+  const lineList = ref<any>([]);
+  function handleCount() {
+    dataOrderApi({ timeFlag: Btnvalue.value }).then((res) => {
+      lineList.value = res;
+    });
   }
 </script>
 <style lang="less" scoped>

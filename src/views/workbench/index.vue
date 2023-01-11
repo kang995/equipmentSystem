@@ -4,7 +4,6 @@
       <div :class="`${prefixCls}-left`">
         <div :class="`${prefixCls}-left-data`"><DataOverview /> </div>
         <div :class="`${prefixCls}-left-data`"><QuickEntry /> </div>
-
         <div :class="`${prefixCls}-left-data`">
           <WorkOrderTrend />
         </div>

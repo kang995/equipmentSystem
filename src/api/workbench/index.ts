@@ -6,6 +6,8 @@ enum Api {
   NOTI_STATE = '/system/notify/updateState', //修改状态
   NOTI_REMOVE = '/system/notify/remove', // 删除
   NOTI_UNREAD = '/system/notify/unread', // 未读消息数量
+  DATAOVERVIEW = '/workbench/dataOverview', //数据概览
+  DATAOVERVIEW_ORDER = '/workbench/workOrderTrend', //工单趋势
 }
 
 export const notificationRemoveApi = (params) =>
@@ -34,4 +36,15 @@ export const notificationApi = (params?: any) =>
 export const noteUnreadApi = () =>
   defHttp.post({
     url: Api.NOTI_UNREAD,
+  });
+
+export const dataViewApi = (params) =>
+  defHttp.post({
+    url: Api.DATAOVERVIEW,
+    params,
+  });
+export const dataOrderApi = (params) =>
+  defHttp.post({
+    url: Api.DATAOVERVIEW_ORDER,
+    params,
   });

@@ -1,5 +1,4 @@
-<template
-  >ldEndTime
+<template>
   <BasicTable @register="register">
     <template #action="{ record }">
       <TableAction

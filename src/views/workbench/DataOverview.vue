@@ -1,49 +1,61 @@
 <template>
   <ACard>
     <div :class="`${prefixCls}`">
-      <Title :titleList="titleList" />
-      <ARow>
-        <ACol
-          :span="6"
-          :gutter="[16, 16]"
-          :class="`${prefixCls}-box `"
-          v-for="(item, index) in CardList"
-          :key="index"
-        >
-          <ACard
-            :class="`${prefixCls}-box-card`"
-            :bordered="false"
-            :id="index"
-            @mouseover="changeActive(index)"
-            @click="getRouterDate(item.id)"
+      <Title :titleList="titleList">
+        <template #QueryBtn>
+          <RadioButtonGroup
+            :options="options"
+            v-model:value="Btnvalue"
+            buttonStyle="button"
+            @change="getChange"
+          />
+        </template>
+      </Title>
+      <ARow class="mt-4">
+        <template v-if="newCardList.length">
+          <ACol
+            :span="6"
+            :gutter="[16, 16]"
+            :class="`${prefixCls}-box`"
+            v-for="(item, index) in newCardList"
+            :key="index"
           >
-            <a-image :preview="false" :src="item.icon" :class="`${prefixCls}-SvgIcon`" />
-
-            <div :class="`${prefixCls}-text`">
-              <APopover trigger="hover">
-                <template #content>
-                  <span>{{ item.title }}</span>
-                </template>
-                <span :class="`${prefixCls}-text-title`">{{ item.title }}</span>
-              </APopover>
-              <div :class="`${prefixCls}-num-title`">
-                <div>
-                  <span :class="`${prefixCls}-num`">{{ item.num }}</span>
+            <ACard
+              :class="`${prefixCls}-box-card`"
+              :bordered="false"
+              :id="index"
+              @mouseover="changeActive(index)"
+              @click="getRouterDate(item.id)"
+            >
+              <a-image :preview="false" :src="item.icon" :class="`${prefixCls}-SvgIcon`" />
+              <div :class="`${prefixCls}-text`">
+                <APopover trigger="hover">
+                  <template #content>
+                    <span>{{ item.title }}</span>
+                  </template>
+                  <span :class="`${prefixCls}-text-title`">{{ item.title }}</span>
+                </APopover>
+                <div :class="`${prefixCls}-num-title`">
+                  <div>
+                    <span :class="`${prefixCls}-num`">{{ item.num }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </ACard>
-        </ACol>
+            </ACard>
+          </ACol>
+        </template>
       </ARow>
     </div>
   </ACard>
 </template>
 <script lang="ts" setup>
+  import { RadioButtonGroup } from '/@/components/Form';
   import Title from './components/Title.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { Row, Card, Col, Popover, Image } from 'ant-design-vue';
   import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import { dataViewApi } from '/@/api/workbench/index';
   const ARow = Row;
   const ACol = Col;
   const ACard = Card;
@@ -51,34 +63,50 @@
   const APopover = Popover;
   const { prefixCls } = useDesign('enterprise-personnel');
   const router = useRouter();
+  const options = [
+    {
+      label: '今日',
+      value: '1',
+    },
+    {
+      label: '本周',
+      value: '2',
+    },
+    {
+      label: '本月',
+      value: '3',
+    },
+    {
+      label: '本年',
+      value: '5',
+    },
+  ];
   const CardList = ref<any[]>([
     {
       id: 1,
       title: '待确认故障',
-      num: 34,
+      num: 0,
       icon: 'https://tsit-argus.oss-cn-beijing.aliyuncs.com/integrated-management-system/icon_jianshexiangmu.png',
       bgColor: 'rgba(0, 127, 255, 0.1)',
     },
     {
       id: 2,
-
       title: '保养工单',
-      num: 22,
+      num: 0,
       icon: 'https://tsit-argus.oss-cn-beijing.aliyuncs.com/integrated-management-system/workbench_img.png',
       bgColor: 'rgba(77, 121, 255, 0.1)',
     },
     {
       id: 3,
-
       title: '维修工单',
-      num: 3,
+      num: 0,
       icon: 'https://tsit-argus.oss-cn-beijing.aliyuncs.com/integrated-management-system/icon_gongyongpeitaosheshi.png',
       bgColor: 'rgba(68, 191, 243, 0.1)',
     },
     {
       id: 4,
       title: '检修工单',
-      num: 2,
+      num: 0,
       icon: 'https://tsit-argus.oss-cn-beijing.aliyuncs.com/integrated-management-system/icon_important_weixianhuaxuepin.png',
       bgColor: 'rgba(255, 91, 86, 0.1)',
     },
@@ -105,6 +133,27 @@
 
   function getRouterDate(id) {
     router.push(toRoute[id]);
+  }
+  onMounted(() => {
+    funView();
+  });
+  //
+  const newCardList = ref<any>([]);
+  function funView() {
+    newCardList.value = CardList.value;
+    dataViewApi({ timeFlag: Btnvalue.value }).then((res) => {
+      newCardList.value[0].num = res.troubleCount; //待确认故障
+      newCardList.value[1].num = res.maintainCount; //保养工单
+      newCardList.value[2].num = res.serviceCount; //维修工单
+      newCardList.value[3].num = res.overhaulCount; //检修工单
+      // console.log('newCardList',newCardList.value)
+    });
+  }
+
+  const Btnvalue = ref<string>('1');
+  function getChange(val) {
+    Btnvalue.value = val;
+    funView();
   }
 
   const titleList = [
