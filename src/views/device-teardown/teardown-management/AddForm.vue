@@ -25,7 +25,7 @@
     wrapperCol: {
       span: 10,
     },
-    schemas: schemasAdd(location),
+    schemas: schemasAdd(location, routeId),
     actionColOptions: {
       offset: 8,
       span: 10,

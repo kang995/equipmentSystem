@@ -96,14 +96,14 @@ const treeTolist = (tree, result = [] as any, level = 0) => {
   return result;
 };
 //
-export function schemasAdd(location): FormSchema[] {
+export function schemasAdd(location, routeId): FormSchema[] {
   return [
     {
       field: 'deviceId',
       label: '选择设备',
       component: 'ApiTreeSelect',
       required: true,
-      ifShow: location ? false : true,
+      ifShow: routeId ? false : true,
       componentProps: ({ formActionType }) => {
         const { setFieldsValue } = formActionType;
         return {
@@ -133,7 +133,7 @@ export function schemasAdd(location): FormSchema[] {
       component: 'Input',
       required: true,
       dynamicDisabled: true,
-      ifShow: location ? true : false,
+      ifShow: routeId ? true : false,
       componentProps: ({ formActionType }) => {
         const { setFieldsValue } = formActionType;
         setFieldsValue({
