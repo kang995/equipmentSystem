@@ -572,7 +572,7 @@ export function PostponeDetail(): DescItem[] {
 export function getPostponeFormSchema(): FormSchema[] {
   return [
     {
-      field: 'auditResult',
+      field: 'approvalResult',
       component: 'ApiRadioGroup',
       label: '审核结果',
       required: true,
@@ -587,7 +587,7 @@ export function getPostponeFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'declineReason',
+      field: 'reason',
       component: 'InputTextArea',
       label: '拒绝原因',
       required: true,
@@ -732,7 +732,7 @@ export function getApplyFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'newEndTime',
+      field: 'delayTime',
       component: 'DatePicker',
       label: '延期时间',
       required: true,

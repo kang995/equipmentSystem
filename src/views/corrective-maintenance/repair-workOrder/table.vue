@@ -45,6 +45,7 @@
       </div>
     </template>
   </BasicTable>
+  <!-- 重新下发 -->
   <basicModel @register="IssuedModal" @event="handleIssue" />
 </template>
 <script setup lang="ts">
@@ -108,8 +109,7 @@
     router.push({
       name: 'repairDetail',
       query: {
-        determineId: record.determineId, //维修工单id
-        id: record.id, //故障id
+        id: record.id, //维修工单id
         status: record.maintainStatus, //0:待处理、 1：待处理(延期申请)、2：待验收、3：验收未通过、4：完成
         identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
         // status: '2', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
@@ -119,17 +119,11 @@
   //重新下发
   function handleAgain(record) {
     openIssuedModal(true, {
-      id: record.id, //故障id
+      id: record.id, //维修工单id
     });
   }
   //重新下发-确认
   function handleIssue(data) {
-    console.log('data', data);
-    //处理部门、处理岗位一个字段
-    if (data['dealStationId'] && data.hasOwnProperty('dealStationId')) {
-      data['disposeUnitId'] = data['dealStationId'];
-      delete data['dealStationId'];
-    }
     maintainAgainApi(data)
       .then(() => {
         createMessage.success('已重新下发');

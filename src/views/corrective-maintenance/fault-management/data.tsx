@@ -551,12 +551,12 @@ export function faultschema(troubleDetermine: string): DescItem[] {
       },
     },
     {
-      field: 'assignType',
+      field: 'designateTypeText',
       label: '任务指派',
       show: () => troubleDetermine === '0',
-      render: (curVal) => {
-        return curVal === '0' ? '人员' : '岗位';
-      },
+      // render: (curVal) => {
+      //   return curVal === '0' ? '人员' : '岗位';
+      // },
     },
     {
       field: 'disposeUnitName',

@@ -526,7 +526,7 @@ export function getResultFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'acceptCase',
+      field: 'acceptContent',
       component: 'InputTextArea',
       label: '验收描述',
       required: true,

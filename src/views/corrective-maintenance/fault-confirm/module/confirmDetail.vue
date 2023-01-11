@@ -65,10 +65,10 @@
     const obj = getFieldsValue();
     obj['troubleId'] = id;
     //处理部门、处理岗位一个字段
-    if (obj['dealStationId'] && obj.hasOwnProperty('dealStationId')) {
-      obj['disposeUnitId'] = obj['dealStationId'];
-      delete obj['dealStationId'];
-    }
+    // if (obj['dealStationId'] && obj.hasOwnProperty('dealStationId')) {
+    //   obj['disposeUnitId'] = obj['dealStationId'];
+    //   delete obj['dealStationId'];
+    // }
     // console.log('obj',obj)
     TroubleDeterMineApi(obj).then(() => {
       createMessage.success('确认成功！');

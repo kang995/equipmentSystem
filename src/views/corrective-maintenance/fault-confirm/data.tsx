@@ -346,7 +346,7 @@ export function confirmFormSchema(): FormSchema[] {
     },
     // 自修
     {
-      field: 'jobName',
+      field: 'name',
       component: 'Input',
       label: '工单名称',
       required: true,
@@ -361,7 +361,7 @@ export function confirmFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'principalPeopleId',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '负责人',
       required: true,
@@ -399,7 +399,7 @@ export function confirmFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'assignType',
+      field: 'designateType',
       component: 'ApiRadioGroup',
       label: '任务指派',
       required: true,
@@ -418,27 +418,11 @@ export function confirmFormSchema(): FormSchema[] {
           labelField: 'itemName',
           valueField: 'itemValue',
           onChange: (e) => {
-            formModel.disposePeopleIdList = undefined;
+            formModel.dealUserIdList = undefined;
             if (e === '2') {
-              formModel.disposeUnitId = undefined;
-              // updateSchema({
-              //   field: 'disposeUnitId',
-              //   ifShow: false,
-              // });
-              // updateSchema({
-              //   field: 'dealStationId',
-              //   ifShow: true,
-              // });
+              formModel.dealDeptId = undefined;
             } else {
               formModel.dealStationId = undefined;
-              // updateSchema({
-              //   field: 'dealStationId',
-              //   ifShow: false,
-              // });
-              // updateSchema({
-              //   field: 'disposeUnitId',
-              //   ifShow: true,
-              // });
             }
           },
         };
@@ -449,7 +433,7 @@ export function confirmFormSchema(): FormSchema[] {
     },
     //人员
     {
-      field: 'disposeUnitId',
+      field: 'dealDeptId',
       component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
@@ -478,7 +462,7 @@ export function confirmFormSchema(): FormSchema[] {
             // console.log(e);
             getPeopleSelectApi([e]).then((res) => {
               updateSchema({
-                field: 'disposePeopleIdList',
+                field: 'dealUserIdList',
                 componentProps: {
                   options: res,
                 },
@@ -512,13 +496,13 @@ export function confirmFormSchema(): FormSchema[] {
             getStationPeopleSelectApi([en]).then((res) => {
               console.log(res);
               updateSchema({
-                field: 'disposePeopleIdList',
+                field: 'dealUserIdList',
                 componentProps: {
                   options: res,
                   mode: 'multiple',
                 },
               });
-              formModel.disposePeopleIdList = res.map((item) => item.id);
+              formModel.dealUserIdList = res.map((item) => item.id);
             });
           },
         };
@@ -528,7 +512,7 @@ export function confirmFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'disposePeopleIdList',
+      field: 'dealUserIdList',
       component: 'Select',
       label: '处理人',
       required: true,

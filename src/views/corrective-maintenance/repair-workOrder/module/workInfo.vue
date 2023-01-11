@@ -142,7 +142,7 @@
   const status = route.query?.status as string;
   const identity = route.query?.identity as string;
   const id = route.query?.id as string;
-  const determineId = route.query?.determineId as string;
+  // const determineId = route.query?.determineId as string;
 
   const emit = defineEmits(['eventChange']);
   onMounted(() => {
@@ -183,7 +183,7 @@
   async function handleSubmitApply() {
     await validateApply();
     const obj = getFieldsValueApply();
-    obj['determineId'] = determineId;
+    obj['workOrderId'] = id;
     maintainDelayApi(obj).then(() => {
       createMessage.success('已提交');
       CloseFun();
@@ -200,7 +200,7 @@
     return new Promise(async (resolve) => {
       await validateResult();
       const obj = getFieldsValueResult();
-      obj['determineId'] = determineId;
+      obj['workOrderId'] = id;
       resolve(obj);
     });
   }
@@ -288,12 +288,12 @@
   async function handleOk() {
     await validateAgain();
     const obj = getFieldsValueAgain();
-    obj['determineId'] = id; //故障id
-    //处理部门、处理岗位一个字段
-    if (obj['dealStationId'] && obj.hasOwnProperty('dealStationId')) {
-      obj['disposeUnitId'] = obj['dealStationId'];
-      delete obj['dealStationId'];
-    }
+    obj['workOrderId'] = id;
+    // //处理部门、处理岗位一个字段
+    // if (obj['dealStationId'] && obj.hasOwnProperty('dealStationId')) {
+    //   obj['disposeUnitId'] = obj['dealStationId'];
+    //   delete obj['dealStationId'];
+    // }
     maintainAgainApi(obj).then(() => {
       createMessage.success('已重新下发');
       CloseFun();
@@ -308,7 +308,7 @@
   async function handleAudit() {
     await validateDelay();
     const obj = getFieldsValueDelay();
-    obj['delayId'] = determineId;
+    obj['workOrderId'] = id;
     maintainAuditApi(obj).then(() => {
       createMessage.success('已提交审核');
       CloseFun();

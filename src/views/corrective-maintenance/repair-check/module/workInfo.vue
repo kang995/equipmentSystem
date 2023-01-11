@@ -38,7 +38,7 @@
   const router = useRouter();
   const status = route.query?.status as string;
   const id = route.query?.id as string;
-  const determineId = route.query?.determineId as string;
+  // const determineId = route.query?.determineId as string;
   const repair = ref<any>([]); //维修结果
   const result = ref<any>([]); //验收结果
   //详情
@@ -83,7 +83,7 @@
   async function handleSubmitResult() {
     await validate();
     const obj = getFieldsValue();
-    obj['determineId'] = determineId;
+    obj['workOrderId'] = id;
     // console.log('obj',obj);
     DetermineMaintainAcceptApi(obj).then(() => {
       createMessage.success('已提交');

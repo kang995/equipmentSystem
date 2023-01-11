@@ -82,8 +82,7 @@
     router.push({
       name: 'checkDetails',
       query: {
-        id: record.id, //故障id
-        determineId: record.determineId, //维修工单id
+        id: record.id, //维修工单id
         status: record.maintainStatus, //0:待处理、 1：待处理(延期申请)、2：待验收、3：验收未通过、4：完成
         // status: '3', //待验收：1、已完成：2、未通过：3
       },
