@@ -54,7 +54,7 @@
       slots: { customRender: 'action' },
     },
     formConfig: {
-      schemas: getFormSchema(),
+      schemas: getFormSchema(props.ifIssue),
       autoSubmitOnEnter: true,
       showAdvancedButton: false, //是否显示收起展开按钮
       resetButtonOptions: {
@@ -76,10 +76,10 @@
     router.push({
       name: 'confirmDetail',
       query: {
-        flag: '2', //待确认：1、已确认：2
+        // flag: '2', //待确认：1、已确认：2
         id: record.id,
-        troubleDetermine: record.troubleDetermine, //0:自修、1：委外维修 2：列入检修计划
-        status: record.troubleStatus, //0:待确认、1：待处理、2：处理中、3：已解决、4：已转计划
+        troubleStatus: record.troubleStatus, //故障状态--0:待确认、1：待处理、2：处理中、3：已解决、4：列入检修计划
+        troubleDetermine: record.troubleDetermine, //0:自修、1：委外维修 2：列入检修计划 （确认结果）
         // status: '4', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
       },
     });
@@ -89,9 +89,10 @@
     router.push({
       name: 'confirmDetail',
       query: {
-        flag: '1', //待确认：1、已确认：2
+        // flag: '1', //待确认：1、已确认：2
         id: record.id,
-        status: record.troubleStatus, //0:待确认、1：待处理、2：处理中、3：已解决、4：已转计划
+        troubleStatus: record.troubleStatus, //故障状态--0:待确认、1：待处理、2：处理中、3：已解决、4：列入检修计划
+        troubleDetermine: record.troubleDetermine, //0:自修、1：委外维修 2：列入检修计划 （确认结果）
         // status: '3', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
       },
     });

@@ -559,7 +559,7 @@ export function faultschema(troubleDetermine: string): DescItem[] {
       // },
     },
     {
-      field: 'disposeUnitName',
+      field: 'dealDeptName',
       label: '处理部门',
       show: () => troubleDetermine === '0',
     },

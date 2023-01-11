@@ -1,24 +1,22 @@
 <template>
-  <PageWrapper contentBackground>
-    <div class="w-full px-10">
-      <!-- 待确认 status==='0'-->
-      <template v-if="flag === '1'">
-        <!-- 故障信息 -->
-        <Description @register="register" />
-        <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[16px]">故障确认</div>
+  <PageWrapper contentBackground contentFullHeight contentClass="p-4">
+    <div class="w-full">
+      <!-- 故障信息 -->
+      <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障信息</div>
+      <Description @register="register" />
+      <!-- 确认故障提交 -->
+      <template v-if="troubleStatus === '0'">
+        <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障确认</div>
         <BasicForm @register="registerFrom" />
       </template>
-      <!-- 已确认 status!=='0'-->
-      <template v-if="flag === '2'">
-        <!-- <Description @register="registers" /> -->
-        <!-- 故障信息 -->
-        <Description @register="register" />
-        <!-- 故障确认 -->
+      <!-- 故障确认 -->
+      <template v-if="troubleStatus !== '0' && Object.keys(faultData).length">
+        <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障确认</div>
         <Description
-          :bordered="false"
+          :bordered="true"
           :column="2"
           :data="faultData"
-          :schema="confirmdingDetail(troubleDetermine)"
+          :schema="confirmdingDetail(troubleDetermine, troubleStatus)"
         />
       </template>
     </div>
@@ -37,11 +35,11 @@
   const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
-  // const status = route.query?.status as string;
-  const flag = route.query?.flag as string; //待确认1 已确认2
+  const troubleStatus = route.query?.troubleStatus as string; //故障状态
+  // const flag = route.query?.flag as string; //待确认1 已确认2
   const id = route.query?.id as string;
-  const troubleDetermine = route.query.troubleDetermine as string;
-  const faultData = ref<any>(); //故障确认
+  const troubleDetermine = route.query.troubleDetermine as string; //确认结果
+  const faultData = ref<any>({}); //故障确认
 
   //详情
   id &&
@@ -51,12 +49,14 @@
       // //已确认-故障信息
       // datas.value = res;
       //故障确认 0:自修、1：委外维修 2：列入检修计划
-      faultData.value =
-        troubleDetermine === '0'
-          ? res.deviceTroubleOneselfVO
-          : troubleDetermine === '1'
-          ? res.deviceTroubleOutsourceVO
-          : res.deviceTroubleOverhaulVO;
+      troubleDetermine &&
+        (faultData.value =
+          troubleDetermine === '0'
+            ? res.deviceTroubleOneselfVO
+            : troubleDetermine === '1'
+            ? res.deviceTroubleOutsourceVO
+            : res.deviceTroubleOverhaulVO);
+      faultData.value['troubleDetermineText'] = res['troubleDetermineText']; //确认结果
     });
 
   //提交
@@ -64,12 +64,6 @@
     await validate();
     const obj = getFieldsValue();
     obj['troubleId'] = id;
-    //处理部门、处理岗位一个字段
-    // if (obj['dealStationId'] && obj.hasOwnProperty('dealStationId')) {
-    //   obj['disposeUnitId'] = obj['dealStationId'];
-    //   delete obj['dealStationId'];
-    // }
-    // console.log('obj',obj)
     TroubleDeterMineApi(obj).then(() => {
       createMessage.success('确认成功！');
       handleBack();
@@ -90,35 +84,26 @@
   const [register] = useDescription({
     data,
     schema: confirmdedDetail(),
-    bordered: false,
+    bordered: true,
     column: 2,
     size: 'default',
   });
-  // let datas = ref<any>({});
-  // const [registers] = useDescription({
-  //   data: datas,
-  //   schema: confirmdingDetail(status),
-  //   bordered: false,
-  //   column: 2,
-  //   size: 'default',
-  // });
 
   const [registerFrom, { validate, getFieldsValue }] = useForm({
     schemas: confirmFormSchema(), //表单配置
-    // showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-    baseColProps: {
-      span: 24,
-    },
-    labelWidth: 140,
-    // rowProps: {
-    //   gutter: 20,
-    // },
     submitButtonOptions: {
       text: '确认故障',
     },
     resetButtonOptions: {
       text: '取消',
     },
+    labelCol: {
+      span: 3,
+    },
+    wrapperCol: {
+      span: 12,
+    },
+
     actionColOptions: {
       offset: 10,
       span: 10,

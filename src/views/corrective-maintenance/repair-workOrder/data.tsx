@@ -329,7 +329,7 @@ export function WorkDetail(): DescItem[] {
       label: '创建时间',
     },
     {
-      field: 'disposeUnitName',
+      field: 'dealStationName',
       label: '处理岗位',
     },
     {

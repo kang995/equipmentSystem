@@ -116,7 +116,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
   ];
 }
 
-export function getFormSchema(): FormSchema[] {
+export function getFormSchema(ifIssue: any): FormSchema[] {
   return [
     {
       field: 'troubleCode',
@@ -220,19 +220,35 @@ export function getFormSchema(): FormSchema[] {
         valueField: 'itemValue',
       },
     },
+    {
+      field: 'troubleDetermine',
+      component: 'ApiSelect',
+      label: '确认结果',
+      componentProps: {
+        placeholder: '请选择确认结果',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'TROUBLE_DETERMINE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
+      },
+      ifShow: !ifIssue,
+    },
   ];
 }
 
 const commonDetail: DescItem[] = [
-  {
-    field: '',
-    label: '',
-    labelMinWidth: 0,
-    span: 2,
-    render: () => {
-      return <span style={titleStyle}>故障信息</span>;
-    },
-  },
+  // {
+  //   field: '',
+  //   label: '',
+  //   labelMinWidth: 0,
+  //   span: 2,
+  //   render: () => {
+  //     return <span style={titleStyle}>故障信息</span>;
+  //   },
+  // },
   {
     field: 'troubleCode',
     label: '故障单号',
@@ -328,9 +344,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'ApiRadioGroup',
       label: '故障确认',
       required: true,
-      colProps: {
-        span: 13,
-      },
       defaultValue: '0',
       componentProps: ({ formModel }) => {
         return {
@@ -350,9 +363,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'Input',
       label: '工单名称',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请输入工单名称',
       },
@@ -365,9 +375,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'ApiSelect',
       label: '负责人',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请选择负责人',
         api: getPersonSelectApi,
@@ -387,9 +394,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'RangePicker',
       label: '任务起止时间',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         showTime: true,
         format: 'YYYY-MM-DD HH:mm:ss',
@@ -404,9 +408,6 @@ export function confirmFormSchema(): FormSchema[] {
       label: '任务指派',
       required: true,
       defaultValue: '1',
-      colProps: {
-        span: 16,
-      },
       componentProps: ({ formModel, formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
@@ -437,9 +438,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'ApiTreeSelect',
       label: '处理部门',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: ({ formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
@@ -472,7 +470,7 @@ export function confirmFormSchema(): FormSchema[] {
         };
       },
       ifShow: ({ values }) => {
-        return values?.troubleDetermine === '0' && values?.assignType === '1';
+        return values?.troubleDetermine === '0' && values?.designateType === '1';
       },
     },
     // 岗位
@@ -481,9 +479,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'ApiSelect',
       label: '处理岗位',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: ({ formModel, formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
@@ -508,7 +503,7 @@ export function confirmFormSchema(): FormSchema[] {
         };
       },
       ifShow: ({ values }) => {
-        return values?.troubleDetermine === '0' && values?.assignType === '2';
+        return values?.troubleDetermine === '0' && values?.designateType === '2';
       },
     },
     {
@@ -516,9 +511,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'Select',
       label: '处理人',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请选择处理人',
         mode: 'multiple',
@@ -534,9 +526,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'InputTextArea',
       label: '维修方案',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请输入维修方案',
         rows: 4,
@@ -551,9 +540,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'Input',
       label: '第三方名称',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请输入第三方名称',
       },
@@ -566,9 +552,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'DatePicker',
       label: '维修时间',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {},
       ifShow: ({ values }) => {
         return values?.troubleDetermine === '1';
@@ -579,9 +562,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'InputTextArea',
       label: '维修内容',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请输入维修内容',
         rows: 4,
@@ -596,9 +576,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'Upload',
       label: '图片',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         maxNumber: 5,
         accept: '.jpg,.jpeg,.png',
@@ -615,9 +592,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'ApiSelect',
       label: '关联检修计划',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: ({ formActionType }) => {
         const { updateSchema } = formActionType;
         return {
@@ -659,9 +633,6 @@ export function confirmFormSchema(): FormSchema[] {
       component: 'Select',
       label: '关联检修工单',
       required: true,
-      colProps: {
-        span: 16,
-      },
       componentProps: {
         placeholder: '请选择关联检修工单',
         options: [],
@@ -674,22 +645,21 @@ export function confirmFormSchema(): FormSchema[] {
 }
 
 //故障详情--已确认
-export function confirmdingDetail(troubleDetermine: string): DescItem[] {
+export function confirmdingDetail(troubleDetermine: string, troubleStatus: string): DescItem[] {
   return [
     // ...commonDetail,
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 2,
+    //   render: () => {
+    //     return <span style={titleStyle}>故障确认</span>;
+    //   },
+    // },
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>故障确认</span>;
-      },
-    },
-    {
-      field: 'id',
-      label: '故障确认',
-      show: () => troubleDetermine === '0' || troubleDetermine === '1',
+      field: 'troubleDetermineText',
+      label: '确认结果',
     },
     //委外维修
     {
@@ -731,12 +701,7 @@ export function confirmdingDetail(troubleDetermine: string): DescItem[] {
     },
     //自修
     {
-      field: 'applyUserName',
-      label: '确认结果',
-      show: () => troubleDetermine === '0',
-    },
-    {
-      field: 'jobName',
+      field: 'name',
       label: '工单名称',
       show: () => troubleDetermine === '0',
     },
@@ -749,14 +714,17 @@ export function confirmdingDetail(troubleDetermine: string): DescItem[] {
       field: 'jobStartTime',
       label: '任务起止时间',
       show: () => troubleDetermine === '0',
+      render: (curVal, data) => {
+        return `${data.jobStartTime}-${data.jobEndTime}`;
+      },
     },
     {
-      field: 'assignType',
+      field: 'designateTypeText',
       label: '任务指派',
       show: () => troubleDetermine === '0',
     },
     {
-      field: 'disposeUnitName',
+      field: 'dealDeptName',
       label: '处理部门',
       show: () => troubleDetermine === '0',
     },
@@ -771,9 +739,24 @@ export function confirmdingDetail(troubleDetermine: string): DescItem[] {
       show: () => troubleDetermine === '0',
     },
     {
-      field: 'jobCode',
+      field: 'code',
       label: '关联工单',
-      show: () => troubleDetermine === '0',
+      show: () => troubleDetermine === '0' && troubleStatus === '2',
+    },
+    {
+      field: 'overhaulPlanCode',
+      label: '计划编号',
+      show: () => troubleDetermine === '2',
+    },
+    {
+      field: 'overhaulPlanName',
+      label: '计划名称',
+      show: () => troubleDetermine === '2',
+    },
+    {
+      field: 'overhaulWorkOrderCode',
+      label: '工单编号',
+      show: () => troubleDetermine === '2',
     },
   ];
 }
