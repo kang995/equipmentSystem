@@ -1,9 +1,7 @@
 <template>
   <div class="mt-[12px]">
     <div class="font-black text-[#414960] text-[15px] my-[16px]">验收结果</div>
-    <div class="w-screen-sm">
-      <BasicForm @register="registerResult" />
-    </div>
+    <BasicForm @register="registerResult" />
   </div>
 </template>
 

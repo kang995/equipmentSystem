@@ -10,7 +10,7 @@ enum Api {
   UPKEEP_WORKORDER_APPLYDELAY = '/overhaulWorkOrder/applyDelay', //申请延期
   UPKEEP_WORKORDER_DELAYAUDIT = '/overhaulWorkOrder/delayAudit', //延期审核
   UPKEEP_WORKORDER_REFERDEALRESULT = '/overhaulWorkOrder/referDealResult', //提交处理结果
-  //关联故障
+  TROUBLE_DETAILS = '/trouble/detail/list', //检修工单-故障详情（关联故障）
 
   //检修工单验收
   ACCEPT_STAYACCEPT = '/overhaulWorkOrder/accept/stayAccept/list', //分页查询待验收工单列表
@@ -77,7 +77,12 @@ export const UpkeepWorkOrderDealResultApi = (params) =>
     url: Api.UPKEEP_WORKORDER_REFERDEALRESULT,
     params,
   });
-
+//检修工单-故障详情（关联故障）
+export const TroubleDetailsApi = (params) =>
+  defHttp.post({
+    url: Api.TROUBLE_DETAILS,
+    params,
+  });
 /* 2、检修工单验收 */
 //分页查询待验收工单列表
 export const AcceptStayListApi = (params) =>

@@ -1,16 +1,16 @@
 <template>
   <div class="px-4">
     <!-- 工单信息、检修明细 -->
-    <workOrder />
+    <workOrder :infoData="infoData" />
     <!-- 检修设备 -->
-    <template v-if="status === '2'">
-      <DeviceTable />
+    <template v-if="deviceList.length">
+      <DeviceTable :deviceList="deviceList" />
     </template>
     <!-- 检修结果 -->
-    <overhaulDescription />
-    <!-- 验收结果反显 -->
+    <overhaulDescription :acceptList="acceptList" />
+    <!-- 验收结果 -->
     <template v-if="status === '2'">
-      <resultDescriptions />
+      <resultDescriptions :acceptList="acceptList" />
     </template>
     <!-- 验收结果提交 -->
     <template v-if="status === '1'">
@@ -41,13 +41,16 @@
   const submitRef = ref();
 
   //详情
-  // const acceptList = ref();
+  const infoData = ref({});
+  const deviceList = ref([]);
+  const acceptList = ref([]);
   id &&
     UpkeepWorkOrderDetailsApi({ id }).then((res) => {
       console.log('res', res);
-      // infoData.value = { ...res.workOrderInfoVO, ...res.upkeepPlanInfoVO };
-      // dataSource.value = res.upkeepPlanInfoVO.deviceList;
-      // acceptList.value = res.acceptList; //保养结果
+      infoData.value = { ...res.workOrderInfoVO, ...res.overhaulPlanInfoVO }; //工单信息、检修明细
+      deviceList.value = res.overhaulPlanInfoVO.deviceList; //检修设备
+      console.log('检修设备', deviceList.value);
+      acceptList.value = res.acceptList; //检修结果、验收结果
     });
 
   //提交

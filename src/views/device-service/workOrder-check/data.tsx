@@ -23,7 +23,7 @@ export const achieveList: TabItem[] = [
 ];
 
 //检修工单验收-待验收、已验收
-export function tableColumns(ifIssue: any): BasicColumn[] {
+export function tableColumns(ifIssue: any, handleClick): BasicColumn[] {
   return [
     {
       title: '工单编号',
@@ -47,7 +47,14 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
     },
     {
       title: '关联计划',
-      dataIndex: 'upkeepPlanName',
+      dataIndex: 'overhaulPlanName',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.overhaulPlanName}
+          </a>
+        );
+      },
     },
     {
       title: '工单状态',
@@ -76,7 +83,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
     },
     {
       title: '完成时间',
-      dataIndex: 'finishTime',
+      dataIndex: 'acceptTime',
       ifShow: !ifIssue,
     },
   ];
@@ -136,111 +143,112 @@ export function getFormSchema(): FormSchema[] {
 }
 
 //工单信息、检修明细
-export function workOrderlSchema(): DescItem[] {
-  return [
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>工单信息</span>;
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '工单编号',
-    },
-    {
-      field: 'applyUserName',
-      label: '工单状态',
-    },
-    {
-      field: 'applyUserName',
-      label: '工单创建时间',
-    },
-    {
-      field: 'applyUserName',
-      label: '工单执行之时间',
-    },
-    {
-      field: 'applyUserName',
-      label: '负责人',
-    },
-    {
-      field: 'applyUserName',
-      label: '关联保养计划',
-    },
-    {
-      field: 'applyUserName',
-      label: '处理部门',
-    },
-    {
-      field: 'applyUserName',
-      label: '处理人',
-    },
-    {
-      field: 'applyUserName',
-      label: '下发时间',
-    },
-    {
-      field: 'applyUserName',
-      label: '完成时间',
-      span: 3,
-    },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>检修明细</span>;
-      },
-    },
-    {
-      field: 'applyUserName',
-      label: '设备名称',
-    },
-    {
-      field: 'applyUserName',
-      label: '所属装置设施',
-    },
-    {
-      field: 'applyUserName',
-      label: '地理位置',
-    },
-    {
-      field: 'applyUserName',
-      label: '安全措施',
-    },
-    {
-      field: 'applyUserName',
-      label: '检修方案',
-    },
-    {
-      field: 'applyUserName',
-      label: '检修质量标准',
-    },
-  ];
-}
+// export function workOrderlSchema(): DescItem[] {
+//   return [
+//     {
+//       field: '',
+//       label: '',
+//       labelMinWidth: 0,
+//       span: 3,
+//       render: () => {
+//         return <span style={titleStyle}>工单信息</span>;
+//       },
+//     },
+//     {
+//       field: 'code',
+//       label: '工单编号',
+//     },
+//     {
+//       field: 'workOrderStatusText',
+//       label: '工单状态',
+//     },
+//     {
+//       field: 'createTime',
+//       label: '工单创建时间',
+//     },
+//     {
+//       field: 'executeStartTime',
+//       label: '工单执行时间',
+//       render: (curVal, data) => {
+//         return `${data.executeStartTime}至${data.executeEndTime}`;
+//       },
+//     },
+//     {
+//       field: 'chargePeopleName',
+//       label: '负责人',
+//     },
+//     {
+//       field: 'upkeepPlanName',
+//       label: '关联保养计划',
+//     },
+//     {
+//       field: 'dealDeptName',
+//       label: '处理部门',
+//     },
+//     {
+//       field: 'dealUserName',
+//       label: '处理人',
+//     },
+//     //
+//     {
+//       field: 'createTime',
+//       label: '下发时间',
+//     },
+//     {
+//       field: 'finishTime',
+//       label: '完成时间',
+//       span: 3,
+//     },
+//     {
+//       field: '',
+//       label: '',
+//       labelMinWidth: 0,
+//       span: 3,
+//       render: () => {
+//         return <span style={titleStyle}>检修明细</span>;
+//       },
+//     },
+//     {
+//       field: 'overhaulTypeText',
+//       label: '检修类型',
+//     },
+//     {
+//       field: 'overhaulContent',
+//       label: '检修方案',
+//     },
+//     {
+//       field: 'safeRule',
+//       label: '安全措施',
+//     },
+//     {
+//       field: 'overhaulStandard',
+//       label: '检修质量标椎',
+//     },
+//     {
+//       field: 'remark',
+//       label: '备注',
+//       span: 3,
+//     },
+//   ];
+// }
 //检修设备
 export function deviceTableColumns(): BasicColumn[] {
   return [
     {
       title: '设备名称',
-      dataIndex: 'name',
+      dataIndex: 'deviceName',
     },
     {
       title: '所在区域',
-      dataIndex: 'name',
+      dataIndex: 'districtName',
     },
     {
       title: '所在装置',
-      dataIndex: 'name',
+      dataIndex: 'facilitiesName',
     },
     {
       title: '是否特种设备',
-      dataIndex: 'name',
+      dataIndex: 'specialEquipment',
     },
   ];
 }
@@ -252,6 +260,7 @@ export function getResultFormSchema(): FormSchema[] {
       component: 'RadioGroup',
       label: '验收结果',
       required: true,
+      defaultValue: '0',
       componentProps: {
         options: [
           {
@@ -289,13 +298,13 @@ export function getResultFormSchema(): FormSchema[] {
     },
   ];
 }
-const titleStyle: any = {
-    paddingTop: '16px',
-    fontSize: '15px',
-    fontWeight: '600',
-    position: 'relative',
-    left: '0px',
-  },
-  ImageBox: any = {
-    width: '80px',
-  };
+// const titleStyle: any = {
+//     paddingTop: '16px',
+//     fontSize: '15px',
+//     fontWeight: '600',
+//     position: 'relative',
+//     left: '0px',
+//   },
+//   ImageBox: any = {
+//     width: '80px',
+//   };

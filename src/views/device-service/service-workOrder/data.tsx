@@ -226,7 +226,7 @@ export function getFormSchema(): FormSchema[] {
 }
 
 // 工单信息、检修明细
-export function WorkDetail(): DescItem[] {
+export function WorkDetail(status: string): DescItem[] {
   return [
     {
       field: '',
@@ -271,6 +271,11 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'dealUserName',
       label: '处理人',
+    },
+    {
+      field: 'createTime',
+      label: '下发时间',
+      show: () => status === '1',
     },
     {
       field: 'finishTime',

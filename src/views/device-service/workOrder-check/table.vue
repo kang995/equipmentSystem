@@ -52,10 +52,20 @@
   const props = defineProps<{
     ifIssue?: any;
   }>();
-
+  //关联计划跳转
+  const handleClick = (record) => {
+    router.push({
+      name: 'planManagementDetails',
+      query: {
+        id: record.overhaulPlanId,
+        status: record.workOrderStatus, //工单状态
+        mode: '3',
+      },
+    });
+  };
   const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: props.ifIssue ? AcceptStayListApi : AcceptArreadyListApi,
-    columns: tableColumns(props.ifIssue),
+    columns: tableColumns(props.ifIssue, handleClick),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具

@@ -234,7 +234,7 @@
   let infoData = ref<any>({});
   const [registerOverhaul] = useDescription({
     data: infoData,
-    schema: WorkDetail(),
+    schema: WorkDetail(status),
     bordered: false,
     column: 3,
     size: 'default',

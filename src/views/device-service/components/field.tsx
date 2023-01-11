@@ -201,6 +201,9 @@ export function ResultSchemaDetail(): DescItem[] {
     {
       field: 'stopFlag',
       label: '是否停机',
+      render: (curVal) => {
+        return curVal === '0' ? '是' : '否';
+      },
     },
     {
       field: 'acceptPeopleNameStr',
@@ -258,18 +261,12 @@ export function ResultsSchema(): DescItem[] {
 //工单信息-验收结果
 export function ResultsSchemas(): DescItem[] {
   return [
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 2,
-    //   render: () => {
-    //     return <span style={titleStyle}>验收结果</span>;
-    //   },
-    // },
     {
       field: 'acceptResult',
       label: '验收结果',
+      render: (curVal) => {
+        return curVal === '0' ? '通过' : '拒绝';
+      },
     },
     {
       field: 'acceptContent',

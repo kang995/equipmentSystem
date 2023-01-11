@@ -19,15 +19,18 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  // import { ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
   import { deviceTableColumns } from '../data';
   const router = useRouter();
 
-  const dataSource = ref([{}, {}]);
+  const props = defineProps<{
+    deviceList?: any;
+  }>();
+  console.log('deviceList', props.deviceList);
   const [registerTable] = useTable({
-    dataSource: dataSource,
+    dataSource: props.deviceList,
     // api: thresholdListApi,
     columns: deviceTableColumns(),
     rowKey: 'id',
