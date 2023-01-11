@@ -118,9 +118,10 @@
     router.push({
       name: 'faultDetails',
       query: {
-        id: record.id,
-        troubleDetermine: record.troubleDetermine, //0:自修、1：委外维修 2：列入检修计划
-        status: record.troubleStatus, //0:待确认、1：待处理、2：处理中、3：已解决、4：已转计划
+        id: record.id, //故障id
+        workOrderId: record.workOrderId, //维修工单id
+        troubleDetermine: record.troubleDetermine, //确认结果--0:自修、1：委外维修 2：列入检修计划
+        troubleStatus: record.troubleStatus, //故障状态--0:待确认、1：待处理、2：处理中、3：已解决、4：列入检修计划
         // status: '3', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
       },
     });

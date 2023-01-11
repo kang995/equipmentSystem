@@ -79,7 +79,7 @@
         // flag: '2', //待确认：1、已确认：2
         id: record.id,
         troubleStatus: record.troubleStatus, //故障状态--0:待确认、1：待处理、2：处理中、3：已解决、4：列入检修计划
-        troubleDetermine: record.troubleDetermine, //0:自修、1：委外维修 2：列入检修计划 （确认结果）
+        troubleDetermine: record.troubleDetermine, //确认结果--0:自修、1：委外维修 2：列入检修计划
         // status: '4', //待确认：1、待处理：2、处理中：3、已解决（委外维修、列入检修）：4
       },
     });

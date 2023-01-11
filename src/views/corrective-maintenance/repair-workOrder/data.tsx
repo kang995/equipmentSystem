@@ -691,7 +691,7 @@ export function ResultDetail(index: number): DescItem[] {
       // },
     },
     {
-      field: 'acceptCase',
+      field: 'acceptContent',
       label: '验收描述',
     },
     {

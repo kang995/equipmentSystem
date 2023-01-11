@@ -741,22 +741,26 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
     {
       field: 'code',
       label: '关联工单',
-      show: () => troubleDetermine === '0' && troubleStatus === '2',
+      show: () => troubleDetermine === '0' && troubleStatus !== '0',
     },
-    {
-      field: 'overhaulPlanCode',
-      label: '计划编号',
-      show: () => troubleDetermine === '2',
-    },
+    //列入检修计划
     {
       field: 'overhaulPlanName',
-      label: '计划名称',
+      label: '关联检修计划',
       show: () => troubleDetermine === '2',
+      render: (curVal, data) => {
+        return (
+          <span class="text-blue-500">{`${data.overhaulPlanName} ${data.overhaulPlanCode}`}</span>
+        );
+      },
     },
     {
       field: 'overhaulWorkOrderCode',
-      label: '工单编号',
+      label: '关联检修工单',
       show: () => troubleDetermine === '2',
+      render: (curVal, data) => {
+        return <span class="text-blue-500">{`${data.overhaulWorkOrderCode}`}</span>;
+      },
     },
   ];
 }

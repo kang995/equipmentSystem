@@ -364,15 +364,15 @@ export function getCommonFormSchema(): FormSchema[] {
 export function faultDetailSchema(status: string): DescItem[] {
   console.log('status', status);
   return [
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>故障信息</span>;
-      },
-    },
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 2,
+    //   render: () => {
+    //     return <span style={titleStyle}>故障信息</span>;
+    //   },
+    // },
     {
       field: 'troubleCode',
       label: '故障单号',
@@ -458,23 +458,23 @@ export function faultDetailSchema(status: string): DescItem[] {
   ];
 }
 //故障详情--故障确认
-export function faultschema(troubleDetermine: string): DescItem[] {
+export function faultschema(troubleDetermine: string, troubleStatus: string): DescItem[] {
   return [
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 2,
+    //   render: () => {
+    //     return <span style={titleStyle}>故障确认</span>;
+    //   },
+    //   // show: ({}) => troubleDetermine !== '0',
+    // },
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>故障确认</span>;
-      },
-      // show: ({}) => troubleDetermine !== '0',
+      field: 'troubleDetermineText',
+      label: '确认结果',
     },
     //委外维修
-    {
-      field: 'id',
-      label: '故障确认',
-    },
     {
       field: 'outsourceName',
       label: '三方名称',
@@ -493,7 +493,6 @@ export function faultschema(troubleDetermine: string): DescItem[] {
     {
       field: 'imgList',
       label: '图片',
-      show: () => troubleDetermine === '1',
       render: (data) => {
         if (data) {
           return (
@@ -511,29 +510,11 @@ export function faultschema(troubleDetermine: string): DescItem[] {
           return <div style={noFileBox}>暂无图片</div>;
         }
       },
-    },
-    //列入检修计划
-    {
-      field: 'overhaulName',
-      label: '关联检修计划',
-      show: () => troubleDetermine === '2',
-      render: (curVal, data) => {
-        return `${data.overhaulName} ${data.overhaulCode}`;
-      },
-    },
-    {
-      field: 'overhaulJobCode',
-      label: '关联检修工单',
-      show: () => troubleDetermine === '2',
+      show: () => troubleDetermine === '1',
     },
     //自修
     {
-      field: 'troubleDetermine',
-      label: '确认结果',
-      show: () => troubleDetermine === '0',
-    },
-    {
-      field: 'jobName',
+      field: 'name',
       label: '工单名称',
       show: () => troubleDetermine === '0',
     },
@@ -573,11 +554,29 @@ export function faultschema(troubleDetermine: string): DescItem[] {
       label: '维修方案',
       show: () => troubleDetermine === '0',
     },
-    //
     {
-      field: 'jobCode',
+      field: 'code',
       label: '关联工单',
-      show: () => troubleDetermine === '0',
+      show: () => troubleDetermine === '0' && troubleStatus !== '0',
+    },
+    //列入检修计划
+    {
+      field: 'overhaulPlanName',
+      label: '关联检修计划',
+      show: () => troubleDetermine === '2',
+      render: (curVal, data) => {
+        return (
+          <span class="text-blue-500">{`${data.overhaulPlanName} ${data.overhaulPlanCode}`}</span>
+        );
+      },
+    },
+    {
+      field: 'overhaulWorkOrderCode',
+      label: '关联检修工单',
+      show: () => troubleDetermine === '2',
+      render: (curVal, data) => {
+        return <span class="text-blue-500">{`${data.overhaulWorkOrderCode}`}</span>;
+      },
     },
   ];
 }
@@ -640,11 +639,11 @@ export function resultschema(index: number): DescItem[] {
       },
     },
     {
-      field: 'stopFlag',
+      field: 'stopFlagText',
       label: '是否停机',
-      render: (curVal, data) => {
-        return curVal === '0' ? '是' : '否';
-      },
+      // render: (curVal, data) => {
+      //   return curVal === '0' ? '是' : '否';
+      // },
     },
     {
       field: 'acceptPeopleName',
@@ -661,14 +660,14 @@ export function resultschema(index: number): DescItem[] {
       },
     },
     {
-      field: 'acceptResult',
+      field: 'acceptResultText',
       label: '验收结果',
-      render: (curVal, data) => {
-        return curVal === '0' ? '通过' : '不通过';
-      },
+      // render: (curVal, data) => {
+      //   return curVal === '0' ? '通过' : '不通过';
+      // },
     },
     {
-      field: 'acceptCase',
+      field: 'acceptContent',
       label: '验收描述',
     },
   ];
@@ -682,11 +681,11 @@ const titleStyle: any = {
   left: '0px',
 };
 const ImageBox: any = {
-  width: '80px',
+  width: '100px',
 };
 const fileBox = {
   padding: '0px',
-  height: '100px',
+  height: '50px',
   width: 'auto',
   border: 'dashed 2px #bfbfbf',
   borderRadius: '6px',
@@ -694,13 +693,13 @@ const fileBox = {
 };
 const noFileBox: any = {
   textAlign: 'center',
-  lineHeight: '100px',
+  lineHeight: '70px',
   fontWeight: '600',
   fontSize: '16px',
   color: '#999',
   userSelect: 'none',
-  height: '100px',
-  width: '200px',
+  height: '70px',
+  width: '100px',
   border: 'dashed 2px #bfbfbf',
   borderRadius: '6px',
   overflow: 'hidden',

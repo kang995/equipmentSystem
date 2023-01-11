@@ -1,19 +1,21 @@
 <template>
-  <PageWrapper contentBackground>
-    <div class="px-10">
+  <PageWrapper contentBackground contentFullHeight contentClass="p-4">
+    <div>
       <!-- 故障信息 -->
+      <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障信息</div>
       <Description @register="register" />
       <!-- 故障确认 -->
-      <template v-if="status !== '0'">
+      <template v-if="troubleStatus !== '0'">
+        <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障确认</div>
         <Description
-          :bordered="false"
+          :bordered="true"
           :column="2"
           :data="faultData"
-          :schema="faultschema(troubleDetermine)"
+          :schema="faultschema(troubleDetermine, troubleStatus)"
         />
       </template>
       <!-- 维修结果、验收结果 -->
-      <template v-if="status === '2' || status === '3'">
+      <template v-if="troubleStatus === '2' || troubleStatus === '3'">
         <template v-for="(item, index) in resultData" :key="item.id">
           <Description :bordered="false" :column="2" :data="item" :schema="resultschema(index)" />
         </template>
@@ -30,8 +32,9 @@
   import { useRoute } from 'vue-router';
   import { TroubleDetailApi, MaintainDetailApi } from '/@/api/corrective-maintenance/fault';
   const route = useRoute();
-  const status = route.query.status as string;
-  const id = route.query.id as string;
+  const troubleStatus = route.query.troubleStatus as string;
+  const id = route.query.id as string; //故障id
+  const workOrderId = route.query.workOrderId as string; //维修工单id
   const troubleDetermine = route.query.troubleDetermine as string;
   const faultData = ref<any>(); //故障确认
   const resultData = ref<any>(); //维修结果、验收结果
@@ -39,8 +42,8 @@
   let data = ref<any>({});
   const [register] = useDescription({
     data,
-    schema: faultDetailSchema(status),
-    bordered: false,
+    schema: faultDetailSchema(troubleStatus),
+    bordered: true,
     column: 2,
     size: 'default',
     // labelStyle: { width: '180px' },
@@ -57,11 +60,11 @@
           : troubleDetermine === '1'
           ? res.deviceTroubleOutsourceVO
           : res.deviceTroubleOverhaulVO;
+      faultData.value['troubleDetermineText'] = res['troubleDetermineText']; //确认结果
     });
   //维修结果、验收结果
   id &&
-    status === '3' &&
-    MaintainDetailApi({ id }).then((res) => {
+    MaintainDetailApi({ id: workOrderId }).then((res) => {
       resultData.value = res.acceptList;
     });
 </script>
