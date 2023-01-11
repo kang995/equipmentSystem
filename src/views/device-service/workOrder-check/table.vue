@@ -58,7 +58,7 @@
       name: 'planManagementDetails',
       query: {
         id: record.overhaulPlanId,
-        status: record.workOrderStatus, //工单状态
+        status: record.approvalStatus, //审核状态
         mode: '3',
       },
     });
