@@ -49,7 +49,7 @@ export const achieveList: TabItem[] = [
 // })();
 
 //列表
-export function tableColumns(): BasicColumn[] {
+export function tableColumns(ifIssue: any): BasicColumn[] {
   return [
     {
       title: '工单编号',
@@ -73,7 +73,7 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '关联计划',
-      dataIndex: 'upkeepPlanName',
+      dataIndex: 'overhaulPlanName',
     },
     {
       title: '工单状态',
@@ -119,11 +119,15 @@ export function tableColumns(): BasicColumn[] {
     //
     {
       title: '是否关联故障',
-      dataIndex: 'status',
+      dataIndex: 'troubleFlag',
+      ifShow: ({}) => ifIssue,
     },
     {
       title: '完成时间',
       dataIndex: 'finishTime',
+      customRender: ({ record }) => {
+        return record.finishTime ? record.finishTime : '--';
+      },
     },
   ];
 }
@@ -155,14 +159,14 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'dealUserIdList',
+      field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '工单处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单处理人',
         api: getPersonSelectApi,
-        mode: 'multiple',
+        // mode: 'multiple',
         params: {
           // type: 'APPROVAL_STATUS',
         },
@@ -176,9 +180,9 @@ export function getFormSchema(): FormSchema[] {
       component: 'RangePicker',
       label: '工单执行时间',
       componentProps: {
-        // showTime: true,
-        // format: 'YYYY-MM-DD HH:mm:ss',
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
+        // format: 'YYYY-MM-DD',
       },
     },
     {
@@ -242,7 +246,7 @@ export function WorkDetail(): DescItem[] {
       label: '工单编号',
     },
     {
-      field: 'upkeepPlanName',
+      field: 'overhaulPlanName',
       label: '关联检修计划',
     },
     {

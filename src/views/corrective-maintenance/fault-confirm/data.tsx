@@ -129,43 +129,54 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
     },
     {
       field: 'createBy',
-      component: 'Input',
+      component: 'ApiSelect',
       label: '上报人',
       labelWidth: 64,
       componentProps: {
         placeholder: '请输入上报人',
-      },
-    },
-    {
-      field: 'createTime',
-      component: 'RangePicker',
-      label: '上报时间',
-      componentProps: {
-        // showTime: true,
-        format: 'YYYY-MM-DD',
-        getPopupContainer: () => document.body,
-      },
-    },
-    {
-      field: 'deviceName',
-      component: 'ApiSelect',
-      label: '关联设备',
-      componentProps: {
-        placeholder: '请选择关联设备',
-        api: deviceNameSelectApi,
+        api: getPersonSelectApi,
+        params: {
+          // type: 'APPROVAL_STATUS',
+        },
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
       },
     },
     {
-      field: 'plantName',
+      field: 'Time',
+      component: 'RangePicker',
+      label: '上报时间',
+      componentProps: {
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
+        getPopupContainer: () => document.body,
+      },
+    },
+    {
+      field: 'deviceId',
+      component: 'ApiSelect',
+      label: '关联设备',
+      componentProps: {
+        placeholder: '请选择关联设备',
+        api: deviceNameSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
+      },
+    },
+    {
+      field: 'plantId',
       component: 'ApiSelect',
       label: '所属装置设施',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择所属装置设施',
         api: UnitFacilityApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         fieldNames: {
           value: 'id',
           key: 'id',
@@ -224,6 +235,7 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
       field: 'troubleDetermine',
       component: 'ApiSelect',
       label: '确认结果',
+      labelWidth: 96,
       componentProps: {
         placeholder: '请选择确认结果',
         api: getDictionarySelectTypeApi,

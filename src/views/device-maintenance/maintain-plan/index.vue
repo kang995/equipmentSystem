@@ -1,6 +1,7 @@
 <template>
   <PageWrapper>
     <BasicTable @register="register">
+      <!-- //1：待提交；2：审核中；3：审核通过；4：审核拒绝 -->
       <template #action="{ record }">
         <TableAction
           :divider="false"
@@ -33,14 +34,26 @@
             {
               label: '提交',
               onClick: handleSubmit.bind(null, record),
+              ifShow: () => {
+                return record.approvalStatus === '1' && record.planStatus === '1';
+              },
             },
             {
               label: '撤回',
               onClick: handleRecall.bind(null, record),
+              ifShow: () => {
+                return record.approvalStatus === '2' && record.planStatus === '1';
+              },
             },
             {
               label: '停止计划',
               onClick: handleStopPlan.bind(null, record),
+              ifShow: () => {
+                return (
+                  (record.approvalStatus === '3' && record.planStatus === '1') ||
+                  (record.approvalStatus === '3' && record.planStatus === '2')
+                );
+              },
             },
           ]"
         />

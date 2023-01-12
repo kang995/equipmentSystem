@@ -39,6 +39,10 @@
   }>();
   const [register] = useTable({
     api: TroubleListApi,
+    // 额外的请求参数
+    searchInfo: {
+      type: props.ifIssue ? '0' : '1', //0待确认，1已确认
+    },
     columns: tableColumns(props.ifIssue),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
@@ -69,6 +73,10 @@
       rowProps: {
         gutter: 16,
       },
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['Time', ['startTime', 'endTime'], 'YYYY-MM-DD HH:mm:ss'],
+      ],
     },
   });
   //详情

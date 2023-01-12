@@ -84,7 +84,7 @@
     searchInfo: {
       type: props.ifIssue ? '0' : '1', //0：负责工单；1：执行工单
     },
-    columns: tableColumns(),
+    columns: tableColumns(props.ifIssue),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具

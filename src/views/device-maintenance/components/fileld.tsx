@@ -58,19 +58,22 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
       field: 'taskCycle',
       label: '任务周期',
       render: (_curVal, data) => {
-        if (data.taskCycleUnit && data.taskCycleUnitText) {
-          return `${data.taskCycleUnit}/${data.taskCycleUnitText}`;
+        if (data.taskCycle && data.taskCycleUnitText) {
+          return `${data.taskCycle}/${data.taskCycleUnitText}`;
         } else {
           return '';
         }
+      },
+      show: (values) => {
+        return values.overhaulType === '1' ? false : true; //0:周期 1：单次
       },
     },
     {
       field: 'taskExecute',
       label: '任务执行时长',
       render: (_curVal, data) => {
-        if (data.taskCycleUnit && data.taskCycleUnitText) {
-          return `${data.taskExecuteUnit}/${data.taskExecuteUnitText}`;
+        if (data.taskExecute && data.taskExecuteUnitText) {
+          return `${data.taskExecute}/${data.taskExecuteUnitText}`;
         } else {
           return '';
         }
@@ -79,14 +82,17 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
     {
       field: 'workOrder',
       label: '工单下发',
-      render: (curVal) => {
+      render: (curVal, data) => {
         if (curVal === '1') {
           return <span>{'一次性全部生成并下发'}</span>;
         } else if (curVal === '2') {
           return <span>{'定时生成并下发'}</span>;
         } else if (curVal === '3') {
-          return <span>{'按条数生成并下发'}</span>;
+          return <span>{`按${data.workOrderNum}条生成并下发`}</span>;
         }
+      },
+      show: (values) => {
+        return values.overhaulType === '1' ? false : true; //0:周期 1：单次
       },
     },
     {
@@ -152,7 +158,7 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
     },
 
     {
-      field: 'upkeepType',
+      field: 'upkeepTypeText',
       label: '保养类型',
       show: () => mode === '1' || mode === '2',
     },
@@ -195,8 +201,11 @@ export function MaintainDetails(): DescItem[] {
 export function ServiceDetails(): DescItem[] {
   return [
     {
-      field: 'approvalResultText',
+      field: 'approvalResult', //审核结果（0：通过；1：拒绝）
       label: '审核结果',
+      render: (curVal) => {
+        return curVal === '0' ? '通过' : '拒绝';
+      },
     },
     {
       field: 'remark',

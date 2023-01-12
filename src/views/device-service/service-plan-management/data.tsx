@@ -7,6 +7,7 @@ import {
   getStationSelectApi,
   getStationPeopleSelectApi,
 } from '/@/api/device-maintenance/index';
+import { Tag } from 'ant-design-vue';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -40,7 +41,22 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '审核状态',
-      dataIndex: 'approvalStatusText',
+      dataIndex: 'approvalStatus',
+      customRender: ({ record }) => {
+        if (record.approvalStatus === '1') {
+          //待提交
+          return <Tag color={'default'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '2') {
+          //审核中
+          return <Tag color={'orange'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '3') {
+          //审核通过
+          return <Tag color={'green'}>{record.approvalStatusText}</Tag>;
+        } else if (record.approvalStatus === '4') {
+          //审核拒绝
+          return <Tag color={'red'}>{record.approvalStatusText}</Tag>;
+        }
+      },
     },
   ];
 }

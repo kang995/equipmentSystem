@@ -71,6 +71,9 @@
   }>();
   const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: maintainListApi,
+    searchInfo: {
+      type: props.ifIssue ? '0' : '1',
+    },
     columns: tableColumns(),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单

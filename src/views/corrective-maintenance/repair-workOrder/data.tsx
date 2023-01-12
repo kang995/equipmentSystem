@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-import { Image } from 'ant-design-vue';
+import { Image, Row } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 // import { getAgainFormSchema } from '/@/views/device-service/components/field';
@@ -169,7 +169,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'principalPeopleId',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '负责人',
       labelWidth: 64,
@@ -335,10 +335,10 @@ export function WorkDetail(): DescItem[] {
       field: 'maintainStatusText',
       label: '工单状态',
     },
-    {
-      field: 'issueTime',
-      label: '下发时间',
-    },
+    // {
+    //   field: 'issueTime',
+    //   label: '下发时间',
+    // },
     {
       field: 'createTime',
       label: '创建时间',
@@ -346,22 +346,38 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'dealStationName',
       label: '处理岗位',
+      show: (values) => {
+        return values.dealStationName ? true : false;
+      },
+    },
+    {
+      field: 'dealDeptName',
+      label: '处理部门',
+      show: (values) => {
+        return values.dealDeptName ? true : false;
+      },
     },
     {
       field: 'overTime',
       label: '完成时间',
+      show: (values) => {
+        return values.overTime ? true : false;
+      },
     },
     {
       field: 'jobStartTimeAndEndTime',
       label: '执行时间',
     },
     {
-      field: 'disposePeopleNames',
+      field: 'dealUserNames',
       label: '处理人',
     },
     {
       field: 'plantName',
       label: '所属装置设施',
+      show: (values) => {
+        return values.plantName ? true : false;
+      },
     },
     {
       field: 'deviceName',
@@ -407,20 +423,25 @@ export function WorkDetail(): DescItem[] {
       field: 'imgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex-col pl-4">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="flex flex-1">
+                        <Image width={100} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
@@ -573,7 +594,7 @@ export function PostponeDetail(): DescItem[] {
       label: '原截至时间',
     },
     {
-      field: 'newEndTime',
+      field: 'delayTime',
       label: '延期时间',
     },
     {
@@ -591,6 +612,7 @@ export function getPostponeFormSchema(): FormSchema[] {
       component: 'ApiRadioGroup',
       label: '审核结果',
       required: true,
+      defaultValue: '0',
       componentProps: {
         api: getDictionarySelectTypeApi, //后台路径
         params: {

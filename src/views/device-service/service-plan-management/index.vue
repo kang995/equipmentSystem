@@ -33,14 +33,26 @@
             {
               label: '提交',
               onClick: handleSubmit.bind(null, record),
+              ifShow: () => {
+                return record.approvalStatus === '1' && record.planStatus === '1';
+              },
             },
             {
               label: '撤回',
               onClick: handleRecall.bind(null, record),
+              ifShow: () => {
+                return record.approvalStatus === '2' && record.planStatus === '1';
+              },
             },
             {
               label: '停止计划',
               onClick: handleStopPlan.bind(null, record),
+              ifShow: () => {
+                return (
+                  (record.approvalStatus === '3' && record.planStatus === '1') ||
+                  (record.approvalStatus === '3' && record.planStatus === '2')
+                );
+              },
             },
           ]"
         />

@@ -31,16 +31,16 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
   return [
     {
       title: '工单单号',
-      dataIndex: 'jobCode',
+      dataIndex: 'code',
     },
     {
       title: '工单名称',
-      dataIndex: 'jobName',
+      dataIndex: 'name',
       ifShow: () => ifIssue,
     },
     {
       title: '负责人',
-      dataIndex: 'principalPeopleName',
+      dataIndex: 'chargePeopleName',
     },
     //
     {
@@ -107,7 +107,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
     },
     {
       title: '处理人',
-      dataIndex: 'disposePeopleNames',
+      dataIndex: 'dealUserNames',
     },
   ];
 }
@@ -115,7 +115,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'jobCode',
+      field: 'code',
       component: 'Input',
       label: '工单单号',
       componentProps: {
@@ -123,7 +123,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'jobName',
+      field: 'name',
       component: 'Input',
       label: '工单名称',
       labelWidth: 96,
@@ -132,13 +132,15 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'principalPeopleId',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '负责人',
       labelWidth: 64,
       componentProps: {
         placeholder: '请输入负责人',
         api: getPersonSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           // type: 'APPROVAL_STATUS',
         },
@@ -159,7 +161,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'deviceName',
+      field: 'deviceId',
       component: 'ApiSelect',
       label: '关联设备',
       componentProps: {
@@ -171,7 +173,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'plantName',
+      field: 'plantId',
       component: 'ApiSelect',
       label: '所属装置设施',
       labelWidth: 96,
@@ -210,6 +212,8 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请选择故障等级',
         api: getDictionarySelectTypeApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           type: 'URGENT_LEVEL',
         },
@@ -225,6 +229,8 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请选择工单状态',
         api: getDictionarySelectTypeApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           type: 'MAINTAIN_STATUS',
         },
@@ -234,13 +240,15 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'disposePeopleId',
+      field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请输入处理人姓名',
         api: getPersonSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           // type: 'APPROVAL_STATUS',
         },
@@ -255,7 +263,7 @@ export function getFormSchema(): FormSchema[] {
 export function getFormSchemas(): FormSchema[] {
   return [
     {
-      field: 'jobCode',
+      field: 'code',
       component: 'Input',
       label: '工单单号',
       componentProps: {
@@ -263,12 +271,14 @@ export function getFormSchemas(): FormSchema[] {
       },
     },
     {
-      field: 'principalPeopleId',
+      field: 'chargePeopleId',
       component: 'ApiSelect',
       label: '负责人',
       componentProps: {
         placeholder: '请输入负责人',
         api: getPersonSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           // type: 'APPROVAL_STATUS',
         },
@@ -278,12 +288,14 @@ export function getFormSchemas(): FormSchema[] {
       },
     },
     {
-      field: 'disposePeopleId',
+      field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '处理人',
       componentProps: {
         placeholder: '请输入处理人姓名',
         api: getPersonSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           // type: 'APPROVAL_STATUS',
         },

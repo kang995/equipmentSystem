@@ -1,6 +1,6 @@
 import { FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-import { Image } from 'ant-design-vue';
+import { Image, Row } from 'ant-design-vue';
 import {
   getDictionarySelectTypeApi,
   getDepartmentSelectApi,
@@ -181,20 +181,25 @@ export function ResultSchemaDetail(): DescItem[] {
       field: 'dealImgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex-col pl-4">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="flex flex-1">
+                        <Image width={100} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '111';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
@@ -276,20 +281,25 @@ export function ResultsSchemas(): DescItem[] {
       field: 'acceptImgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex-col pl-4">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="flex flex-1">
+                        <Image width={100} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '111';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },

@@ -191,7 +191,7 @@
       dataSource.value = res;
     });
   }
-  //保养计划管理、保养计划审核详情
+  //检修计划管理、检修计划审核详情
   function getServiceDetail() {
     OverhaulPlanDetailsApi({ id }).then((res) => {
       dataSource.value = res;

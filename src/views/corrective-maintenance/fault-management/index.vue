@@ -96,6 +96,10 @@
       rowProps: {
         gutter: 16,
       },
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['Time', ['startTime', 'endTime'], 'YYYY-MM-DD HH:mm:ss'],
+      ],
     },
   });
   //新增
