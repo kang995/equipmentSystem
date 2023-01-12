@@ -319,25 +319,25 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'jobCode',
+      field: 'code',
       label: '工单单号',
     },
     {
-      field: 'jobName',
+      field: 'name',
       label: '工单名称',
     },
     {
-      field: 'principalPeopleName',
+      field: 'chargePeopleName',
       label: '负责人',
     },
     {
       field: 'maintainStatusText',
       label: '工单状态',
     },
-    {
-      field: 'issueTime',
-      label: '下发时间',
-    },
+    // {
+    //   field: 'issueTime',
+    //   label: '下发时间',
+    // },
     {
       field: 'createTime',
       label: '创建时间',
@@ -345,6 +345,16 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'dealStationName',
       label: '处理岗位',
+      show: (values) => {
+        return values.designateType === '2' ? true : false;
+      },
+    },
+    {
+      field: 'dealDeptName',
+      label: '处理部门',
+      show: (values) => {
+        return values.designateType === '1' ? true : false;
+      },
     },
     {
       field: 'overTime',
@@ -355,7 +365,7 @@ export function WorkDetail(): DescItem[] {
       label: '执行时间',
     },
     {
-      field: 'disposePeopleNames',
+      field: 'dealUserNames',
       label: '处理人',
     },
     {

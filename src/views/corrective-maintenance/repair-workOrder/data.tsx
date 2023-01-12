@@ -347,14 +347,14 @@ export function WorkDetail(): DescItem[] {
       field: 'dealStationName',
       label: '处理岗位',
       show: (values) => {
-        return values.dealStationName ? true : false;
+        return values.designateType === '2' ? true : false;
       },
     },
     {
       field: 'dealDeptName',
       label: '处理部门',
       show: (values) => {
-        return values.dealDeptName ? true : false;
+        return values.designateType === '1' ? true : false;
       },
     },
     {
