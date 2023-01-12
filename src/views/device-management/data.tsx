@@ -243,7 +243,68 @@ export const installationSchema: DescItem[] = [
     label: '备注',
   },
 ];
-
+//应急演练报告
+export const reportSchema: DescItem[] = [
+  {
+    field: 'drillName',
+    label: '演练名称',
+  },
+  {
+    field: 'planStartTime',
+    label: '计划开始时间',
+  },
+  {
+    field: 'actualStartDate',
+    label: '实际开始时间',
+  },
+  {
+    field: 'duration',
+    label: '计划演练时长',
+  },
+  {
+    field: 'actualDuration',
+    label: '实际演练时长',
+  },
+  {
+    field: 'planIdName',
+    label: '演练对象',
+  },
+  {
+    field: 'drillAim',
+    label: '演练目的',
+  },
+  {
+    field: 'remark',
+    label: '备注描述',
+  },
+  {
+    field: 'fileList',
+    label: '演练报告',
+    span: 4,
+    render: (data) => {
+      if (data) {
+        return (
+          <div>
+            {data.map((item) => {
+              return (
+                <div>
+                  <SvgIcon name="gonggong_fujian" class={'mr-2'} />
+                  <span style={'color:#61687C'} class={'mr-6'}>
+                    {item.name}
+                  </span>
+                  <a href={item.url} target="_blank">
+                    <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
+                    <span style={'color:#4D79FF'}>下载</span>
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+    },
+  },
+];
 //新建特种设备
 export function schemasAdd(dataSource: string): FormSchema[] {
   return [

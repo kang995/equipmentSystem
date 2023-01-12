@@ -4,7 +4,11 @@ import { Image } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 // import { getAgainFormSchema } from '/@/views/device-service/components/field';
-import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
+import {
+  deviceNameSelectApi,
+  deviceTreeSelectApi,
+  UnitFacilityApi,
+} from '/@/api/corrective-maintenance/fault';
 import {
   getDictionarySelectTypeApi,
   getDepartmentSelectApi,
@@ -63,15 +67,15 @@ export function tableColumns(): BasicColumn[] {
   return [
     {
       title: '工单单号',
-      dataIndex: 'jobCode',
+      dataIndex: 'code',
     },
     {
       title: '工单名称',
-      dataIndex: 'jobName',
+      dataIndex: 'name',
     },
     {
       title: '负责人',
-      dataIndex: 'principalPeopleName',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '起止时间',
@@ -136,7 +140,7 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '处理人',
-      dataIndex: 'disposePeopleNames',
+      dataIndex: 'chargePeopleName',
     },
     {
       title: '完成时间',
@@ -148,7 +152,7 @@ export function tableColumns(): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
-      field: 'jobCode',
+      field: 'code',
       component: 'Input',
       label: '工单单号',
       componentProps: {
@@ -156,7 +160,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'jobName',
+      field: 'name',
       component: 'Input',
       label: '工单名称',
       labelWidth: 96,
@@ -181,7 +185,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'jobStartTimeAndEndTime',
+      field: 'Time',
       component: 'RangePicker',
       label: '起止时间',
       componentProps: {
@@ -190,15 +194,20 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'deviceName',
-      component: 'ApiSelect',
+      field: 'deviceId',
+      component: 'ApiTreeSelect',
       label: '关联设备',
       componentProps: {
         placeholder: '请选择关联设备',
-        api: deviceNameSelectApi,
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
+        api: deviceTreeSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
+        fieldNames: {
+          value: 'id',
+          key: 'id',
+          label: 'label',
+          children: 'children',
+        },
       },
     },
     {
@@ -209,6 +218,8 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请选择所属装置设施',
         api: UnitFacilityApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         fieldNames: {
           value: 'id',
           key: 'id',
@@ -225,6 +236,8 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请选择故障类别',
         api: getDictionarySelectTypeApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           type: 'TROUBLE_TYPE',
         },
@@ -264,13 +277,15 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'disposePeopleNames',
+      field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请输入处理人姓名',
         api: getPersonSelectApi,
+        showSearch: true,
+        optionFilterProp: 'label',
         params: {
           // type: 'APPROVAL_STATUS',
         },
@@ -280,7 +295,7 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'overTime',
+      field: 'Time1',
       component: 'RangePicker',
       label: '完成时间',
       labelWidth: 64,
@@ -305,15 +320,15 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'jobCode',
+      field: 'code',
       label: '工单单号',
     },
     {
-      field: 'jobName',
+      field: 'name',
       label: '工单名称',
     },
     {
-      field: 'principalPeopleName',
+      field: 'chargePeopleName',
       label: '负责人',
     },
     {

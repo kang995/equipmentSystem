@@ -10,10 +10,17 @@ enum Api {
   SELECT_STATE = '/special/deviceName/select', //设备名称-下拉查询
   SELECT_UNIT_FACILITY = '/unitFacility/unitFacility/select', //装置设施-下拉查询
   TROUBLE_LIST = '/trouble/list', //故障记录列表
-  SERVICE_LIST = '', //检修记录列表
+  SERVICE_LIST = '/mechanical/overhaulWorkOrder/list', //检修记录列表
+  SERVICE_LIST_SELECT = '/mechanical/overhaulPlan/select', //检修记录关联计划-下拉查询
+  SERVICE_LIST_EXPORT = '/mechanical/overhaulWorkOrder/export', //检修工单列表批量导出
+
   UPKEEP_LIST = '/mechanical/upkeepWorkOrder/list', //保养记录列表
+  UPKEEP_PLANLIST = '/mechanical/upkeepPlan/select', //保养记录关联计划-下拉查询
+  UPKEEP_EXPORT = '/mechanical/upkeepWorkOrder/export', //保养工单列表批量导出
+
   MECHANICAL_LIST = '/mechanical/drillRecord/list', //应急演练记录列表
   DRILLAFFIX = '/mechanical/drillAffix', //查看演练报告
+  DRILLAFFIX_EXPORT = '/mechanical/drillRecord/export', //应急演练记录列表批量导出
   //下拉查询
   PLANID_NAME_SELECT = '/mechanical/planIdName/select', //演练对象-下拉查询
   SYSTEM_SELECT = '/system/department/tree/select', //部门下拉框查询
@@ -116,12 +123,43 @@ export const DeviceServiceListApi = (params) =>
     url: Api.SERVICE_LIST,
     params,
   });
+//检修记录关联计划-下拉查询
+export const DeviceSelectListApi = (params) =>
+  defHttp.post({
+    url: Api.SERVICE_LIST_SELECT,
+    params,
+  });
+//检修工单列表批量导出
+export const DeviceExportListApi = (params) =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      url: Api.SERVICE_LIST_EXPORT,
+      params,
+    },
+    { isTransformResponse: false },
+  );
 //保养记录列表
 export const DeviceUpkeepListApi = (params) =>
   defHttp.post({
     url: Api.UPKEEP_LIST,
     params,
   });
+//保养记录关联计划-下拉查询
+export const UpkeepPlanListApi = () =>
+  defHttp.post({
+    url: Api.UPKEEP_PLANLIST,
+  });
+//保养工单列表批量导出
+export const UpkeepExportListApi = () =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      url: Api.UPKEEP_EXPORT,
+    },
+    { isTransformResponse: false },
+  );
+
 //应急演练记录列表
 export const DeviceMechanicalListApi = (params) =>
   defHttp.post({
@@ -134,6 +172,17 @@ export const DeviceDrillAffixApi = (params) =>
     url: Api.DRILLAFFIX,
     params,
   });
+//应急演练记录列表批量导出
+export const postDrillExportApi = (params) =>
+  defHttp.post(
+    {
+      responseType: 'arraybuffer',
+      params,
+      url: Api.DRILLAFFIX_EXPORT,
+    },
+    { isTransformResponse: false },
+  );
+
 //批量导出
 export const postSpecialRExportApi = (params) =>
   defHttp.post(

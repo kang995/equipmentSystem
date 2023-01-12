@@ -4,6 +4,7 @@ import {
   getDictionarySelectType,
   getManagementDictionaryList,
 } from '/@/api/sys/systemSetting/dictionaryType';
+import { UpkeepPlanListApi, DeviceSelectListApi } from '/@/api/device-management/special-equipment';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { SvgIcon } from '/@/components/Icon';
 import { getBlob, saveAs } from '/@/utils/downloadFile';
@@ -160,7 +161,7 @@ export const mechanicsDescItem: DescItem[] = [
     label: '设备编码',
   },
   {
-    field: 'useStatus',
+    field: 'useStatusText',
     label: '使用状态',
   },
   {
@@ -377,7 +378,7 @@ export const equipmentDescItem: DescItem[] = [
     label: '设备类型',
   },
   {
-    field: 'useStatus',
+    field: 'useStatusText',
     label: '设备状态',
   },
   {
@@ -764,28 +765,28 @@ export const patrolInspectionReportSchema: DescItem[] = [
 export const overhaulColumns: BasicColumn[] = [
   {
     title: '工单编号',
-    dataIndex: 'name',
+    dataIndex: 'code',
   },
   {
     title: '负责人',
-    dataIndex: 'productName',
+    dataIndex: 'chargePeopleName',
   },
   {
     title: '处理人',
-    dataIndex: 'status',
+    dataIndex: 'dealUserName',
   },
   {
     title: '完成时间',
-    dataIndex: 'status',
+    dataIndex: 'finishTime',
   },
   {
     title: '关联计划',
-    dataIndex: 'status',
+    dataIndex: 'overhaulPlanName',
   },
 ];
 export const overhaulFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'code',
     component: 'Input',
     label: '工单编号',
     componentProps: {
@@ -794,28 +795,50 @@ export const overhaulFormSchema: FormSchema[] = [
   },
   {
     //输入选择
-    field: 'productId',
+    field: 'chargePeopleId',
     component: 'ApiSelect',
     label: '负责人',
     componentProps: {
       placeholder: '请输入选择负责人',
+      api: getPersonSelectApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
   {
     //输入选择
-    field: 'productId',
+    field: 'dealUserIdList',
     component: 'ApiSelect',
     label: '处理人',
     componentProps: {
       placeholder: '请输入选择处理人',
+      mode: 'multiple',
+      api: getPersonSelectApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
   {
-    field: 'productId',
+    field: 'overhaulPlanId',
     component: 'ApiSelect',
     label: '关联计划',
     componentProps: {
       placeholder: '请选择关联计划',
+      api: DeviceSelectListApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
 ];
@@ -951,6 +974,13 @@ export const maintenanceFormSchema: FormSchema[] = [
     label: '关联计划',
     componentProps: {
       placeholder: '请选择关联计划',
+      api: UpkeepPlanListApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
   },
 ];
@@ -1096,24 +1126,24 @@ export const vehicleFormSchema: FormSchema[] = [
 export const associatedColumns: BasicColumn[] = [
   {
     title: '备件名称',
-    dataIndex: 'name',
+    dataIndex: 'spareName',
   },
   {
     title: '备件类型',
-    dataIndex: 'productName',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '规格型号',
-    dataIndex: 'status',
+    dataIndex: 'specification',
   },
   {
     title: '单位',
-    dataIndex: 'status',
+    dataIndex: 'measureUnitText',
   },
 ];
 export const associatedFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'spareName',
     component: 'ApiSelect',
     label: '备件名称',
     componentProps: {
@@ -1121,11 +1151,21 @@ export const associatedFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'name',
+    field: 'spareClassify',
     component: 'ApiSelect',
     label: '备件分类',
     componentProps: {
       placeholder: '请选择备件分类',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'SPARE_TYPE',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '请选择备件分类',
+      },
     },
   },
 ];

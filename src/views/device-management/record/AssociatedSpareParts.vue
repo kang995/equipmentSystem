@@ -5,9 +5,9 @@
     :formSchema="associatedFormSchema"
     :ifExport="true"
   >
-    <!-- <template #tableTitle>
+    <template #tableTitle>
       <a-button type="primary" @click="getModal">关联备件</a-button>
-    </template> -->
+    </template>
     <template #tableAction="record">
       <TableAction
         :divider="false"
@@ -27,6 +27,7 @@
       />
     </template>
   </TablePage>
+  <AssociatedModal @register="registerModal" @handle-ok="handleOk" />
 </template>
 <script setup lang="ts">
   import { ref } from 'vue';
@@ -34,13 +35,26 @@
   import { TableAction } from '/@/components/Table';
   import TablePage from '../components/TablePage.vue';
   import { useRouter } from 'vue-router';
+  import { useModal } from '/@/components/Modal';
+  import AssociatedModal from './action-page/AssociatedModal.vue';
+  const [registerModal, { openModal, closeModal }] = useModal();
   const router = useRouter();
-  const dataSource = ref([{}]);
+  const dataSource = ref<any>([]);
   function handleDetails() {
     router.push({
       name: 'AssociatedDetail',
     });
   }
+  function getModal() {
+    openModal(true);
+  }
+  function handleOk(ids, data) {
+    console.log('ids: ', ids);
+    dataSource.value = data;
+    closeModal();
+    console.log(dataSource.value);
+  }
+  //移除
   function handleDel() {}
 </script>
 <style lang="less" scoped>

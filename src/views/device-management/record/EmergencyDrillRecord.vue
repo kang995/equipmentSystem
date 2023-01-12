@@ -1,6 +1,8 @@
 <template>
   <TablePage
     :api="DeviceMechanicalListApi"
+    :api-export="postDrillExportApi"
+    textExport="应急演练记录"
     :dataSource="dataSource"
     :columns="emergencyColumns"
     :formSchema="emergencyFormSchema"
@@ -25,7 +27,10 @@
   import { emergencyColumns, emergencyFormSchema } from './data';
   import { TableAction } from '/@/components/Table';
   import TablePage from '../components/TablePage.vue';
-  import { DeviceMechanicalListApi } from '/@/api/device-management/special-equipment';
+  import {
+    DeviceMechanicalListApi,
+    postDrillExportApi,
+  } from '/@/api/device-management/special-equipment';
   import { useRouter } from 'vue-router';
   const router = useRouter();
 

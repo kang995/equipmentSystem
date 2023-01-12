@@ -63,9 +63,14 @@
   }
 
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
       name: 'specialEquipmentDetails',
+      query: {
+        id: record.deviceId,
+        dataSource: record.dataSource,
+        state: '3',
+      },
     });
   }
 </script>

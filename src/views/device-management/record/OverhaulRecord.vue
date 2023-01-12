@@ -1,5 +1,12 @@
 <template>
-  <TablePage :dataSource="dataSource" :columns="overhaulColumns" :formSchema="overhaulFormSchema">
+  <TablePage
+    :api="DeviceServiceListApi"
+    :api-export="DeviceExportListApi"
+    textExport="检修记录"
+    :dataSource="dataSource"
+    :columns="overhaulColumns"
+    :formSchema="overhaulFormSchema"
+  >
     <template #tableAction="record">
       <TableAction
         :divider="false"
@@ -21,12 +28,22 @@
   import { TableAction } from '/@/components/Table';
   import TablePage from '../components/TablePage.vue';
   import { useRouter } from 'vue-router';
+  import {
+    DeviceServiceListApi,
+    DeviceExportListApi,
+  } from '/@/api/device-management/special-equipment';
   const router = useRouter();
   const dataSource = ref([{}]);
-  function handleDetails() {
-    //跳转到设备检修详情
+  function handleDetails(record) {
+    //跳转到设备检修-检修工单详情
     router.push({
       name: 'overhaulDetail',
+      query: {
+        id: record.id,
+        identity: '1', //负责人：1、执行人：2
+        status: record.workOrderStatus, //1：未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+        // delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
+      },
     });
   }
 </script>

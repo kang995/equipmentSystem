@@ -1,6 +1,8 @@
 <template>
   <TablePage
     :api="DeviceUpkeepListApi"
+    :api-export="UpkeepExportListApi"
+    textExport="保养记录"
     :dataSource="dataSource"
     :columns="maintenanceColumns"
     :formSchema="maintenanceFormSchema"
@@ -26,7 +28,10 @@
   import { TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
   import TablePage from '../components/TablePage.vue';
-  import { DeviceUpkeepListApi } from '/@/api/device-management/special-equipment';
+  import {
+    DeviceUpkeepListApi,
+    UpkeepExportListApi,
+  } from '/@/api/device-management/special-equipment';
   const router = useRouter();
   const dataSource = ref([]);
 

@@ -7,7 +7,7 @@
   import { Description, useDescription } from '/@/components/Description';
   import { PageWrapper } from '/@/components/Page';
   import { ref } from 'vue';
-  import { installationSchema } from '../../data';
+  import { reportSchema } from '../../data';
   import { useRoute } from 'vue-router';
   import { DeviceDrillAffixApi } from '/@/api/device-management/special-equipment';
 
@@ -23,7 +23,8 @@
   const mockData = ref<any>([]);
   const [register] = useDescription({
     data: mockData,
-    schema: installationSchema,
+    schema: reportSchema,
+    column: 1,
     size: 'default',
     labelStyle: { width: '180px' },
   });

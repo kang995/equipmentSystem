@@ -101,6 +101,11 @@
       rowProps: {
         gutter: 16,
       },
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['Time', ['jobStartTime', 'jobEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['Time1', ['overStartTime', 'overEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+      ],
     },
   });
   //详情

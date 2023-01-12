@@ -80,15 +80,16 @@
       deviceId,
     };
     Object.assign(data);
-    props
-      .apiExport(data)
-      .then((res) => {
-        downloadByData(res, props.textExport + '列表.xlsx');
-        exportLoading.value = false;
-      })
-      .finally(() => {
-        exportLoading.value = false;
-      });
+    props.ifDataSource ? (data['dataSource'] = dataSource) : data,
+      props
+        .apiExport(data)
+        .then((res) => {
+          downloadByData(res, props.textExport + '列表.xlsx');
+          exportLoading.value = false;
+        })
+        .finally(() => {
+          exportLoading.value = false;
+        });
     exportLoading.value = true;
   }
 </script>

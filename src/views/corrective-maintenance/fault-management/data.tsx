@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
-import { Image } from 'ant-design-vue';
+import { Image, Row } from 'ant-design-vue';
 import {
   deviceTreeSelectApi,
   deviceNameSelectApi,
@@ -8,6 +8,7 @@ import {
 } from '/@/api/corrective-maintenance/fault';
 import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 import { Tag } from 'ant-design-vue';
+import { Item } from 'ant-design-vue/lib/menu';
 
 //列表
 export function tableColumns(): BasicColumn[] {
@@ -235,7 +236,7 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'ApiTreeSelect',
       label: '关联设备',
       required: true,
-      componentProps: ({ formModel, formActionType }) => {
+      componentProps: ({ formModel }) => {
         // const { updateSchema, setFieldsValue } = formActionType;
         return {
           placeholder: '请输入关联设备',
@@ -438,27 +439,37 @@ export function faultDetailSchema(status: string): DescItem[] {
       field: 'imgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex-col pl-4">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="flex flex-1">
+                        <Image width={100} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
   ];
 }
 //故障详情--故障确认
-export function faultschema(troubleDetermine: string, troubleStatus: string): DescItem[] {
+export function faultschema(
+  troubleDetermine: string,
+  troubleStatus: string,
+  handleJump?: any,
+  handleJumps?: any,
+): DescItem[] {
   return [
     // {
     //   field: '',
@@ -494,20 +505,25 @@ export function faultschema(troubleDetermine: string, troubleStatus: string): De
       field: 'imgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex-col pl-4">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="flex flex-1">
+                        <Image width={100} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
       show: () => troubleDetermine === '1',
@@ -527,7 +543,7 @@ export function faultschema(troubleDetermine: string, troubleStatus: string): De
       field: 'jobStartTime',
       label: '任务起止时间',
       show: () => troubleDetermine === '0',
-      render: (curVal, data) => {
+      render: (_curVal, data) => {
         return `${data.jobStartTime}-${data.jobEndTime}`;
       },
     },
@@ -564,9 +580,12 @@ export function faultschema(troubleDetermine: string, troubleStatus: string): De
       field: 'overhaulPlanName',
       label: '关联检修计划',
       show: () => troubleDetermine === '2',
-      render: (curVal, data) => {
+      render: (_curVal, data) => {
         return (
-          <span class="text-blue-500">{`${data.overhaulPlanName} ${data.overhaulPlanCode}`}</span>
+          <a
+            onClick={handleJump.bind(null, data)}
+            class="text-blue-500 pointer"
+          >{`${data.overhaulPlanName} ${data.overhaulPlanCode}`}</a>
         );
       },
     },
@@ -574,8 +593,13 @@ export function faultschema(troubleDetermine: string, troubleStatus: string): De
       field: 'overhaulWorkOrderCode',
       label: '关联检修工单',
       show: () => troubleDetermine === '2',
-      render: (curVal, data) => {
-        return <span class="text-blue-500">{`${data.overhaulWorkOrderCode}`}</span>;
+      render: (_curVal, data) => {
+        return (
+          <a
+            onClick={handleJumps.bind(null, data)}
+            class="text-blue-500 pointer"
+          >{`${data.overhaulWorkOrderCode}`}</a>
+        );
       },
     },
   ];
