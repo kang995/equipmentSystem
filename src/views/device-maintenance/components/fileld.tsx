@@ -4,21 +4,21 @@ import { getPersonSelectApi, getDictionarySelectTypeApi } from '/@/api/device-ma
 import { Image, Tag } from 'ant-design-vue';
 
 //保养计划详情
-export function MaintainDetail(state: string, mode: string): DescItem[] {
+export function MaintainDetail(_state: string, mode: string): DescItem[] {
   // console.log('模块', mode);
   return [
     {
       field: 'code',
       label: '保养计划编号',
-      show: (data) => mode === '1' || mode === '2',
+      show: () => mode === '1' || mode === '2',
     },
     {
       field: 'code',
       label: '检修计划编号',
-      show: (data) => mode === '3' || mode === '4',
+      show: () => mode === '3' || mode === '4',
     },
     {
-      field: 'planStatus',
+      field: 'planStatusText',
       label: '计划状态',
     },
     {
@@ -37,11 +37,18 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     {
       field: 'overhaulTypeText',
       label: '检修类型',
-      show: (data) => mode === '3' || mode === '4',
+      show: () => mode === '3' || mode === '4',
     },
     {
-      field: 'planDateStr',
+      field: 'effectStartDate',
       label: '计划生效时间',
+      render: (val, data) => {
+        if (val && data.effectEndDate) {
+          return val + '至' + data.effectEndDate;
+        } else {
+          return '';
+        }
+      },
     },
     {
       field: 'taskStartTime',
@@ -50,15 +57,23 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     {
       field: 'taskCycle',
       label: '任务周期',
-      render: (curVal, data) => {
-        return `${data.taskCycleUnit}/${data.taskCycleUnitText}`;
+      render: (_curVal, data) => {
+        if (data.taskCycleUnit && data.taskCycleUnitText) {
+          return `${data.taskCycleUnit}/${data.taskCycleUnitText}`;
+        } else {
+          return '';
+        }
       },
     },
     {
       field: 'taskExecute',
       label: '任务执行时长',
-      render: (curVal, data) => {
-        return `${data.taskExecuteUnit}/${data.taskExecuteUnitText}`;
+      render: (_curVal, data) => {
+        if (data.taskCycleUnit && data.taskCycleUnitText) {
+          return `${data.taskExecuteUnit}/${data.taskExecuteUnitText}`;
+        } else {
+          return '';
+        }
       },
     },
     {
@@ -77,15 +92,23 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     {
       field: 'adventRemind',
       label: '临期提醒',
-      render: (curVal, data) => {
-        return `${data.adventRemindUnit}/${data.adventRemindUnitText}`;
+      render: (_curVal, data) => {
+        if (data.adventRemindUnit && data.adventRemindUnitText) {
+          return `${data.adventRemindUnit}/${data.adventRemindUnitText}`;
+        } else {
+          return '';
+        }
       },
     },
     {
       field: 'timeoutRemind',
       label: '超时提醒间隔',
-      render: (curVal, data) => {
-        return `${data.timeoutRemindUnit}/${data.timeoutRemindUnitText}`;
+      render: (_curVal, data) => {
+        if (data.adventRemindUnit && data.adventRemindUnitText) {
+          return `${data.timeoutRemindUnit}/${data.timeoutRemindUnitText}`;
+        } else {
+          return '';
+        }
       },
     },
     {
@@ -115,38 +138,38 @@ export function MaintainDetail(state: string, mode: string): DescItem[] {
     {
       field: 'overhaulContent',
       label: '检修方案',
-      show: (data) => mode === '3' || mode === '4',
+      show: () => mode === '3' || mode === '4',
     },
     {
       field: 'safeRule',
       label: '安全措施',
-      show: (data) => mode === '3' || mode === '4',
+      show: () => mode === '3' || mode === '4',
     },
     {
       field: 'overhaulStandard',
       label: '检修质量标准',
-      show: (data) => mode === '3' || mode === '4',
+      show: () => mode === '3' || mode === '4',
     },
 
     {
       field: 'upkeepType',
       label: '保养类型',
-      show: (data) => mode === '1' || mode === '2',
+      show: () => mode === '1' || mode === '2',
     },
     {
       field: 'upkeepStandard',
       label: '保养标椎',
-      show: (data) => mode === '1' || mode === '2',
+      show: () => mode === '1' || mode === '2',
     },
     {
       field: 'upkeepContent',
       label: '保养内容',
-      show: (data) => mode === '1' || mode === '2',
+      show: () => mode === '1' || mode === '2',
     },
     {
       field: 'safeRule',
       label: '安全规则',
-      show: (data) => mode === '1' || mode === '2',
+      show: () => mode === '1' || mode === '2',
     },
     {
       field: 'remark',
@@ -698,13 +721,6 @@ export function ApplySchemaDetail(): DescItem[] {
   ];
 }
 
-const titleStyle: any = {
-  paddingTop: '16px',
-  fontSize: '15px',
-  fontWeight: '600',
-  position: 'relative',
-  left: '0px',
-};
 const ImageBox: any = {
   width: '80px',
 };
