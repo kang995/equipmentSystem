@@ -8,7 +8,7 @@
             v-model:selectedKeys="selectedKeys"
             :tree-data="treeData"
             :defaultExpandAll="true"
-            :replaceFields="{ children: 'children', title: 'label', key: 'id' }"
+            :field-names="{ children: 'children', title: 'label', key: 'id' }"
             @select="getSelect"
         /></Card>
       </Col>
