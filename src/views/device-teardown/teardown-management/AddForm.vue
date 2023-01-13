@@ -79,25 +79,17 @@
         ...data,
         version: version.value,
         id: routeId,
-      })
-        .then(() => {
-          message.success('修改成功');
-          closeCurrent();
-          router.go(-1);
-        })
-        .catch(() => {
-          message.success('修改失败');
-        });
+      }).then(() => {
+        message.success('修改成功');
+        closeCurrent();
+        router.go(-1);
+      });
     } else {
-      addListApi(data)
-        .then(() => {
-          message.success('新增成功');
-          closeCurrent();
-          router.go(-1);
-        })
-        .catch(() => {
-          message.success('新增失败');
-        });
+      addListApi(data).then(() => {
+        message.success('新增成功');
+        closeCurrent();
+        router.go(-1);
+      });
     }
   }
 </script>
