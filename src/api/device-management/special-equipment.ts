@@ -32,6 +32,22 @@ enum Api {
   RECORD_EXPORT = '/specialRecord/export', //批量导出
   //更换备件记录
   SPARE_LIST = '/mechanical/orderSpare/list',
+  //关联备件
+  SPARE_SELECT = '/mechanical/spare/select', //分页查询设备关联备件列表
+  SPARE_REMOVE = '/mechanical/spare/remove', //设备移除备件
+  SPARE_ADD = '/mechanical/spare/add', //设备关联备件
+  SPARE_PART_SELECT = '/mechanical/sparePart/select', //关联备件-下拉查询
+  //关联应急预案
+  CONTINGENCY_PLAN = '/mechanical/contingencyPlan/list', //关联应急预案-查询应急预案列表
+  CONTINGENCY_SAVE = '/mechanical/saveDeviceContingency', //保存关联应急预案
+  CONTINGENCY_SELECT = '/mechanical/planType/select', //应急预案类型-下拉查询
+  CONTINGENCY_LEVEL = '/mechanical/grade/select', //预案响应等级-下拉查询
+  CONTINGENCY_LIST = '/mechanical/contingencyByDeviceId/list', //查询应急预案列表
+  CONTINGENCY_DETAIL = '/mechanical/contingencyPlan/detail', //查询应急预案详情
+  //巡检记录
+  PATROL_RECORD = '/mechanical/patrolRecord/list', //分页查询巡检记录列表
+  PATROL_BASE = '/mechanical/patrolBase', //巡检报告-基本信息
+  PATROL_COUNT = '/mechanical/patrolRecord/count', //巡检记录-巡检次数、异常次数、隐患次数
 }
 export const postSpareListApi = (params) =>
   defHttp.post({
@@ -193,3 +209,88 @@ export const postSpecialRExportApi = (params) =>
     },
     { isTransformResponse: false },
   );
+
+//关联备件
+//分页查询设备关联备件列表
+export const SpareListApiApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_SELECT,
+    params,
+  });
+//设备移除备件
+export const SpareRemoveApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_REMOVE,
+    params,
+  });
+//设备关联备件
+export const SpareAddApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_ADD,
+    params,
+  });
+//关联备件-下拉查询
+export const SparePartSelectApi = (params) =>
+  defHttp.post({
+    url: Api.SPARE_PART_SELECT,
+    params,
+  });
+
+//关联应急预案-查询应急预案列表
+export const contingencyPlanApi = (params) =>
+  defHttp.post({
+    url: Api.CONTINGENCY_PLAN,
+    params,
+  });
+//应急预案类型-下拉查询
+export const contingencySelectApi = (params) =>
+  defHttp.post({
+    url: Api.CONTINGENCY_SELECT,
+    params,
+  });
+//预案响应等级-下拉查询
+export const contingencyLevelSelectApi = (params) =>
+  defHttp.post({
+    url: Api.CONTINGENCY_LEVEL,
+    params,
+  });
+
+//保存关联应急预案
+export const contingencySaveApi = (params) =>
+  defHttp.post({
+    url: Api.CONTINGENCY_SAVE,
+    params,
+  });
+
+//查询应急预案列表
+export const contingencyDeviceIdListApi = (params) =>
+  defHttp.post({
+    url: Api.CONTINGENCY_LIST,
+    params,
+  });
+
+//查询应急预案详情
+export const contingencyDetailApi = (params) =>
+  defHttp.post({
+    url: Api.CONTINGENCY_DETAIL,
+    params,
+  });
+
+//分页查询巡检记录列表
+export const mechanicalpatrolRecordListApi = (params) =>
+  defHttp.post({
+    url: Api.PATROL_RECORD,
+    params,
+  });
+//巡检报告-基本信息
+export const mechanicalpatrolBaseListApi = (params) =>
+  defHttp.post({
+    url: Api.PATROL_BASE,
+    params,
+  });
+//巡检记录-巡检次数、异常次数、隐患次数
+export const mechanicalpatrolCountListApi = (params) =>
+  defHttp.post({
+    url: Api.PATROL_COUNT,
+    params,
+  });

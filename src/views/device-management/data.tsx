@@ -19,7 +19,11 @@ import {
   postRiskLevelSelectApi,
   postTypeSelectApi,
 } from '/@/api/device-management/installation';
-import { postSelectUnitFacilityApi } from '/@/api/device-management/special-equipment';
+import {
+  postSelectUnitFacilityApi,
+  contingencySelectApi,
+  contingencyLevelSelectApi,
+} from '/@/api/device-management/special-equipment';
 
 export const installationColumns: BasicColumn[] = [
   {
@@ -71,6 +75,68 @@ export const installationColumns: BasicColumn[] = [
     dataIndex: 'sort',
   },
 ];
+//应急预案
+export const installationFormSchemas: FormSchema[] = [
+  {
+    field: 'planName',
+    component: 'Input',
+    label: '预案名称',
+    componentProps: {
+      placeholder: '请输入预案名称',
+    },
+  },
+  {
+    field: 'planType',
+    component: 'ApiSelect',
+    label: '预案类型',
+    componentProps: {
+      api: contingencySelectApi,
+      showSearch: true,
+      optionFilterProp: 'label',
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
+    },
+  },
+  {
+    field: 'grade',
+    component: 'ApiSelect',
+    label: '预案响应等级',
+    componentProps: {
+      api: contingencyLevelSelectApi,
+      showSearch: true,
+      optionFilterProp: 'label',
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
+    },
+  },
+  {
+    field: 'chemsValue',
+    component: 'Input',
+    label: '相关危化品',
+    componentProps: {
+      placeholder: '请输入相关危化品',
+    },
+  },
+  {
+    field: 'planNum',
+    component: 'Input',
+    label: '预案编号',
+    componentProps: {
+      placeholder: '请输入预案编号',
+    },
+  },
+  // {
+  //   field: 'name',
+  //   component: 'Input',
+  //   label: '预案版本',
+  //   componentProps: {
+  //     placeholder: '请输入预案版本',
+  //   },
+  // },
+];
+
 export const installationFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -165,6 +231,79 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择模型绑定状态',
+    },
+  },
+];
+//应急预案详情
+export const meetSchema: DescItem[] = [
+  {
+    field: 'planNum',
+    label: '预案编号',
+  },
+  {
+    field: 'planName',
+    label: '预案名称',
+  },
+  {
+    field: 'planTypeValue',
+    label: '预案类型',
+  },
+  {
+    field: 'gradeValue',
+    label: '预案响应等级',
+  },
+  {
+    field: 'accidentTypeValue',
+    label: '适用事件类型',
+  },
+  {
+    field: 'applyDeptName',
+    label: '适用部门',
+  },
+  {
+    field: 'chemsValue',
+    label: '相关危化品',
+  },
+  {
+    field: 'updateTime',
+    label: '更新时间',
+    render: (curVal) => {
+      return curVal ? curVal : '--';
+    },
+  },
+  {
+    field: 'label',
+    label: '标签',
+  },
+  {
+    field: 'announcements',
+    label: '注意事项',
+  },
+  {
+    field: 'affixes',
+    label: '附件',
+    span: 4,
+    render: (data) => {
+      if (data) {
+        return (
+          <div>
+            {data.map((item) => {
+              return (
+                <div>
+                  <SvgIcon name="gonggong_fujian" class={'mr-2'} />
+                  <span style={'color:#61687C'} class={'mr-6'}>
+                    {item.name}
+                  </span>
+                  <a href={item.url} target="_blank">
+                    <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
+                    <span style={'color:#4D79FF'}>下载</span>
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
     },
   },
 ];

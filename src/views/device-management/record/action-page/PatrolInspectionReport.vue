@@ -57,8 +57,12 @@
   import CustomExceptionFound from './components/CustomExceptionFound.vue';
   import CustomHiddenDanger from './components/CustomHiddenDanger.vue';
   import CustomPatrolDetail from './components/CustomPatrolDetail.vue';
-
+  import { useRoute } from 'vue-router';
+  import { mechanicalpatrolBaseListApi } from '/@/api/device-management/special-equipment';
   const activeKey = ref('1');
+  const route = useRoute();
+  const id = route.query.id as string;
+
   const descriptionsData = ref({
     abnormalNum: '',
     faultNum: '',
@@ -73,8 +77,12 @@
   onMounted(() => {
     getRecordBaseData();
   });
-
-  async function getRecordBaseData() {}
+  //基本信息
+  async function getRecordBaseData() {
+    mechanicalpatrolBaseListApi({ id }).then((res) => {
+      descriptionsData.value = res;
+    });
+  }
 
   const [register] = useDescription({
     data: descriptionsData,

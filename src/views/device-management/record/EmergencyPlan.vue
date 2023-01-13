@@ -18,12 +18,16 @@
               <span class="card_left">预案编号：</span>
               <span class="card_right">{{ item.planNum }}</span>
             </div>
+            <!-- <div class="mb-10px">
+              <span class="card_left">事件类别：</span>
+              <span class="card_right">{{ item.accidentTypeValue }}</span>
+            </div> -->
             <div class="mb-10px">
               <span class="card_left">预案类型：</span>
               <span class="card_right">{{ item.planTypeValue }}</span>
             </div>
             <div class="mb-10px">
-              <span class="card_left">预案响应等级：</span>
+              <span class="card_left">预案响应等级</span>
               <span class="card_right">{{ item.gradeValue }}</span>
             </div>
             <div class="mb-10px">
@@ -31,21 +35,17 @@
               <span class="card_right">{{ item.accidentTypeValue }}</span>
             </div>
             <div class="mb-10px">
-              <span class="card_left">适用部门：</span>
-              <span class="card_right">{{ item.applyDeptName }}</span>
-            </div>
-            <div class="mb-10px">
               <span class="card_left">相关危化品：</span>
               <span class="card_right">{{ item.chemsValue }}</span>
             </div>
             <div>
-              <span class="card_left">创建时间：</span>
-              <span class="card_right">{{ item.createTime }}</span>
+              <span class="card_left">更新时间：</span>
+              <span class="card_right">{{ item.updateTime }}</span>
             </div>
             <template #actions>
               <!-- 特种设备时显示启用 -->
-              <a-button type="link">启用</a-button>
-              <a-button type="link" @click="detailTap()">详情</a-button>
+              <!-- <a-button type="link">启用</a-button> -->
+              <a-button type="link" @click="detailTap(item)">详情</a-button>
             </template>
           </a-card>
         </a-col>
@@ -63,33 +63,46 @@
         />
       </div>
     </div>
+    <!-- 关联应急预案 -->
+    <PartModel ref="DeviceRef" @register="registerPartModal" @event-open="handleEcho" />
     <!-- <ImportModal @register="registerModal" @handle-ok="handleOk" @handle-import="handleModal" /> -->
   </div>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
-  import { installationFormSchema } from '../data';
+  import { ref, onMounted } from 'vue';
+  import { installationFormSchemas } from '../data';
   import { Card, Row, Col, Pagination } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
+  import PartModel from './meetModal.vue';
+  import { useModal } from '/@/components/Modal';
+  import { useRouter, useRoute } from 'vue-router';
+  import {
+    contingencySaveApi,
+    contingencyDeviceIdListApi,
+  } from '/@/api/device-management/special-equipment';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createMessage } = useMessage();
 
-  // import { useModal } from '/@/components/Modal';
-  import { useRouter } from 'vue-router';
   // const [registerModal, { openModal: openModal }] = useModal();
   const ARow = Row;
   const ACol = Col;
   const ACard = Card;
   const APagination = Pagination;
   const router = useRouter();
+  const route = useRoute();
+  const deviceId = route.query.id as string;
+  const DeviceRef = ref();
+
   const itemList = ref<any>([
-    { planName: '2' },
-    { planName: '2' },
-    { planName: '2' },
-    { planName: '2' },
+    // { planName: '2' },
+    // { planName: '2' },
+    // { planName: '2' },
+    // { planName: '2' },
   ]);
   const total = ref<number>(1);
   const pageNum = ref<number>(1);
   const pageSize = ref<number>(10);
-
+  const [registerPartModal, { openModal: openPartModal }] = useModal();
   const onChange = async (pageNumber: number) => {
     console.log('pageNumber: ', pageNumber);
   };
@@ -108,27 +121,55 @@
     submitButtonOptions: {
       preIcon: 'gonggong_sousuo|svg',
     },
-    schemas: installationFormSchema,
+    schemas: installationFormSchemas,
     submitFunc: submitFunc,
     resetFunc: resetSubmitFunc,
   });
 
   //自定义重置
-  async function resetSubmitFunc() {}
+  async function resetSubmitFunc() {
+    handleList({});
+  }
   //自定义查询
   async function submitFunc() {
     const res = getFieldsValue();
+    handleList(res);
     console.log('res: ', res);
   }
-  // 详情
-  function detailTap() {
-    // router.push({
-    //   // name: 'PlanDetail',
-    // });
+  onMounted(() => {
+    handleList({});
+  });
+  //列表
+  function handleList(res?) {
+    if (deviceId) {
+      res['deviceId'] = deviceId;
+      contingencyDeviceIdListApi(res).then((res) => {
+        itemList.value = res;
+        total.value = itemList.value.length;
+        // console.log('itemList.value', itemList.value)
+      });
+    }
   }
-
-  // 新建
-  function addTap() {}
+  //打开应急预案
+  function addTap() {
+    openPartModal(true);
+  }
+  function handleEcho(data) {
+    const contingencyIdList = data.map((item) => item.id);
+    contingencySaveApi({ contingencyIdList, deviceId }).then(() => {
+      createMessage.success('已保存');
+      openPartModal(false);
+    });
+  }
+  // 详情
+  function detailTap(item) {
+    router.push({
+      name: 'meetDetails',
+      query: {
+        id: item.id,
+      },
+    });
+  }
 
   // 打开导入弹框
   // function handleModal() {

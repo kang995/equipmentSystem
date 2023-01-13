@@ -10,7 +10,7 @@
           <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
         </a-tooltip>
       </div>
-      <slot name="tableTitle"></slot>
+      <slot name="tableTitle" :source="getRawDataSource().patrolRecordCountVO"></slot>
     </template>
   </BasicTable>
 </template>
@@ -37,7 +37,7 @@
     textExport?: string;
   }>();
 
-  const [register, { getSelectRowKeys }] = useTable({
+  const [register, { getSelectRowKeys, reload, getRawDataSource }] = useTable({
     api: props.api,
     searchInfo: {
       deviceId,
@@ -72,6 +72,7 @@
       },
     },
   });
+
   function exportTable() {
     const ids = getSelectRowKeys();
     exportLoading.value = true;
@@ -92,5 +93,8 @@
         });
     exportLoading.value = true;
   }
+  defineExpose({
+    reload,
+  });
 </script>
 <style scoped lang="less"></style>

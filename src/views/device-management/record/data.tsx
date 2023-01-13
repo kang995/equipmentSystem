@@ -4,16 +4,26 @@ import {
   getDictionarySelectType,
   getManagementDictionaryList,
 } from '/@/api/sys/systemSetting/dictionaryType';
-import { UpkeepPlanListApi, DeviceSelectListApi } from '/@/api/device-management/special-equipment';
+import {
+  UpkeepPlanListApi,
+  DeviceSelectListApi,
+  SparePartSelectApi,
+  contingencySelectApi,
+  contingencyLevelSelectApi,
+} from '/@/api/device-management/special-equipment';
 import { getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { SvgIcon } from '/@/components/Icon';
 import { getBlob, saveAs } from '/@/utils/downloadFile';
-import { Image, Row } from 'ant-design-vue';
-
+import { Image, Row, Tag } from 'ant-design-vue';
 import {
   postPlanNameListApi,
   postSectionListApi,
 } from '/@/api/device-management/special-equipment'; //装置设置
+
+// import { useRoute } from 'vue-router';
+// const route = useRoute();
+// const deviceId = route.query.id as string;
+
 export const installationColumns: BasicColumn[] = [
   {
     title: '装置、设施名称',
@@ -64,6 +74,75 @@ export const installationColumns: BasicColumn[] = [
     dataIndex: 'status',
   },
 ];
+
+//关联应急预案
+export const partTableColumns: BasicColumn[] = [
+  {
+    title: '应急预案名称',
+    dataIndex: 'planName',
+  },
+  {
+    title: '预案编号',
+    dataIndex: 'planNum',
+  },
+  {
+    title: '事件类别',
+    dataIndex: 'accidentTypeValue',
+  },
+  {
+    title: '预案类型',
+    dataIndex: 'planTypeValue',
+  },
+  {
+    title: '响应等级',
+    dataIndex: 'gradeValue',
+  },
+  {
+    title: '更新时间',
+    dataIndex: 'updateTime',
+  },
+];
+
+export const getPartFormSchema: FormSchema[] = [
+  {
+    field: 'planName',
+    component: 'Input',
+    label: '预案名称',
+    componentProps: {
+      placeholder: '请输入预案名称',
+    },
+  },
+  {
+    field: 'planType',
+    component: 'ApiSelect',
+    label: '预案类型',
+    componentProps: {
+      placeholder: '请选择预案类型',
+      api: contingencySelectApi,
+      showSearch: true,
+      optionFilterProp: 'label',
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
+    },
+    labelWidth: 92,
+  },
+  {
+    field: 'grade',
+    component: 'ApiSelect',
+    label: '预案响应等级',
+    componentProps: {
+      placeholder: '请选择预案响应等级',
+      api: contingencyLevelSelectApi,
+      showSearch: true,
+      optionFilterProp: 'label',
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
+    },
+  },
+];
+
 export const installationFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -550,32 +629,41 @@ export const equipmentDescItem: DescItem[] = [
 export const patrolInspectionColumns: BasicColumn[] = [
   {
     title: '巡检任务编号',
-    dataIndex: 'name',
+    dataIndex: 'recordCode',
   },
   {
     title: '巡检开始时间',
-    dataIndex: 'productName',
+    dataIndex: 'startDate',
   },
   {
     title: '巡检结束时间',
-    dataIndex: 'status',
+    dataIndex: 'endDate',
   },
   {
     title: '巡检班组',
-    dataIndex: 'status',
+    dataIndex: 'teamName',
   },
   {
     title: '巡检人',
-    dataIndex: 'status',
+    dataIndex: 'inspectorName',
   },
   {
     title: '巡检结果',
-    dataIndex: 'status',
+    dataIndex: 'patrolResult', //巡检结果（0代表正常，1代表异常 -1代表未上报显示 - 即可）
+    customRender: ({ record }) => {
+      if (record.patrolResult === '0') {
+        return <Tag color={'green'}>{'正常'}</Tag>;
+      } else if (record.patrolResult === '1') {
+        return <Tag color={'red'}>{'异常'}</Tag>;
+      } else if (record.patrolResult === '-1') {
+        return '--';
+      }
+    },
   },
 ];
 export const patrolInspectionFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'recordCode',
     component: 'Input',
     label: '任务编号',
     componentProps: {
@@ -583,20 +671,24 @@ export const patrolInspectionFormSchema: FormSchema[] = [
     },
   },
   {
-    field: '[]',
+    field: '[startDate,endDate]',
     component: 'RangePicker',
     label: '巡检时间段',
     componentProps: {
       format: 'YYYY-MM-DD HH:mm:ss',
-      placeholder: ['开始时间', '结束时间'],
+      showTime: true,
     },
   },
   {
-    field: 'productId',
-    component: 'ApiSelect',
+    field: 'patrolResult',
+    component: 'Select',
     label: '巡检结果',
     componentProps: {
       placeholder: '请选择巡检结果',
+      options: [
+        { label: '正常', value: '0' },
+        { label: '异常', value: '1' },
+      ],
     },
   },
 ];
@@ -718,46 +810,40 @@ export const failureFormSchema: FormSchema[] = [
 //巡检报告
 export const patrolInspectionReportSchema: DescItem[] = [
   {
-    field: 'dangerName',
+    field: 'recordCode',
     label: '巡检任务编号',
   },
   {
-    field: 'districtName',
-    label: '巡检开始时间',
-  },
-  {
-    field: 'hazardTypeText',
-    label: '巡检结束时间',
-  },
-  {
-    field: 'riskLevelName',
+    field: 'patrolStateText',
     label: '巡检状态',
   },
   {
-    field: 'hazardTypeText',
+    field: 'teamName',
+    label: '巡检班组',
+  },
+  {
+    field: 'startDate',
+    label: '巡检开始时间',
+  },
+  {
+    field: 'patrolDuration',
     label: '巡检时长',
   },
+  {
+    field: 'chargeName',
+    label: '负责人',
+  },
+  {
+    field: 'endDate',
+    label: '巡检结束时间',
+  },
+  //列表带过来
   {
     field: 'hazardTypeText',
     label: '巡检结果',
   },
   {
-    field: 'projectName',
-    label: '巡检班组',
-  },
-
-  {
-    field: 'districtName',
-    label: '巡检开始时间',
-  },
-
-  {
-    field: 'hazardTypeText',
-    label: '负责人',
-  },
-
-  {
-    field: 'hazardTypeText',
+    field: 'inspectorName',
     label: '巡检人员',
   },
 ];
@@ -1141,22 +1227,29 @@ export const associatedColumns: BasicColumn[] = [
     dataIndex: 'measureUnitText',
   },
 ];
-export const associatedFormSchema: FormSchema[] = [
-  {
-    field: 'spareName',
-    component: 'ApiSelect',
-    label: '备件名称',
-    componentProps: {
-      placeholder: '请选择备件名称',
-    },
-  },
-  {
-    field: 'spareClassify',
-    component: 'ApiSelect',
-    label: '备件分类',
-    componentProps: {
-      placeholder: '请选择备件分类',
+export function associatedFormSchema(deviceId): FormSchema[] {
+  return [
+    {
+      field: 'spareId',
+      component: 'ApiSelect',
+      label: '备件名称',
       componentProps: {
+        placeholder: '请选择备件名称',
+        api: SparePartSelectApi, //后台路径
+        params: {
+          deviceId,
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name', //设置label字段
+        valueField: 'id', //设置value字段
+      },
+    },
+    {
+      field: 'spareClassify',
+      component: 'ApiSelect',
+      label: '备件分类',
+      componentProps: {
+        placeholder: '请选择备件分类',
         api: getDictionarySelectType, //后台路径
         params: {
           type: 'SPARE_TYPE',
@@ -1164,11 +1257,10 @@ export const associatedFormSchema: FormSchema[] = [
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
-        placeholder: '请选择备件分类',
       },
     },
-  },
-];
+  ];
+}
 // 备件更换记录
 export const sparePartColumns: BasicColumn[] = [
   {

@@ -312,9 +312,12 @@
   //   },
   // });
   //详情
-  function handleDetails() {
+  function handleDetails(record) {
     router.push({
       name: 'specialEquipmentDetails',
+      query: {
+        id: record.deviceId,
+      },
     });
   }
   //返回
