@@ -153,8 +153,10 @@ export function schemasAdd(routeId, codeId?): FormSchema[] {
             if (/[^\d]/g.test(val)) {
               return Promise.reject('电话只能是数字');
             }
-            if (val.length < 11 || val.length > 11) {
-              return Promise.reject('电话只能是11位');
+            const reg_tel =
+              /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+            if (!reg_tel.test(val)) {
+              return Promise.reject('格式不正确');
             }
             return Promise.resolve();
           },

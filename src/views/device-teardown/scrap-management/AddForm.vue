@@ -18,7 +18,7 @@
   const route = useRoute();
   const routeId = route.query.id as string;
   const location = route.query.location as string;
-  const [register, { getFieldsValue, setFieldsValue, updateSchema }] = useForm({
+  const [register, { getFieldsValue, setFieldsValue, updateSchema, validateFields }] = useForm({
     labelCol: {
       span: 8,
     },
@@ -67,6 +67,7 @@
     router.go(-1);
   }
   async function sumitForm() {
+    await validateFields();
     const data = getFieldsValue();
     if (routeId) {
       delete data.deviceId;

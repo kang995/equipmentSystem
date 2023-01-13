@@ -22,14 +22,14 @@ export function tableColumns(): BasicColumn[] {
       title: '设备单价',
       dataIndex: 'unitPrice',
       customRender: ({ value }) => {
-        return value ? value + '万元' : '';
+        return value ? value + '元' : '';
       },
     },
     {
       title: '设备折旧',
       dataIndex: 'depreciation',
       customRender: ({ value }) => {
-        return value ? value + '万元' : '';
+        return value ? value + '元' : '';
       },
     },
     {
@@ -158,9 +158,6 @@ export function schemasAdd(location, routeId): FormSchema[] {
         {
           // @ts-ignore
           validator: async (rule, value) => {
-            if (!value) {
-              return Promise.reject('设备单价不能为空');
-            }
             const IsNumber = /^[0-9]*$/;
             if (!IsNumber.test(value)) {
               return Promise.reject('设备单价只能为数字');
@@ -173,14 +170,19 @@ export function schemasAdd(location, routeId): FormSchema[] {
       componentProps: {
         placeholder: '请输入设备单价',
       },
+      renderComponentContent: () => {
+        return {
+          suffix: () => '元',
+        };
+      },
     },
     {
       field: 'depreciation',
       component: 'Input',
       label: '设备折旧',
-      required: true,
       rules: [
         {
+          required: true,
           // @ts-ignore
           validator: async (rule, value) => {
             if (!value) {
@@ -197,6 +199,11 @@ export function schemasAdd(location, routeId): FormSchema[] {
       ],
       componentProps: {
         placeholder: '请输入设备折旧价',
+      },
+      renderComponentContent: () => {
+        return {
+          suffix: () => '元',
+        };
       },
     },
     {
@@ -268,6 +275,19 @@ export function schemasAdd(location, routeId): FormSchema[] {
       componentProps: {
         placeholder: '请输入设备固定使用年限',
       },
+      rules: [
+        {
+          // @ts-ignore
+          validator: async (rule, value) => {
+            const IsNumber = /^[0-9]*$/;
+            if (!IsNumber.test(value)) {
+              return Promise.reject('设备固定使用年限只能为数字');
+            }
+            return Promise.resolve();
+          },
+          trigger: 'change',
+        },
+      ],
       renderComponentContent: () => {
         return {
           suffix: () => '年',
@@ -281,6 +301,22 @@ export function schemasAdd(location, routeId): FormSchema[] {
       componentProps: {
         placeholder: '请输入设备已使用年限',
       },
+      rules: [
+        {
+          // @ts-ignore
+          validator: async (rule, value) => {
+            if (value.length > 3) {
+              return Promise.reject('设备已使用年限不能超过3位');
+            }
+            const IsNumber = /^[0-9]*$/;
+            if (!IsNumber.test(value)) {
+              return Promise.reject('设备已使用年限只能为数字');
+            }
+            return Promise.resolve();
+          },
+          trigger: 'change',
+        },
+      ],
       renderComponentContent: () => {
         return {
           suffix: () => '年',
@@ -380,14 +416,14 @@ export const informationDescItem: DescItem[] = [
     label: '设备单价',
     field: 'unitPrice',
     render: (value) => {
-      return value ? value + '万元' : '';
+      return value ? value + '元' : '';
     },
   },
   {
     label: '设备折旧',
     field: 'depreciation',
     render: (value) => {
-      return value ? value + '万元' : '';
+      return value ? value + '元' : '';
     },
   },
   {
