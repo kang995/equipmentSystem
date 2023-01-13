@@ -228,17 +228,29 @@
         span: 12,
       },
     });
-
+  const handleRouteDetails = () => {
+    console.log(infoData.value);
+    router.push({
+      name: 'planManagementDetails',
+      query: {
+        status: infoData.value.approvalStatus, //1：待提交；2：审核中；3：审核通过；4：审核拒绝
+        // status: '4', //待提交：1、审核中：2、审核拒绝：3、审核通过：4、待审核：5
+        mode: '3', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+        id: infoData.value.overhaulPlanId,
+      },
+    });
+  };
   //负责人
   // 工单信息、检修明细
   let infoData = ref<any>({});
   const [registerOverhaul] = useDescription({
     data: infoData,
-    schema: WorkDetail(),
+    schema: WorkDetail(handleRouteDetails),
     bordered: false,
     column: 3,
     size: 'default',
   });
+
   //检修设备
   const dataSource = ref([{}, {}]);
   const [registerTable] = useTable({

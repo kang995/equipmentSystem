@@ -4,11 +4,7 @@ import { Image, Row } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 // import { getAgainFormSchema } from '/@/views/device-service/components/field';
-import {
-  deviceNameSelectApi,
-  deviceTreeSelectApi,
-  UnitFacilityApi,
-} from '/@/api/corrective-maintenance/fault';
+import { deviceTreeSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
 import {
   getDictionarySelectTypeApi,
   getDepartmentSelectApi,

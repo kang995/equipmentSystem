@@ -357,7 +357,7 @@ export function confirmFormSchema(): FormSchema[] {
       label: '故障确认',
       required: true,
       defaultValue: '0',
-      componentProps: ({ formModel }) => {
+      componentProps: () => {
         return {
           api: getDictionarySelectTypeApi, //后台路径
           params: {
@@ -420,8 +420,7 @@ export function confirmFormSchema(): FormSchema[] {
       label: '任务指派',
       required: true,
       defaultValue: '1',
-      componentProps: ({ formModel, formActionType }) => {
-        const { updateSchema } = formActionType; //setFieldsValue
+      componentProps: ({ formModel }) => {
         return {
           api: getDictionarySelectTypeApi, //后台路径
           params: {
@@ -726,7 +725,7 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
       field: 'jobStartTime',
       label: '任务起止时间',
       show: () => troubleDetermine === '0',
-      render: (curVal, data) => {
+      render: (_curVal, data) => {
         return `${data.jobStartTime}-${data.jobEndTime}`;
       },
     },
@@ -760,7 +759,7 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
       field: 'overhaulPlanName',
       label: '关联检修计划',
       show: () => troubleDetermine === '2',
-      render: (curVal, data) => {
+      render: (_curVal, data) => {
         return (
           <span class="text-blue-500">{`${data.overhaulPlanName} ${data.overhaulPlanCode}`}</span>
         );
@@ -770,22 +769,22 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
       field: 'overhaulWorkOrderCode',
       label: '关联检修工单',
       show: () => troubleDetermine === '2',
-      render: (curVal, data) => {
+      render: (_curVal, data) => {
         return <span class="text-blue-500">{`${data.overhaulWorkOrderCode}`}</span>;
       },
     },
   ];
 }
-const titleStyle: any = {
-    paddingTop: '16px',
-    fontSize: '15px',
-    fontWeight: '600',
-    position: 'relative',
-    left: '0px',
-  },
-  ImageBox: any = {
-    width: '80px',
-  };
+// const titleStyle: any = {
+//     paddingTop: '16px',
+//     fontSize: '15px',
+//     fontWeight: '600',
+//     position: 'relative',
+//     left: '0px',
+//   },
+const ImageBox: any = {
+  width: '80px',
+};
 
 const fileBox = {
   padding: '0px',

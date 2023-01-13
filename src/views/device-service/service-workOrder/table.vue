@@ -43,7 +43,7 @@
     </template>
   </BasicTable>
   <!-- 申请延期 -->
-  <maintainModel @register="maintainModal" @postponeEvent="handlePostpones" />
+  <maintainModel @register="maintainModal" @postpone-event="handlePostpones" />
   <!-- 重新下发 -->
   <IssueModel @register="IssuedModal" @event="handleIssue" />
   <!-- 延期审核 -->

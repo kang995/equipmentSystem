@@ -72,9 +72,9 @@
       </template>
     </BasicTable>
     <!-- 撤回 -->
-    <recallModel @register="RecallModal" @recallEvent="handleRecallEvent" />
+    <recallModel @register="RecallModal" @recall-event="handleRecallEvent" />
     <!-- 停止计划 -->
-    <planModel @register="planModal" @planEvent="handlePlanEvent" />
+    <planModel @register="planModal" @plan-event="handlePlanEvent" />
   </PageWrapper>
 </template>
 <script setup lang="ts">

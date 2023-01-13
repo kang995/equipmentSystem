@@ -2,7 +2,7 @@
   <PageWrapper contentBackground contentFullHeight>
     <a-tabs v-model:activeKey="activeKey" :tabBarStyle="tabBarStyle">
       <a-tab-pane key="1" tab="工单信息">
-        <work-info ref="infoRef" @eventChange="handleChange" />
+        <work-info ref="infoRef" @event-change="handleChange" />
       </a-tab-pane>
       <a-tab-pane key="2" tab="使用备件">
         <work-part v-if="partFlag" />
