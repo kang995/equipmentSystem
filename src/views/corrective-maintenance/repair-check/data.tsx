@@ -152,7 +152,7 @@ export function getFormSchema(): FormSchema[] {
     //
     {
       field: 'createTime',
-      component: 'DatePicker',
+      component: 'RangePicker',
       label: '创建时间',
       componentProps: {
         valueFormat: 'YYYY-MM-DD HH:mm:ss',

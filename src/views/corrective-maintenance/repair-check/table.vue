@@ -75,6 +75,10 @@
       rowProps: {
         gutter: 16,
       },
+      fieldMapToTime: [
+        //更改RangePicker的返回字段
+        ['createTime', ['createStartTime', 'createEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+      ],
     },
   });
   //详情
