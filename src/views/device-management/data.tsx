@@ -3,6 +3,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
 import { h } from 'vue';
 import { Tinymce } from '/@/components/Tinymce';
+import { Row, Image } from 'ant-design-vue';
 import {
   getDictionarySelectType,
   getMechanicalDeviceApi,
@@ -169,52 +170,101 @@ export const installationFormSchema: FormSchema[] = [
 ];
 export const installationSchema: DescItem[] = [
   {
-    field: 'createByName',
-    label: '创建人',
+    field: 'name',
+    label: '装置设施名称',
   },
   {
-    field: 'detectionDate',
-    label: '检测时间',
+    field: 'proName',
+    label: '所属项目',
   },
 
-  {
-    field: 'deviceName',
-    label: '特种设备',
-  },
   {
     field: 'itemDesignName',
-    label: '所属装置设施',
+    label: '所属项目组成部分',
+  },
+  {
+    field: 'districtName',
+    label: '所属区域',
+  },
+  {
+    field: 'typeName',
+    label: '类型',
+  },
+  {
+    field: 'monitorDirectionValue',
+    label: '监测方向',
   },
 
   {
-    field: 'detectionOrgan',
-    label: '检测机构',
+    field: 'riskLevelName',
+    label: '重大危险源级别',
   },
   {
-    field: 'detectionContent',
-    label: '检测内容',
+    field: 'position',
+    label: '地理位置',
   },
   {
-    field: 'detectionDate',
-    label: '检测时间',
+    field: 'developStateName',
+    label: '建设状态',
   },
   {
-    field: 'certificateCode',
-    label: '证书编号',
+    field: 'floorArea',
+    label: '占地面积',
   },
   {
-    field: 'detectionResult',
-    label: '检验结论',
+    field: 'coveredArea',
+    label: '建筑面积',
   },
   {
-    field: 'detectionNextDate',
-    label: '下次检验日期',
+    field: 'buildStruct',
+    label: '建筑结构',
   },
-
   {
-    field: 'safeAffixList',
-    label: '安全附件',
-    span: 4,
+    field: 'storeyHeight',
+    label: '层高',
+  },
+  {
+    field: 'fireRiskClassesName',
+    label: '火灾危险性类别',
+  },
+  {
+    field: 'fireResisRatName',
+    label: '耐火等级',
+  },
+  {
+    field: 'basicInformat',
+    label: '基本信息',
+    render: (val) => {
+      if (val) {
+        return <div v-html={val}></div>;
+      }
+    },
+  },
+  {
+    field: 'pictureList',
+    label: '图纸',
+    render: (data) => {
+      const ARow = Row;
+      if (data) {
+        return (
+          <ARow gutter={24}>
+            <div class="flex flex-1 items-center">
+              {data.map((item) => {
+                return (
+                  <div class="pl-4 pr-4">
+                    <Image width={100} src={item} />
+                  </div>
+                );
+              })}
+            </div>
+          </ARow>
+        );
+      }
+    },
+  },
+  {
+    field: 'affixList',
+    label: '附件',
     render: (data) => {
       if (data) {
         return (
@@ -237,10 +287,6 @@ export const installationSchema: DescItem[] = [
         );
       }
     },
-  },
-  {
-    field: 'remark',
-    label: '备注',
   },
 ];
 //应急演练报告

@@ -178,7 +178,7 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'executeStartTime',
       label: '工单执行时间',
-      render: (curVal, data) => {
+      render: (_curVal, data) => {
         return `${data.executeStartTime}至${data.executeEndTime}`;
       },
     },
