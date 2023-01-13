@@ -158,11 +158,18 @@ export function schemasAdd(location, routeId): FormSchema[] {
         {
           // @ts-ignore
           validator: async (rule, value) => {
-            const IsNumber = /^[0-9]*$/;
-            if (!IsNumber.test(value)) {
-              return Promise.reject('设备单价只能为数字');
+            if (!value) {
+              return Promise.resolve();
+            } else {
+              if (value.length > 9) {
+                return Promise.reject('设备单价最大为9位数');
+              }
+              const IsNumber = /(^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+              if (!IsNumber.test(value)) {
+                return Promise.reject('设备单价只能为数字,且只能保留两位小数');
+              }
+              return Promise.resolve();
             }
-            return Promise.resolve();
           },
           trigger: 'change',
         },
@@ -188,9 +195,12 @@ export function schemasAdd(location, routeId): FormSchema[] {
             if (!value) {
               return Promise.reject('设备折旧不能为空');
             }
-            const IsNumber = /^[0-9]*$/;
+            const IsNumber = /(^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+            if (value.length > 9) {
+              return Promise.reject('设备折旧最大为9位数');
+            }
             if (!IsNumber.test(value)) {
-              return Promise.reject('设备折旧只能为数字');
+              return Promise.reject('设备折旧只能为数字,且只能保留两位小数');
             }
             return Promise.resolve();
           },
@@ -279,6 +289,9 @@ export function schemasAdd(location, routeId): FormSchema[] {
         {
           // @ts-ignore
           validator: async (rule, value) => {
+            if (value.length > 3) {
+              return Promise.reject('设备固定使用年限不能超过3位');
+            }
             const IsNumber = /^[0-9]*$/;
             if (!IsNumber.test(value)) {
               return Promise.reject('设备固定使用年限只能为数字');

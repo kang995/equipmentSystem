@@ -54,6 +54,9 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请选择拆除单编号',
         api: getSelectApi,
+        params: {
+          type: '1',
+        },
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
@@ -78,6 +81,9 @@ export function schemasAdd(routeId, codeId?): FormSchema[] {
       componentProps: {
         placeholder: '请输入拆除单编号',
         api: getSelectApi,
+        params: {
+          type: 2,
+        },
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
