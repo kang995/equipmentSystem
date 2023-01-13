@@ -35,13 +35,19 @@
         >新增</a-button
       >
 
-      <a-button :loading="exportLoading" class="mr-4">批量导入</a-button>
+      <a-button :loading="exportLoading" class="mr-4" @click="handleModal">批量导入</a-button>
       <a-tooltip>
         <template #title>不选择即导出全部数据</template>
         <a-button @click="handleExport" :loading="loading">批量导出</a-button>
       </a-tooltip>
     </template>
   </BasicTable>
+  <ImportModal
+    @register="registerImportModal"
+    @handle-ok="handleOk"
+    @handle-err="handleErr"
+    @handle-import="handleModal"
+  />
 </template>
 <script setup lang="ts">
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
@@ -55,6 +61,7 @@
     formSchemaWarehousing,
   } from '../data';
   import { useRouter } from 'vue-router';
+  import { ImportModal } from '/@/components/ImportModal';
   import {
     posInRemoveApi,
     posOUTRemoveApi,
@@ -64,8 +71,14 @@
     posInDiscardApi,
     exporInApi,
     exporOUTApi,
+    importData,
+    importTemplate,
+    importWarehousingData,
+    importWarehousingTemplate,
   } from '/@/api/backup-management/inbound-and-outbound';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { useModal } from '/@/components/Modal';
+  const [registerImportModal, { openModal: openImportModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
   const exportLoading = ref(false);
@@ -119,6 +132,14 @@
   function handleAdd() {
     getRouter();
   }
+  // 打开导入弹框
+  function handleModal() {
+    openImportModal(true, {
+      updateSupport: 'true',
+      uploadUrlApi: props.ifIssue ? importData : importWarehousingData,
+      downloadUrlApi: props.ifIssue ? importTemplate : importWarehousingTemplate,
+    });
+  }
   function handleDetail(data) {
     const id = data.id;
     const name = props.ifIssue ? 'InboundDetails' : 'OutboundDetails';
@@ -130,6 +151,20 @@
         id,
       },
     });
+  }
+  function handleOk() {
+    reload();
+  }
+  const visible = ref<boolean>(false);
+  const msg = ref('');
+  function handleErr(err) {
+    console.log(err);
+    // msg.value = err.split('<br/>');
+    msg.value = err;
+    visible.value = true;
+    setTimeout(() => {
+      visible.value = false;
+    }, 3000);
   }
   //作废
   function handleDiscard(record) {

@@ -283,7 +283,7 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'upkeepType',
+      field: 'upkeepTypeText',
       label: '保养类型',
     },
     {

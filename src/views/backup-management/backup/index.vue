@@ -55,16 +55,21 @@
               @click="getAdd()"
               >添加备件</a-button
             >
-            <a-button class="mr-4">批量导入</a-button>
+            <a-button @click="handleModal">批量导入</a-button>
             <a-tooltip>
               <template #title>不选择即导出全部数据</template>
-              <a-button @click="exportTable" :loading="loading">批量导出</a-button>
+              <a-button class="ml-4" @click="exportTable" :loading="loading">批量导出</a-button>
             </a-tooltip>
           </template>
         </BasicTable>
       </Col>
     </Row>
-  </PageWrapper>
+    <ImportModal
+      @register="registerImportModal"
+      @handle-ok="handleOk"
+      @handle-err="handleErr"
+      @handle-import="handleModal"
+  /></PageWrapper>
 </template>
 <script setup lang="ts">
   import { PageWrapper } from '/@/components/Page';
@@ -77,11 +82,16 @@
   import { downloadByData } from '/@/utils/file/download';
   import {
     exportBackupApi,
+    importData,
+    importTemplate,
     postBackupListApi,
     postBackupRemoveApi,
   } from '/@/api/backup-management/backup';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
+  import { ImportModal } from '/@/components/ImportModal';
+  import { useModal } from '/@/components/Modal';
+  const [registerImportModal, { openModal: openImportModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
   const AMenu = Menu;
@@ -158,7 +168,20 @@
       slots: { customRender: 'action' },
     },
   });
-
+  function handleOk() {
+    reload();
+  }
+  const visible = ref<boolean>(false);
+  const msg = ref('');
+  function handleErr(err) {
+    console.log(err);
+    // msg.value = err.split('<br/>');
+    msg.value = err;
+    visible.value = true;
+    setTimeout(() => {
+      visible.value = false;
+    }, 3000);
+  }
   function handleDel(data) {
     const id = data.id;
     postBackupRemoveApi({ id: id }).then(() => {
@@ -206,6 +229,14 @@
       .finally(() => {
         loading.value = false;
       });
+  }
+  // 打开导入弹框
+  function handleModal() {
+    openImportModal(true, {
+      updateSupport: 'true',
+      uploadUrlApi: importData,
+      downloadUrlApi: importTemplate,
+    });
   }
 </script>
 <style scoped lang="less">

@@ -16,6 +16,8 @@ enum Api {
   BACKUP_EXPORT = '/sparePart/export', //批量导出
   TREE_LIST = '/special/device/tree/select', //查询区域-装置设施-设备树
   TREE_LIST_IDS = '/special/selectDeviceListByIds', //根据设备ids查询设备
+  IMPORT = '/sparePart/import', // 导入
+  IMPORTTEMPLATE = '/sparePart/template',
 }
 //根据设备ids查询设备
 export const postTreeSelectIdsApi = (params) =>
@@ -98,6 +100,26 @@ export const exportBackupApi = (params) =>
       responseType: 'arraybuffer',
       params,
       url: Api.BACKUP_EXPORT,
+    },
+    { isTransformResponse: false },
+  );
+export const importData = (params) =>
+  defHttp.post({
+    url: Api.IMPORT,
+    params,
+    headers: {
+      ignoreCancelToken: 'true',
+    },
+  });
+// 下载导入模板
+export const importTemplate = () =>
+  defHttp.post(
+    {
+      url: Api.IMPORTTEMPLATE,
+      responseType: 'arraybuffer',
+      headers: {
+        ignoreCancelToken: 'true',
+      },
     },
     { isTransformResponse: false },
   );

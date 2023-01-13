@@ -97,7 +97,7 @@
       });
   }
 
-  const [register, { setFieldsValue, getFieldsValue }] = useForm({
+  const [register, { setFieldsValue, getFieldsValue, validateFields }] = useForm({
     labelCol: {
       span: 8,
     },
@@ -131,6 +131,7 @@
     setFieldsValue({ managementPeoplePhone: phone });
   }
   async function sumitForm() {
+    await validateFields();
     const data = getFieldsValue();
     const geographicalPositionValue = PositionData.value as any;
     if (

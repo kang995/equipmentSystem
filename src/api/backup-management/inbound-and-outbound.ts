@@ -20,6 +20,10 @@ enum Api {
   IN_ADD = '/deviceInReceipt/save', // 入库新增
   //查询库存详情
   SPARE_LIST = '/deviceWarehouse/spare/list', //分页动态查询库存详情列表
+  IMPORT = '/deviceOutReceipt/import', // 导入
+  IMPORTTEMPLATE = '/deviceOutReceipt/template',
+  WAREHOUSING_IMPORT = '/deviceInReceipt/import', // 导入
+  WAREHOUSING_IMPORTTEMPLATE = '/deviceInReceipt/template',
 }
 //出库
 //分页动态查询 列表
@@ -116,3 +120,43 @@ export const getSpareListApi = (params) =>
     url: Api.SPARE_LIST,
     params,
   });
+export const importData = (params) =>
+  defHttp.post({
+    url: Api.IMPORT,
+    params,
+    headers: {
+      ignoreCancelToken: 'true',
+    },
+  });
+// 下载导入模板
+export const importTemplate = () =>
+  defHttp.post(
+    {
+      url: Api.IMPORTTEMPLATE,
+      responseType: 'arraybuffer',
+      headers: {
+        ignoreCancelToken: 'true',
+      },
+    },
+    { isTransformResponse: false },
+  );
+export const importWarehousingData = (params) =>
+  defHttp.post({
+    url: Api.WAREHOUSING_IMPORT,
+    params,
+    headers: {
+      ignoreCancelToken: 'true',
+    },
+  });
+// 下载导入模板
+export const importWarehousingTemplate = () =>
+  defHttp.post(
+    {
+      url: Api.WAREHOUSING_IMPORTTEMPLATE,
+      responseType: 'arraybuffer',
+      headers: {
+        ignoreCancelToken: 'true',
+      },
+    },
+    { isTransformResponse: false },
+  );
