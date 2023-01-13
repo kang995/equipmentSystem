@@ -164,7 +164,7 @@ export function schemasAdd(location, routeId): FormSchema[] {
               if (value.length > 9) {
                 return Promise.reject('设备单价最大为9位数');
               }
-              const IsNumber = /(^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+              const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
               if (!IsNumber.test(value)) {
                 return Promise.reject('设备单价只能为数字,且只能保留两位小数');
               }
@@ -195,7 +195,7 @@ export function schemasAdd(location, routeId): FormSchema[] {
             if (!value) {
               return Promise.reject('设备折旧不能为空');
             }
-            const IsNumber = /(^(([1-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+            const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
             if (value.length > 9) {
               return Promise.reject('设备折旧最大为9位数');
             }
