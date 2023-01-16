@@ -289,7 +289,10 @@ export function schemasAdd(location, routeId): FormSchema[] {
         {
           // @ts-ignore
           validator: async (rule, value) => {
-            if (value.length > 3) {
+            if (!value) {
+              return Promise.resolve();
+            }
+            if (value?.length > 3) {
               return Promise.reject('设备固定使用年限不能超过3位');
             }
             const IsNumber = /^[0-9]*$/;
@@ -318,7 +321,10 @@ export function schemasAdd(location, routeId): FormSchema[] {
         {
           // @ts-ignore
           validator: async (rule, value) => {
-            if (value.length > 3) {
+            if (!value) {
+              return Promise.resolve();
+            }
+            if (value?.length > 3) {
               return Promise.reject('设备已使用年限不能超过3位');
             }
             const IsNumber = /^[0-9]*$/;
