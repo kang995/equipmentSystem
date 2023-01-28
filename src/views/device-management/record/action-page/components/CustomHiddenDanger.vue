@@ -13,7 +13,7 @@
             <template #title>{{ item.pointName }}</template>
             <!-- 卡片内容 -->
             <Row>
-              <Col :span="24" class="font-semibold pb-2">点位名称：{{ item.hiddenName }}</Col>
+              <Col :span="24" class="font-semibold pb-2">点位名称：{{ item.pointName }}</Col>
               <Col :span="24" class="font-semibold pb-2">隐患名称：{{ item.hiddenName }}</Col>
               <Col :span="24" class="font-semibold pb-2">所属风险点：{{ item.riskName }}</Col>
               <Col :span="24" class="font-semibold pb-2">隐患级别：{{ item.hiddenLevelName }}</Col>
@@ -44,15 +44,25 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRoute } from 'vue-router';
   import { usePermission } from '/@/hooks/web/usePermission';
-  const { hasPermission } = usePermission();
+  import { mechanicalFaultListApi } from '/@/api/device-management/special-equipment';
 
+  const { hasPermission } = usePermission();
   const { prefixCls } = useDesign('custom-card-list');
   const ListItem = List.Item;
   const page = ref(1);
   const pageSize = ref(10);
   const totalNum = ref(0);
-  const cardListData = ref([{}, {}, {}]);
+  const cardListData = ref([]);
   const route = useRoute();
+  const recordCode = route.query.recordCode as string;
+
+  //详情
+  recordCode &&
+    mechanicalFaultListApi({
+      recordCode,
+    }).then((res) => {
+      cardListData.value = res.records;
+    });
 
   const paginationProp = ref({
     showQuickJumper: true,

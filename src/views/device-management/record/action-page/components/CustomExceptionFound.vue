@@ -14,7 +14,7 @@
             <template #title>{{ item.pointName }}</template>
             <!-- 卡片内容 -->
             <Row>
-              <Col :span="12" class="font-semibold">点位：{{ item.routeName }}</Col>
+              <Col :span="12" class="font-semibold">点位：{{ item.pointName }}</Col>
               <Col :span="12" class="font-semibold">驻留时间：{{ item.stayDate }}</Col>
               <Col :span="12" class="font-semibold">路线：{{ item.routeName }}</Col>
               <Col :span="12" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col>
@@ -141,6 +141,12 @@
   import { ref } from 'vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons-vue';
+  import { mechanicalAbnormalListApi } from '/@/api/device-management/special-equipment';
+  import { useRoute } from 'vue-router';
+
+  const route = useRoute();
+  // const pointId = route.query.id as string;
+  const recordCode = route.query.recordCode as string;
 
   const CollapsePanel = Collapse.Panel;
   const { prefixCls } = useDesign('custom-card-list');
@@ -148,8 +154,17 @@
   const page = ref(1);
   const pageSize = ref(10);
   const totalNum = ref(0);
-  const cardListData = ref([{}]);
+  const cardListData = ref([]);
   // const recordCode = route.query.recordCode as string;
+
+  //详情
+  recordCode &&
+    mechanicalAbnormalListApi({
+      recordCode,
+      abnormalState: '2', //（巡检详情：1 发现异常：2）
+    }).then((res) => {
+      cardListData.value = res.records;
+    });
 
   const paginationProp = ref({
     showQuickJumper: true,

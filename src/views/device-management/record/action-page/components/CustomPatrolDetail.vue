@@ -22,7 +22,7 @@
               <template #title>{{ item.pointName }}</template>
               <!-- 卡片内容 -->
               <Row>
-                <Col :span="12" class="font-semibold">点位：{{ item.stayDate }}</Col>
+                <Col :span="12" class="font-semibold">点位：{{ item.pointName }}</Col>
                 <Col :span="12" class="font-semibold">驻留时间：{{ item.stayDate }}</Col>
                 <Col :span="12" class="font-semibold">巡检路线：{{ item.routeName }}</Col>
                 <Col :span="12" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col>
@@ -139,6 +139,7 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRoute } from 'vue-router';
   import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons-vue';
+  import { mechanicalAbnormalListApi } from '/@/api/device-management/special-equipment';
 
   const { prefixCls } = useDesign('custom-card-list');
   const BadgeRibbon = Badge.Ribbon;
@@ -152,6 +153,15 @@
   const pageSize = ref(10);
   const paginationProp = ref({});
   const pointIdVal = ref('');
+
+  //详情
+  recordCode &&
+    mechanicalAbnormalListApi({
+      recordCode,
+      abnormalState: '1', //（巡检详情：1 发现异常：2）
+    }).then((res) => {
+      cardListData.value = res.records;
+    });
 
   async function getProblemReportData(pointId) {
     paginationProp.value = {

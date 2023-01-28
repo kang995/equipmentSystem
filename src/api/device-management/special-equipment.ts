@@ -47,7 +47,9 @@ enum Api {
   //巡检记录
   PATROL_RECORD = '/mechanical/patrolRecord/list', //分页查询巡检记录列表
   PATROL_BASE = '/mechanical/patrolBase', //巡检报告-基本信息
-  PATROL_COUNT = '/mechanical/patrolRecord/count', //巡检记录-巡检次数、异常次数、隐患次数
+  // PATROL_COUNT = '/mechanical/patrolRecord/count', //巡检记录-巡检次数、异常次数、隐患次数
+  ABNORMAL_LIST = '/mechanical/abnormal/list', //巡检报告-发现异常分页查询和巡检详情
+  FAULT_LIST = '/mechanical/fault/list', // 巡检报告-隐患上报分页查询
 }
 export const postSpareListApi = (params) =>
   defHttp.post({
@@ -289,8 +291,21 @@ export const mechanicalpatrolBaseListApi = (params) =>
     params,
   });
 //巡检记录-巡检次数、异常次数、隐患次数
-export const mechanicalpatrolCountListApi = (params) =>
+// export const mechanicalpatrolCountListApi = (params) =>
+//   defHttp.post({
+//     url: Api.PATROL_COUNT,
+//     params,
+//   });
+
+//巡检报告-发现异常分页查询和巡检详情
+export const mechanicalAbnormalListApi = (params) =>
   defHttp.post({
-    url: Api.PATROL_COUNT,
+    url: Api.ABNORMAL_LIST,
+    params,
+  });
+//巡检报告-隐患上报分页查询
+export const mechanicalFaultListApi = (params) =>
+  defHttp.post({
+    url: Api.FAULT_LIST,
     params,
   });

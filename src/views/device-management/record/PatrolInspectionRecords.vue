@@ -58,6 +58,8 @@
       name: 'PatrolInspectionReport',
       query: {
         id: record.id,
+        recordCode: record.recordCode,
+        patrolResult: record.patrolResult,
       },
     });
   }
