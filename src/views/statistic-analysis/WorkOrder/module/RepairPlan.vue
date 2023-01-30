@@ -42,6 +42,9 @@
         </a-col>
         <a-col :span="8">
           <a-card class="h-full">
+            <template #title>
+              <ChartTitle :titleList="faultTitle" />
+            </template>
             <div v-if="applyData.length > 0">
               <Pie :data="applyData" />
             </div>
@@ -71,6 +74,7 @@
   const { prefixCls } = useDesign('enterprise-personnel');
   const workStatusTitle = ref<any>([{ title: '工单返工率' }]);
   const acceptanceTitle = ref<any>([{ title: '工单延期率' }]);
+  const faultTitle = ref<any>([{ title: '故障等级占比' }]);
   const workStatusData = ref<any>([]); // 工单返工率
   const acceptanceData = ref<any>([]); // 工单延期率
   const applyData = ref<any>([]); //故障等级占比
