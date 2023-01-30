@@ -37,58 +37,39 @@
         top: 'center',
         right: '25',
         formatter: (name) => {
-          let percent = '';
-          let value = '';
+          let percent = null;
+          let value = null;
           toRaw(data).forEach((item) => {
             if (item.showName === name) {
               percent = item.percent;
               value = item.showValue;
             }
           });
-          console.log(name, percent);
-          return `${name}\xa0\xa0\xa0\xa0\xa0${value}(${percent}%)`;
+          if (percent || percent === 0) {
+            return `${name}\xa0\xa0\xa0\xa0\xa0${value}(${percent}%)`;
+          } else {
+            return `${name}\xa0\xa0\xa0\xa0\xa0${value}`;
+          }
         },
       },
-      // graphic: [
-      //   {
-      //     type: 'text',
-      //     left: 220,
-      //     top: 'center',
-      //     style: {
-      //       text: `${data[0].percent}%${props.flag===1?'返工率':'延期率'}`,
-      //       fontSize: 20,
-      //       lineHeight: 16,
-      //     },
-      //   },
-      // ],
       series: [
         {
-          // name: 'Access From',
           type: 'pie',
-          radius: ['50%', '70%'],
-          center: ['35%', '50%'],
-          color: ['#ffaa00', '#5B8FF9'],
-          avoidLabelOverlap: false,
-          label: {
-            show: false,
-            position: 'center',
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '20',
-              fontWeight: 'bold',
-            },
-          },
-          labelLine: {
-            show: false,
-          },
+          radius: '50%',
+          center: ['30%', '50%'],
           data: data.map((x) => {
             return {
               name: x.showName,
               value: x.showValue,
             };
           }),
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)',
+            },
+          },
         },
       ],
     });

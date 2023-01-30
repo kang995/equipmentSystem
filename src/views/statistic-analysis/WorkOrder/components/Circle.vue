@@ -13,6 +13,14 @@
       default: () => [],
       type: Array,
     },
+    flag: {
+      default: 1,
+      type: Number,
+    },
+    isDistance: {
+      default: true,
+      type: Boolean,
+    },
   });
 
   const chartRef = ref<HTMLDivElement | null>(null);
@@ -49,18 +57,18 @@
           return `${name}\xa0\xa0\xa0\xa0\xa0${value}(${percent}%)`;
         },
       },
-      // graphic: [
-      //   {
-      //     type: 'text',
-      //     left: 220,
-      //     top: 'center',
-      //     style: {
-      //       text: `${data[0].percent}%${props.flag===1?'返工率':'延期率'}`,
-      //       fontSize: 20,
-      //       lineHeight: 16,
-      //     },
-      //   },
-      // ],
+      graphic: [
+        {
+          type: 'text',
+          left: props.isDistance ? '28%' : '25%',
+          top: 'center',
+          style: {
+            text: `${data[0].percent}%${props.flag === 1 ? '返工率' : '延期率'}`,
+            fontSize: 20,
+            lineHeight: 16,
+          },
+        },
+      ],
       series: [
         {
           // name: 'Access From',
@@ -73,13 +81,13 @@
             show: false,
             position: 'center',
           },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: '20',
-              fontWeight: 'bold',
-            },
-          },
+          // emphasis: {
+          //   label: {
+          //     show: true,
+          //     fontSize: '20',
+          //     fontWeight: 'bold',
+          //   },
+          // },
           labelLine: {
             show: false,
           },
