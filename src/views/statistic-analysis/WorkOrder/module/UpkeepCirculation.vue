@@ -8,6 +8,7 @@
             :options="optionList"
             style="width: 120px"
             @change="handleChange"
+            allowClear
           />
           <RadioButtonGroup
             :options="options"
@@ -53,7 +54,8 @@
   import Circle from '/@/views/statistic-analysis/WorkOrder/components/Circle.vue';
   import { Card, Row, Col, Empty, Select } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
-  // import { getStatusInfoApi } from '/@/api/statisticalAnalysis/Device';
+  import { getUpkeepWorkOrderPApi } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { UpkeepPlanListApi } from '/@/api/device-management/special-equipment';
 
   const ACard = Card;
   const ARow = Row;
@@ -65,17 +67,6 @@
   const workStatusData = ref<any>([]); // 工单返工率
   const acceptanceData = ref<any>([]); // 工单延期率
 
-  const optionValue = ref('0');
-  const optionList = ref<any>([
-    {
-      value: '0',
-      label: '计划1',
-    },
-    {
-      value: '1',
-      label: '计划2',
-    },
-  ]);
   const options = [
     {
       label: '本周',
@@ -101,28 +92,45 @@
     initData();
   }
   //选择计划
-  function handleChange() {
+  function handleChange(ID) {
+    optionValue.value = ID;
     initData();
   }
+  //工单返工率 工单延期率 人员变更情况分析
   function initData() {
-    // getStatusInfoApi({ timeType: val }).then((res) => {
-    //   workLiveData.value = res.deviceTroubleType; //设备故障类型统计
-    //   applyData.value = res.deviceMaintain; //	设备维修情况统计
-    //   workStatusData.value = res.deviceType; //设备类型占比
-    //   acceptanceData.value = res.deviceNature; //	设备性质占比
-    // });
-
-    workStatusData.value = [
-      { showName: '返工', showValue: 10, percent: 20 },
-      { showName: '一次通过', showValue: 40, percent: 60 },
-    ];
-    acceptanceData.value = [
-      { showName: '延期', showValue: 40, percent: 40 },
-      { showName: '正常', showValue: 60, percent: 60 },
-    ];
+    getUpkeepWorkOrderPApi({ upkeepPlanId: optionValue.value, timeType: Btnvalue.value }).then(
+      (res) => {
+        workStatusData.value = res.workOrderAcceptList; //工单返工率
+        acceptanceData.value = res.workOrderPostponeList; //工单延期率
+        // workStatusData.value = res.failureLeveList; //故障等级占比
+      },
+    );
+    // workStatusData.value = [
+    //   { showName: '返工', showValue: 10, percent: 20 },
+    //   { showName: '一次通过', showValue: 40, percent: 60 },
+    // ];
+    // acceptanceData.value = [
+    //   { showName: '延期', showValue: 40, percent: 40 },
+    //   { showName: '正常', showValue: 60, percent: 60 },
+    // ];
   }
+  //保养计划下拉列表
+  const optionValue = ref();
+  const optionList = ref<any>([]);
+  function getUpkeepList() {
+    UpkeepPlanListApi().then((res) => {
+      optionList.value = res.map((item) => ({
+        label: item.name,
+        value: item.id,
+      }));
+      optionValue.value = optionList.value[0].value;
+      console.log('optionList.value', optionValue.value);
+      initData();
+    });
+  }
+
   onMounted(() => {
-    initData();
+    getUpkeepList();
   });
 </script>
 

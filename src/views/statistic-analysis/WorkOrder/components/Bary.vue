@@ -46,10 +46,16 @@
       seriesLayoutBy: 'column',
       xAxis: {
         type: 'value',
+        max: 100, //X轴最大显示值
+        min: 0,
+        interval: 20,
+        axisLabel: {
+          formatter: `{value}` + '%',
+        },
       },
       yAxis: {
         type: 'category',
-        data: data.map((item: any) => item.showName), //[...new Array(12)].map((_item, index) => `${index + 1}月`),
+        data: data.map((item: any) => item.upkeepPlanName), //[...new Array(12)].map((_item, index) => `${index + 1}月`),
         // max: 100,
         // splitNumber: 10,
         // interval: 20,
@@ -66,12 +72,12 @@
           emphasis: {
             focus: 'series',
           },
-          data: data.map((item: any) => item.showValue),
-          tooltip: {
-            valueFormatter: (value: number) => {
-              return value + ' %';
-            },
-          },
+          data: data.map((item: any) => item.offTheStocksCount),
+          // tooltip: {
+          //   valueFormatter: (value: number) => {
+          //     return value + ' %';
+          //   },
+          // },
         },
         {
           name: '未完成',
@@ -84,12 +90,12 @@
           emphasis: {
             focus: 'series',
           },
-          data: data.map((item: any) => item.showValue),
-          tooltip: {
-            valueFormatter: (value: number) => {
-              return value + ' %';
-            },
-          },
+          data: data.map((item: any) => item.unfinishedCount),
+          // tooltip: {
+          //   valueFormatter: (value: number) => {
+          //     return value + ' %';
+          //   },
+          // },
         },
       ],
     });

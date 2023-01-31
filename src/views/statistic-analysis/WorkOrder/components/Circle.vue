@@ -48,12 +48,12 @@
           let percent = '';
           let value = '';
           toRaw(data).forEach((item) => {
-            if (item.showName === name) {
+            if (item.upkeepPlanName === name) {
               percent = item.percent;
-              value = item.showValue;
+              value = item.upkeepPlanCount;
             }
           });
-          console.log(name, percent);
+          // console.log(name, percent);
           return `${name}\xa0\xa0\xa0\xa0\xa0${value}(${percent}%)`;
         },
       },
@@ -93,8 +93,8 @@
           },
           data: data.map((x) => {
             return {
-              name: x.showName,
-              value: x.showValue,
+              name: x.upkeepPlanName,
+              value: x.upkeepPlanCount,
             };
           }),
         },

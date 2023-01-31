@@ -37,8 +37,7 @@
   import Bary from '/@/views/statistic-analysis/WorkOrder/components/Bary.vue';
   import { Row, Col, Card, Empty, DatePicker } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
-  // import { getTroubleApi } from '/@/api/statisticalAnalysis/Device';
-  // import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
+  import { getUpkeepPercentagePApi } from '/@/api/statisticalAnalysis/WorkOrder';
   import dayjs from 'dayjs';
 
   const AYearPicker = DatePicker.YearPicker;
@@ -48,8 +47,6 @@
   const { prefixCls } = useDesign('enterprise-personnel');
   const workCount = ref<any>([{ title: '保养计划完成率' }]);
   const specialWorkCount = ref<any>([]);
-  // const optionValue = ref('');
-  // const optionList = ref<any>([]);
   const options = [
     {
       label: '本周',
@@ -72,35 +69,25 @@
   const Btnvalue = ref<string>('2');
   function getChange(val) {
     Btnvalue.value = val;
-    getWorkCount();
+    getWorkCount(val);
   }
   //年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    console.log('年份', selectYear.value);
-    getWorkCount();
+    getWorkCount(val);
+    // console.log('年份', selectYear.value);
   }
 
   // 获取工作许可数量统计
-  function getWorkCount() {
-    // getTroubleApi({
-    //   timeType: val,
-    //   deviceType: optionValue.value,
-    // }).then((res) => {
-    //   specialWorkCount.value = res;
-    // });
-    specialWorkCount.value = [
-      { showName: '计划01', showValue: 1 },
-      { showName: '计划02', showValue: 5 },
-      { showName: '计划03', showValue: 10 },
-      { showName: '计划04', showValue: 12 },
-      { showName: '计划05', showValue: 20 },
-    ];
+  function getWorkCount(val?) {
+    getUpkeepPercentagePApi({ timeType: val }).then((res) => {
+      specialWorkCount.value = res;
+    });
   }
 
   onMounted(() => {
-    getWorkCount();
+    getWorkCount(selectYear.value);
   });
 </script>
 

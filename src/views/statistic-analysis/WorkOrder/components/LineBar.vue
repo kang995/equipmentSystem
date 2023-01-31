@@ -44,7 +44,7 @@
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: data.map((x) => x.showName),
+        data: data.map((x) => x.itemDate),
         axisPointer: {
           type: 'shadow',
         },
@@ -56,7 +56,7 @@
         {
           name: '保养工单',
           type: 'line',
-          data: data.map((x) => x.showValue),
+          data: data.map((x) => x.maintainCount),
         },
       ],
     });
