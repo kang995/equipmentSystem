@@ -9,7 +9,7 @@ import {
   getStationPeopleSelectApi,
   getWorkFlowApi,
 } from '/@/api/device-maintenance/index';
-
+// import { CountTo } from '/@/components/CountTo/index';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -142,6 +142,7 @@ export function getCommonFormSchema(): FormSchema[] {
       field: 'fullId',
       component: 'ApiSelect',
       label: '关联审批流',
+      // slot: 'fullIdSlot',
       componentProps: {
         placeholder: '请选择审批流程',
         api: getWorkFlowApi,
@@ -154,6 +155,18 @@ export function getCommonFormSchema(): FormSchema[] {
         labelField: 'fullName',
         valueField: 'id',
       },
+      suffix: '注：如未选择审批流程则直接生成无人员审核',
+      // renderComponentContent: () => {
+      //   // return (
+      //   //   <CountTo
+      //   //     suffix="$"
+      //   //     color='red'
+      //   //   />
+      //   // );
+      //   return {
+      //     suffix: () => 'suffix',
+      //   }
+      // },
     },
     {
       field: 'Time',

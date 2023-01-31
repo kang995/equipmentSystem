@@ -318,6 +318,7 @@ export function getCommonFormSchema(): FormSchema[] {
         labelField: 'fullName',
         valueField: 'id',
       },
+      suffix: '注：如未选择审批流程则直接生成无人员审核',
     },
     {
       field: 'overhaulContent',

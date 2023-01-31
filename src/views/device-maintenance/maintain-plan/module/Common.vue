@@ -2,6 +2,17 @@
   <PageWrapper>
     <Card>
       <BasicForm @register="registerFrom">
+        <!-- 关联审批流 -->
+        <!-- <template #fullIdSlot="{ model, field }">
+          <Select
+            v-model:value="model[field]"
+            :options="optionsCycle"
+          >
+            <template #addonAfter>
+              <div class="">注：如未选择审批流程则直接生成无人员审核</div>
+            </template>
+          </Select>
+        </template> -->
         <!-- 任务周期 -->
         <template #taskSlot="{ model, field }">
           <Input
