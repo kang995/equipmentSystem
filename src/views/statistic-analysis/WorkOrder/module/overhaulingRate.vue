@@ -113,12 +113,12 @@
     // });
 
     workStatusData.value = [
-      { showName: '返工', showValue: 10, percent: 20 },
-      { showName: '一次通过', showValue: 40, percent: 60 },
+      { upkeepPlanName: '返工', upkeepPlanCount: 10, percent: 20 },
+      { upkeepPlanName: '一次通过', upkeepPlanCount: 40, percent: 60 },
     ];
     acceptanceData.value = [
-      { showName: '延期', showValue: 40, percent: 40 },
-      { showName: '正常', showValue: 60, percent: 60 },
+      { upkeepPlanName: '延期', upkeepPlanCount: 40, percent: 40 },
+      { upkeepPlanName: '正常', upkeepPlanCount: 60, percent: 60 },
     ];
   }
   onMounted(() => {
