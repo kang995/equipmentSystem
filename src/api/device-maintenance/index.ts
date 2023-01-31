@@ -8,6 +8,7 @@ enum Api {
   SELECT_DEVICE = '/special/selectDeviceListByIds', //根据设备ids查询设备
   STATION_PEOPLE = '/system/station/select', //岗位下拉框查询
   SELECT_PEOPLE_STATION = '/system/people/selectPeopleByStationIds', //根据岗位查询人员信息
+  WORK_FLOW = '/workflow/flowEngine', //关联审批下拉
 
   PLAN_LIST = '/upkeepPlan/list', // 保养计划列表
   EXPORT_DATA = '/upkeepPlan/export', //保养计划列表批量导出
@@ -25,6 +26,12 @@ enum Api {
   PROCESSED_LIST = '/upkeepPlan/approval/deal/list', //已处理列表
   APPROVAL_LIST = '/upkeepPlan/approval/approval', //计划审核
 }
+
+//关联审批下拉
+export const getWorkFlowApi = () =>
+  defHttp.post({
+    url: Api.WORK_FLOW,
+  });
 
 // 根据类型查询字典
 export const getDictionarySelectTypeApi = (params: DictionarySelectTypeParams) =>

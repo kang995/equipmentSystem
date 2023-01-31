@@ -7,6 +7,7 @@ import {
   getPeopleSelectApi,
   getStationSelectApi,
   getStationPeopleSelectApi,
+  getWorkFlowApi,
 } from '/@/api/device-maintenance/index';
 
 //列表
@@ -135,6 +136,23 @@ export function getCommonFormSchema(): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: '请输入保养计划名称',
+      },
+    },
+    {
+      field: 'fullId',
+      component: 'ApiSelect',
+      label: '关联审批流',
+      componentProps: {
+        placeholder: '请选择审批流程',
+        api: getWorkFlowApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        showSearch: true,
+        optionFilterProp: 'label',
+        resultField: 'data', //后台返回数据字段
+        labelField: 'fullName',
+        valueField: 'id',
       },
     },
     {

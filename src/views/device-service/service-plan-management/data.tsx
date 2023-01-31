@@ -6,6 +6,7 @@ import {
   getPeopleSelectApi,
   getStationSelectApi,
   getStationPeopleSelectApi,
+  getWorkFlowApi,
 } from '/@/api/device-maintenance/index';
 import { Tag } from 'ant-design-vue';
 //列表
@@ -189,20 +190,6 @@ export function getCommonFormSchema(): FormSchema[] {
       ifShow: ({ values }) => {
         return values.overhaulType === '0';
       },
-      // componentProps: {
-      //   placeholder: '请输入天数',
-      // },
-      // colProps: {
-      //   span: 17,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 7,
-      //   },
-      //   wrapperCol: {
-      //     span: 18,
-      //   },
-      // },
     },
     {
       field: 'taskCycleUnit',
@@ -210,27 +197,6 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '',
       defaultValue: '2',
       show: false,
-      // componentProps: {
-      //   placeholder: '请选择单位',
-      //   options: [
-      //     { label: '小时', value: 'h' },
-      //     { label: '天', value: 'day' },
-      //     { label: '月', value: 'month' },
-      //     { label: '季', value: 'quarter' },
-      //   ],
-      //   getPopupContainer: () => document.body,
-      // },
-      // colProps: {
-      //   span: 4,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 0,
-      //   },
-      //   wrapperCol: {
-      //     span: 24,
-      //   },
-      // },
     },
     {
       field: 'workOrder',
@@ -300,20 +266,6 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '任务执行时长',
       required: true,
       slot: 'ExecuteSlot',
-      // componentProps: {
-      //   placeholder: '请输入任务执行时长',
-      // },
-      // colProps: {
-      //   span: 17,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 7,
-      //   },
-      //   wrapperCol: {
-      //     span: 18,
-      //   },
-      // },
     },
     {
       field: 'taskExecuteUnit',
@@ -321,27 +273,6 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '',
       defaultValue: '2',
       show: false,
-      // componentProps: {
-      //   placeholder: '请选择单位',
-      //   options: [
-      //     { label: '小时', value: 'h' },
-      //     { label: '天', value: 'day' },
-      //     { label: '月', value: 'month' },
-      //     { label: '季', value: 'quarter' },
-      //   ],
-      //   getPopupContainer: () => document.body,
-      // },
-      // colProps: {
-      //   span: 4,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 0,
-      //   },
-      //   wrapperCol: {
-      //     span: 24,
-      //   },
-      // },
     },
     {
       field: 'adventRemind',
@@ -349,20 +280,6 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '临期提醒',
       required: true,
       slot: 'RemindSlot',
-      // componentProps: {
-      //   placeholder: '请输入临期提醒',
-      // },
-      // colProps: {
-      //   span: 17,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 7,
-      //   },
-      //   wrapperCol: {
-      //     span: 18,
-      //   },
-      // },
     },
     {
       field: 'adventRemindUnit',
@@ -370,26 +287,6 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '',
       defaultValue: '1',
       show: false,
-      // componentProps: {
-      //   placeholder: '请选择单位',
-      //   options: [
-      //     { label: '小时', value: 'h' },
-      //     { label: '分钟', value: 'min' },
-      //     { label: '天', value: 'day' },
-      //   ],
-      //   getPopupContainer: () => document.body,
-      // },
-      // colProps: {
-      //   span: 4,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 0,
-      //   },
-      //   wrapperCol: {
-      //     span: 24,
-      //   },
-      // },
     },
     {
       field: 'timeoutRemind',
@@ -397,20 +294,6 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '超时提醒间隔',
       required: true,
       slot: 'timeoutSlot',
-      // componentProps: {
-      //   placeholder: '请输入超时提醒间隔',
-      // },
-      // colProps: {
-      //   span: 17,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 7,
-      //   },
-      //   wrapperCol: {
-      //     span: 18,
-      //   },
-      // },
     },
     {
       field: 'timeoutRemindUnit',
@@ -418,37 +301,24 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '',
       defaultValue: '1',
       show: false,
-      // componentProps: {
-      //   placeholder: '请选择单位',
-      //   options: [
-      //     { label: '小时', value: 'h' },
-      //     { label: '分钟', value: 'min' },
-      //     { label: '天', value: 'day' },
-      //   ],
-      //   getPopupContainer: () => document.body,
-      // },
-      // colProps: {
-      //   span: 4,
-      // },
-      // itemProps: {
-      //   labelCol: {
-      //     span: 0,
-      //   },
-      //   wrapperCol: {
-      //     span: 24,
-      //   },
-      // },
     },
-    //
-    // {
-    //   field: 'type',
-    //   component: 'ApiSelect',
-    //   label: '保养类型',
-    //   required: true,
-    //   componentProps: {
-    //     placeholder: '请选择保养类型',
-    //   },
-    // },
+    {
+      field: 'fullId',
+      component: 'ApiSelect',
+      label: '关联审批流',
+      componentProps: {
+        placeholder: '请选择审批流程',
+        api: getWorkFlowApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        showSearch: true,
+        optionFilterProp: 'label',
+        resultField: 'data', //后台返回数据字段
+        labelField: 'fullName',
+        valueField: 'id',
+      },
+    },
     {
       field: 'overhaulContent',
       component: 'InputTextArea',
