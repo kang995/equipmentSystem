@@ -22,10 +22,9 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { ref } from 'vue';
   import { Tooltip } from 'ant-design-vue';
-  // import { statisticalRiskExport } from '/@/api/statistical/riskSituation';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
-  // import { getUserStoreDeptCom } from '/@/utils/userStore';
+  import { upkeepExportApi } from '/@/api/statisticalAnalysis/WorkOrder';
 
   const ATooltip = Tooltip;
   const loading = ref<boolean>(false);
@@ -37,6 +36,7 @@
   }
   const props = defineProps<{
     dataSourceList: Array<itemListParams>;
+    activeKey: String;
   }>();
 
   const columns = [
@@ -69,21 +69,30 @@
     });
     loading.value = true;
     if (dataId.value.length > 0) {
-      // statisticalRiskExport({
-      //   num: dataId.value,
-      //   riskPointRiskCategories: num1.value,
-      //   riskPointControlLevel: num2.value,
-      //   dangerRiskCategories: num3.value,
-      //   // comId: getUserStoreDeptCom().comId,
-      // }).then((res) => {
-      //     downloadByData(res, '统计分析.xlsx');
-      //     loading.value = false;
-      //   })
-      //   .finally(() => {
-      //     loading.value = false;
-      //   });
-      // clearSelectedRowKeys();
-      // closeModal();
+      if (props.activeKey === '1') {
+        //保养统计
+        upkeepExportApi({
+          num: dataId.value,
+          // riskPointRiskCategories: num1.value,
+          // riskPointControlLevel: num2.value,
+          // dangerRiskCategories: num3.value,
+        })
+          .then((res) => {
+            downloadByData(res, '保养统计.xlsx');
+            loading.value = false;
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+        clearSelectedRowKeys();
+        closeModal();
+      } else if (props.activeKey === '2') {
+        //维修统计
+        console.log('维修统计');
+      } else {
+        //检修统计
+        console.log('检修统计');
+      }
     } else {
       loading.value = false;
       createMessage.success('未选择导出数据');

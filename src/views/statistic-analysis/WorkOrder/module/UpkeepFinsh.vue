@@ -6,7 +6,12 @@
           <template #title>
             <ChartTitle :titleList="workCount" />
             <div class="flex justify-between">
-              <a-select v-model:value="optionValue" :options="optionList" style="width: 120px" />
+              <a-select
+                v-model:value="optionValue"
+                :options="optionList"
+                style="width: 120px"
+                @change="handleChange"
+              />
             </div>
           </template>
           <div v-if="specialWorkCount.length > 0">
@@ -37,8 +42,10 @@
   import Barx from '/@/views/statistic-analysis/WorkOrder/components/Barx.vue';
   import Pie from '/@/views/statistic-analysis/WorkOrder/components/Pie.vue';
   import { Row, Col, Card, Empty, Select } from 'ant-design-vue';
-  // import { getTroubleApi } from '/@/api/statisticalAnalysis/Device';
-  // import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
+  import {
+    getUpkeepCompleteApi,
+    getUpkeepProportionApi,
+  } from '/@/api/statisticalAnalysis/WorkOrder';
 
   const ARow = Row;
   const ACol = Col;
@@ -60,7 +67,7 @@
       label: '全部',
     },
     {
-      value: '0',
+      value: '2',
       label: '已完成',
     },
     {
@@ -68,33 +75,28 @@
       label: '未完成',
     },
   ]);
-
-  // 获取工作许可数量统计
-  function getWorkCount() {
-    // getTroubleApi({
-    //   timeType: val,
-    //   deviceType: optionValue.value,
-    // }).then((res) => {
-    //   specialWorkCount.value = res;
-    // });
-    specialWorkCount.value = [
-      { showName: '清洁', showValue: 1 },
-      { showName: '润滑', showValue: 5 },
-      { showName: '调教', showValue: 10 },
-      { showName: '紧固', showValue: 12 },
-      { showName: '防腐', showValue: 20 },
-    ];
-    applyData.value = [
-      { showName: '清洁', showValue: 10, percent: 20 },
-      { showName: '润滑', showValue: 20, percent: 40 },
-      { showName: '调教', showValue: 30, percent: 50 },
-      { showName: '紧固', showValue: 40, percent: 70 },
-      { showName: '防腐', showValue: 60, percent: 80 },
-    ];
+  //保养类型完成情况搜索
+  function handleChange(val) {
+    getWorkCount(val);
+  }
+  // 保养类型完成情况
+  function getWorkCount(val?) {
+    getUpkeepCompleteApi({ planStatus: val ? val : null }).then((res) => {
+      specialWorkCount.value = res;
+      console.log('specialWorkCount.value', specialWorkCount.value);
+    });
+  }
+  //保养类型占比
+  function getWorkCounts() {
+    getUpkeepProportionApi().then((res) => {
+      applyData.value = res;
+      console.log('applyData.value', applyData.value);
+    });
   }
 
   onMounted(() => {
     getWorkCount();
+    getWorkCounts();
   });
 </script>
 

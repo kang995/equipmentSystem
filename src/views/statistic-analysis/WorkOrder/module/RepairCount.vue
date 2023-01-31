@@ -65,7 +65,7 @@
   import { Row, Col, Card, Empty, DatePicker } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
   import dayjs from 'dayjs';
-  // import { getStatusInfoApi } from '/@/api/statisticalAnalysis/Device';
+  import { gettroubleStatsApi, gettroubleStatsModeApi } from '/@/api/statisticalAnalysis/WorkOrder';
 
   const AYearPicker = DatePicker.YearPicker;
   const ARow = Row;
@@ -116,43 +116,36 @@
   ];
 
   onMounted(() => {
-    getWorkCount();
-    getWorkCounts();
+    getWorkCount(selectYear.value);
+    getWorkCounts(selectYears.value);
   });
 
   //维修工单数量--btn
   const Btnvalue = ref<string>('2');
   function getChange(val) {
     Btnvalue.value = val;
-    getWorkCount();
+    getWorkCount(val);
   }
   //维修工单数量--年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    console.log('年份', selectYear.value);
-    getWorkCount();
+    // console.log('年份', selectYear.value);
+    getWorkCount(val);
   }
   // 获取维修工单数量
-  function getWorkCount() {
-    // getStatusInfoApi({ timeType: val }).then((res) => {
-    //   specialWorkCount.value = res.deviceTrouble;
-    //   console.log('specialWorkCount', specialWorkCount.value);
-    // });
-    specialWorkCount.value = [
-      { showName: '2022.07.04', showValue: 1 },
-      { showName: '2022.07.05', showValue: 5 },
-      { showName: '2022.07.06', showValue: 10 },
-      { showName: '2022.07.07', showValue: 12 },
-      { showName: '2022.07.08', showValue: 20 },
-    ];
+  function getWorkCount(val?) {
+    gettroubleStatsApi({ timeType: val }).then((res) => {
+      specialWorkCount.value = res;
+      // console.log('specialWorkCount', specialWorkCount.value);
+    });
   }
 
-  //维修工单数量--btn
+  //维修方式数量--btn
   const Btnvalue1 = ref<string>('2');
   function getChange1(val) {
     Btnvalue.value = val;
-    getWorkCounts();
+    getWorkCounts(val);
   }
 
   //维修方式占比--年度
@@ -160,15 +153,19 @@
   function getRankDatas(val) {
     selectYear.value = val;
     console.log('年份', selectYear.value);
-    getWorkCounts();
+    getWorkCounts(val);
   }
 
   // 获取维维修方式占比
-  function getWorkCounts() {
-    applyData.value = [
-      { showName: '自行维修', showValue: 10, percent: 20 },
-      { showName: '委外维修', showValue: 20, percent: 40 },
-    ];
+  function getWorkCounts(val?) {
+    gettroubleStatsModeApi({ timeType: val }).then((res) => {
+      applyData.value = res;
+      console.log('applyData', applyData.value);
+    });
+    // applyData.value = [
+    //   { showName: '自行维修', showValue: 10, percent: 20 },
+    //   { showName: '委外维修', showValue: 20, percent: 40 },
+    // ];
   }
 </script>
 

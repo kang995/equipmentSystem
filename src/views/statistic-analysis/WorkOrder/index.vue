@@ -19,7 +19,12 @@
       </div>
     </div>
     <component :is="activeComponent" />
-    <ModalExport @register="registerModal" :dataSourceList="dataSource" :key="count" />
+    <ModalExport
+      @register="registerModal"
+      :dataSourceList="dataSource"
+      :activeKey="activeKey"
+      :key="count"
+    />
   </PageWrapper>
 </template>
 

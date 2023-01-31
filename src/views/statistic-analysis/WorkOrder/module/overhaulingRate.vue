@@ -53,7 +53,8 @@
   import Circle from '/@/views/statistic-analysis/WorkOrder/components/Circle.vue';
   import { Card, Row, Col, Empty, Select } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
-  // import { getStatusInfoApi } from '/@/api/statisticalAnalysis/Device';
+  import { getOverhaulWorkOrderAndPeopleApi } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { TroublePlanListApi } from '/@/api/corrective-maintenance/fault';
 
   const ACard = Card;
   const ARow = Row;
@@ -65,17 +66,6 @@
   const workStatusData = ref<any>([]); // 工单返工率
   const acceptanceData = ref<any>([]); // 工单延期率
 
-  const optionValue = ref('0');
-  const optionList = ref<any>([
-    {
-      value: '0',
-      label: '计划1',
-    },
-    {
-      value: '1',
-      label: '计划2',
-    },
-  ]);
   const options = [
     {
       label: '本周',
@@ -101,28 +91,36 @@
     initData();
   }
   //选择计划
-  function handleChange() {
+  function handleChange(ID) {
+    optionValue.value = ID;
     initData();
   }
   function initData() {
-    // getStatusInfoApi({ timeType: val }).then((res) => {
-    //   workLiveData.value = res.deviceTroubleType; //设备故障类型统计
-    //   applyData.value = res.deviceMaintain; //	设备维修情况统计
-    //   workStatusData.value = res.deviceType; //设备类型占比
-    //   acceptanceData.value = res.deviceNature; //	设备性质占比
-    // });
-
-    workStatusData.value = [
-      { upkeepPlanName: '返工', upkeepPlanCount: 10, percent: 20 },
-      { upkeepPlanName: '一次通过', upkeepPlanCount: 40, percent: 60 },
-    ];
-    acceptanceData.value = [
-      { upkeepPlanName: '延期', upkeepPlanCount: 40, percent: 40 },
-      { upkeepPlanName: '正常', upkeepPlanCount: 60, percent: 60 },
-    ];
+    getOverhaulWorkOrderAndPeopleApi({
+      upkeepPlanId: optionValue.value,
+      timeType: Btnvalue.value,
+    }).then((res) => {
+      workStatusData.value = res.workOrderAcceptList; //工单返工率
+      acceptanceData.value = res.workOrderPostponeList; //工单延期率
+    });
   }
+  //检修计划下拉列表
+  const optionValue = ref();
+  const optionList = ref<any>([]);
+  function getOverhaulingList() {
+    TroublePlanListApi().then((res) => {
+      optionList.value = res.map((item) => ({
+        label: item.name,
+        value: item.id,
+      }));
+      optionValue.value = optionList.value[0].value;
+      // console.log('optionList.value', optionValue.value);
+      initData();
+    });
+  }
+
   onMounted(() => {
-    initData();
+    getOverhaulingList();
   });
 </script>
 

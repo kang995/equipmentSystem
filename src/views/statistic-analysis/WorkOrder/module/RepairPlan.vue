@@ -3,12 +3,12 @@
     <a-card>
       <template #title>
         <div class="w-full flex justify-between">
-          <a-select
+          <!-- <a-select
             v-model:value="optionValue"
             :options="optionList"
             style="width: 120px"
             @change="handleChange"
-          />
+          /> -->
           <RadioButtonGroup
             :options="options"
             v-model:value="Btnvalue"
@@ -63,14 +63,14 @@
   import ChartTitle from '/@/views/statistic-analysis/components/Title.vue';
   import Circle from '/@/views/statistic-analysis/WorkOrder/components/Circle.vue';
   import Pie from '/@/views/statistic-analysis/WorkOrder/components/Pie.vue';
-  import { Card, Row, Col, Empty, Select } from 'ant-design-vue';
+  import { Card, Row, Col, Empty } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
-  // import { getStatusInfoApi } from '/@/api/statisticalAnalysis/Device';
+  import { gettroubleStatsFunctionApi } from '/@/api/statisticalAnalysis/WorkOrder';
 
   const ACard = Card;
   const ARow = Row;
   const ACol = Col;
-  const ASelect = Select;
+  // const ASelect = Select;
   const { prefixCls } = useDesign('enterprise-personnel');
   const workStatusTitle = ref<any>([{ title: '工单返工率' }]);
   const acceptanceTitle = ref<any>([{ title: '工单延期率' }]);
@@ -79,17 +79,17 @@
   const acceptanceData = ref<any>([]); // 工单延期率
   const applyData = ref<any>([]); //故障等级占比
 
-  const optionValue = ref('0');
-  const optionList = ref<any>([
-    {
-      value: '0',
-      label: '计划1',
-    },
-    {
-      value: '1',
-      label: '计划2',
-    },
-  ]);
+  // const optionValue = ref('0');
+  // const optionList = ref<any>([
+  //   {
+  //     value: '0',
+  //     label: '计划1',
+  //   },
+  //   {
+  //     value: '1',
+  //     label: '计划2',
+  //   },
+  // ]);
   const options = [
     {
       label: '本周',
@@ -108,41 +108,44 @@
       value: '5',
     },
   ];
+  //选择计划
+  // function handleChange() {
+  //   initData();
+  // }
   //btn
   const Btnvalue = ref<string>('2');
   function getChange(val) {
     Btnvalue.value = val;
-    initData();
+    initData(val);
   }
-  //选择计划
-  function handleChange() {
-    initData();
-  }
-  function initData() {
-    // getStatusInfoApi({ timeType: val }).then((res) => {
-    //   workLiveData.value = res.deviceTroubleType; //设备故障类型统计
-    //   applyData.value = res.deviceMaintain; //	设备维修情况统计
-    //   workStatusData.value = res.deviceType; //设备类型占比
-    //   acceptanceData.value = res.deviceNature; //	设备性质占比
-    // });
-
-    workStatusData.value = [
-      { showName: '返工', showValue: 10, percent: 20 },
-      { showName: '一次通过', showValue: 40, percent: 60 },
-    ];
-    acceptanceData.value = [
-      { showName: '延期', showValue: 40, percent: 40 },
-      { showName: '正常', showValue: 60, percent: 60 },
-    ];
-    applyData.value = [
-      { showName: '四级', showValue: 10, percent: 20 },
-      { showName: '三级', showValue: 20, percent: 50 },
-      { showName: '二级', showValue: 10, percent: 10 },
-      { showName: '一级', showValue: 20, percent: 60 },
-    ];
+  function initData(val?) {
+    gettroubleStatsFunctionApi({ timeType: val }).then((res) => {
+      workStatusData.value = res.workOrderAcceptList; //工单返工率
+      acceptanceData.value = res.workOrderPostponeList; //工单延期率
+      //故障等级占比
+      res.failureLeveList.map((item) => {
+        item['typeName'] = item.upkeepPlanName;
+        item['typeCount'] = item.upkeepPlanCount;
+      });
+      applyData.value = res.failureLeveList;
+    });
+    // workStatusData.value = [
+    //   { showName: '返工', showValue: 10, percent: 20 },
+    //   { showName: '一次通过', showValue: 40, percent: 60 },
+    // ];
+    // acceptanceData.value = [
+    //   { showName: '延期', showValue: 40, percent: 40 },
+    //   { showName: '正常', showValue: 60, percent: 60 },
+    // ];
+    // applyData.value = [
+    //   { showName: '四级', showValue: 10, percent: 20 },
+    //   { showName: '三级', showValue: 20, percent: 50 },
+    //   { showName: '二级', showValue: 10, percent: 10 },
+    //   { showName: '一级', showValue: 20, percent: 60 },
+    // ];
   }
   onMounted(() => {
-    initData();
+    initData(Btnvalue.value);
   });
 </script>
 

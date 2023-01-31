@@ -105,14 +105,6 @@
         // workStatusData.value = res.failureLeveList; //故障等级占比
       },
     );
-    // workStatusData.value = [
-    //   { showName: '返工', showValue: 10, percent: 20 },
-    //   { showName: '一次通过', showValue: 40, percent: 60 },
-    // ];
-    // acceptanceData.value = [
-    //   { showName: '延期', showValue: 40, percent: 40 },
-    //   { showName: '正常', showValue: 60, percent: 60 },
-    // ];
   }
   //保养计划下拉列表
   const optionValue = ref();
@@ -124,7 +116,7 @@
         value: item.id,
       }));
       optionValue.value = optionList.value[0].value;
-      console.log('optionList.value', optionValue.value);
+      // console.log('optionList.value', optionValue.value);
       initData();
     });
   }

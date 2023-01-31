@@ -40,9 +40,9 @@
           let percent = null;
           let value = null;
           toRaw(data).forEach((item) => {
-            if (item.showName === name) {
+            if (item.typeName === name) {
               percent = item.percent;
-              value = item.showValue;
+              value = item.typeCount;
             }
           });
           if (percent || percent === 0) {
@@ -59,8 +59,8 @@
           center: ['30%', '50%'],
           data: data.map((x) => {
             return {
-              name: x.showName,
-              value: x.showValue,
+              name: x.typeName,
+              value: x.typeCount,
             };
           }),
           emphasis: {

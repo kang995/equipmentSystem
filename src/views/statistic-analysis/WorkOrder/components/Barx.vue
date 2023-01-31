@@ -46,7 +46,7 @@
       seriesLayoutBy: 'column',
       xAxis: {
         type: 'category',
-        data: data.map((item: any) => item.showName), //[...new Array(12)].map((_item, index) => `${index + 1}月`),
+        data: data.map((item: any) => item.typeName), //[...new Array(12)].map((_item, index) => `${index + 1}月`),
       },
       yAxis: {
         type: 'value',
@@ -66,7 +66,7 @@
           emphasis: {
             focus: 'series',
           },
-          data: data.map((item: any) => item.showValue),
+          data: data.map((item: any) => item.offTheStocksCount),
           // tooltip: {
           //   valueFormatter: (value: number) => {
           //     return value + ' %';
@@ -84,7 +84,7 @@
           emphasis: {
             focus: 'series',
           },
-          data: data.map((item: any) => item.showValue),
+          data: data.map((item: any) => item.unfinishedCount),
           // tooltip: {
           //   valueFormatter: (value: number) => {
           //     return value + ' %';
