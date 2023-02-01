@@ -39,7 +39,9 @@
   import { RadioButtonGroup } from '/@/components/Form';
   import { getOverhaulPercentageApi } from '/@/api/statisticalAnalysis/WorkOrder';
   import dayjs from 'dayjs';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const AYearPicker = DatePicker.YearPicker;
   const ARow = Row;
   const ACol = Col;
@@ -72,13 +74,18 @@
   function getChange(val) {
     Btnvalue.value = val;
     getWorkCount(val);
+    const params = userStore.getOverhauling;
+    params['twoTimeType'] = Btnvalue.value;
+    userStore.setOverhauling(params);
   }
   //年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    // console.log('年份', selectYear.value);
     getWorkCount(val);
+    const params = userStore.getOverhauling;
+    params['twoTimeType'] = selectYear.value;
+    userStore.setOverhauling(params);
   }
 
   // 获取工作许可数量统计

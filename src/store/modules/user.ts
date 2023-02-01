@@ -23,6 +23,9 @@ interface UserState {
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
+  upkeepObj: object;
+  repairObj: object;
+  overhaulingObj: Object;
 }
 
 export const useUserStore = defineStore({
@@ -38,8 +41,23 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
+    upkeepObj: {}, //工单统计-保养统计
+    repairObj: {}, //工单统计-维修统计
+    overhaulingObj: {}, //工单统计-检修统计
   }),
   getters: {
+    //工单统计-保养统计
+    getUpkeep(): any {
+      return this.upkeepObj;
+    },
+    //工单统计-维修统计
+    getRepair(): any {
+      return this.repairObj;
+    },
+    //工单统计-检修统计
+    getOverhauling(): any {
+      return this.overhaulingObj;
+    },
     getUserInfo(): UserInfo {
       return this.userInfo || getAuthCache<UserInfo>(USER_INFO_KEY) || {};
     },
@@ -57,6 +75,21 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
+    //工单统计-保养统计
+    setUpkeep(state: Object) {
+      this.upkeepObj = state;
+      console.log('upkeepObj', this.upkeepObj);
+    },
+    //工单统计-维修统计
+    setRepair(state: Object) {
+      this.repairObj = state;
+      console.log('repairObj', this.repairObj);
+    },
+    //工单统计-检修统计
+    setOverhauling(state: Object) {
+      this.overhaulingObj = state;
+      console.log('overhaulingObj', this.overhaulingObj);
+    },
     setToken(info: string | undefined) {
       this.token = info ? info : ''; // for null or undefined value
       setAuthCache(TOKEN_KEY, info);

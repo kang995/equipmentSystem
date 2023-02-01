@@ -109,7 +109,7 @@
 
   //导出
   function exportTable() {
-    openModal(true, {});
+    openModal(true);
   }
 </script>
 

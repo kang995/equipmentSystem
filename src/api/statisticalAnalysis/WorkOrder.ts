@@ -24,24 +24,45 @@ enum Api {
 //导出
 //统计分析(保养统计全部导出)
 export const upkeepExportApi = (params) => {
-  return defHttp.post({
-    url: Api.UPKEEPSTATUS_EXPORT,
-    params,
-  });
+  return defHttp.post(
+    {
+      url: Api.UPKEEPSTATUS_EXPORT,
+      params,
+      responseType: 'arraybuffer',
+      headers: {
+        ignoreCancelToken: 'true',
+      },
+    },
+    { isTransformResponse: false },
+  );
 };
 //统计分析(维修统计全部导出)
 export const troubleExportApi = (params) => {
-  return defHttp.post({
-    url: Api.TROUBLESTATUS_EXPORT,
-    params,
-  });
+  return defHttp.post(
+    {
+      url: Api.TROUBLESTATUS_EXPORT,
+      params,
+      responseType: 'arraybuffer',
+      headers: {
+        ignoreCancelToken: 'true',
+      },
+    },
+    { isTransformResponse: false },
+  );
 };
 //统计分析(检修统计全部导出)
 export const overhaulExportApi = (params) => {
-  return defHttp.post({
-    url: Api.OVERHAULSTATUS_EXPORT,
-    params,
-  });
+  return defHttp.post(
+    {
+      url: Api.OVERHAULSTATUS_EXPORT,
+      params,
+      responseType: 'arraybuffer',
+      headers: {
+        ignoreCancelToken: 'true',
+      },
+    },
+    { isTransformResponse: false },
+  );
 };
 
 /* 1、保养统计 */

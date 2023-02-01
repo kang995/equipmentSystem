@@ -46,7 +46,9 @@
     getUpkeepCompleteApi,
     getUpkeepProportionApi,
   } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const ARow = Row;
   const ACol = Col;
   const ACard = Card;
@@ -60,10 +62,10 @@
   // const optionValue = ref('');
   // const optionList = ref<any>([]);
 
-  const optionValue = ref('');
+  const optionValue = ref(null);
   const optionList = ref<any>([
     {
-      value: '',
+      value: null,
       label: '全部',
     },
     {
@@ -78,6 +80,9 @@
   //保养类型完成情况搜索
   function handleChange(val) {
     getWorkCount(val);
+    const params = userStore.getUpkeep;
+    params['planStatus'] = optionValue.value;
+    userStore.setUpkeep(params);
   }
   // 保养类型完成情况
   function getWorkCount(val?) {
@@ -97,6 +102,9 @@
   onMounted(() => {
     getWorkCount();
     getWorkCounts();
+    const params = userStore.getUpkeep;
+    params['planStatus'] = optionValue.value;
+    userStore.setUpkeep(params);
   });
 </script>
 

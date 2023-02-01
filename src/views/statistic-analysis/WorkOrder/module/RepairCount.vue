@@ -66,7 +66,9 @@
   import { RadioButtonGroup } from '/@/components/Form';
   import dayjs from 'dayjs';
   import { gettroubleStatsApi, gettroubleStatsModeApi } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const AYearPicker = DatePicker.YearPicker;
   const ARow = Row;
   const ACol = Col;
@@ -125,13 +127,18 @@
   function getChange(val) {
     Btnvalue.value = val;
     getWorkCount(val);
+    const params = userStore.getRepair;
+    params['oneTimeType'] = Btnvalue.value;
+    userStore.setRepair(params);
   }
   //维修工单数量--年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    // console.log('年份', selectYear.value);
     getWorkCount(val);
+    const params = userStore.getRepair;
+    params['oneTimeType'] = selectYear.value;
+    userStore.setRepair(params);
   }
   // 获取维修工单数量
   function getWorkCount(val?) {
@@ -144,28 +151,28 @@
   //维修方式数量--btn
   const Btnvalue1 = ref<string>('2');
   function getChange1(val) {
-    Btnvalue.value = val;
+    Btnvalue1.value = val;
     getWorkCounts(val);
+    const params = userStore.getRepair;
+    params['twoTimeType'] = Btnvalue1.value;
+    userStore.setRepair(params);
   }
 
   //维修方式占比--年度
   const selectYears = ref<string>(dayjs().format('YYYY'));
   function getRankDatas(val) {
-    selectYear.value = val;
-    console.log('年份', selectYear.value);
+    selectYears.value = val;
     getWorkCounts(val);
+    const params = userStore.getRepair;
+    params['twoTimeType'] = selectYears.value;
+    userStore.setRepair(params);
   }
 
   // 获取维维修方式占比
   function getWorkCounts(val?) {
     gettroubleStatsModeApi({ timeType: val }).then((res) => {
       applyData.value = res;
-      console.log('applyData', applyData.value);
     });
-    // applyData.value = [
-    //   { showName: '自行维修', showValue: 10, percent: 20 },
-    //   { showName: '委外维修', showValue: 20, percent: 40 },
-    // ];
   }
 </script>
 

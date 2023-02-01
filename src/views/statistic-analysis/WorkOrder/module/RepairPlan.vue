@@ -66,7 +66,9 @@
   import { Card, Row, Col, Empty } from 'ant-design-vue';
   import { RadioButtonGroup } from '/@/components/Form';
   import { gettroubleStatsFunctionApi } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const ACard = Card;
   const ARow = Row;
   const ACol = Col;
@@ -117,6 +119,9 @@
   function getChange(val) {
     Btnvalue.value = val;
     initData(val);
+    const params = userStore.getRepair;
+    params['threeTimeType'] = Btnvalue.value;
+    userStore.setRepair(params);
   }
   function initData(val?) {
     gettroubleStatsFunctionApi({ timeType: val }).then((res) => {
@@ -129,20 +134,6 @@
       });
       applyData.value = res.failureLeveList;
     });
-    // workStatusData.value = [
-    //   { showName: '返工', showValue: 10, percent: 20 },
-    //   { showName: '一次通过', showValue: 40, percent: 60 },
-    // ];
-    // acceptanceData.value = [
-    //   { showName: '延期', showValue: 40, percent: 40 },
-    //   { showName: '正常', showValue: 60, percent: 60 },
-    // ];
-    // applyData.value = [
-    //   { showName: '四级', showValue: 10, percent: 20 },
-    //   { showName: '三级', showValue: 20, percent: 50 },
-    //   { showName: '二级', showValue: 10, percent: 10 },
-    //   { showName: '一级', showValue: 20, percent: 60 },
-    // ];
   }
   onMounted(() => {
     initData(Btnvalue.value);

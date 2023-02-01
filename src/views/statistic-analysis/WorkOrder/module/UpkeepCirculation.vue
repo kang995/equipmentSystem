@@ -8,7 +8,6 @@
             :options="optionList"
             style="width: 120px"
             @change="handleChange"
-            allowClear
           />
           <RadioButtonGroup
             :options="options"
@@ -56,7 +55,9 @@
   import { RadioButtonGroup } from '/@/components/Form';
   import { getUpkeepWorkOrderPApi } from '/@/api/statisticalAnalysis/WorkOrder';
   import { UpkeepPlanListApi } from '/@/api/device-management/special-equipment';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const ACard = Card;
   const ARow = Row;
   const ACol = Col;
@@ -90,11 +91,17 @@
   function getChange(val) {
     Btnvalue.value = val;
     initData();
+    const params = userStore.getUpkeep;
+    params['threeTimeType'] = Btnvalue.value;
+    userStore.setUpkeep(params);
   }
   //选择计划
   function handleChange(ID) {
     optionValue.value = ID;
     initData();
+    const params = userStore.getUpkeep;
+    params['upkeepPlanId'] = optionValue.value;
+    userStore.setUpkeep(params);
   }
   //工单返工率 工单延期率 人员变更情况分析
   function initData() {
@@ -116,6 +123,9 @@
         value: item.id,
       }));
       optionValue.value = optionList.value[0].value;
+      const params = userStore.getUpkeep;
+      params['upkeepPlanId'] = optionValue.value;
+      userStore.setUpkeep(params);
       // console.log('optionList.value', optionValue.value);
       initData();
     });

@@ -55,7 +55,9 @@
   import { RadioButtonGroup } from '/@/components/Form';
   import { getOverhaulWorkOrderAndPeopleApi } from '/@/api/statisticalAnalysis/WorkOrder';
   import { TroublePlanListApi } from '/@/api/corrective-maintenance/fault';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const ACard = Card;
   const ARow = Row;
   const ACol = Col;
@@ -89,11 +91,17 @@
   function getChange(val) {
     Btnvalue.value = val;
     initData();
+    const params = userStore.getOverhauling;
+    params['threeTimeType'] = Btnvalue.value;
+    userStore.setOverhauling(params);
   }
   //选择计划
   function handleChange(ID) {
     optionValue.value = ID;
     initData();
+    const params = userStore.getOverhauling;
+    params['overhaulPlanId'] = optionValue.value;
+    userStore.setOverhauling(params);
   }
   function initData() {
     getOverhaulWorkOrderAndPeopleApi({
@@ -114,6 +122,9 @@
         value: item.id,
       }));
       optionValue.value = optionList.value[0].value;
+      const params = userStore.getOverhauling;
+      params['overhaulPlanId'] = optionValue.value;
+      userStore.setOverhauling(params);
       // console.log('optionList.value', optionValue.value);
       initData();
     });

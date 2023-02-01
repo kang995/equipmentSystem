@@ -40,7 +40,9 @@
   import { RadioButtonGroup } from '/@/components/Form';
   import dayjs from 'dayjs';
   import { getUpkeepStatusApi } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const AYearPicker = DatePicker.YearPicker;
   const ARow = Row;
   const ACol = Col;
@@ -72,12 +74,18 @@
   function getChange(val) {
     Btnvalue.value = val;
     getWorkCount(val);
+    const params = userStore.getUpkeep;
+    params['oneTimeType'] = Btnvalue.value;
+    userStore.setUpkeep(params);
   }
   //年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
     getWorkCount(val);
+    const params = userStore.getUpkeep;
+    params['oneTimeType'] = selectYear.value;
+    userStore.setUpkeep(params);
     // console.log('年份', selectYear.value);
   }
 

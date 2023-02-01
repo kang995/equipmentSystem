@@ -24,7 +24,17 @@
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { upkeepExportApi } from '/@/api/statisticalAnalysis/WorkOrder';
+  import {
+    upkeepExportApi,
+    troubleExportApi,
+    overhaulExportApi,
+  } from '/@/api/statisticalAnalysis/WorkOrder';
+  import { useUserStore } from '/@/store/modules/user';
+
+  const userStore = useUserStore();
+  const UpkeepObj = userStore.getUpkeep;
+  const RepairObj = userStore.getRepair;
+  const OverhaulingObj = userStore.getOverhauling;
 
   const ATooltip = Tooltip;
   const loading = ref<boolean>(false);
@@ -52,15 +62,8 @@
     dataSource: props.dataSourceList,
     pagination: false, //取消分页
   });
-  const num1 = ref('');
-  const num2 = ref('');
-  const num3 = ref('');
 
-  const [registerModal, { closeModal }] = useModalInner(async (data) => {
-    num1.value = data.riskPointRiskCategories;
-    num2.value = data.riskPointControlLevel;
-    num3.value = data.dangerRiskCategories;
-  });
+  const [registerModal, { closeModal }] = useModalInner(async () => {});
   function clickOk() {
     const rowId = getSelectRows();
     const dataId = ref<any>([]);
@@ -73,13 +76,17 @@
         //保养统计
         upkeepExportApi({
           num: dataId.value,
-          // riskPointRiskCategories: num1.value,
-          // riskPointControlLevel: num2.value,
-          // dangerRiskCategories: num3.value,
+          oneTimeType: UpkeepObj.oneTimeType || null,
+          twoTimeType: UpkeepObj.twoTimeType || null,
+          threeTimeType: UpkeepObj.threeTimeType || null,
+          upkeepPlanId: UpkeepObj.upkeepPlanId || null,
+          planStatus: UpkeepObj.planStatus || null,
         })
           .then((res) => {
-            downloadByData(res, '保养统计.xlsx');
-            loading.value = false;
+            if (res) {
+              downloadByData(res, '保养统计.xlsx');
+              loading.value = false;
+            }
           })
           .finally(() => {
             loading.value = false;
@@ -89,9 +96,44 @@
       } else if (props.activeKey === '2') {
         //维修统计
         console.log('维修统计');
+        troubleExportApi({
+          num: dataId.value,
+          oneTimeType: RepairObj.oneTimeType || null,
+          twoTimeType: RepairObj.twoTimeType || null,
+          threeTimeType: RepairObj.threeTimeType || null,
+        })
+          .then((res) => {
+            if (res) {
+              downloadByData(res, '维修统计.xlsx');
+              loading.value = false;
+            }
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+        clearSelectedRowKeys();
+        closeModal();
       } else {
         //检修统计
         console.log('检修统计');
+        overhaulExportApi({
+          num: dataId.value,
+          oneTimeType: OverhaulingObj.oneTimeType || null,
+          twoTimeType: OverhaulingObj.twoTimeType || null,
+          threeTimeType: OverhaulingObj.threeTimeType || null,
+          overhaulPlanId: OverhaulingObj.overhaulPlanId || null,
+        })
+          .then((res) => {
+            if (res) {
+              downloadByData(res, '检修统计.xlsx');
+              loading.value = false;
+            }
+          })
+          .finally(() => {
+            loading.value = false;
+          });
+        clearSelectedRowKeys();
+        closeModal();
       }
     } else {
       loading.value = false;
