@@ -7,7 +7,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import { doLogout, getUserInfo, loginApi, getLogoutUrlApi } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -16,7 +16,10 @@ import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 import { isArray } from '/@/utils/is';
 import { h } from 'vue';
+import Cookies from 'js-cookie';
+import { useGlobSetting } from '/@/hooks/setting';
 
+const { useUserCenterLogin, loginToken } = useGlobSetting();
 interface UserState {
   userInfo: Nullable<UserInfo>;
   token?: string;
@@ -126,7 +129,7 @@ export const useUserStore = defineStore({
         const data = await loginApi(loginParams, mode);
         const { token } = data;
 
-        // save token
+        // save tokenuseUserCenterLogin
         this.setToken(token);
         return this.afterLoginAction(goHome);
       } catch (error) {
@@ -183,7 +186,14 @@ export const useUserStore = defineStore({
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);
-      goLogin && router.push(PageEnum.BASE_LOGIN);
+      // goLogin && router.push(PageEnum.BASE_LOGIN);
+      if (useUserCenterLogin) {
+        Cookies.remove(loginToken);
+        // 通知用户中心退出登录；获取用户中心url；
+        window.location.href = await getLogoutUrlApi();
+      } else {
+        goLogin && router.push(PageEnum.BASE_LOGIN);
+      }
     },
 
     /**

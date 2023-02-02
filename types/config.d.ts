@@ -147,6 +147,10 @@ export interface GlobConfig {
   urlPrefix?: string;
   // Project abbreviation
   shortName: string;
+  // 是否通过用户中心登录
+  useUserCenterLogin?: boolean;
+  // 用户中心登入token
+  loginToken: string;
 }
 export interface GlobEnvConfig {
   // Site title
@@ -159,4 +163,8 @@ export interface GlobEnvConfig {
   VITE_GLOB_APP_SHORT_NAME: string;
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
+  // 是否通过用户中心登录
+  VITE_GLOB_USE_USER_CENTER_LOGIN?: string;
+  // 用户中心登入token
+  VITE_GLOB_APP_LOGIN_TOKEN: string;
 }

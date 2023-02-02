@@ -39,6 +39,10 @@
   import { ThemeEnum } from '/@/enums/appEnum';
   import { updateDarkTheme } from '/@/logics/theme/dark';
   import { useRootSetting } from '/@/hooks/setting/useRootSetting';
+  //用户中心登录
+  import { getLogoutUrlApi } from '/@/api/sys/user';
+  import Cookies from 'js-cookie';
+  import { useGlobSetting } from '/@/hooks/setting';
 
   export default defineComponent({
     name: 'SettingFooter',
@@ -51,6 +55,7 @@
       const tabStore = useMultipleTabStore();
       const userStore = useUserStore();
       const appStore = useAppStore();
+      const { useUserCenterLogin, loginToken } = useGlobSetting();
 
       function handleCopy() {
         const { isSuccessRef } = useCopyToClipboard(
@@ -86,12 +91,21 @@
       }
 
       function handleClearAndRedo() {
+        console.log('handleClearAndRedo 重置并退出登录');
         localStorage.clear();
         appStore.resetAllState();
         permissionStore.resetState();
         tabStore.resetState();
         userStore.resetState();
         location.reload();
+        if (useUserCenterLogin) {
+          Cookies.remove(loginToken);
+          getLogoutUrlApi().then((res) => {
+            window.location.href = res;
+          });
+        } else {
+          location.reload();
+        }
       }
       return {
         prefixCls,

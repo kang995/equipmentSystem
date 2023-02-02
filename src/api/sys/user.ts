@@ -9,6 +9,8 @@ enum Api {
   GetUserInfo = '/system/login/getUserInfo',
   GetPermCode = '/system/login/getMenuPerms',
   TestRetry = '/testRetry',
+  GET_USER_CENTER_URL = '/iot/getUserCenterUrl', // 获取用户中心链接
+  GET_LOGOUT_URL = '/iot/getLogoutUrl',
 }
 
 /**
@@ -53,3 +55,11 @@ export function testRetry() {
     },
   );
 }
+export const getUserCenterUrlApi = () =>
+  defHttp.get({
+    url: Api.GET_USER_CENTER_URL,
+  });
+export const getLogoutUrlApi = () =>
+  defHttp.get({
+    url: Api.GET_LOGOUT_URL,
+  });

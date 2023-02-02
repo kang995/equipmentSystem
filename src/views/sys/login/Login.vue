@@ -1,5 +1,5 @@
 <template>
-  <div :class="prefixCls" class="relative w-full h-full px-4">
+  <div :class="prefixCls" class="relative w-full h-full px-4" v-if="!useUserCenterLogin">
     <AppLocalePicker
       class="absolute text-white top-4 right-4 enter-x xl:text-gray-600"
       :show-text="false"
@@ -55,6 +55,32 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useLocaleStore } from '/@/store/modules/locale';
+  //用户中心登录
+  import { getUserCenterUrlApi } from '/@/api/sys/user';
+  import { useUserStore } from '/@/store/modules/user';
+  import Cookies from 'js-cookie';
+  const { useUserCenterLogin, loginToken } = useGlobSetting();
+  console.log('useUserCenterLogin', useUserCenterLogin);
+  if (useUserCenterLogin) {
+    // 获取cookie中的token
+    const token = Cookies.get(loginToken);
+    console.log('Login.vue token', token);
+    // const token =
+    //   'token=eyJhbGciOiJIUzUxMiJ9.eyJsb2dpbl91c2VyX2tleSI6IjgzNWVkODNhLWIxNzMtNDM2OS04ZWIwLWYzYzgyMDQ0MDc3MiJ9.wS-14jZ9DZxIdVWqV1bajV4m0t-p8v_g0Oddb0F5Ui8yA6fYNizWxNJZIXdCE9vxw0LmljkLPotakLMgReFg6g';
+    if (token) {
+      // 存储token为公共的token
+      const userStore = useUserStore();
+      // 走登录流程
+      userStore.setToken(token);
+      userStore.afterLoginAction(true);
+    } else {
+      console.log('Login.vue token不存在');
+      getUserCenterUrlApi().then((res) => {
+        console.log('url', res);
+        window.location.href = res;
+      });
+    }
+  }
 
   defineProps({
     sessionTimeout: {
