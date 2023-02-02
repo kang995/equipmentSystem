@@ -9,11 +9,13 @@
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:scrap:detail',
             },
             {
               label: '编辑',
               onClick: handleEdit.bind(null, record),
               ifShow: record.scrapStatus !== '2',
+              auth: 'device:scrap:update',
             },
             {
               label: '删除',
@@ -22,6 +24,7 @@
                 title: '是否确认删除?',
                 confirm: handleDelete.bind(null, record),
               },
+              auth: 'device:scrap:remove',
             },
           ]"
           :dropDownActions="[
@@ -32,18 +35,28 @@
                 confirm: handleRecall.bind(null, record),
               },
               ifShow: record.scrapStatus !== '2',
+              auth: 'device:scrap:undo',
             },
           ]"
         />
       </template>
       <template #tableTitle>
         <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          <a-button
+            type="primary"
+            preIcon="gonggong_tianjia_xianxing|svg"
+            @click="handleAdd"
+            v-if="hasPermission(['device:scrap:save'])"
             >新增</a-button
           >
           <a-tooltip>
             <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:scrap:export'])"
+              >批量导出</a-button
+            >
           </a-tooltip>
         </div>
       </template>
@@ -65,6 +78,8 @@
     getScrapListApi,
     revokeListApi,
   } from '/@/api/device-scrap/data';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -83,6 +98,12 @@
       dataIndex: 'action',
       width: 200,
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:scrap:detail',
+        'device:scrap:update',
+        'device:scrap:remove',
+        'device:scrap:undo',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

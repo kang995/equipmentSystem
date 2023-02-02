@@ -9,11 +9,13 @@
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:demolish:detail',
             },
             {
               label: '编辑',
               onClick: handleEdit.bind(null, record),
               ifShow: record.demolishStatus !== '2',
+              auth: 'device:demolish:update',
             },
             {
               label: '删除',
@@ -22,6 +24,7 @@
                 title: '是否确认删除?',
                 confirm: handleDelete.bind(null, record),
               },
+              auth: 'device:demolish:remove',
             },
           ]"
           :dropDownActions="[
@@ -32,23 +35,34 @@
                 confirm: handleRecall.bind(null, record),
               },
               ifShow: record.demolishStatus !== '2',
+              auth: 'device:demolish:undo',
             },
             {
               label: '添加拆除记录',
               onClick: handleAddDismantle.bind(null, record),
               ifShow: record.demolishStatus !== '2',
+              auth: 'device:demolishRecord:save',
             },
           ]"
         />
       </template>
       <template #tableTitle>
         <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          <a-button
+            type="primary"
+            preIcon="gonggong_tianjia_xianxing|svg"
+            @click="handleAdd"
+            v-if="hasPermission(['device:demolish:save'])"
             >新增</a-button
           >
           <a-tooltip>
             <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:demolish:export'])"
+              >批量导出</a-button
+            >
           </a-tooltip>
         </div>
       </template>
@@ -70,6 +84,8 @@
     revokeListApi,
     exportPlanDataApi,
   } from '/@/api/device-demolishi/data';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -88,6 +104,13 @@
       dataIndex: 'action',
       width: 200,
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:demolish:detail',
+        'device:demolish:update',
+        'device:demolish:remove',
+        'device:demolish:undo',
+        'device:demolishRecord:save',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

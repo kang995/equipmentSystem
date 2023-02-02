@@ -9,10 +9,12 @@
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:demolishRecord:detail',
             },
             {
               label: '编辑',
               onClick: handleEdit.bind(null, record),
+              auth: 'device:demolishRecord:update',
             },
             {
               label: '删除',
@@ -21,18 +23,28 @@
                 title: '是否确认删除?',
                 confirm: handleDelete.bind(null, record),
               },
+              auth: 'device:demolishRecord:remove',
             },
           ]"
         />
       </template>
       <template #tableTitle>
         <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          <a-button
+            type="primary"
+            preIcon="gonggong_tianjia_xianxing|svg"
+            @click="handleAdd"
+            v-if="hasPermission(['device:demolishRecord:save'])"
             >新增</a-button
           >
           <a-tooltip>
             <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:demolishRecord:export'])"
+              >批量导出</a-button
+            >
           </a-tooltip>
         </div>
       </template>
@@ -49,6 +61,8 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
   import { deleteListApi, getRecordListApi, exportPlanDataApi } from '/@/api/device-removal/data';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -74,6 +88,11 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:demolishRecord:detail',
+        'device:demolishRecord:update',
+        'device:demolishRecord:remove',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

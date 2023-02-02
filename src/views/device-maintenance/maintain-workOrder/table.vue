@@ -11,6 +11,7 @@
             ifShow: () => {
               return props.ifIssue && record.workOrderStatus === '2' && record.delayFlag === '2'; // 根据业务控制是否显示
             },
+            auth: 'device:upkeepWorkOrder:delayAudit',
           },
           {
             label: '重新下发',
@@ -18,6 +19,7 @@
             ifShow: () => {
               return props.ifIssue && record.workOrderStatus === '2'; // 根据业务控制是否显示
             },
+            auth: 'device:upkeepWorkOrder:anewIssue',
           },
           {
             label: '申请延期',
@@ -25,10 +27,12 @@
             ifShow: () => {
               return !props.ifIssue && record.workOrderStatus === '2'; // 根据业务控制是否显示
             },
+            auth: 'device:upkeepWorkOrder:applyDelay',
           },
           {
             label: '详情',
             onClick: handleDetails.bind(null, record),
+            auth: 'device:upkeepWorkOrder:detail',
           },
         ]"
       />
@@ -37,7 +41,12 @@
       <div class="flex flex-1 space-x-4">
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button
+            @click="exportTable"
+            :loading="exportLoading"
+            v-if="hasPermission(['device:upkeepWorkOrder:export'])"
+            >批量导出</a-button
+          >
         </a-tooltip>
       </div>
     </template>
@@ -68,6 +77,8 @@
     upkeepDelayAuditApi,
     upkeepApplyDelayApi,
   } from '/@/api/device-maintenance/work';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
 
   const { createMessage } = useMessage();
   const [delayModals, { openModal: openDelayModal }] = useModal();
@@ -96,6 +107,12 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:upkeepWorkOrder:delayAudit',
+        'device:upkeepWorkOrder:anewIssue',
+        'device:upkeepWorkOrder:applyDelay',
+        'device:upkeepWorkOrder:detail',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

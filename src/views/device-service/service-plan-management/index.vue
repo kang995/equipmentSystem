@@ -9,6 +9,7 @@
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:overhaulPlan:detail',
             },
             {
               label: record.approvalStatus === '1' ? '编辑' : '重新编辑',
@@ -16,6 +17,7 @@
               ifShow: () => {
                 return record.approvalStatus === '1' || record.approvalStatus === '4';
               },
+              auth: ['device:overhaulPlan:update', 'device:overhaulPlan:anewUpdate'],
             },
             {
               label: '删除',
@@ -36,6 +38,7 @@
               ifShow: () => {
                 return record.approvalStatus === '1' && record.planStatus === '1';
               },
+              auth: 'device:overhaulPlan:submit',
             },
             {
               label: '撤回',
@@ -43,6 +46,7 @@
               ifShow: () => {
                 return record.approvalStatus === '2' && record.planStatus === '1';
               },
+              auth: 'device:overhaulPlan:withdraw',
             },
             {
               label: '停止计划',
@@ -53,20 +57,32 @@
                   (record.approvalStatus === '3' && record.planStatus === '2')
                 );
               },
+              auth: 'device:overhaulPlan:stop',
             },
           ]"
         />
       </template>
       <template #tableTitle>
         <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          <a-button
+            type="primary"
+            preIcon="gonggong_tianjia_xianxing|svg"
+            @click="handleAdd"
+            v-if="hasPermission(['device:overhaulPlan:save'])"
             >新增</a-button
           >
           <a-tooltip>
             <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:overhaulPlan:export'])"
+              >批量导出</a-button
+            >
           </a-tooltip>
-          <a-button @click="handleDelete">批量删除</a-button>
+          <a-button @click="handleDelete" v-if="hasPermission(['device:overhaulPlan:batchRemove'])"
+            >批量删除</a-button
+          >
         </div>
       </template>
     </BasicTable>
@@ -96,6 +112,8 @@
     OverhaulWithDrawApi,
     OverhaulStopPlanApi,
   } from '/@/api/device-service/index';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -119,6 +137,14 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:overhaulPlan:detail',
+        'device:overhaulPlan:update',
+        'device:overhaulPlan:anewUpdate',
+        'device:overhaulPlan:submit',
+        'device:overhaulPlan:withdraw',
+        'device:overhaulPlan:stop',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

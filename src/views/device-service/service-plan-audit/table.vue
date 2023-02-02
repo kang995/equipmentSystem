@@ -11,6 +11,7 @@
             ifShow: () => {
               return record.approvalStatus === '2';
             },
+            auth: 'device:overhaulPlanApproval:approval',
           },
           {
             label: '详情',
@@ -30,6 +31,8 @@
   import { useRouter } from 'vue-router';
   // import { ref } from 'vue';
   import { ApprovalPendListApi, ApprovalDealListApi } from '/@/api/device-service/index';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const router = useRouter();
   const props = defineProps<{
     ifIssue?: any;
@@ -50,6 +53,7 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission(['device:overhaulPlanApproval:approval']),
     },
     formConfig: {
       schemas: getFormSchema(),

@@ -11,6 +11,7 @@
             ifShow: () => {
               return props.ifIssue; // 根据业务控制是否显示
             },
+            auth: 'device:upkeepWorkOrderAccept:saveAcceptResult',
           },
           {
             label: '详情',
@@ -26,7 +27,17 @@
       <div class="flex flex-1 space-x-4">
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button
+            @click="exportTable"
+            :loading="exportLoading"
+            v-if="
+              hasPermission([
+                'device:upkeepWorkOrderAccept:stayAcceptExport',
+                'device:upkeepWorkOrderAccept:acceptExport',
+              ])
+            "
+            >批量导出</a-button
+          >
         </a-tooltip>
       </div>
     </template>
@@ -46,6 +57,8 @@
     stayAcceptExportApi,
     acceptExportApi,
   } from '/@/api/device-maintenance/work';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
 
   const props = defineProps<{
     ifIssue?: any;
@@ -69,6 +82,7 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission(['device:upkeepWorkOrderAccept:saveAcceptResult']),
     },
     formConfig: {
       schemas: getFormSchema(props.ifIssue),

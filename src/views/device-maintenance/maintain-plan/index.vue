@@ -18,7 +18,7 @@
               ifShow: () => {
                 return record.approvalStatus === '1' || record.approvalStatus === '4';
               },
-              auth: ['device:upkeepPlan:detail', 'device:upkeepPlan:anewUpdate'],
+              auth: ['device:upkeepPlan:update', 'device:upkeepPlan:anewUpdate'],
             },
             {
               label: '删除',
@@ -139,7 +139,7 @@
       slots: { customRender: 'action' },
       defaultHidden: !hasPermission([
         'device:upkeepPlan:detail',
-        'device:upkeepPlan:detail',
+        'device:upkeepPlan:update',
         'device:upkeepPlan:anewUpdate',
         'device:upkeepPlan:submit',
         'device:upkeepPlan:withdraw',
