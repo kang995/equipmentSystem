@@ -9,6 +9,7 @@
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:unitFacility:detail',
               delBtn: true,
             },
           ]"
@@ -17,7 +18,12 @@
       <template #tableTitle>
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="loading">批量导出</a-button>
+          <a-button
+            @click="exportTable"
+            :loading="loading"
+            v-if="hasPermission(['device:unitFacility:export'])"
+            >批量导出</a-button
+          >
         </a-tooltip>
       </template>
     </BasicTable>
@@ -35,6 +41,8 @@
     postUnitFacilityListApi,
   } from '/@/api/device-management/installation';
   import { downloadByData } from '/@/utils/file/download';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const router = useRouter();
   const ATooltip = Tooltip;
   const loading = ref(false);
@@ -50,6 +58,7 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission(['device:unitFacility:detail']),
     },
     formConfig: {
       schemas: installationFormSchema,

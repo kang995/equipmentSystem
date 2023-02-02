@@ -11,6 +11,7 @@
             ifShow: () => {
               return record.approvalStatus === '2';
             },
+            auth: 'device:upkeepPlanApproval:approval',
           },
           {
             label: '详情',
@@ -30,7 +31,8 @@
   import { useRouter } from 'vue-router';
   // import { ref } from 'vue';
   import { getProcessingListApi, getProcessedListApi } from '/@/api/device-maintenance/index';
-
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const router = useRouter();
   const props = defineProps<{
     ifIssue?: any;
@@ -53,6 +55,7 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission(['device:upkeepPlanApproval:approval']),
     },
     formConfig: {
       schemas: getFormSchema(),

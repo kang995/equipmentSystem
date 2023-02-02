@@ -10,6 +10,7 @@
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:upkeepPlan:detail',
             },
             {
               label: record.approvalStatus === '1' ? '编辑' : '重新编辑',
@@ -17,6 +18,7 @@
               ifShow: () => {
                 return record.approvalStatus === '1' || record.approvalStatus === '4';
               },
+              auth: ['device:upkeepPlan:detail', 'device:upkeepPlan:anewUpdate'],
             },
             {
               label: '删除',
@@ -37,6 +39,7 @@
               ifShow: () => {
                 return record.approvalStatus === '1' && record.planStatus === '1';
               },
+              auth: 'device:upkeepPlan:submit',
             },
             {
               label: '撤回',
@@ -44,6 +47,7 @@
               ifShow: () => {
                 return record.approvalStatus === '2' && record.planStatus === '1';
               },
+              auth: 'device:upkeepPlan:withdraw',
             },
             {
               label: '停止计划',
@@ -54,20 +58,32 @@
                   (record.approvalStatus === '3' && record.planStatus === '2')
                 );
               },
+              auth: 'device:upkeepPlan:stop',
             },
           ]"
         />
       </template>
       <template #tableTitle>
         <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          <a-button
+            type="primary"
+            preIcon="gonggong_tianjia_xianxing|svg"
+            @click="handleAdd"
+            v-if="hasPermission(['device:upkeepPlan:save'])"
             >新增</a-button
           >
           <a-tooltip>
             <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:upkeepPlan:export'])"
+              >批量导出</a-button
+            >
           </a-tooltip>
-          <a-button @click="handleDelete">批量删除</a-button>
+          <a-button @click="handleDelete" v-if="hasPermission(['device:upkeepPlan:batchRemove'])"
+            >批量删除</a-button
+          >
         </div>
       </template>
     </BasicTable>
@@ -97,6 +113,8 @@
     submitListApi,
     rebackListApi,
   } from '/@/api/device-maintenance/index';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -119,6 +137,14 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:upkeepPlan:detail',
+        'device:upkeepPlan:detail',
+        'device:upkeepPlan:anewUpdate',
+        'device:upkeepPlan:submit',
+        'device:upkeepPlan:withdraw',
+        'device:upkeepPlan:stop',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

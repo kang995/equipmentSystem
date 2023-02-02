@@ -24,6 +24,7 @@
                   onClick: handleEdit.bind(null, record),
                   delBtn: true,
                   ifShow: props?.ifButton ? true : false,
+                  auth: 'device:special:update',
                 },
                 {
                   label: '预览模型',
@@ -35,11 +36,14 @@
                   onClick: handleTestingAdd.bind(null, record),
                   delBtn: true,
                   ifShow: props?.ifButton ? true : false,
+                  auth: 'device:specialRecord:save',
                 },
                 {
                   label: '详情',
                   onClick: handleDetails.bind(null, record),
+                  // auth: 'device:mechanical:detail',
                   delBtn: true,
+                  auth: ['device:mechanical:detail', 'device:special:detail'],
                 },
               ]"
             />
@@ -49,13 +53,18 @@
               type="primary"
               preIcon="gonggong_tianjia_xianxing|svg"
               class="mr-4"
-              v-if="ifButton"
+              v-if="ifButton && hasPermission(['device:special:save'])"
               @click="getAdd()"
               >新增</a-button
             >
             <a-tooltip>
               <template #title>不选择即导出全部数据</template>
-              <a-button @click="exportTable" :loading="loading">批量导出</a-button>
+              <a-button
+                @click="exportTable"
+                :loading="loading"
+                v-if="hasPermission(['device:mechanical:export', 'device:special:export'])"
+                >批量导出</a-button
+              >
             </a-tooltip>
           </template>
         </BasicTable>
@@ -82,6 +91,8 @@
     postSpecialListApi,
   } from '/@/api/device-management/special-equipment';
   import { downloadByData } from '/@/utils/file/download';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const router = useRouter();
   const ATooltip = Tooltip;
   const loading = ref(false);
@@ -125,6 +136,12 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:special:update',
+        'device:specialRecord:save',
+        'device:mechanical:detail',
+        'device:special:detail',
+      ]),
     },
     formConfig: {
       schemas: props.formSchema,
