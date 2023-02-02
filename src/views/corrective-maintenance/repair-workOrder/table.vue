@@ -13,6 +13,7 @@
                 props.ifIssue && (record.maintainStatus === '0' || record.maintainStatus === '1')
               ); // 根据业务控制是否显示
             },
+            auth: 'device:troubleWorkOrder:again',
           },
           {
             label: '重新提交',
@@ -27,10 +28,12 @@
             ifShow: () => {
               return !props.ifIssue && record.maintainStatus === '1'; // 根据业务控制是否显示
             },
+            auth: 'device:troubleWorkOrder:delay',
           },
           {
             label: '详情',
             onClick: handleDetails.bind(null, record),
+            auth: 'device:troubleWorkOrder:detail',
           },
         ]"
       />
@@ -39,7 +42,12 @@
       <div class="flex flex-1 space-x-4">
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button
+            @click="exportTable"
+            :loading="exportLoading"
+            v-if="hasPermission(['device:troubleWorkOrder:export'])"
+            >批量导出</a-button
+          >
         </a-tooltip>
       </div>
     </template>
@@ -62,6 +70,8 @@
     MaintainExportApi,
     maintainAgainApi,
   } from '/@/api/corrective-maintenance/repair';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const { createMessage } = useMessage();
   const router = useRouter();
@@ -87,6 +97,11 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:troubleWorkOrder:again',
+        'device:troubleWorkOrder:delay',
+        'device:troubleWorkOrder:detail',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

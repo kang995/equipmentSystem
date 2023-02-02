@@ -16,7 +16,14 @@
       <div class="flex flex-1 space-x-4">
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button
+            @click="exportTable"
+            :loading="exportLoading"
+            v-if="
+              hasPermission(['device:determineAccept:waitExport', 'device:determineAccept:export'])
+            "
+            >批量导出</a-button
+          >
         </a-tooltip>
       </div>
     </template>
@@ -36,6 +43,8 @@
     DeterminesExportApi,
     DetermineExportApi,
   } from '/@/api/corrective-maintenance/repair';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const ATooltip = Tooltip;
   const router = useRouter();

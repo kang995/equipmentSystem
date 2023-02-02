@@ -12,10 +12,12 @@
               ifShow: () => {
                 return record.troubleStatus === '0';
               },
+              auth: 'device:trouble:update',
             },
             {
               label: '详情',
               onClick: handleDetails.bind(null, record),
+              auth: 'device:trouble:detail',
             },
             {
               label: '删除',
@@ -27,18 +29,28 @@
               ifShow: () => {
                 return record.troubleStatus === '0';
               },
+              auth: 'device:trouble:remove',
             },
           ]"
         />
       </template>
       <template #tableTitle>
         <div class="flex flex-1 space-x-4">
-          <a-button type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="handleAdd"
+          <a-button
+            type="primary"
+            preIcon="gonggong_tianjia_xianxing|svg"
+            @click="handleAdd"
+            v-if="hasPermission(['device:trouble:save'])"
             >新增</a-button
           >
           <a-tooltip>
             <template #title>不选择即导出全部数据</template>
-            <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:trouble:export'])"
+              >批量导出</a-button
+            >
           </a-tooltip>
         </div>
       </template>
@@ -59,7 +71,8 @@
     TroubleExportApi,
     TroubleRemoveApi,
   } from '/@/api/corrective-maintenance/fault';
-
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -79,6 +92,11 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:trouble:update',
+        'device:trouble:detail',
+        'device:trouble:remove',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

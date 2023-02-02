@@ -29,11 +29,13 @@
                   label: '编辑',
                   onClick: handleEdit.bind(null, record),
                   delBtn: true,
+                  auth: 'device:sparePart:update',
                 },
                 {
                   label: '详情',
                   onClick: handleDetails.bind(null, record),
                   delBtn: true,
+                  auth: 'device:sparePart:detail',
                 },
                 {
                   label: '删除',
@@ -42,6 +44,7 @@
                     confirm: handleDel.bind(null, record),
                   },
                   delBtn: true,
+                  auth: 'device:sparePart:remove',
                 },
               ]"
             />
@@ -53,12 +56,21 @@
               class="mr-4"
               :loading="loading"
               @click="getAdd()"
+              v-if="hasPermission(['device:sparePart:save'])"
               >添加备件</a-button
             >
-            <a-button @click="handleModal">批量导入</a-button>
+            <a-button @click="handleModal" v-if="hasPermission(['device:sparePart:importExcel'])"
+              >批量导入</a-button
+            >
             <a-tooltip>
               <template #title>不选择即导出全部数据</template>
-              <a-button class="ml-4" @click="exportTable" :loading="loading">批量导出</a-button>
+              <a-button
+                class="ml-4"
+                @click="exportTable"
+                :loading="loading"
+                v-if="hasPermission(['device:sparePart:export'])"
+                >批量导出</a-button
+              >
             </a-tooltip>
           </template>
         </BasicTable>
@@ -91,6 +103,8 @@
   import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
   import { ImportModal } from '/@/components/ImportModal';
   import { useModal } from '/@/components/Modal';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const [registerImportModal, { openModal: openImportModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -166,6 +180,12 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:sparePart:update',
+        'device:sparePart:detail',
+        'device:sparePart:remove',
+        'device:scrap:undo',
+      ]),
     },
   });
   function handleOk() {

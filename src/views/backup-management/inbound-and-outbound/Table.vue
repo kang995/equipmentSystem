@@ -9,12 +9,14 @@
             label: '查看明细',
             onClick: handleDetail.bind(null, record),
             delBtn: true,
+            auth: ['device:outReceipt:detail', 'device:inReceipt:detail'],
           },
           {
             label: '作废',
             onClick: handleDiscard.bind(null, record),
             delBtn: true,
             ifShow: record.receiptStatus ? false : true,
+            auth: ['device:outReceipt:discard', 'device:inReceipt:discard'],
           },
           {
             label: '删除',
@@ -23,6 +25,7 @@
               title: '是否确认删除',
               confirm: handleDel.bind(null, record),
             },
+            auth: ['device:outReceipt:remove', 'device:inReceipt:remove'],
           },
         ]"
     /></template>
@@ -32,13 +35,25 @@
         preIcon="gonggong_tianjia_xianxing|svg"
         @click="handleAdd"
         class="mr-4"
+        v-if="hasPermission(['device:outReceipt:save', 'device:inReceipt:save'])"
         >新增</a-button
       >
 
-      <a-button :loading="exportLoading" class="mr-4" @click="handleModal">批量导入</a-button>
+      <a-button
+        :loading="exportLoading"
+        class="mr-4"
+        @click="handleModal"
+        v-if="hasPermission(['device:outReceipt:importExcel', 'device:inReceipt:importExcel'])"
+        >批量导入</a-button
+      >
       <a-tooltip>
         <template #title>不选择即导出全部数据</template>
-        <a-button @click="handleExport" :loading="loading">批量导出</a-button>
+        <a-button
+          @click="handleExport"
+          :loading="loading"
+          v-if="hasPermission(['device:outReceipt:export', 'device:inReceipt:export'])"
+          >批量导出</a-button
+        >
       </a-tooltip>
     </template>
   </BasicTable>
@@ -78,6 +93,9 @@
   } from '/@/api/backup-management/inbound-and-outbound';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useModal } from '/@/components/Modal';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
+
   const [registerImportModal, { openModal: openImportModal }] = useModal();
   const router = useRouter();
   const ATooltip = Tooltip;
@@ -100,6 +118,14 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:outReceipt:detail',
+        'device:inReceipt:detail',
+        'device:outReceipt:discard',
+        'device:inReceipt:discard',
+        'device:outReceipt:remove',
+        'device:inReceipt:remove',
+      ]),
     },
     formConfig: {
       schemas: props.ifIssue ? formSchemaIssue : formSchemaWarehousing,

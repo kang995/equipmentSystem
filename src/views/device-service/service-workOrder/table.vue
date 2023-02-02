@@ -11,6 +11,7 @@
             ifShow: () => {
               return props.ifIssue && record.workOrderStatus === '2' && record.delayFlag === '2'; // 根据业务控制是否显示
             },
+            auth: 'device:overhaulWorkOrder:delayAudit',
           },
           {
             label: '重新下发',
@@ -18,6 +19,7 @@
             ifShow: () => {
               return props.ifIssue && record.workOrderStatus === '2'; // 根据业务控制是否显示
             },
+            auth: 'device:overhaulWorkOrder:anewIssue',
           },
           {
             label: '申请延期',
@@ -25,10 +27,12 @@
             ifShow: () => {
               return !props.ifIssue && record.workOrderStatus === '2'; // 根据业务控制是否显示
             },
+            auth: 'device:overhaulWorkOrder:applyDelay',
           },
           {
             label: '详情',
             onClick: handleDetails.bind(null, record),
+            auth: 'device:overhaulWorkOrder:detail',
           },
         ]"
       />
@@ -37,7 +41,12 @@
       <div class="flex flex-1 space-x-4">
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button @click="exportTable" :loading="exportLoading">批量导出</a-button>
+          <a-button
+            @click="exportTable"
+            :loading="exportLoading"
+            v-if="hasPermission(['device:overhaulWorkOrder:export'])"
+            >批量导出</a-button
+          >
         </a-tooltip>
       </div>
     </template>
@@ -69,6 +78,8 @@
     UpkeepWorkOrderDelayAuditApi,
     UpkeepWorkOrderApplyDelayApi,
   } from '/@/api/device-service/service';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const [maintainModal, { openModal: openMaintainModal }] = useModal();
   const [delayModals, { openModal: openDelayModal }] = useModal();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
@@ -96,6 +107,12 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission([
+        'device:overhaulWorkOrder:delayAudit',
+        'device:overhaulWorkOrder:anewIssue',
+        'device:overhaulWorkOrder:applyDelay',
+        'device:overhaulWorkOrder:detail',
+      ]),
     },
     formConfig: {
       schemas: getFormSchema(),

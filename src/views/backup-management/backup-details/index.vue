@@ -10,6 +10,7 @@
             size="small"
             :loading="exportLoading"
             @click="getAdd()"
+            v-if="hasPermission(['device:warehouse:save'])"
             >添加</a-button
           >
           <div v-if="menuItems.length > 0">
@@ -33,11 +34,19 @@
                     <Icon icon="gonggong_gengduo|svg" :size="20" />
                     <template #overlay>
                       <a-menu>
-                        <a-menu-item class="cursor-pointer pt-1 delColor" @click="getEdit(item.id)">
+                        <a-menu-item
+                          class="cursor-pointer pt-1 delColor"
+                          @click="getEdit(item.id)"
+                          v-if="hasPermission(['device:warehouse:update'])"
+                        >
                           编辑
                         </a-menu-item>
                         <a-menu-divider />
-                        <a-menu-item class="cursor-pointer pt-1 delColor" @click="getDel(item.id)">
+                        <a-menu-item
+                          class="cursor-pointer pt-1 delColor"
+                          @click="getDel(item.id)"
+                          v-if="hasPermission(['device:warehouse:remove'])"
+                        >
                           删除
                         </a-menu-item>
                       </a-menu>
@@ -66,6 +75,7 @@
                   label: '详情',
                   onClick: handleDetails.bind(null, record),
                   delBtn: true,
+                  auth: 'device:warehouse:detail',
                 },
               ]"
             />
@@ -93,7 +103,8 @@
     posWarehouseSpareApi,
   } from '/@/api/backup-management/backup-details';
   import { useMessage } from '/@/hooks/web/useMessage';
-
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const router = useRouter();
   const AMenu = Menu;
   const AMenuItem = Menu.Item;
@@ -139,6 +150,7 @@
       title: '操作',
       dataIndex: 'action',
       slots: { customRender: 'action' },
+      defaultHidden: !hasPermission(['device:warehouse:detail']),
     },
     formConfig: {
       schemas: backupFormSchema,
