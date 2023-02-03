@@ -568,10 +568,30 @@ export const sparePartAdd: FormSchema[] = [
     required: true,
     componentProps: {
       placeholder: '请输入最低存储额',
-      type: 'number',
+      // type: 'number',
       controls: false,
       min: 0,
     },
+    rules: [
+      {
+        // @ts-ignore
+        validator: async (rule, value) => {
+          if (!value) {
+            return Promise.resolve();
+          } else {
+            if (value.length > 8) {
+              return Promise.reject('最低存储额为最大8位数');
+            }
+            const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+            if (!IsNumber.test(value)) {
+              return Promise.reject('最低存储额只能为数字,且只能保留两位小数');
+            }
+            return Promise.resolve();
+          }
+        },
+        trigger: 'change',
+      },
+    ],
   },
   {
     field: 'storageHigh',
@@ -579,10 +599,30 @@ export const sparePartAdd: FormSchema[] = [
     label: '最高存储额',
     componentProps: {
       placeholder: '请输入最高存储额',
-      type: 'number',
+      // type: 'number',
       controls: false,
       min: 0,
     },
+    rules: [
+      {
+        // @ts-ignore
+        validator: async (rule, value) => {
+          if (!value) {
+            return Promise.resolve();
+          } else {
+            if (value.length > 8) {
+              return Promise.reject('最高存储额为最大8位数');
+            }
+            const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+            if (!IsNumber.test(value)) {
+              return Promise.reject('最高存储额只能为数字,且只能保留两位小数');
+            }
+            return Promise.resolve();
+          }
+        },
+        trigger: 'change',
+      },
+    ],
   },
   {
     field: 'manufacturer',
@@ -598,9 +638,34 @@ export const sparePartAdd: FormSchema[] = [
     label: '参考价',
     componentProps: {
       placeholder: '请输入参考价',
-      type: 'number',
+      // type: 'number',
       controls: false,
       min: 0,
+    },
+    rules: [
+      {
+        // @ts-ignore
+        validator: async (rule, value) => {
+          if (!value) {
+            return Promise.resolve();
+          } else {
+            if (value.length > 8) {
+              return Promise.reject('参考价为最大8位数');
+            }
+            const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+            if (!IsNumber.test(value)) {
+              return Promise.reject('参考价只能为数字,且只能保留两位小数');
+            }
+            return Promise.resolve();
+          }
+        },
+        trigger: 'change',
+      },
+    ],
+    renderComponentContent: () => {
+      return {
+        suffix: () => '元',
+      };
     },
   },
   {

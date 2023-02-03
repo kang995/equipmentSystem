@@ -14,7 +14,7 @@
                 :min="0"
                 placeholder="请输入更换周期"
                 style="width: 100%"
-                type="number"
+                @change="handleChange"
               >
                 <template #addonAfter>
                   <Select
@@ -112,7 +112,7 @@
 <script lang="ts" setup>
   import SelectDevice from '../components/SelectDevice.vue';
   import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
-  import { InputNumber, Form, Select, Input } from 'ant-design-vue';
+  import { InputNumber, Form, Select, Input, message } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { PageWrapper } from '/@/components/Page';
   import { Tabs } from 'ant-design-vue';
@@ -145,6 +145,24 @@
   const optionsAfter = ref([]);
   const versionVal = ref();
   const ifShow = ref(id ? false : true);
+  //更换周期
+  function handleChange(e) {
+    const value = e.target.value;
+    if (!value) {
+      // return Promise.resolve();
+    } else {
+      if (value.length > 8) {
+        // return Promise.reject('参考价为最大8位数');
+        message.warn('更换周期为最大8位数');
+      }
+      const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+      if (!IsNumber.test(value)) {
+        // return Promise.reject('参考价只能为数字,且只能保留两位小数');
+        message.warn('更换周期只能为数字');
+      }
+      // return Promise.resolve();
+    }
+  }
   //编辑时物品清单不可编辑、删除
   const Disabled = computed(() => {
     if (id) {
@@ -283,6 +301,8 @@
     const data = getDataSourceDevice();
     data.splice(index, 1);
     setTableDataDevice(data);
+    const arr = data.map((item) => item.deviceId);
+    DeviceVal.value = arr;
   }
   function getModal() {
     const data = getDataSourceDevice();
@@ -294,7 +314,7 @@
     openModal(true, targetKeys.value);
   }
   //关闭弹框获取到选择的值
-  const DeviceVal = ref([]);
+  const DeviceVal = ref<any>([]);
   function handleOk(val, data) {
     DeviceVal.value = val;
     dataSourceDevice.value = data;
@@ -318,10 +338,10 @@
         createMessage.error('请选择仓库');
         return;
       }
-      if (list[i].warehouseId && !list[i].spareNum) {
-        createMessage.error('请输入数量');
-        return;
-      }
+      // if (list[i].warehouseId && !list[i].spareNum) {
+      //   createMessage.error('请输入数量');
+      //   return;
+      // }
       if (!list[i].spareNum && !list[i].warehouseId) {
         index1.push(i);
       }

@@ -18,6 +18,7 @@
   const route = useRoute();
   const routeId = route.query.id as string;
   const routeCodeId = route.query.codeId as string;
+  const flag = route.query.flag as string;
   const [register, { getFieldsValue, setFieldsValue, updateSchema, validateFields }] = useForm({
     labelCol: {
       span: 8,
@@ -86,14 +87,26 @@
         id: routeId,
       }).then(() => {
         message.success('修改成功');
-        closeCurrent();
-        router.go(-1);
+        if (flag === 'Cooment') {
+          router.push({
+            name: 'teardownDetails',
+          });
+        } else {
+          closeCurrent();
+          router.go(-1);
+        }
       });
     } else {
       addListApi(data).then(() => {
         message.success('新增成功');
-        closeCurrent();
-        router.go(-1);
+        if (flag === 'Cooment') {
+          router.push({
+            name: 'teardownDetails',
+          });
+        } else {
+          closeCurrent();
+          router.go(-1);
+        }
       });
     }
   }

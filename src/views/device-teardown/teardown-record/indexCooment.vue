@@ -133,6 +133,7 @@
       name: 'recordAdd',
       query: {
         codeId: routeCodeId,
+        flag: 'Cooment',
       },
     });
   }

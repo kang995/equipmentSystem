@@ -1224,6 +1224,10 @@ export const tabletMechanicaColumns: BasicColumn[] = [
     dataIndex: 'specifModels',
   },
   {
+    title: '设备状态',
+    dataIndex: 'useStatusText',
+  },
+  {
     title: '绑定模型状态',
     dataIndex: 'bindStateName',
   },
@@ -1308,6 +1312,10 @@ export const tableSpecialColumns: BasicColumn[] = [
   {
     title: '规格型号',
     dataIndex: 'specifModels',
+  },
+  {
+    title: '设备状态',
+    dataIndex: 'useStatusText',
   },
   {
     title: '绑定模型状态',
