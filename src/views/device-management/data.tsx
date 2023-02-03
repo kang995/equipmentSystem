@@ -24,6 +24,7 @@ import {
   contingencySelectApi,
   contingencyLevelSelectApi,
 } from '/@/api/device-management/special-equipment';
+import { getBlob, saveAs } from '/@/utils/downloadFile';
 
 export const installationColumns: BasicColumn[] = [
   {
@@ -296,7 +297,12 @@ export const meetSchema: DescItem[] = [
                   </span>
                   <a href={item.url} target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
-                    <span style={'color:#4D79FF'}>下载</span>
+                    <button
+                      onClick={async () => saveAs(await getBlob(item.url), item.name)}
+                      class={'text-[#4D79FF]'}
+                    >
+                      下载
+                    </button>
                   </a>
                 </div>
               );
@@ -403,7 +409,7 @@ export const installationSchema: DescItem[] = [
   },
   {
     field: 'affixList',
-    label: '附件',
+    label: '附件2',
     render: (data) => {
       if (data) {
         return (
@@ -417,7 +423,12 @@ export const installationSchema: DescItem[] = [
                   </span>
                   <a href={item.url} target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
-                    <span style={'color:#4D79FF'}>下载</span>
+                    <button
+                      onClick={async () => saveAs(await getBlob(item.url), item.name)}
+                      class={'text-[#4D79FF]'}
+                    >
+                      下载
+                    </button>
                   </a>
                 </div>
               );
@@ -1098,7 +1109,12 @@ export const FailureDetail: DescItem[] = [
                   </span>
                   <a href={item.url} target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
-                    <span style={'color:#4D79FF'}>下载</span>
+                    <button
+                      onClick={async () => saveAs(await getBlob(item.url), item.name)}
+                      class={'text-[#4D79FF]'}
+                    >
+                      下载
+                    </button>
                   </a>
                 </div>
               );

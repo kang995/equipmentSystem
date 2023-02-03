@@ -97,7 +97,7 @@
     Object.assign(data);
     postFacilityExportApi(data)
       .then((res) => {
-        downloadByData(res, '备件列表.xlsx');
+        downloadByData(res, '装置设置列表.xlsx');
         loading.value = false;
       })
       .finally(() => {
