@@ -164,7 +164,9 @@
   }
   async function resetFun() {
     searchInfoList.value = [];
-    reload();
+    setTimeout(() => {
+      reload();
+    });
   }
 
   const [register, { reload, getSelectRowKeys }] = useTable({

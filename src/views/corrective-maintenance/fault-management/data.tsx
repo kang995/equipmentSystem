@@ -284,6 +284,8 @@ export function getCommonFormSchema(): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: '请输入发现故障时间',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        showTime: true,
       },
     },
     {

@@ -146,6 +146,9 @@
   }
   //重新下发-确认
   function handleIssue(data) {
+    //更换key
+    data['workOrderId'] = data['id']; //维修工单id
+    delete data['id'];
     maintainAgainApi(data)
       .then(() => {
         createMessage.success('已重新下发');

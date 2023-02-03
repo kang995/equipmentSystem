@@ -742,15 +742,23 @@ export const failureFormSchema: FormSchema[] = [
     label: '上报人',
     componentProps: {
       placeholder: '请选择上报人',
+      api: getPersonSelectApi,
+      params: {
+        // type: 'PLAN_STATUS'
+      },
+      resultField: 'data', //后台返回数据字段
+      labelField: 'name',
+      valueField: 'id',
     },
     labelWidth: 64,
   },
   {
-    field: 'createTime',
-    component: 'DatePicker',
+    field: '[startTime,endTime]',
+    component: 'RangePicker',
     label: '上报时间',
     componentProps: {
-      placeholder: '请选择上报时间',
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      showTime: true,
     },
   },
   // {
@@ -897,12 +905,12 @@ export const overhaulFormSchema: FormSchema[] = [
   },
   {
     //输入选择
-    field: 'dealUserIdList',
+    field: 'dealPeopleId',
     component: 'ApiSelect',
     label: '处理人',
     componentProps: {
       placeholder: '请输入选择处理人',
-      mode: 'multiple',
+      // mode: 'multiple',
       api: getPersonSelectApi,
       params: {
         // type: 'PLAN_STATUS'
@@ -1029,12 +1037,12 @@ export const maintenanceFormSchema: FormSchema[] = [
   },
   {
     //输入选择
-    field: 'dealUserIdList',
+    field: 'dealPeopleId',
     component: 'ApiSelect',
     label: '处理人',
     componentProps: {
       placeholder: '请输入选择处理人',
-      mode: 'multiple',
+      // mode: 'multiple',
       api: getPersonSelectApi,
       params: {
         // type: 'PLAN_STATUS'

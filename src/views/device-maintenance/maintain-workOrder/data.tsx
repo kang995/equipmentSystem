@@ -149,14 +149,14 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'dealUserIdList',
+      field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '工单处理人',
       labelWidth: 96,
       componentProps: {
         placeholder: '请选择工单处理人',
         api: getPersonSelectApi,
-        mode: 'multiple',
+        // mode: 'multiple',
         params: {
           // type: 'APPROVAL_STATUS',
         },

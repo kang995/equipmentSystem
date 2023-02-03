@@ -34,7 +34,7 @@
   } from '/@/api/device-management/special-equipment';
   const router = useRouter();
   const dataSource = ref([{}]);
-  function handleDetails(record) {
+  function handleDetails({ record }) {
     //跳转到设备检修-检修工单详情
     router.push({
       name: 'overhaulDetail',

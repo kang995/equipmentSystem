@@ -313,6 +313,86 @@ export const meetSchema: DescItem[] = [
     },
   },
 ];
+//检测记录详情
+export const installationSchemas: DescItem[] = [
+  {
+    field: 'createByName',
+    label: '创建人',
+  },
+  {
+    field: 'createTime',
+    label: '创建时间',
+  },
+  {
+    field: 'deviceName',
+    label: '特种设备',
+  },
+  //
+  {
+    field: 'name',
+    label: '所属装置设施',
+  },
+  {
+    field: 'detectionOrgan',
+    label: '检测机构',
+  },
+  {
+    field: 'detectionContent',
+    label: '检测内容',
+  },
+  {
+    field: 'detectionDate',
+    label: '检测时间',
+  },
+  {
+    field: 'certificateCode',
+    label: '证书编号',
+  },
+  {
+    field: 'detectionResult',
+    label: '检验结论',
+  },
+  {
+    field: 'detectionNextDate',
+    label: '下次检验日期',
+  },
+  {
+    field: 'safeAffixList',
+    label: '安全附件',
+    span: 4,
+    render: (data) => {
+      if (data) {
+        return (
+          <div>
+            {data.map((item) => {
+              return (
+                <div>
+                  <SvgIcon name="gonggong_fujian" class={'mr-2'} />
+                  <span style={'color:#61687C'} class={'mr-6'}>
+                    {item.name}
+                  </span>
+                  <a href={item.url} target="_blank">
+                    <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
+                    <button
+                      onClick={async () => saveAs(await getBlob(item.url), item.name)}
+                      class={'text-[#4D79FF]'}
+                    >
+                      下载
+                    </button>
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+    },
+  },
+  {
+    field: 'remark',
+    label: '备注',
+  },
+];
 export const installationSchema: DescItem[] = [
   {
     field: 'name',
