@@ -21,7 +21,7 @@
             <Input v-model:value="record.stock" placeholder="库存数量" :readonly="true" />
           </template>
           <template #inputSlot="{ record, index }">
-            <InputNumber
+            <Input
               :controls="false"
               v-model:value="record.numberInput"
               placeholder="请输入数量"
@@ -190,9 +190,28 @@
   function handleLimt(num, index) {
     const data = getDataSource();
     console.log(num, data[index].stock);
-    if (Number(num) > data[index].stock) {
+    handleNum(String(num));
+    if (state === 'InboundAdd' && Number(num) > data[index].stock) {
       createMessage.warn('使用数量不能大于库存数量！');
     }
+  }
+  // 限制提示
+  function handleNum(value) {
+    // console.log('value',value)
+    if (!value) {
+      return true;
+    } else {
+      if (value.length > 6) {
+        createMessage.warn('使用数量为最大6位数');
+        return false;
+      }
+      const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+      if (!IsNumber.test(value)) {
+        createMessage.warn('使用数量只能为数字');
+        return false;
+      }
+    }
+    return true;
   }
   //出库仓库
   function handleChange(warehouseId, { id }, index) {
@@ -210,7 +229,8 @@
           warehouseId, //仓库id
         }).then((res) => {
           // console.log('res',res)
-          data[index].stock = res.records[0].number;
+          // data[index].stock = res.records[0].number;
+          data[index].stock = res.records.length ? res.records[0].number : null;
           setTableData(data);
         });
       }

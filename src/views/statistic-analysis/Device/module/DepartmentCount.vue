@@ -82,7 +82,7 @@
   }
   //区域搜索
   function handleChange() {
-    getWorkCount();
+    getWorkCount(props.year);
   }
   //区域下拉
   function getDistrictList() {

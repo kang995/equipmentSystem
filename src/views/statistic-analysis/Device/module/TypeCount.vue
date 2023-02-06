@@ -67,7 +67,7 @@
   }
   //设备类型搜索
   function handleChange() {
-    getWorkCount();
+    getWorkCount(props.year);
   }
 
   //设备类型

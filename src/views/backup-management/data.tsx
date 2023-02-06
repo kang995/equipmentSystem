@@ -262,6 +262,9 @@ export const informationDescItem: DescItem[] = [
   {
     label: '参考价',
     field: 'referencePrice',
+    render: (text) => {
+      return `${text}元`;
+    },
   },
   {
     label: '更换周期',
@@ -914,7 +917,7 @@ export const inboundDescItem: DescItem[] = [
 //入库详情 OutboundDescItem
 export const OutboundDescItem: DescItem[] = [
   {
-    field: 'createBy',
+    field: 'createByName',
     label: '创建人',
   },
   {
@@ -926,11 +929,11 @@ export const OutboundDescItem: DescItem[] = [
     label: '创建时间',
   },
   {
-    field: 'receiptStatus',
+    field: 'receiptStatusText',
     label: '入库单状态',
-    render: (data) => {
-      return data === 0 ? '正常' : '作废';
-    },
+    // render: (data) => {
+    //   return data === '0' ? '正常' : '作废';
+    // },
   },
   {
     field: 'inOutType',

@@ -599,7 +599,7 @@ export function confirmFormSchema(): FormSchema[] {
     },
     // 列入检修计划
     {
-      field: 'overhaulId',
+      field: 'overhaulPlanId',
       component: 'ApiSelect',
       label: '关联检修计划',
       required: true,
@@ -625,7 +625,7 @@ export function confirmFormSchema(): FormSchema[] {
                 };
               });
               updateSchema({
-                field: 'overhaulJobId',
+                field: 'overhaulWorkOrderId',
                 component: 'Select',
                 componentProps: {
                   options: data,
@@ -640,7 +640,7 @@ export function confirmFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'overhaulJobId',
+      field: 'overhaulWorkOrderId',
       component: 'Select',
       label: '关联检修工单',
       required: true,

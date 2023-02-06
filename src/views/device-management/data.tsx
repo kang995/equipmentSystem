@@ -1081,7 +1081,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    field: 'status',
+    field: 'spareClassify',
     component: 'ApiSelect',
     label: '备件分类',
     componentProps: {
