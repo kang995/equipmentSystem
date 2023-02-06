@@ -717,7 +717,7 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
       show: () => troubleDetermine === '0',
     },
     {
-      field: 'principalPeopleName',
+      field: 'chargePeopleName',
       label: '负责人',
       show: () => troubleDetermine === '0',
     },
@@ -740,7 +740,7 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
       show: () => troubleDetermine === '0',
     },
     {
-      field: 'disposePeopleNames',
+      field: 'dealPeopleNames',
       label: '处理人',
       show: () => troubleDetermine === '0',
     },

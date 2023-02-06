@@ -154,12 +154,13 @@
   function addTap() {
     openPartModal(true);
   }
-  function handleEcho(data) {
+  async function handleEcho(data) {
     const contingencyIdList = data.map((item) => item.id);
-    contingencySaveApi({ contingencyIdList, deviceId }).then(() => {
+    await contingencySaveApi({ contingencyIdList, deviceId }).then(() => {
       createMessage.success('已保存');
       openPartModal(false);
     });
+    await handleList({});
   }
   // 详情
   function detailTap(item) {

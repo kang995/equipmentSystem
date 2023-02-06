@@ -44,13 +44,13 @@
     {
       title: '故障确认',
       icon: 'yewu_danyuan',
-      name: 'planApproval',
+      name: 'faultConfirm',
     },
-    {
-      title: '维修计划审核',
-      icon: 'yewu_danyuan',
-      name: 'string',
-    },
+    // {
+    //   title: '维修计划审核',
+    //   icon: 'yewu_danyuan',
+    //   name: 'string',
+    // },
     {
       title: '保养计划审核',
       icon: 'yewu_danyuan',

@@ -85,28 +85,29 @@ export function schemasAdd(location, routeId): FormSchema[] {
       component: 'ApiTreeSelect',
       required: true,
       ifShow: routeId ? false : true,
-      componentProps: ({ formActionType }) => {
-        const { setFieldsValue } = formActionType;
-        return {
-          placeholder: '请选择设备',
-          api: treeListApi,
-          fieldNames: {
-            value: 'id',
-            key: 'id',
-            label: 'label',
-            children: 'children',
-          },
-          getPopupContainer: () => document.body,
-          onChange: (e) => {
-            treeListApi().then((res) => {
-              const data = treeTolist(res).filter((item) => item.id === e);
-              setFieldsValue({
-                name1: data[0].position,
-              });
-            });
-          },
-        };
-      },
+      slot: 'deviceSlot',
+      // componentProps: ({ formActionType }) => {
+      //   const { setFieldsValue } = formActionType;
+      //   return {
+      //     placeholder: '请选择设备',
+      //     api: treeListApi,
+      //     fieldNames: {
+      //       value: 'id',
+      //       key: 'id',
+      //       label: 'label',
+      //       children: 'children',
+      //     },
+      //     getPopupContainer: () => document.body,
+      //     onChange: (e) => {
+      //       treeListApi().then((res) => {
+      //         const data = treeTolist(res).filter((item) => item.id === e);
+      //         setFieldsValue({
+      //           name1: data[0].position,
+      //         });
+      //       });
+      //     },
+      //   };
+      // },
     },
     {
       field: 'deviceName',
