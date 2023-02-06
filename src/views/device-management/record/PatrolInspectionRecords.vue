@@ -7,8 +7,8 @@
   >
     <template #tableTitle="{ source }">
       <div class="flex flex-1 space-x-4">
-        <div>巡检次数：{{ source?.abnormalNum }}</div>
-        <div>异常次数：{{ source?.patrolNum }}</div>
+        <div>巡检次数：{{ source?.patrolNum }}</div>
+        <div>异常次数：{{ source?.abnormalNum }}</div>
         <div>隐患次数：{{ source?.faultNum }}</div>
       </div>
     </template>

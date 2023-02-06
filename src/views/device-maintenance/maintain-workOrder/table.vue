@@ -120,8 +120,8 @@
       showAdvancedButton: false, //是否显示收起展开按钮
       fieldMapToTime: [
         //更改RangePicker的返回字段
-        ['executeTime', ['executeStartTime', 'executeEndTime'], 'YYYY-MM-DD HH:mm:ss'],
-        ['finishTime', ['finishStartTime', 'finishEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['executeTime', ['executeStartTime', 'executeEndTime'], 'YYYY-MM-DD'],
+        ['finishTime', ['finishStartTime', 'finishEndTime'], 'YYYY-MM-DD'],
       ],
       resetButtonOptions: {
         preIcon: 'gonggong_zhongzhi|svg',

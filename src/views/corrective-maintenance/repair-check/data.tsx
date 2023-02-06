@@ -155,8 +155,8 @@ export function getFormSchema(): FormSchema[] {
       component: 'RangePicker',
       label: '创建时间',
       componentProps: {
-        valueFormat: 'YYYY-MM-DD HH:mm:ss',
-        showTime: true,
+        valueFormat: 'YYYY-MM-DD',
+        // showTime: true,
         getPopupContainer: () => document.body,
       },
     },

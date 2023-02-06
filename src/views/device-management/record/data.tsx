@@ -675,8 +675,8 @@ export const patrolInspectionFormSchema: FormSchema[] = [
     component: 'RangePicker',
     label: '巡检时间段',
     componentProps: {
-      format: 'YYYY-MM-DD HH:mm:ss',
-      showTime: true,
+      format: 'YYYY-MM-DD',
+      // showTime: true,
     },
   },
   {
@@ -757,8 +757,8 @@ export const failureFormSchema: FormSchema[] = [
     component: 'RangePicker',
     label: '上报时间',
     componentProps: {
-      valueFormat: 'YYYY-MM-DD HH:mm:ss',
-      showTime: true,
+      valueFormat: 'YYYY-MM-DD',
+      // showTime: true,
     },
   },
   // {
@@ -1057,9 +1057,9 @@ export const maintenanceFormSchema: FormSchema[] = [
     component: 'RangePicker',
     label: '保养完成时间',
     componentProps: {
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: 'YYYY-MM-DD',
       placeholder: ['开始时间', '结束时间'],
-      showTime: true,
+      // showTime: true,
     },
   },
   {
@@ -1119,9 +1119,9 @@ export const emergencyFormSchema: FormSchema[] = [
     component: 'RangePicker',
     label: '计划开始时间',
     componentProps: {
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: 'YYYY-MM-DD',
       placeholder: ['开始时间', '结束时间'],
-      showTime: true,
+      // showTime: true,
     },
   },
   {
@@ -1129,9 +1129,9 @@ export const emergencyFormSchema: FormSchema[] = [
     component: 'RangePicker',
     label: '实际开始时间',
     componentProps: {
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: 'YYYY-MM-DD',
       placeholder: ['开始时间', '结束时间'],
-      showTime: true,
+      // showTime: true,
     },
   },
   {
@@ -1341,7 +1341,7 @@ export const sparePartFormSchema: FormSchema[] = [
     component: 'RangePicker',
     label: '完成时间',
     componentProps: {
-      format: 'YYYY-MM-DD HH:mm:ss',
+      format: 'YYYY-MM-DD',
       placeholder: ['开始时间', '结束时间'],
     },
   },

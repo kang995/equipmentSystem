@@ -102,8 +102,8 @@
       },
       fieldMapToTime: [
         //更改RangePicker的返回字段
-        ['Time', ['executeStartTime', 'executeEndTime'], 'YYYY-MM-DD HH:mm:ss'],
-        ['Time1', ['acceptStartTime', 'acceptEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['Time', ['executeStartTime', 'executeEndTime'], 'YYYY-MM-DD'],
+        ['Time1', ['acceptStartTime', 'acceptEndTime'], 'YYYY-MM-DD'],
       ],
     },
   });
