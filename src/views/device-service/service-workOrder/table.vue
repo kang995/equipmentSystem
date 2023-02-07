@@ -66,8 +66,8 @@
   import delayModal from '/@/views/device-service/components/petitioner/postponeModal.vue';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
-  import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
+  import { ref, onMounted } from 'vue';
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -79,12 +79,15 @@
     UpkeepWorkOrderApplyDelayApi,
   } from '/@/api/device-service/service';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import dayjs from 'dayjs';
   const { hasPermission } = usePermission();
   const [maintainModal, { openModal: openMaintainModal }] = useModal();
   const [delayModals, { openModal: openDelayModal }] = useModal();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const { createMessage } = useMessage();
   const router = useRouter();
+  const route = useRoute();
+  const timeFlag = route.query.timeFlag as string;
   const ATooltip = Tooltip;
   const props = defineProps<{
     ifIssue?: any;
@@ -136,6 +139,13 @@
         ['finishTime', ['finishStartTime', 'finishEndTime'], 'YYYY-MM-DD HH:mm:ss'],
       ],
     },
+  });
+  onMounted(() => {
+    timeFlag &&
+      getForm().setFieldsValue({
+        executeTime: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+        finishTime: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+      });
   });
   //详情
   function handleDetails(record) {

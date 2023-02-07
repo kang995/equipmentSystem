@@ -295,7 +295,7 @@ export const meetSchema: DescItem[] = [
                   <span style={'color:#61687C'} class={'mr-6'}>
                     {item.name}
                   </span>
-                  <a href={item.url} target="_blank">
+                  <a target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
                     <button
                       onClick={async () => saveAs(await getBlob(item.url), item.name)}
@@ -371,7 +371,7 @@ export const installationSchemas: DescItem[] = [
                   <span style={'color:#61687C'} class={'mr-6'}>
                     {item.name}
                   </span>
-                  <a href={item.url} target="_blank">
+                  <a target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
                     <button
                       onClick={async () => saveAs(await getBlob(item.url), item.name)}
@@ -501,7 +501,7 @@ export const installationSchema: DescItem[] = [
                   <span style={'color:#61687C'} class={'mr-6'}>
                     {item.name}
                   </span>
-                  <a href={item.url} target="_blank">
+                  <a target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
                     <button
                       onClick={async () => saveAs(await getBlob(item.url), item.name)}
@@ -1187,7 +1187,7 @@ export const FailureDetail: DescItem[] = [
                   <span style={'color:#61687C'} class={'mr-6'}>
                     {item.name}
                   </span>
-                  <a href={item.url} target="_blank">
+                  <a target="_blank">
                     <SvgIcon name="gonggong_xiazai" color="#4D79FF" />
                     <button
                       onClick={async () => saveAs(await getBlob(item.url), item.name)}

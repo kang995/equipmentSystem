@@ -60,8 +60,8 @@
   import basicModel from './module/IssuedModal.vue';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
-  import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
+  import { ref, onMounted } from 'vue';
   import { Tooltip } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
@@ -71,15 +71,18 @@
     maintainAgainApi,
   } from '/@/api/corrective-maintenance/repair';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import dayjs from 'dayjs';
   const { hasPermission } = usePermission();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const { createMessage } = useMessage();
   const router = useRouter();
+  const route = useRoute();
+  const timeFlag = route.query.timeFlag as string;
   const ATooltip = Tooltip;
   const props = defineProps<{
     ifIssue?: any;
   }>();
-  const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
+  const [register, { getSelectRowKeys, getForm, getPaginationRef, reload }] = useTable({
     api: maintainListApi,
     searchInfo: {
       type: props.ifIssue ? '0' : '1',
@@ -126,6 +129,13 @@
       ],
     },
   });
+  onMounted(() => {
+    timeFlag &&
+      getForm().setFieldsValue({
+        Time: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+        Time1: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+      });
+  });
   //详情
   function handleDetails(record) {
     router.push({
@@ -155,6 +165,7 @@
       })
       .finally(() => {
         openIssuedModal(false);
+        reload();
       });
   }
   //申请延期

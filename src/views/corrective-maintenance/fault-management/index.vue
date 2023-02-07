@@ -61,8 +61,8 @@
   import { PageWrapper } from '/@/components/Page';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
-  import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
+  import { ref, onMounted } from 'vue';
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
@@ -72,13 +72,14 @@
     TroubleRemoveApi,
   } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import dayjs from 'dayjs';
   const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
+  const route = useRoute();
+  const timeFlag = route.query.timeFlag as string;
   const ATooltip = Tooltip;
-  // const dataSource = ref([{}, {}]);
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
-    // dataSource: dataSource,
     api: TroubleListApi,
     columns: tableColumns(),
     rowKey: 'id',
@@ -119,6 +120,12 @@
         ['Time', ['startTime', 'endTime'], 'YYYY-MM-DD HH:mm:ss'],
       ],
     },
+  });
+  onMounted(() => {
+    timeFlag &&
+      getForm().setFieldsValue({
+        Time: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+      });
   });
   //新增
   function handleAdd() {

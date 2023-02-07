@@ -115,19 +115,29 @@
     //待确认故障
     1: {
       name: 'faultManagement',
-      // query: {
-      //   // alarmTime: dateTime,//故障状态：待确认
-      // },
+      query: {
+        timeFlag: 'true',
+        // alarmTime: dateTime,//故障状态：待确认
+      },
     },
 
     2: {
       name: 'maintainWorkOrder', //保养工单
+      query: {
+        timeFlag: 'true',
+      },
     },
     3: {
       name: 'repairWorkOrder', //维修工单
+      query: {
+        timeFlag: 'true',
+      },
     },
     4: {
       name: 'serviceWorkOrder', //检修工单
+      query: {
+        timeFlag: 'true',
+      },
     },
   };
 
