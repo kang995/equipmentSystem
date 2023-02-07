@@ -79,7 +79,7 @@
     UpkeepWorkOrderApplyDelayApi,
   } from '/@/api/device-service/service';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import dayjs from 'dayjs';
+  import { getTimeByType } from '/@/utils/public';
   const { hasPermission } = usePermission();
   const [maintainModal, { openModal: openMaintainModal }] = useModal();
   const [delayModals, { openModal: openDelayModal }] = useModal();
@@ -87,7 +87,7 @@
   const { createMessage } = useMessage();
   const router = useRouter();
   const route = useRoute();
-  const timeFlag = route.query.timeFlag as string;
+  const Btnvalue = route.query.Btnvalue as string;
   const ATooltip = Tooltip;
   const props = defineProps<{
     ifIssue?: any;
@@ -141,12 +141,21 @@
     },
   });
   onMounted(() => {
-    timeFlag &&
+    Btnvalue &&
       getForm().setFieldsValue({
-        executeTime: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
-        finishTime: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+        executeTime: handleFun(Btnvalue),
+        finishTime: handleFun(Btnvalue),
       });
   });
+  //日期
+  function handleFun(num) {
+    return {
+      '1': getTimeByType('day'),
+      '2': getTimeByType('week'),
+      '3': getTimeByType('month'),
+      '5': getTimeByType('year'),
+    }[num];
+  }
   //详情
   function handleDetails(record) {
     router.push({

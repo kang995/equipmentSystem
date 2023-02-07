@@ -72,12 +72,12 @@
     TroubleRemoveApi,
   } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import dayjs from 'dayjs';
+  import { getTimeByType } from '/@/utils/public';
   const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
   const route = useRoute();
-  const timeFlag = route.query.timeFlag as string;
+  const Btnvalue = route.query.Btnvalue as string;
   const ATooltip = Tooltip;
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
     api: TroubleListApi,
@@ -122,11 +122,25 @@
     },
   });
   onMounted(() => {
-    timeFlag &&
+    // timeFlag &&
+    //   getForm().setFieldsValue({
+    //     Time: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+    //   });
+    Btnvalue &&
       getForm().setFieldsValue({
-        Time: [dayjs().format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
+        Time: handleFun(Btnvalue),
       });
   });
+  //日期
+  function handleFun(num) {
+    return {
+      '1': getTimeByType('day'),
+      '2': getTimeByType('week'),
+      '3': getTimeByType('month'),
+      '5': getTimeByType('year'),
+    }[num];
+  }
+
   //新增
   function handleAdd() {
     router.push({

@@ -63,6 +63,7 @@
   const APopover = Popover;
   const { prefixCls } = useDesign('enterprise-personnel');
   const router = useRouter();
+  const Btnvalue = ref<string>('1');
   const options = [
     {
       label: '今日',
@@ -111,38 +112,39 @@
       bgColor: 'rgba(255, 91, 86, 0.1)',
     },
   ]);
-  const toRoute = {
-    //待确认故障
-    1: {
-      name: 'faultManagement',
-      query: {
-        timeFlag: 'true',
-        // alarmTime: dateTime,//故障状态：待确认
+  const toRoute = (id) =>
+    ({
+      //待确认故障
+      1: {
+        name: 'faultManagement',
+        query: {
+          Btnvalue: Btnvalue.value,
+          // alarmTime: dateTime,//故障状态：待确认
+        },
       },
-    },
 
-    2: {
-      name: 'maintainWorkOrder', //保养工单
-      query: {
-        timeFlag: 'true',
+      2: {
+        name: 'maintainWorkOrder', //保养工单
+        query: {
+          Btnvalue: Btnvalue.value,
+        },
       },
-    },
-    3: {
-      name: 'repairWorkOrder', //维修工单
-      query: {
-        timeFlag: 'true',
+      3: {
+        name: 'repairWorkOrder', //维修工单
+        query: {
+          Btnvalue: Btnvalue.value,
+        },
       },
-    },
-    4: {
-      name: 'serviceWorkOrder', //检修工单
-      query: {
-        timeFlag: 'true',
+      4: {
+        name: 'serviceWorkOrder', //检修工单
+        query: {
+          Btnvalue: Btnvalue.value,
+        },
       },
-    },
-  };
+    }[id]);
 
   function getRouterDate(id) {
-    router.push(toRoute[id]);
+    router.push(toRoute(id));
   }
   onMounted(() => {
     funView();
@@ -160,7 +162,6 @@
     });
   }
 
-  const Btnvalue = ref<string>('1');
   function getChange(val) {
     Btnvalue.value = val;
     funView();
