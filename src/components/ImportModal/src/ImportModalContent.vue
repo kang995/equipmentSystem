@@ -10,7 +10,20 @@
             <p class="mb-4">
               <SvgIcon name="yewu_qiye" size="43" />
             </p>
-            <a-button @click="getClick" class="mb-4" type="primary" :loading="loading" ghost>
+            <a-button
+              @click="getClick"
+              class="mb-4"
+              type="primary"
+              :loading="loading"
+              ghost
+              v-if="
+                hasPermission([
+                  'device:inReceipt:downloadTemplate',
+                  'device:outReceipt:downloadTemplate',
+                  'device:sparePart:downloadTemplate',
+                ])
+              "
+            >
               下载Excel模版
             </a-button>
             <p class="text-xs !font-normal text-[#9fa3b0]">
@@ -50,6 +63,8 @@
   import { downloadByData } from '/@/utils/file/download';
   import { isFunction } from '/@/utils/is';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
 
   const { prefixCls } = useDesign('import-wrapper');
