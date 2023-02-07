@@ -5,7 +5,7 @@ import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { upkeepShowApi } from '/@/api/device-maintenance/work';
-import { Tag } from 'ant-design-vue';
+import { Badge } from 'ant-design-vue';
 export interface TabItem {
   key: string;
   name: string;
@@ -80,22 +80,22 @@ export function tableColumns(): BasicColumn[] {
       customRender: ({ record }) => {
         if (record.workOrderStatus === '1') {
           //1：未开始
-          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="default" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '2') {
           //2：待执行
-          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="warning" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '3') {
           //3：待验收
-          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="warning" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '4') {
           //4：已完成
-          return <Tag color={'green'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="success" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '5') {
           //5：验收未通过
-          return <Tag color={'red'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="error" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '6') {
           //6：计划终止
-          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="default" text={record.workOrderStatusText} />;
         }
       },
     },

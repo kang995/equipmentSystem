@@ -1,15 +1,37 @@
 <template>
   <div class="px-4">
-    <Description @register="register" />
-    <!-- <div class="sub-title text-body1 text-14px font-bold mt-6 mb-6">审核信息</div> -->
-    <template v-if="(mode === '1' || mode === '3') && (status === '3' || status === '4')">
-      <Description
-        title="审核信息"
-        :column="2"
-        :data="dataSource"
-        :schema="mode === '1' ? MaintainDetails() : ServiceDetails()"
-      />
+    <div class="absolute right-20 top-22 w-17">
+      <img :src="handleStatus(AuditStatus)" alt="" />
+    </div>
+    <!-- 审核信息 -->
+    <template v-if="status === '3' || status === '4'">
+      <div
+        :class="[
+          'w-full',
+          'px-4',
+          'rounded-md',
+          status === '3' ? 'bg-[rgba(0,186,124,0.1)]' : 'bg-[rgba(255,91,86,0.1)]',
+        ]"
+      >
+        <div class="sub-title text-14px font-bold pt-6 mb-6">审核信息</div>
+        <Description
+          :bordered="false"
+          :column="1"
+          :data="dataSource"
+          :schema="mode === '1' ? MaintainDetails() : ServiceDetails()"
+        />
+      </div>
     </template>
+    <!-- 详情 -->
+    <div class="sub-title text-14px font-bold mt-6 mb-6">基本信息</div>
+    <Description
+      :bordered="false"
+      :column="3"
+      :data="dataSource"
+      :schema="infoDetails(status, mode)"
+    />
+    <div class="sub-title text-14px font-bold mt-6 mb-6">计划明细</div>
+    <Description @register="register" />
     <!-- class="absolute bottom-0 left-0" -->
     <div>
       <!-- 保养计划管理 -->
@@ -56,7 +78,7 @@
   import { Modal, message } from 'ant-design-vue';
   import { ref, createVNode, onMounted } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
-  import { MaintainDetail, MaintainDetails, ServiceDetails } from './fileld';
+  import { infoDetails, MaintainDetail, MaintainDetails, ServiceDetails } from './fileld';
   import { useRoute, useRouter } from 'vue-router';
   import { getPlanDetailApi } from '/@/api/device-maintenance/index';
   import { useModal } from '/@/components/Modal';
@@ -77,6 +99,11 @@
     OverhaulStopPlanApi,
     ApprovalAuditApi,
   } from '/@/api/device-service/index';
+  import shenhejujue from '/@/assets/images/shenhejujue@2x.png';
+  import shenhetongguo from '/@/assets/images/shenhetongguo@2x.png';
+  import shenhezhong from '/@/assets/images/shenhezhong@2x.png';
+  import weitijiao from '/@/assets/images/weitijiao@2x.png';
+
   const route = useRoute();
   const router = useRouter();
   const status = route.query?.status as string;
@@ -95,13 +122,20 @@
     column: 2,
     size: 'default',
   });
-  // const [registerCheck] = useDescription({
-  //   data,
-  //   schema: MaintainDetails(status, mode),
-  //   bordered: true,
-  //   column: 2,
-  //   size: 'default',
-  // });
+  //审核icon
+  function handleStatus(status) {
+    switch (status) {
+      case '1':
+        return weitijiao;
+      case '2':
+        return shenhezhong;
+      case '3':
+        return shenhetongguo;
+      case '4':
+        return shenhejujue;
+    }
+  }
+
   function backFun() {
     router.go(-1);
   }
@@ -185,16 +219,22 @@
     id && (mode === '1' || mode === '2') && getMaintainDetail();
     id && (mode === '3' || mode === '4') && getServiceDetail();
   });
+
+  const AuditStatus = ref<any>();
   //保养计划管理、保养计划审核详情
   function getMaintainDetail() {
     getPlanDetailApi({ id }).then((res) => {
       dataSource.value = res;
+      // 审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
+      AuditStatus.value = res.approvalStatus;
     });
   }
   //检修计划管理、检修计划审核详情
   function getServiceDetail() {
     OverhaulPlanDetailsApi({ id }).then((res) => {
       dataSource.value = res;
+      // 审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
+      AuditStatus.value = res.approvalStatus;
     });
   }
 </script>

@@ -3,9 +3,8 @@ import { DescItem } from '/@/components/Description';
 import { getPersonSelectApi, getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 import { Image, Tag } from 'ant-design-vue';
 
-//保养计划详情
-export function MaintainDetail(_state: string, mode: string): DescItem[] {
-  // console.log('模块', mode);
+//保养基本信息
+export function infoDetails(_state: string, mode: string): DescItem[] {
   return [
     {
       field: 'code',
@@ -33,12 +32,6 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
       field: 'name',
       label: '计划名称',
     },
-    //
-    {
-      field: 'overhaulTypeText',
-      label: '检修类型',
-      show: () => mode === '3' || mode === '4',
-    },
     {
       field: 'effectStartDate',
       label: '计划生效时间',
@@ -49,6 +42,18 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
           return '';
         }
       },
+    },
+  ];
+}
+
+//保养计划详情
+export function MaintainDetail(_state: string, mode: string): DescItem[] {
+  // console.log('模块', mode);
+  return [
+    {
+      field: 'overhaulTypeText',
+      label: '检修类型',
+      show: () => mode === '3' || mode === '4',
     },
     {
       field: 'taskStartTime',
@@ -190,9 +195,16 @@ export function MaintainDetails(): DescItem[] {
     {
       field: 'approvalStatusText',
       label: '审核结果',
+      render: (curVal, data) => {
+        if (data.approvalStatus === '3') {
+          return <span class={'text-green-500'}>{curVal}</span>;
+        } else {
+          return <span class={'text-red-500'}>{curVal}</span>;
+        }
+      },
     },
     {
-      field: 'remark',
+      field: 'approvalRemark',
       label: '原因（备注）',
     },
   ];
@@ -201,14 +213,18 @@ export function MaintainDetails(): DescItem[] {
 export function ServiceDetails(): DescItem[] {
   return [
     {
-      field: 'approvalResult', //审核结果（0：通过；1：拒绝）
+      field: 'approvalStatusText', //审核结果（0：通过；1：拒绝）
       label: '审核结果',
-      render: (curVal) => {
-        return curVal === '0' ? '通过' : '拒绝';
+      render: (curVal, data) => {
+        if (data.approvalStatus === '3') {
+          return <span class={'text-green-500'}>{curVal}</span>;
+        } else {
+          return <span class={'text-red-500'}>{curVal}</span>;
+        }
       },
     },
     {
-      field: 'remark',
+      field: 'approvalRemark',
       label: '原因（备注）',
     },
   ];
