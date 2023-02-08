@@ -14,7 +14,7 @@ import {
   getPersonSelectApi,
 } from '/@/api/device-maintenance/index';
 import { maintainIsshowApi } from '/@/api/corrective-maintenance/repair';
-import { Tag } from 'ant-design-vue';
+import { Tag, Badge } from 'ant-design-vue';
 
 export interface TabItem {
   key: string;
@@ -101,7 +101,7 @@ export function tableColumns(): BasicColumn[] {
           return <Tag color={'orange'}>{record.urgentLevelText}</Tag>;
         } else if (record.urgentLevel === '2') {
           //中
-          return <Tag color={'cyan'}>{record.urgentLevelText}</Tag>;
+          return <Tag color={'warning'}>{record.urgentLevelText}</Tag>;
         } else if (record.urgentLevel === '3') {
           //低
           return <Tag color={'blue'}>{record.urgentLevelText}</Tag>;
@@ -118,19 +118,19 @@ export function tableColumns(): BasicColumn[] {
       customRender: ({ record }) => {
         if (record.maintainStatus === '0') {
           //待处理
-          return <Tag color={'default'}>{record.maintainStatusText}</Tag>;
+          return <Badge color="gold" text={record.maintainStatusText} />;
         } else if (record.maintainStatus === '1') {
           //待处理(延期申请)
-          return <Tag color={'orange'}>{record.maintainStatusText}</Tag>;
+          return <Badge color="yellow" text={record.maintainStatusText} />;
         } else if (record.maintainStatus === '2') {
           //待验收
-          return <Tag color={'orange'}>{record.maintainStatusText}</Tag>;
+          return <Badge status="processing" text={record.maintainStatusText} />;
         } else if (record.maintainStatus === '3') {
           //验收未通过
-          return <Tag color={'red'}>{record.maintainStatusText}</Tag>;
+          return <Badge status="error" text={record.maintainStatusText} />;
         } else if (record.maintainStatus === '4') {
           //完成
-          return <Tag color={'green'}>{record.maintainStatusText}</Tag>;
+          return <Badge status="success" text={record.maintainStatusText} />;
         }
       },
     },

@@ -8,7 +8,7 @@ import {
   getStationPeopleSelectApi,
   getWorkFlowApi,
 } from '/@/api/device-maintenance/index';
-import { Tag } from 'ant-design-vue';
+import { Badge } from 'ant-design-vue';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -38,7 +38,22 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '计划状态',
-      dataIndex: 'planStatusText',
+      dataIndex: 'planStatus',
+      customRender: ({ record }) => {
+        if (record.planStatus === '1') {
+          //未开始
+          return <Badge status="warning" text={record.planStatusText} />;
+        } else if (record.planStatus === '2') {
+          //进行中
+          return <Badge status="processing" text={record.planStatusText} />;
+        } else if (record.planStatus === '3') {
+          //已停止
+          return <Badge status="error" text={record.planStatusText} />;
+        } else if (record.planStatus === '4') {
+          //已完成
+          return <Badge status="success" text={record.planStatusText} />;
+        }
+      },
     },
     {
       title: '审核状态',
@@ -46,16 +61,16 @@ export function tableColumns(): BasicColumn[] {
       customRender: ({ record }) => {
         if (record.approvalStatus === '1') {
           //待提交
-          return <Tag color={'default'}>{record.approvalStatusText}</Tag>;
+          return <Badge status="warning" text={record.approvalStatusText} />;
         } else if (record.approvalStatus === '2') {
           //审核中
-          return <Tag color={'orange'}>{record.approvalStatusText}</Tag>;
+          return <Badge status="processing" text={record.approvalStatusText} />;
         } else if (record.approvalStatus === '3') {
           //审核通过
-          return <Tag color={'green'}>{record.approvalStatusText}</Tag>;
+          return <Badge status="success" text={record.approvalStatusText} />;
         } else if (record.approvalStatus === '4') {
           //审核拒绝
-          return <Tag color={'red'}>{record.approvalStatusText}</Tag>;
+          return <Badge status="error" text={record.approvalStatusText} />;
         }
       },
     },

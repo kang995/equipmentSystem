@@ -2,7 +2,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
-import { Image, Tag } from 'ant-design-vue';
+import { Image, Tag, Badge } from 'ant-design-vue';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { whetherShowApi } from '/@/api/device-service/service';
 
@@ -81,40 +81,40 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
       customRender: ({ record }) => {
         if (record.workOrderStatus === '1') {
           //1：未开始
-          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="default" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '2') {
           //2：待执行
-          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+          return <Badge color="gold" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '3') {
           //3：待验收
-          return <Tag color={'orange'}>{record.workOrderStatusText}</Tag>;
+          return <Badge color="yellow" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '4') {
           //4：已完成
-          return <Tag color={'green'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="success" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '5') {
           //5：验收未通过
-          return <Tag color={'red'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="error" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '6') {
           //6：计划终止
-          return <Tag color={'default'}>{record.workOrderStatusText}</Tag>;
+          return <Badge status="default" text={record.workOrderStatusText} />;
         }
       },
     },
     {
       title: '是否延期',
-      dataIndex: 'delayFlag',
-      customRender: ({ record }) => {
-        if (record.delayFlag === '0') {
-          //0:否
-          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
-        } else if (record.delayFlag === '1') {
-          //1：是
-          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
-        } else if (record.delayFlag === '2') {
-          //2：延期审核
-          return <Tag color={'red'}>{record.delayFlagText}</Tag>;
-        }
-      },
+      dataIndex: 'delayFlagText',
+      // customRender: ({ record }) => {
+      //   if (record.delayFlag === '0') {
+      //     //0:否
+      //     return <Tag color={'default'}>{record.delayFlagText}</Tag>;
+      //   } else if (record.delayFlag === '1') {
+      //     //1：是
+      //     return <Tag color={'default'}>{record.delayFlagText}</Tag>;
+      //   } else if (record.delayFlag === '2') {
+      //     //2：延期审核
+      //     return <Tag color={'red'}>{record.delayFlagText}</Tag>;
+      //   }
+      // },
     },
     //
     {

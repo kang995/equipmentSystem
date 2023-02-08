@@ -17,7 +17,7 @@ import {
   TroublePlanListApi,
   TroubleWorkOrderListApi,
 } from '/@/api/corrective-maintenance/fault';
-import { Tag } from 'ant-design-vue';
+import { Tag, Badge } from 'ant-design-vue';
 export interface TabItem {
   key: string;
   name: string;
@@ -75,7 +75,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
           return <Tag color={'orange'}>{record.urgentLevelText}</Tag>;
         } else if (record.urgentLevel === '2') {
           //中
-          return <Tag color={'cyan'}>{record.urgentLevelText}</Tag>;
+          return <Tag color={'warning'}>{record.urgentLevelText}</Tag>;
         } else if (record.urgentLevel === '3') {
           //低
           return <Tag color={'blue'}>{record.urgentLevelText}</Tag>;
@@ -92,19 +92,19 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
       customRender: ({ record }) => {
         if (record.troubleStatus === '0') {
           //待确认
-          return <Tag color={'default'}>{record.troubleStatusText}</Tag>;
+          return <Badge color="yellow" text={record.troubleStatusText} />;
         } else if (record.troubleStatus === '1') {
           //待处理
-          return <Tag color={'orange'}>{record.troubleStatusText}</Tag>;
+          return <Badge color="gold" text={record.troubleStatusText} />;
         } else if (record.troubleStatus === '2') {
           //处理中
-          return <Tag color={'orange'}>{record.troubleStatusText}</Tag>;
+          return <Badge status="processing" text={record.troubleStatusText} />;
         } else if (record.troubleStatus === '3') {
           //已解决
-          return <Tag color={'green'}>{record.troubleStatusText}</Tag>;
+          return <Badge status="success" text={record.troubleStatusText} />;
         } else if (record.troubleStatus === '4') {
           //已转计划
-          return <Tag color={'default'}>{record.troubleStatusText}</Tag>;
+          return <Badge status="default" text={record.troubleStatusText} />;
         }
       },
     },

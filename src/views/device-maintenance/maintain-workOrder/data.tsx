@@ -83,10 +83,10 @@ export function tableColumns(): BasicColumn[] {
           return <Badge status="default" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '2') {
           //2：待执行
-          return <Badge status="warning" text={record.workOrderStatusText} />;
+          return <Badge color="gold" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '3') {
           //3：待验收
-          return <Badge status="warning" text={record.workOrderStatusText} />;
+          return <Badge color="yellow" text={record.workOrderStatusText} />;
         } else if (record.workOrderStatus === '4') {
           //4：已完成
           return <Badge status="success" text={record.workOrderStatusText} />;
