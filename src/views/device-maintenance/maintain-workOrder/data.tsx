@@ -101,19 +101,19 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '工单延期',
-      dataIndex: 'delayFlag',
-      customRender: ({ record }) => {
-        if (record.delayFlag === '0') {
-          //0:否
-          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
-        } else if (record.delayFlag === '1') {
-          //1：是
-          return <Tag color={'default'}>{record.delayFlagText}</Tag>;
-        } else if (record.delayFlag === '2') {
-          //2：延期审核
-          return <Tag color={'red'}>{record.delayFlagText}</Tag>;
-        }
-      },
+      dataIndex: 'delayFlagText',
+      // customRender: ({ record }) => {
+      //   if (record.delayFlag === '0') {
+      //     //0:否
+      //     return <Tag color={'default'}>{record.delayFlagText}</Tag>;
+      //   } else if (record.delayFlag === '1') {
+      //     //1：是
+      //     return <Tag color={'default'}>{record.delayFlagText}</Tag>;
+      //   } else if (record.delayFlag === '2') {
+      //     //2：延期审核
+      //     return <Tag color={'red'}>{record.delayFlagText}</Tag>;
+      //   }
+      // },
     },
     {
       title: '完成时间',
@@ -222,15 +222,15 @@ export function getFormSchema(): FormSchema[] {
 //工单信息
 export function WorkDetail(): DescItem[] {
   return [
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>工单信息</span>;
-      },
-    },
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 3,
+    //   render: () => {
+    //     return <span style={titleStyle}>工单信息</span>;
+    //   },
+    // },
     {
       field: 'code',
       label: '工单编号',
@@ -250,7 +250,7 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'executeStartTime',
       label: '工单执行时间',
-      render: (curVal, data) => {
+      render: (_, data) => {
         return `${data.executeStartTime}至${data.executeEndTime}`;
       },
     },
@@ -273,15 +273,20 @@ export function WorkDetail(): DescItem[] {
         return curVal ? curVal : '--';
       },
     },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>保养明细</span>;
-      },
-    },
+  ];
+}
+//保养明细
+export function WorkDetails(): DescItem[] {
+  return [
+    // {
+    //   field: '',
+    //   label: '',
+    //   labelMinWidth: 0,
+    //   span: 3,
+    //   render: () => {
+    //     return <span style={titleStyle}>保养明细</span>;
+    //   },
+    // },
     {
       field: 'upkeepTypeText',
       label: '保养类型',
@@ -291,73 +296,16 @@ export function WorkDetail(): DescItem[] {
       label: '保养内容',
     },
     {
-      field: 'upkeepContent',
+      field: 'upkeepStandard',
       label: '保养标椎',
     },
     {
-      field: 'upkeepContent',
+      field: 'safeRule',
       label: '安全规则',
-      span: 3,
     },
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 3,
-    //   render: () => {
-    //     return <span style={titleStyle}>保养设备</span>;
-    //   },
-    // },
-    // {
-    //   field: 'storageTankList',
-    //   label: '',
-    //   span: 3,
-    //   //表格
-    //   render: (data) => {
-    //     // if (data) {
-    //     console.log('data: ', data);
-    //     return (
-    //       <div>
-    //         <BasicTable
-    //           pagination={false}
-    //           dataSource={data}
-    //           bordered={true}
-    //           columns={keepDeviceColumns()}
-    //           style={'color:#61687C'}
-    //           class={'mr-6'}
-    //         ></BasicTable>
-    //       </div>
-    //     );
-    //     // }
-    //   },
-    // },
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 3,
-    //   render: () => {
-    //     return <span style={titleStyle}>延期申请</span>;
-    //   },
-    //   show: (data) => (isShow2 ? true : false),
-    // },
-    // {
-    //   field: 'applyUserName',
-    //   label: '原截止时间',
-    //   show: (data) => (isShow2 ? true : false),
-    // },
-    // {
-    //   field: 'applyUserName',
-    //   label: '延期时间',
-    //   show: (data) => (isShow2 ? true : false),
-    // },
-    // {
-    //   field: 'applyUserName',
-    //   label: '延期原因',
-    //   show: (data) => (isShow2 ? true : false),
-    // },
   ];
 }
+
 //保养设备
 export function keepDeviceColumns(): BasicColumn[] {
   return [

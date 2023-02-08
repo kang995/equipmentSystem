@@ -1,7 +1,20 @@
 <template>
   <div class="px-4">
+    <div class="absolute right-20 top-22 w-17">
+      <img :src="handleStatus(identity, status, delayFlag)" alt="" />
+    </div>
+    <!-- 延期申请  -->
+    <div v-if="identity === '1' && delayFlag === '2'">
+      <applyDescription :delayData="delayData" />
+    </div>
+    <!-- 工单信息 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">基本信息</div>
     <Description @register="register" />
-    <div class="font-black text-[#414960] text-[15px] my-[16px]">保养设备</div>
+    <!-- 保养明细 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">保养明细</div>
+    <Description @register="registers" />
+    <!-- 保养设备 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">保养设备</div>
     <BasicTable @register="registerTable">
       <template #action="{ record }">
         <TableAction
@@ -22,7 +35,7 @@
       <reIssueForm ref="reIssueRef" v-if="again" />
       <!-- 延期审核 -->
       <template v-if="delayFlag === '2'">
-        <applyDescription :delayData="delayData" />
+        <!-- <applyDescription :delayData="delayData" /> -->
         <postponeForm ref="postponeRef" v-if="postpone" />
       </template>
       <!-- 保养结果、验收结果 -->
@@ -116,6 +129,7 @@
   import maintainDescription from '../../components/petitioner/maintainDescription.vue';
   import receiveDescription from '../../components/petitioner/receiveDescription.vue';
   import {
+    WorkDetails,
     WorkDetail,
     postponeFormSchema,
     ResultFormSchema,
@@ -129,17 +143,9 @@
     upkeepApplyDelayApi,
     // upkeepDealResultApi,
   } from '/@/api/device-maintenance/work';
+  import daixiafa from '/@/assets/images/daixiafa@2x.png';
+  import shenqingyanqi from '/@/assets/images/shenqingyanqi@2x.png';
 
-  // const props = defineProps({
-  //   status: {
-  //     type: String,
-  //     default: '',
-  //   },
-  //   identity: {
-  //     type: String,
-  //     default: '',
-  //   },
-  // });
   const postponeRef = ref();
   const reIssueRef = ref();
   const { createMessage } = useMessage();
@@ -175,6 +181,21 @@
     column: 3,
     size: 'default',
   });
+  const [registers] = useDescription({
+    data: infoData,
+    schema: WorkDetails(),
+    bordered: true,
+    column: 2,
+    size: 'default',
+  });
+  //审核icon
+  function handleStatus(identity, status, delayFlag) {
+    if (identity === '1' && status === '2' && delayFlag === '2') {
+      return shenqingyanqi;
+    } else if (identity === '1' && status === '2') {
+      return daixiafa;
+    }
+  }
   //详情
   const delayData = ref();
   const acceptList = ref();
@@ -182,6 +203,10 @@
     upkeepDetailsApi({ id }).then((res) => {
       console.log('res', res);
       infoData.value = { ...res.workOrderInfoVO, ...res.upkeepPlanInfoVO };
+      // let {upkeepTypeText,upkeepContent,upkeepStandard,safeRule } = res.upkeepPlanInfoVO;
+      // infoDatas.value = res.upkeepPlanInfoVO;
+      // console.log('infoDatas.value',infoDatas.value)
+
       dataSource.value = res.upkeepPlanInfoVO.deviceList;
       delayData.value = res.delay;
       acceptList.value = res.acceptList;

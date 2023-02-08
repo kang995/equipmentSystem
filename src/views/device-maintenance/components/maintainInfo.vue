@@ -13,7 +13,7 @@
           status === '3' ? 'bg-[rgba(0,186,124,0.1)]' : 'bg-[rgba(255,91,86,0.1)]',
         ]"
       >
-        <div class="sub-title text-14px font-bold pt-6 mb-6">审核信息</div>
+        <div class="font-black text-[#414960] text-[15px] py-[16px]">审核信息</div>
         <Description
           :bordered="false"
           :column="1"
@@ -23,14 +23,14 @@
       </div>
     </template>
     <!-- 详情 -->
-    <div class="sub-title text-14px font-bold mt-6 mb-6">基本信息</div>
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">基本信息</div>
     <Description
       :bordered="false"
       :column="3"
       :data="dataSource"
       :schema="infoDetails(status, mode)"
     />
-    <div class="sub-title text-14px font-bold mt-6 mb-6">计划明细</div>
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">计划明细</div>
     <Description @register="register" />
     <!-- class="absolute bottom-0 left-0" -->
     <div>

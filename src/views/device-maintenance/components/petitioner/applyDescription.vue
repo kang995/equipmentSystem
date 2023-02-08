@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-[24px]">
-    <div class="font-black text-[#414960] text-[15px] my-[16px]">延期申请</div>
+  <div class="w-full px-4 rounded-md bg-[rgba(255,170,0,0.1)]">
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">延期申请</div>
     <Description @register="registerApply" />
   </div>
 </template>
