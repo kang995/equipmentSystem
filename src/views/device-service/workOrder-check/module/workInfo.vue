@@ -1,5 +1,8 @@
 <template>
   <div class="px-4">
+    <div class="absolute right-20 top-22 w-17">
+      <img :src="handleStatus(workOrderStatus)" alt="" />
+    </div>
     <!-- 工单信息、检修明细 -->
     <workOrder :infoData="infoData" />
     <!-- 检修设备 -->
@@ -15,9 +18,9 @@
     <!-- 验收结果提交 -->
     <template v-if="status === '1'">
       <resultForm ref="submitRef" />
-      <div class="my-[12px]">
-        <a-button class="mr-4">取消</a-button>
-        <a-button type="primary" @click="handleSubmit">提交</a-button>
+      <div class="my-[12px] w-40 container mx-auto">
+        <a-button class="mr-4" type="primary" @click="handleSubmit">提交</a-button>
+        <a-button>取消</a-button>
       </div>
     </template>
   </div>
@@ -32,25 +35,40 @@
   import resultDescriptions from '/@/views/device-service/components/petitioner/resultDescriptions.vue';
   import resultForm from './resultForm.vue';
   import { SaveAcceptResultApi, UpkeepWorkOrderDetailsApi } from '/@/api/device-service/service';
-  import { useMessage } from '/@/hooks/web/useMessage';
-  const { createMessage } = useMessage();
+  // import { useMessage } from '/@/hooks/web/useMessage';
+  import tongguo from '/@/assets/images/tongguo@2x.png';
+  import weitongguo from '/@/assets/images/weitongguo@2x.png';
+  import daiyanshou from '/@/assets/images/daiyanshou@2x.png';
+
+  // const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
   const status = route.query?.status as string;
   const id = route.query?.id as string;
   const submitRef = ref();
-
+  const workOrderStatus = ref<string>('');
+  //审核icon
+  function handleStatus(status) {
+    switch (status) {
+      case '5':
+        return weitongguo;
+      case '4':
+        return tongguo;
+      case '3':
+        return daiyanshou;
+    }
+  }
   //详情
   const infoData = ref({});
   const deviceList = ref([]);
   const acceptList = ref([]);
   id &&
     UpkeepWorkOrderDetailsApi({ id }).then((res) => {
-      console.log('res', res);
       infoData.value = { ...res.workOrderInfoVO, ...res.overhaulPlanInfoVO }; //工单信息、检修明细
       deviceList.value = res.overhaulPlanInfoVO.deviceList; //检修设备
       console.log('检修设备', deviceList.value);
       acceptList.value = res.acceptList; //检修结果、验收结果
+      workOrderStatus.value = res.workOrderInfoVO.workOrderStatus;
     });
 
   //提交
@@ -58,7 +76,6 @@
     const [res] = await Promise.all([submitRef.value.submitFun()]);
     res['workOrderId'] = id;
     SaveAcceptResultApi(res).then(() => {
-      createMessage.success('已提交');
       router.push({
         name: 'workOrderCheck',
       });

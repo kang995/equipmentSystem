@@ -13,7 +13,7 @@
     schemas: getResultFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     labelCol: {
-      span: 3,
+      span: 6,
     },
     wrapperCol: {
       span: 12,

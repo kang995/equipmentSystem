@@ -22,7 +22,9 @@
   //   frameSrc: propTypes.string.def('https://workflow-plat-dev.ts-it.cn/api/free/login/getUserInfo?info=e201&pathCode=1&to=create&enCode=0109&id=382060939370825093&formType=2&url=https://10.20.100.66:3100'),
   // });
 
-  const frameSrc = ref<any>(''); //https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_10331578229032850397%22%7D&n_type=-1&p_from=-1
+  const frameSrc = ref<any>(
+    'https://workflow-plat-test.ts-it.cn/api/free/login/getUserInfo?info=da062f292e684a46889063ddef7fe72eda4fac6478e98010678b5fccbb076043c920bef166290194fdcb06deba08941d03712c41f54d88fde571369ca58a27be38130d7140298358b03ae7880f4e33ffde57b832f6586ca2c810fd705bdaa0c656199846501e8df82a05e3ac87114a56971523ad9ec6c1066f7828f88c3556d7&pathCode=1&url=https://workflow-plat-test.ts-it.cn',
+  ); //https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_10331578229032850397%22%7D&n_type=-1&p_from=-1
   const loading = ref(true);
   const topRef = ref(50);
   const heightRef = ref(window.innerHeight);

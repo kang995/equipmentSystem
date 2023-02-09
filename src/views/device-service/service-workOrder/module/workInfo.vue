@@ -1,6 +1,19 @@
 <template>
   <div class="px-4">
+    <div class="absolute right-20 top-22 w-17">
+      <img :src="handleStatus(identity, status, delayFlag)" alt="" />
+    </div>
+    <!-- 延期申请  -->
+    <div v-if="identity === '1' && delayFlag === '2'">
+      <applyDescription v-if="delayData" :delayData="delayData" />
+    </div>
+    <!-- 工单信息 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">工单信息</div>
     <Description @register="registerOverhaul" />
+    <!-- 检修明细 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">检修明细</div>
+    <Description @register="registerOverhauls" />
+    <!-- 检修设备 -->
     <div class="font-black text-[#414960] text-[15px] my-[16px]">检修设备</div>
     <BasicTable @register="registerTable">
       <template #action="{ record }">
@@ -22,7 +35,7 @@
       <reIssueForm ref="reIssueRef" v-if="again" />
       <!-- 延期审核 -->
       <template v-if="delayFlag === '2'">
-        <applyDescription :delayData="delayData" />
+        <!-- <applyDescription :delayData="delayData" /> -->
         <postponeForm ref="postponeRef" v-if="postpone" />
       </template>
       <!-- 检修结果 -->
@@ -115,23 +128,16 @@
   //执行人
   import applyForm from '../../components/executor/applyForm.vue';
   // import acceptForm from '../../components/executor/acceptForm.vue';
-  import { WorkDetail, deviceTableColumns, getAcceptFormSchema } from '../data';
+  import { WorkDetails, WorkDetail, deviceTableColumns, getAcceptFormSchema } from '../data';
   import {
     UpkeepWorkOrderDetailsApi,
     UpkeepWorkOrderAnewIssueApi,
     UpkeepWorkOrderDelayAuditApi,
     UpkeepWorkOrderApplyDelayApi,
   } from '/@/api/device-service/service';
-  // const props = defineProps({
-  //   status: {
-  //     type: String,
-  //     default: '',
-  //   },
-  //   identity: {
-  //     type: String,
-  //     default: '',
-  //   },
-  // });
+  import daixiafa from '/@/assets/images/daixiafa@2x.png';
+  import shenqingyanqi from '/@/assets/images/shenqingyanqi@2x.png';
+
   const postponeRef = ref();
   const reIssueRef = ref();
   const appplyRef = ref();
@@ -150,6 +156,15 @@
   onMounted(() => {
     isShow && (apply.value = true);
   });
+
+  //审核icon
+  function handleStatus(identity, status, delayFlag) {
+    if (identity === '1' && status === '2' && delayFlag === '2') {
+      return shenqingyanqi;
+    } else if (identity === '1' && status === '2') {
+      return daixiafa;
+    }
+  }
   // 详情
   const delayData = ref();
   const acceptList = ref();
@@ -241,13 +256,21 @@
     });
   };
   //负责人
-  // 工单信息、检修明细
+  // 工单信息
   let infoData = ref<any>({});
   const [registerOverhaul] = useDescription({
     data: infoData,
     schema: WorkDetail(handleRouteDetails),
     bordered: false,
     column: 3,
+    size: 'default',
+  });
+  //检修明细
+  const [registerOverhauls] = useDescription({
+    data: infoData,
+    schema: WorkDetails(),
+    bordered: true,
+    column: 2,
     size: 'default',
   });
 

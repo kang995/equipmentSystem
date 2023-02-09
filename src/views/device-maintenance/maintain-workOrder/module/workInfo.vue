@@ -5,7 +5,7 @@
     </div>
     <!-- 延期申请  -->
     <div v-if="identity === '1' && delayFlag === '2'">
-      <applyDescription :delayData="delayData" />
+      <applyDescription v-if="delayData" :delayData="delayData" />
     </div>
     <!-- 工单信息 -->
     <div class="font-black text-[#414960] text-[15px] py-[16px]">基本信息</div>

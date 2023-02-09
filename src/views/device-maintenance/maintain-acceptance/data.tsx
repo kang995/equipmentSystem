@@ -151,15 +151,6 @@ export function getFormSchema(type: any): FormSchema[] {
 export function WorkDetail(): DescItem[] {
   return [
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>工单信息</span>;
-      },
-    },
-    {
       field: 'code',
       label: '工单编号',
     },
@@ -183,13 +174,24 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'workOrderStatus',
+      field: 'workOrderStatusText',
       label: '工单状态',
     },
     {
       field: 'dealDeptName',
       label: '工单处理部门',
+      show: (values) => {
+        return values.designateType === '1' ? true : false;
+      },
     },
+    {
+      field: 'dealStationName',
+      label: '工单处理岗位',
+      show: (values) => {
+        return values.designateType === '2' ? true : false;
+      },
+    },
+
     {
       field: 'dealUserName',
       label: '工单处理人',
@@ -198,15 +200,11 @@ export function WorkDetail(): DescItem[] {
       field: 'finishTime',
       label: '完成时间',
     },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>保养明细</span>;
-      },
-    },
+  ];
+}
+//保养明细
+export function WorkDetails(): DescItem[] {
+  return [
     {
       field: 'upkeepTypeText',
       label: '保养类型',
@@ -216,13 +214,12 @@ export function WorkDetail(): DescItem[] {
       label: '保养内容',
     },
     {
-      field: 'upkeepContent',
+      field: 'upkeepStandard',
       label: '保养标椎',
     },
     {
-      field: 'upkeepContent',
+      field: 'safeRule',
       label: '安全规则',
-      span: 3,
     },
   ];
 }

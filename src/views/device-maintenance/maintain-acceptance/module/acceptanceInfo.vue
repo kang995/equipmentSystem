@@ -1,6 +1,15 @@
 <template>
   <div class="px-4">
+    <div class="absolute right-20 top-22 w-17">
+      <img :src="handleStatus(workOrderStatus)" alt="" />
+    </div>
+    <!-- 工单信息 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">基本信息</div>
     <Description @register="register" />
+    <!-- 保养明细 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">保养明细</div>
+    <Description @register="registers" />
+    <!-- 保养设备 -->
     <div class="font-black text-[#414960] text-[15px] my-[16px]">保养设备</div>
     <BasicTable @register="registerTable">
       <template #action="{ record }">
@@ -26,9 +35,9 @@
       <div class="font-black text-[#414960] text-[15px] mb-[16px]">验收结果</div>
       <BasicForm @register="registerFrom" />
     </div>
-    <div class="mt-[12px]" v-if="status === '1'">
-      <a-button class="mr-4">取消</a-button>
-      <a-button type="primary" @click="handleSubmit">提交</a-button>
+    <div class="my-[12px] w-40 container mx-auto" v-if="status === '1'">
+      <a-button class="mr-4" type="primary" @click="handleSubmit">提交</a-button>
+      <a-button>取消</a-button>
     </div>
   </div>
 </template>
@@ -40,25 +49,40 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { Description, useDescription } from '/@/components/Description';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { WorkDetail, MaintenanceFormSchema } from '../data';
+  import { WorkDetails, WorkDetail, MaintenanceFormSchema } from '../data';
   import { keepDeviceColumns } from '/@/views/device-maintenance/maintain-workOrder/data';
   import { upkeepDetailsApi, getSaveAcceptResultApi } from '/@/api/device-maintenance/work';
   import maintainDescription from '/@/views/device-maintenance/components/petitioner/maintainDescription.vue';
   import receiveDescription from '/@/views/device-maintenance/components/petitioner/receiveDescription.vue';
+  import tongguo from '/@/assets/images/tongguo@2x.png';
+  import weitongguo from '/@/assets/images/weitongguo@2x.png';
+  import daiyanshou from '/@/assets/images/daiyanshou@2x.png';
+
   const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
   const id = route.query?.id as string;
   const status = route.query?.status as string;
-
+  const workOrderStatus = ref<string>('');
+  //审核icon
+  function handleStatus(status) {
+    switch (status) {
+      case '5':
+        return weitongguo;
+      case '4':
+        return tongguo;
+      case '3':
+        return daiyanshou;
+    }
+  }
   //详情
   const acceptList = ref();
   id &&
     upkeepDetailsApi({ id }).then((res) => {
-      console.log('res', res);
       infoData.value = { ...res.workOrderInfoVO, ...res.upkeepPlanInfoVO };
       dataSource.value = res.upkeepPlanInfoVO.deviceList;
       acceptList.value = res.acceptList; //保养结果
+      workOrderStatus.value = res.workOrderInfoVO.workOrderStatus;
     });
 
   //提交
@@ -140,6 +164,13 @@
     column: 3,
     size: 'default',
   });
+  const [registers] = useDescription({
+    data: infoData,
+    schema: WorkDetails(),
+    bordered: true,
+    column: 2,
+    size: 'default',
+  });
   const [registerFrom, { validate, getFieldsValue }] = useForm({
     schemas: MaintenanceFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
@@ -148,7 +179,7 @@
     // },
     // labelWidth: 120,
     labelCol: {
-      span: 3,
+      span: 6,
     },
     wrapperCol: {
       span: 12,

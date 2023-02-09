@@ -229,18 +229,9 @@ export function getFormSchema(): FormSchema[] {
   ];
 }
 
-// 工单信息、检修明细
+// 工单信息
 export function WorkDetail(handleRouteDetails): DescItem[] {
   return [
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>工单信息</span>;
-      },
-    },
     {
       field: 'code',
       label: '工单编号',
@@ -287,15 +278,11 @@ export function WorkDetail(handleRouteDetails): DescItem[] {
         return curVal ? curVal : '--';
       },
     },
-    {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 3,
-      render: () => {
-        return <span style={titleStyle}>检修明细</span>;
-      },
-    },
+  ];
+}
+// 检修明细
+export function WorkDetails(): DescItem[] {
+  return [
     {
       field: 'overhaulTypeText',
       label: '检修类型',

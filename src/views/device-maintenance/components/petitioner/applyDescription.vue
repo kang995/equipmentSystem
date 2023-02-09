@@ -9,6 +9,7 @@
   // import { ref } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
   import { ApplySchemaDetail } from '../fileld';
+
   const props = defineProps({
     delayData: {
       type: Object as any,
@@ -17,7 +18,6 @@
   });
 
   // 延期申请
-  // let postpone = ref<any>({});
   const [registerApply] = useDescription({
     data: props.delayData,
     schema: ApplySchemaDetail(),
