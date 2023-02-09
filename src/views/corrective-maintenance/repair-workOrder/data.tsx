@@ -307,15 +307,6 @@ export function getFormSchema(): FormSchema[] {
 export function WorkDetail(): DescItem[] {
   return [
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>工单信息</span>;
-      },
-    },
-    {
       field: 'code',
       label: '工单单号',
     },
@@ -331,14 +322,27 @@ export function WorkDetail(): DescItem[] {
       field: 'maintainStatusText',
       label: '工单状态',
     },
-    // {
-    //   field: 'issueTime',
-    //   label: '下发时间',
-    // },
     {
       field: 'createTime',
       label: '创建时间',
     },
+    {
+      field: 'overTime',
+      label: '完成时间',
+      show: (values) => {
+        return values.overTime ? true : false;
+      },
+    },
+    {
+      field: 'jobStartTimeAndEndTime',
+      label: '执行时间',
+    },
+  ];
+}
+
+//维修明细
+export function WorkDetails(): DescItem[] {
+  return [
     {
       field: 'dealStationName',
       label: '处理岗位',
@@ -352,17 +356,6 @@ export function WorkDetail(): DescItem[] {
       show: (values) => {
         return values.designateType === '1' ? true : false;
       },
-    },
-    {
-      field: 'overTime',
-      label: '完成时间',
-      show: (values) => {
-        return values.overTime ? true : false;
-      },
-    },
-    {
-      field: 'jobStartTimeAndEndTime',
-      label: '执行时间',
     },
     {
       field: 'dealUserNames',
@@ -443,6 +436,7 @@ export function WorkDetail(): DescItem[] {
     },
   ];
 }
+
 //负责人
 //工单信息-重新下发
 export function getAgainFormSchemas(): FormSchema[] {

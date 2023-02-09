@@ -2,7 +2,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import accepting from './accepting/index.vue';
 import accepted from './accepted/index.vue';
-import { Image } from 'ant-design-vue';
+import { Image, Row } from 'ant-design-vue';
 import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { Tag, Badge } from 'ant-design-vue';
@@ -310,15 +310,6 @@ export function getFormSchemas(): FormSchema[] {
 export function WorkDetail(): DescItem[] {
   return [
     {
-      field: '',
-      label: '',
-      labelMinWidth: 0,
-      span: 2,
-      render: () => {
-        return <span style={titleStyle}>工单信息</span>;
-      },
-    },
-    {
       field: 'code',
       label: '工单单号',
     },
@@ -334,14 +325,26 @@ export function WorkDetail(): DescItem[] {
       field: 'maintainStatusText',
       label: '工单状态',
     },
-    // {
-    //   field: 'issueTime',
-    //   label: '下发时间',
-    // },
     {
       field: 'createTime',
       label: '创建时间',
     },
+    {
+      field: 'overTime',
+      label: '完成时间',
+      show: (values) => {
+        return values.overTime ? true : false;
+      },
+    },
+    {
+      field: 'jobStartTimeAndEndTime',
+      label: '执行时间',
+    },
+  ];
+}
+//维修明细
+export function WorkDetails(): DescItem[] {
+  return [
     {
       field: 'dealStationName',
       label: '处理岗位',
@@ -357,20 +360,15 @@ export function WorkDetail(): DescItem[] {
       },
     },
     {
-      field: 'overTime',
-      label: '完成时间',
-    },
-    {
-      field: 'jobStartTimeAndEndTime',
-      label: '执行时间',
-    },
-    {
       field: 'dealUserNames',
       label: '处理人',
     },
     {
       field: 'plantName',
       label: '所属装置设施',
+      show: (values) => {
+        return values.plantName ? true : false;
+      },
     },
     {
       field: 'deviceName',
@@ -416,20 +414,25 @@ export function WorkDetail(): DescItem[] {
       field: 'imgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex-col pl-4">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="flex flex-1">
+                        <Image width={100} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
@@ -594,34 +597,34 @@ export function tablePartColumns(): BasicColumn[] {
   ];
 }
 
-const titleStyle: any = {
-    paddingTop: '16px',
-    fontSize: '15px',
-    fontWeight: '600',
-    position: 'relative',
-    left: '0px',
-  },
-  ImageBox: any = {
-    width: '80px',
-  };
-const fileBox = {
-  padding: '0px',
-  height: '100px',
-  width: 'auto',
-  border: 'dashed 2px #bfbfbf',
-  borderRadius: '6px',
-  overflow: 'hidden',
-};
-const noFileBox: any = {
-  textAlign: 'center',
-  lineHeight: '100px',
-  fontWeight: '600',
-  fontSize: '16px',
-  color: '#999',
-  userSelect: 'none',
-  height: '100px',
-  width: '200px',
-  border: 'dashed 2px #bfbfbf',
-  borderRadius: '6px',
-  overflow: 'hidden',
-};
+// const titleStyle: any = {
+//     paddingTop: '16px',
+//     fontSize: '15px',
+//     fontWeight: '600',
+//     position: 'relative',
+//     left: '0px',
+//   },
+//   ImageBox: any = {
+//     width: '80px',
+//   };
+// const fileBox = {
+//   padding: '0px',
+//   height: '100px',
+//   width: 'auto',
+//   border: 'dashed 2px #bfbfbf',
+//   borderRadius: '6px',
+//   overflow: 'hidden',
+// };
+// const noFileBox: any = {
+//   textAlign: 'center',
+//   lineHeight: '100px',
+//   fontWeight: '600',
+//   fontSize: '16px',
+//   color: '#999',
+//   userSelect: 'none',
+//   height: '100px',
+//   width: '200px',
+//   border: 'dashed 2px #bfbfbf',
+//   borderRadius: '6px',
+//   overflow: 'hidden',
+// };

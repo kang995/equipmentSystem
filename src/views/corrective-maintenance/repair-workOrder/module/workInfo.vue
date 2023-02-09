@@ -1,22 +1,27 @@
 <template>
   <div class="px-4">
-    <Description @register="register" />
+    <div class="absolute right-25 top-22 w-17">
+      <img :src="handleStatus(maintainStatus)" alt="" />
+    </div>
+    <!-- 工单信息 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">工单信息</div>
+    <!-- <Description @register="register" /> -->
+    <Description :bordered="false" :column="3" :data="infoData" :schema="WorkDetail()" />
+    <!-- 维修明细 -->
+    <div class="font-black text-[#414960] text-[15px] py-[16px]">维修明细</div>
+    <Description :bordered="true" :column="2" :data="infoData" :schema="WorkDetails()" />
     <!-- 负责人 -->
     <template v-if="identity === '1'">
       <!-- 重新下发 -->
       <div class="mt-[12px]" v-if="again">
         <div class="font-black text-[#414960] text-[15px] my-[16px]">重新下发</div>
-        <div class="w-screen-sm">
-          <BasicForm @register="registerFrom" />
-        </div>
+        <BasicForm @register="registerFrom" />
       </div>
       <!-- 延期审核 -->
       <div class="mt-[12px]" v-if="status === '1' && !again">
         <Description @register="registerPostpone" />
         <div class="font-black text-[#414960] text-[15px] my-[16px]">延期审核</div>
-        <div class="w-screen-sm">
-          <BasicForm @register="registerPostponeFrom" />
-        </div>
+        <BasicForm @register="registerPostponeFrom" />
       </div>
       <!-- 维修结果 -->
       <div class="mt-[12px]" v-if="status === '2' || status === '3' || status === '4'">
@@ -32,7 +37,7 @@
         </template>
         <!-- <Description @register="registerResult" /> -->
       </div>
-      <div class="mt-[12px] flex">
+      <div class="mt-[12px]">
         <template v-if="status === '0' || status === '1'">
           <a-button class="mt-25 mr-4" type="primary" v-if="!again" @click="handleAgain"
             >重新下发</a-button
@@ -116,6 +121,7 @@
   import { Description, useDescription } from '/@/components/Description';
   import { useMessage } from '/@/hooks/web/useMessage';
   import {
+    WorkDetails,
     WorkDetail,
     getAgainFormSchemas,
     PostponeDetail,
@@ -133,6 +139,11 @@
     maintainAuditApi,
     maintainDelayApi,
   } from '/@/api/corrective-maintenance/repair';
+  import daichuli from '/@/assets/images/daichuli@2x.png';
+  import shenqingyanqi from '/@/assets/images/shenqingyanqi@2x.png';
+  import daiyanshou from '/@/assets/images/daiyanshou@2x.png';
+  import weitongguo from '/@/assets/images/weitongguo@2x.png';
+  import tongguo from '/@/assets/images/tongguo@2x.png';
 
   const { createMessage } = useMessage();
   const router = useRouter();
@@ -150,14 +161,32 @@
     // isSbumit && (SubmitAccept.value = true);
   });
 
+  //审核icon
+  function handleStatus(status) {
+    switch (status) {
+      case '0':
+        return daichuli;
+      case '1':
+        return shenqingyanqi;
+      case '2':
+        return daiyanshou;
+      case '3':
+        return weitongguo;
+      case '4':
+        return tongguo;
+    }
+  }
+
   //工单详情
   const oldEndTime = ref<any>();
+  const maintainStatus = ref<string>('');
   id &&
     maintainDetailApi({ id }).then((res) => {
       infoData.value = res; //工单信息
       postpone.value = res.delay; //延期审核
       repair.value = res.acceptList; //维修结果
       result.value = res.acceptList; //验收结果
+      maintainStatus.value = res.maintainStatus;
       //原截止时间
       oldEndTime.value = res.delay.oldEndTime;
       isShow &&
@@ -317,13 +346,13 @@
 
   // 工单信息
   let infoData = ref<any>({});
-  const [register] = useDescription({
-    data: infoData,
-    schema: WorkDetail(),
-    bordered: false,
-    column: 2,
-    size: 'default',
-  });
+  // const [register] = useDescription({
+  //   data: infoData,
+  //   schema: WorkDetail(),
+  //   bordered: false,
+  //   column: 2,
+  //   size: 'default',
+  // });
 
   // 维修结果
   let repair = ref<any>([]);
@@ -357,16 +386,28 @@
     useForm({
       schemas: getPostponeFormSchema(), //表单配置
       showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-      baseColProps: {
-        span: 24,
+      // baseColProps: {
+      //   span: 24,
+      // },
+      labelCol: {
+        span: 2,
+      },
+      wrapperCol: {
+        span: 12,
       },
     });
 
   const [registerFrom, { validate: validateAgain, getFieldsValue: getFieldsValueAgain }] = useForm({
     schemas: getAgainFormSchemas(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-    baseColProps: {
-      span: 24,
+    // baseColProps: {
+    //   span: 24,
+    // },
+    labelCol: {
+      span: 2,
+    },
+    wrapperCol: {
+      span: 12,
     },
   });
   function CloseFun() {

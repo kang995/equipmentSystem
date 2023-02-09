@@ -1,9 +1,16 @@
 <template>
   <PageWrapper contentBackground contentFullHeight contentClass="p-4">
     <div class="w-full">
-      <!-- 故障信息 -->
-      <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障信息</div>
-      <Description @register="register" />
+      <div class="absolute right-20 top-10 w-17">
+        <img :src="handleStatus(troubleStatus)" alt="" />
+      </div>
+      <!-- 基本信息 -->
+      <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">基本信息</div>
+      <!-- <Description @register="register" /> -->
+      <Description :bordered="false" :column="3" :data="data" :schema="confirmdedDetail()" />
+      <!-- 故障明细 -->
+      <div class="font-black text-[#414960] text-[15px] py-[16px]">故障明细</div>
+      <Description :bordered="true" :column="2" :data="data" :schema="confirmdedDetails()" />
       <!-- 确认故障提交 -->
       <template v-if="troubleStatus === '0'">
         <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障确认</div>
@@ -27,11 +34,22 @@
   import { PageWrapper } from '/@/components/Page';
   import { ref } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { Description, useDescription } from '/@/components/Description';
-  import { confirmdedDetail, confirmdingDetail, confirmFormSchema } from '../data';
+  import { Description } from '/@/components/Description';
+  import {
+    confirmdedDetails,
+    confirmdedDetail,
+    confirmdingDetail,
+    confirmFormSchema,
+  } from '../data';
   import { useRoute, useRouter } from 'vue-router';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { TroubleDetailApi, TroubleDeterMineApi } from '/@/api/corrective-maintenance/fault';
+  import daiqueren from '/@/assets/images/daiqueren@2x.png';
+  import daichuli from '/@/assets/images/daichuli@2x.png';
+  import chulizhong from '/@/assets/images/chulizhong@2x.png';
+  import yijiejue from '/@/assets/images/yijiejue@2x.png';
+  import jianxiu from '/@/assets/images/jianxiu@2x.png';
+
   const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
@@ -40,6 +58,22 @@
   const id = route.query?.id as string;
   const troubleDetermine = route.query.troubleDetermine as string; //确认结果
   const faultData = ref<any>({}); //故障确认
+
+  //审核icon
+  function handleStatus(status) {
+    switch (status) {
+      case '0':
+        return daiqueren;
+      case '1':
+        return daichuli;
+      case '2':
+        return chulizhong;
+      case '3':
+        return yijiejue;
+      case '4':
+        return jianxiu;
+    }
+  }
 
   //详情
   id &&
@@ -81,13 +115,13 @@
   }
 
   let data = ref<any>({});
-  const [register] = useDescription({
-    data,
-    schema: confirmdedDetail(),
-    bordered: true,
-    column: 2,
-    size: 'default',
-  });
+  // const [register] = useDescription({
+  //   data,
+  //   schema: confirmdedDetail(),
+  //   bordered: true,
+  //   column: 2,
+  //   size: 'default',
+  // });
 
   const [registerFrom, { validate, getFieldsValue }] = useForm({
     schemas: confirmFormSchema(), //表单配置

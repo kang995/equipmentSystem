@@ -1,9 +1,16 @@
 <template>
   <PageWrapper contentBackground contentFullHeight contentClass="p-4">
     <div>
-      <!-- 故障信息 -->
-      <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障信息</div>
-      <Description @register="register" />
+      <div class="absolute right-20 top-10 w-17">
+        <img :src="handleStatus(troubleStatus)" alt="" />
+      </div>
+      <!-- 基本信息 -->
+      <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">基本信息</div>
+      <!-- <Description @register="register" /> -->
+      <Description :bordered="false" :column="3" :data="data" :schema="faultDetailSchema()" />
+      <!-- 故障明细 -->
+      <div class="font-black text-[#414960] text-[15px] py-[16px]">故障明细</div>
+      <Description :bordered="true" :column="2" :data="data" :schema="faultDetailSchemas()" />
       <!-- 故障确认 -->
       <template v-if="troubleStatus !== '0'">
         <div class="font-black text-[#414960] text-[15px] mt-[12px] mb-[12px]">故障确认</div>
@@ -27,10 +34,16 @@
 <script setup lang="ts">
   import { PageWrapper } from '/@/components/Page';
   import { ref } from 'vue';
-  import { Description, useDescription } from '/@/components/Description';
-  import { faultDetailSchema, faultschema, resultschema } from '../data';
+  import { Description } from '/@/components/Description';
+  import { faultDetailSchemas, faultDetailSchema, faultschema, resultschema } from '../data';
   import { useRoute, useRouter } from 'vue-router';
   import { TroubleDetailApi, MaintainDetailApi } from '/@/api/corrective-maintenance/fault';
+  import daiqueren from '/@/assets/images/daiqueren@2x.png';
+  import daichuli from '/@/assets/images/daichuli@2x.png';
+  import chulizhong from '/@/assets/images/chulizhong@2x.png';
+  import yijiejue from '/@/assets/images/yijiejue@2x.png';
+  import jianxiu from '/@/assets/images/jianxiu@2x.png';
+
   const route = useRoute();
   const router = useRouter();
   const troubleStatus = route.query.troubleStatus as string;
@@ -41,14 +54,31 @@
   const resultData = ref<any>(); //维修结果、验收结果
 
   let data = ref<any>({});
-  const [register] = useDescription({
-    data,
-    schema: faultDetailSchema(troubleStatus),
-    bordered: true,
-    column: 2,
-    size: 'default',
-    // labelStyle: { width: '180px' },
-  });
+  // const [register] = useDescription({
+  //   data,
+  //   schema: faultDetailSchema(troubleStatus),
+  //   bordered: false,
+  //   column: 2,
+  //   size: 'default',
+  //   // labelStyle: { width: '180px' },
+  // });
+
+  //审核icon
+  function handleStatus(status) {
+    switch (status) {
+      case '0':
+        return daiqueren;
+      case '1':
+        return daichuli;
+      case '2':
+        return chulizhong;
+      case '3':
+        return yijiejue;
+      case '4':
+        return jianxiu;
+    }
+  }
+
   //关联检修计划
   function handleJump(record) {
     console.log('record', record);
@@ -85,6 +115,7 @@
           : troubleDetermine === '1'
           ? res.deviceTroubleOutsourceVO
           : res.deviceTroubleOverhaulVO;
+      console.log('faultData.value', faultData.value);
       res.troubleDetermineText &&
         (faultData.value['troubleDetermineText'] = res['troubleDetermineText']); //确认结果
     });

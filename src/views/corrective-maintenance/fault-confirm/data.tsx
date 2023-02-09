@@ -251,104 +251,100 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
   ];
 }
 
-const commonDetail: DescItem[] = [
-  // {
-  //   field: '',
-  //   label: '',
-  //   labelMinWidth: 0,
-  //   span: 2,
-  //   render: () => {
-  //     return <span style={titleStyle}>故障信息</span>;
-  //   },
-  // },
-  {
-    field: 'troubleCode',
-    label: '故障单号',
-  },
-  {
-    field: 'troubleStatusText',
-    label: '故障状态',
-  },
-  {
-    field: 'createByName',
-    label: '上报人',
-  },
-  {
-    field: 'phone',
-    label: '联系电话',
-  },
-  {
-    field: 'createTime',
-    label: '上报时间',
-  },
-  {
-    field: 'findTime',
-    label: '发现故障时间',
-  },
-  {
-    field: 'deviceName',
-    label: '关联设备',
-  },
-  {
-    field: 'plantName',
-    label: '所属装置设施',
-  },
-  {
-    field: 'position',
-    label: '地理位置',
-  },
-  {
-    field: 'troubleTypeText',
-    label: '故障类别',
-  },
-  {
-    field: 'urgentLevelText',
-    label: '紧急程度',
-  },
-  {
-    field: 'description',
-    label: '故障描述',
-  },
-  {
-    field: 'expression',
-    label: '表新症状',
-  },
-  {
-    field: 'reason',
-    label: '故障原因',
-  },
-  {
-    field: 'measure',
-    label: '采取措施',
-    span: 2,
-  },
-  {
-    field: 'imgList',
-    label: '图片',
-    span: 2,
-    render: (data) => {
-      if (data) {
-        return (
-          <>
-            {data.map((item) => {
-              return (
-                <div class={fileBox}>
-                  <Image style={ImageBox} src={item.url} alt="" />
-                </div>
-              );
-            })}
-          </>
-        );
-      } else {
-        return <div style={noFileBox}>暂无图片</div>;
-      }
-    },
-  },
-];
-//故障详情--待确认
+//故障详情--基本信息
 export function confirmdedDetail(): DescItem[] {
-  return [...commonDetail];
+  return [
+    {
+      field: 'troubleCode',
+      label: '故障单号',
+    },
+    {
+      field: 'createTime',
+      label: '上报时间',
+    },
+    {
+      field: 'findTime',
+      label: '发现故障时间',
+    },
+  ];
 }
+//故障详情--故障明细
+export function confirmdedDetails(): DescItem[] {
+  return [
+    {
+      field: 'troubleStatusText',
+      label: '故障状态',
+    },
+    {
+      field: 'createByName',
+      label: '上报人',
+    },
+    {
+      field: 'phone',
+      label: '联系电话',
+    },
+    {
+      field: 'deviceName',
+      label: '关联设备',
+    },
+    {
+      field: 'plantName',
+      label: '所属装置设施',
+    },
+    {
+      field: 'position',
+      label: '地理位置',
+    },
+    {
+      field: 'troubleTypeText',
+      label: '故障类别',
+    },
+    {
+      field: 'urgentLevelText',
+      label: '紧急程度',
+    },
+    {
+      field: 'description',
+      label: '故障描述',
+    },
+    {
+      field: 'expression',
+      label: '表新症状',
+    },
+    {
+      field: 'reason',
+      label: '故障原因',
+    },
+    {
+      field: 'measure',
+      label: '采取措施',
+      span: 2,
+    },
+    {
+      field: 'imgList',
+      label: '图片',
+      span: 2,
+      render: (data) => {
+        if (data) {
+          return (
+            <>
+              {data.map((item) => {
+                return (
+                  <div class={fileBox}>
+                    <Image style={ImageBox} src={item.url} alt="" />
+                  </div>
+                );
+              })}
+            </>
+          );
+        } else {
+          return <div style={noFileBox}>暂无图片</div>;
+        }
+      },
+    },
+  ];
+}
+
 export function confirmFormSchema(): FormSchema[] {
   return [
     {
@@ -658,16 +654,6 @@ export function confirmFormSchema(): FormSchema[] {
 //故障详情--已确认
 export function confirmdingDetail(troubleDetermine: string, troubleStatus: string): DescItem[] {
   return [
-    // ...commonDetail,
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 2,
-    //   render: () => {
-    //     return <span style={titleStyle}>故障确认</span>;
-    //   },
-    // },
     {
       field: 'troubleDetermineText',
       label: '确认结果',

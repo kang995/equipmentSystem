@@ -373,23 +373,27 @@ export function getCommonFormSchema(): FormSchema[] {
   ];
 }
 
-//故障详情--故障信息
-export function faultDetailSchema(status: string): DescItem[] {
-  console.log('status', status);
+//故障详情--基本信息
+export function faultDetailSchema(): DescItem[] {
   return [
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 2,
-    //   render: () => {
-    //     return <span style={titleStyle}>故障信息</span>;
-    //   },
-    // },
     {
       field: 'troubleCode',
       label: '故障单号',
     },
+    {
+      field: 'createTime',
+      label: '上报时间',
+    },
+    {
+      field: 'findTime',
+      label: '发现故障时间',
+    },
+  ];
+}
+
+//故障详情--故障明细
+export function faultDetailSchemas(): DescItem[] {
+  return [
     {
       field: 'troubleStatusText',
       label: '故障状态',
@@ -401,14 +405,6 @@ export function faultDetailSchema(status: string): DescItem[] {
     {
       field: 'phone',
       label: '联系电话',
-    },
-    {
-      field: 'createTime',
-      label: '上报时间',
-    },
-    {
-      field: 'findTime',
-      label: '发现故障时间',
     },
     {
       field: 'deviceName',
@@ -475,6 +471,7 @@ export function faultDetailSchema(status: string): DescItem[] {
     },
   ];
 }
+
 //故障详情--故障确认
 export function faultschema(
   troubleDetermine: string,
@@ -483,16 +480,6 @@ export function faultschema(
   handleJumps?: any,
 ): DescItem[] {
   return [
-    // {
-    //   field: '',
-    //   label: '',
-    //   labelMinWidth: 0,
-    //   span: 2,
-    //   render: () => {
-    //     return <span style={titleStyle}>故障确认</span>;
-    //   },
-    //   // show: ({}) => troubleDetermine !== '0',
-    // },
     {
       field: 'troubleDetermineText',
       label: '确认结果',
