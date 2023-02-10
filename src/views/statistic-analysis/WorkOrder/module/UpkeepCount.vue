@@ -82,7 +82,7 @@
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    getWorkCount(val);
+    val && getWorkCount(val);
     const params = userStore.getUpkeep;
     params['oneTimeType'] = selectYear.value;
     userStore.setUpkeep(params);

@@ -8,6 +8,7 @@
             :options="optionList"
             style="width: 120px"
             @change="handleChange"
+            allowClear
           />
           <RadioButtonGroup
             :options="options"
@@ -98,7 +99,7 @@
   //选择计划
   function handleChange(ID) {
     optionValue.value = ID;
-    initData();
+    ID && initData();
     const params = userStore.getOverhauling;
     params['overhaulPlanId'] = optionValue.value;
     userStore.setOverhauling(params);

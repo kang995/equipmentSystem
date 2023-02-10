@@ -135,7 +135,7 @@
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    getWorkCount(val);
+    val && getWorkCount(val);
     const params = userStore.getRepair;
     params['oneTimeType'] = selectYear.value;
     userStore.setRepair(params);
@@ -162,7 +162,7 @@
   const selectYears = ref<string>(dayjs().format('YYYY'));
   function getRankDatas(val) {
     selectYears.value = val;
-    getWorkCounts(val);
+    val && getWorkCounts(val);
     const params = userStore.getRepair;
     params['twoTimeType'] = selectYears.value;
     userStore.setRepair(params);

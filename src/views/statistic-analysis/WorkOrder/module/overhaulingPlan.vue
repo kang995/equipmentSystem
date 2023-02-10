@@ -82,7 +82,7 @@
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
     selectYear.value = val;
-    getWorkCount(val);
+    val && getWorkCount(val);
     const params = userStore.getOverhauling;
     params['twoTimeType'] = selectYear.value;
     userStore.setOverhauling(params);
