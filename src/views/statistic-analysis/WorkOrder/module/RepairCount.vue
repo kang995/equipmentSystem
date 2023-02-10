@@ -21,7 +21,7 @@
             </div>
           </template>
           <div v-if="specialWorkCount.length > 0">
-            <LineBar :data="specialWorkCount" />
+            <LineBar :data="specialWorkCount" :title="'维修工单'" />
           </div>
           <Empty v-else />
         </a-card>

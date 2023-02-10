@@ -13,6 +13,10 @@
       default: () => [],
       type: Array,
     },
+    title: {
+      default: '',
+      type: String,
+    },
   });
 
   const chartRef = ref<HTMLDivElement | null>(null);
@@ -54,7 +58,7 @@
       },
       series: [
         {
-          name: '保养工单',
+          name: props.title,
           type: 'line',
           data: data.map((x) => x.maintainCount),
         },
