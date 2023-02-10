@@ -15,7 +15,7 @@
     //   span: 24,
     // },
     labelCol: {
-      span: 3,
+      span: 6,
     },
     wrapperCol: {
       span: 12,

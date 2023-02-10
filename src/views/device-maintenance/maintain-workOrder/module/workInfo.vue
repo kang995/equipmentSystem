@@ -43,15 +43,13 @@
         <maintainDescription :acceptList="acceptList" />
         <receiveDescription :acceptList="acceptList" />
       </template>
-      <div class="mt-[12px]">
+      <div class="my-[24px]">
         <template v-if="status === '2'">
-          <a-button class="mr-4" v-if="again" @click="again = false">取消</a-button>
-          <a-button type="primary" v-if="again" @click="handleSubmitTask">提交</a-button>
-          <a-button
-            class="mt-20 mr-4"
-            type="primary"
-            v-if="!again && !postpone"
-            @click="handleAgain"
+          <div class="w-40 ml-[25%]">
+            <a-button class="mr-4" v-if="again" @click="again = false">取消</a-button>
+            <a-button type="primary" v-if="again" @click="handleSubmitTask">提交</a-button>
+          </div>
+          <a-button class="mr-4" type="primary" v-if="!again && !postpone" @click="handleAgain"
             >重新下发</a-button
           >
         </template>
@@ -59,8 +57,10 @@
           <a-button class="mr-4" type="primary" v-if="!again && !postpone" @click="handlePostpone"
             >延期审核</a-button
           >
-          <a-button class="mr-4" v-if="postpone" @click="postpone = false">取消</a-button>
-          <a-button type="primary" v-if="postpone" @click="handleSubmitResult">提交</a-button>
+          <div class="w-40 ml-[25%]">
+            <a-button class="mr-4" v-if="postpone" @click="postpone = false">取消</a-button>
+            <a-button type="primary" v-if="postpone" @click="handleSubmitResult">提交</a-button>
+          </div>
         </template>
       </div>
     </template>
@@ -87,21 +87,19 @@
         <div class="font-black text-[#414960] text-[15px] mb-[16px]">保养结果</div>
         <BasicForm @register="registerResultFrom" />
       </div>
-      <div class="my-[40px]">
+      <div class="my-[24px]">
         <template v-if="status === '2'">
-          <a-button
-            class="mr-4 mt-10"
-            type="primary"
-            v-if="!Postpone && !Result"
-            @click="handlePostpones"
+          <a-button class="mr-4" type="primary" v-if="!Postpone && !Result" @click="handlePostpones"
             >申请延期</a-button
           >
-          <a-button class="mt-10" type="primary" v-if="!Postpone && !Result" @click="handleResult"
+          <a-button type="primary" v-if="!Postpone && !Result" @click="handleResult"
             >提交验收</a-button
           >
-          <a-button class="mr-4" v-if="Postpone" @click="handleClose">取消</a-button>
-          <a-button type="primary" v-if="Postpone" @click="handleSubmitApply">提交</a-button>
-          <!-- <a-button type="primary" v-if="Result" @click="handleSubmitAccept">提交</a-button> -->
+          <div class="w-40 ml-[25%]">
+            <a-button class="mr-4" v-if="Postpone" @click="handleClose">取消</a-button>
+            <a-button type="primary" v-if="Postpone" @click="handleSubmitApply">提交</a-button>
+            <!-- <a-button type="primary" v-if="Result" @click="handleSubmitAccept">提交</a-button> -->
+          </div>
         </template>
         <template v-if="status === '5'">
           <a-button type="primary" v-if="!Refuse" @click="handleRefuse">重新提交</a-button>
@@ -268,7 +266,7 @@
     schemas: postponeFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
     labelCol: {
-      span: 3,
+      span: 6,
     },
     wrapperCol: {
       span: 12,
@@ -310,7 +308,7 @@
       schemas: ResultFormSchema(), //表单配置
       showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
       labelCol: {
-        span: 3,
+        span: 6,
       },
       wrapperCol: {
         span: 12,
