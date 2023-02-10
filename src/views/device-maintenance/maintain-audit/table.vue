@@ -9,7 +9,7 @@
             label: '审核',
             onClick: handleAudit.bind(null, record),
             ifShow: () => {
-              return record.approvalStatus === '2';
+              return record.approvalButtonShow === true;
             },
             auth: 'device:upkeepPlanApproval:approval',
           },

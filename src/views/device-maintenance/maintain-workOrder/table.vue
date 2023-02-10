@@ -91,13 +91,24 @@
   const props = defineProps<{
     ifIssue?: any;
   }>();
+  //关联计划跳转
+  const handleClick = (record) => {
+    router.push({
+      name: 'planDetails',
+      query: {
+        id: record.upkeepPlanId,
+        status: record.approvalStatus, //审核状态
+        mode: '1',
+      },
+    });
+  };
 
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: getPlanListApi,
     searchInfo: {
       type: props.ifIssue ? '0' : '1', //0：负责工单；1：执行工单
     },
-    columns: tableColumns(),
+    columns: tableColumns(handleClick),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具

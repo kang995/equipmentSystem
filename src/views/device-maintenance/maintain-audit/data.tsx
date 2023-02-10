@@ -38,7 +38,7 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '保养类型',
-      dataIndex: 'upkeepType',
+      dataIndex: 'upkeepTypeText',
     },
     {
       title: '保养内容',
@@ -47,6 +47,9 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '保养计划周期',
       dataIndex: 'taskCycleUnit',
+      customRender: ({ record }) => {
+        return `${record.taskCycleUnit}/${record.taskCycleUnitText}`;
+      },
     },
     {
       title: '负责人',

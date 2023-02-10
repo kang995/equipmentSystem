@@ -48,7 +48,7 @@ export const achieveList: TabItem[] = [
 //   }
 // })();
 
-export function tableColumns(): BasicColumn[] {
+export function tableColumns(handleClick: Function): BasicColumn[] {
   return [
     {
       title: '工单编号',
@@ -73,6 +73,13 @@ export function tableColumns(): BasicColumn[] {
     {
       title: '关联计划',
       dataIndex: 'upkeepPlanName',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.upkeepPlanName}
+          </a>
+        );
+      },
     },
     {
       title: '工单状态',
@@ -558,16 +565,16 @@ export function deviceTableColumns(): BasicColumn[] {
   ];
 }
 
-const titleStyle: any = {
-    paddingTop: '16px',
-    fontSize: '15px',
-    fontWeight: '600',
-    position: 'relative',
-    left: '0px',
-  },
-  imgStyle = {
-    width: '100px',
-    height: '100px',
-    display: 'inline',
-    zIndex: 10,
-  };
+// const titleStyle: any = {
+//     paddingTop: '16px',
+//     fontSize: '15px',
+//     fontWeight: '600',
+//     position: 'relative',
+//     left: '0px',
+//   },
+//   imgStyle = {
+//     width: '100px',
+//     height: '100px',
+//     display: 'inline',
+//     zIndex: 10,
+//   };
