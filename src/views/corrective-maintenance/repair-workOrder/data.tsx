@@ -324,7 +324,7 @@ export function WorkDetail(): DescItem[] {
     },
     {
       field: 'createTime',
-      label: '创建时间',
+      label: '下发时间',
     },
     {
       field: 'overTime',

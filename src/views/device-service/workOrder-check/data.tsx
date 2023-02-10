@@ -30,7 +30,7 @@ export function tableColumns(ifIssue: any, handleClick): BasicColumn[] {
       dataIndex: 'code',
     },
     {
-      title: '创建时间',
+      title: '下发时间',
       dataIndex: 'createTime',
     },
     {

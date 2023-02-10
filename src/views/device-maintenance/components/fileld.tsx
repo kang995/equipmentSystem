@@ -272,7 +272,7 @@ export function tableColumn(): BasicColumn[] {
       dataIndex: 'chargePeopleName',
     },
     {
-      title: '创建时间',
+      title: '下发时间',
       dataIndex: 'createTime',
     },
     {
@@ -342,7 +342,7 @@ export function tableColumns(): BasicColumn[] {
       dataIndex: 'code',
     },
     {
-      title: '创建时间',
+      title: '下发时间',
       dataIndex: 'createTime',
     },
     {

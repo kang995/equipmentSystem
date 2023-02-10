@@ -55,7 +55,7 @@ export function tableColumns(handleClick: Function): BasicColumn[] {
       dataIndex: 'code',
     },
     {
-      title: '创建时间',
+      title: '下发时间',
       dataIndex: 'createTime',
     },
     {
@@ -252,7 +252,7 @@ export function WorkDetail(): DescItem[] {
     },
     {
       field: 'createTime',
-      label: '工单创建时间',
+      label: '下发时间',
     },
     {
       field: 'executeStartTime',

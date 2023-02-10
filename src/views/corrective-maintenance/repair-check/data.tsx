@@ -44,7 +44,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
     },
     //
     {
-      title: '创建时间',
+      title: '下发时间',
       dataIndex: 'createTime',
     },
     {
@@ -327,7 +327,7 @@ export function WorkDetail(): DescItem[] {
     },
     {
       field: 'createTime',
-      label: '创建时间',
+      label: '下发时间',
     },
     {
       field: 'overTime',
