@@ -14,7 +14,7 @@
     </a-tabs>
     <!-- 提交维修结果 -->
     <template v-if="!partFlag && (activeKey === '1' || activeKey === '2')">
-      <div class="m-4">
+      <div class="ml-[25%] mb-[12px]">
         <a-button type="primary" @click="handleSubmit">提交</a-button>
       </div>
     </template>

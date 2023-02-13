@@ -218,6 +218,7 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'ApiRadioGroup',
       label: '工单生成及下发',
       required: true,
+      defaultValue: '1',
       componentProps: ({ formActionType }) => {
         const { updateSchema } = formActionType;
         return {

@@ -132,14 +132,13 @@
       text: '取消',
     },
     labelCol: {
-      span: 3,
+      span: 6,
     },
     wrapperCol: {
       span: 12,
     },
-
     actionColOptions: {
-      offset: 10,
+      offset: 6,
       span: 10,
       style: {
         textAlign: 'left',

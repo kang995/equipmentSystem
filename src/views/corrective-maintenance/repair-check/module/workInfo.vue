@@ -104,8 +104,15 @@
     // baseColProps: {
     //   span: 24,
     // },
+    actionColOptions: {
+      offset: 6,
+      span: 10,
+      style: {
+        textAlign: 'left',
+      },
+    },
     labelCol: {
-      span: 2,
+      span: 6,
     },
     wrapperCol: {
       span: 12,
@@ -113,7 +120,6 @@
     submitButtonOptions: {
       text: '提交',
     },
-
     showResetButton: false,
     submitFunc: handleSubmitResult,
   });

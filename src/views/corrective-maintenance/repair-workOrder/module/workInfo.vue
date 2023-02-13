@@ -37,19 +37,24 @@
         </template>
         <!-- <Description @register="registerResult" /> -->
       </div>
-      <div class="mt-[12px]">
+      <div class="my-[24px]">
         <template v-if="status === '0' || status === '1'">
-          <a-button class="mt-25 mr-4" type="primary" v-if="!again" @click="handleAgain"
-            >重新下发</a-button
-          >
-          <a-button class="mt-15 mr-4" v-if="again" @click="again = false">取消</a-button>
-          <a-button class="mt-15" type="primary" v-if="again" @click="handleOk">确定</a-button>
+          <div :class="[status === '1' ? 'ml-[25%]' : '']">
+            <a-button class="mr-4" type="primary" v-if="!again" @click="handleAgain"
+              >重新下发</a-button
+            >
+            <template v-if="status === '1'">
+              <a-button type="primary" v-if="!again" @click="handleAudit">完成审核</a-button>
+            </template>
+          </div>
+          <div class="w-40 ml-[25%]">
+            <a-button class="mr-4" v-if="again" @click="again = false">取消</a-button>
+            <a-button type="primary" v-if="again" @click="handleOk">确定</a-button>
+          </div>
         </template>
-        <template v-if="status === '1'">
-          <a-button class="mt-25" type="primary" v-if="!again" @click="handleAudit"
-            >完成审核</a-button
-          >
-        </template>
+        <!-- <template v-if="status === '1'">
+          <a-button type="primary" v-if="!again" @click="handleAudit">完成审核</a-button>
+        </template> -->
       </div>
     </template>
     <!-- 执行人 -->
@@ -91,20 +96,22 @@
         <BasicForm @register="registerAccept" />
         <!-- <BasicForm @register="registerSubmitAccept" /> -->
       </div>
-      <div class="mt-[12px] flex">
+      <div class="my-[24px]">
         <template v-if="status === '0'">
-          <a-button class="mt-45 mr-4" type="primary" v-if="!apply && !accept" @click="handleApply"
+          <a-button class="mr-4" type="primary" v-if="!apply && !accept" @click="handleApply"
             >申请延期</a-button
           >
-          <a-button class="mt-45" type="primary" v-if="!apply && !accept" @click="handleAccept"
+          <a-button class="" type="primary" v-if="!apply && !accept" @click="handleAccept"
             >提交验收</a-button
           >
-          <a-button class="mr-4" v-if="apply" @click="handleClose">取消</a-button>
-          <a-button type="primary" v-if="apply" @click="handleSubmitApply">提交</a-button>
-          <!-- <a-button type="primary" v-if="accept" @click="handleSubmitAccept">提交</a-button> -->
+          <div class="ml-[25%]">
+            <a-button class="mr-4" v-if="apply" @click="handleClose">取消</a-button>
+            <a-button type="primary" v-if="apply" @click="handleSubmitApply">提交</a-button>
+            <!-- <a-button type="primary" v-if="accept" @click="handleSubmitAccept">提交</a-button> -->
+          </div>
         </template>
         <template v-if="status === '3'">
-          <a-button class="mt-[12px]" type="primary" v-if="!SubmitAccept" @click="handleAgainSubmit"
+          <a-button type="primary" v-if="!SubmitAccept" @click="handleAgainSubmit"
             >重新提交</a-button
           >
           <!-- <a-button type="primary" v-if="SubmitAccept" @click="handleSubmitResult">提交</a-button> -->
@@ -258,7 +265,7 @@
     //   span: 24,
     // },
     labelCol: {
-      span: 2,
+      span: 6,
     },
     wrapperCol: {
       span: 12,
@@ -273,7 +280,7 @@
       //   span: 24,
       // },
       labelCol: {
-        span: 2,
+        span: 6,
       },
       wrapperCol: {
         span: 12,
@@ -390,7 +397,7 @@
       //   span: 24,
       // },
       labelCol: {
-        span: 2,
+        span: 6,
       },
       wrapperCol: {
         span: 12,
@@ -404,7 +411,7 @@
     //   span: 24,
     // },
     labelCol: {
-      span: 2,
+      span: 6,
     },
     wrapperCol: {
       span: 12,

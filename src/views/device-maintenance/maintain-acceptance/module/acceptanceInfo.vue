@@ -31,13 +31,13 @@
     <template v-if="status === '2'">
       <receiveDescription :acceptList="acceptList" />
     </template>
-    <div class="mt-[12px]" v-if="status === '1'">
+    <div class="mt-[24px]" v-if="status === '1'">
       <div class="font-black text-[#414960] text-[15px] mb-[16px]">验收结果</div>
       <BasicForm @register="registerFrom" />
     </div>
-    <div class="my-[12px] w-40 container mx-auto" v-if="status === '1'">
+    <div class="pb-[12px] w-40 w-40 ml-[25%]" v-if="status === '1'">
       <a-button class="mr-4" type="primary" @click="handleSubmit">提交</a-button>
-      <a-button>取消</a-button>
+      <a-button @click="CloseFun">取消</a-button>
     </div>
   </div>
 </template>
