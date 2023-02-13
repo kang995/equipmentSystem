@@ -110,9 +110,9 @@
     data.map((v) => {
       ids.push(v.id);
     });
-    targetKeys.value = ids;
+    targetKeys.value = Array.from(new Set(ids));
     openModal(true, targetKeys.value);
-    openModal(true);
+    // openModal(true);
   }
   const [registerTable, { getDataSource, setTableData }] = useTable({
     dataSource: dataSource,
@@ -248,7 +248,9 @@
   }
   function handleOk(ids, data) {
     console.log('ids: ', ids);
-    dataSource.value = data;
+    const arr = data.map((item) => ({ ...item })); //deepCopy
+    dataSource.value.push(...arr);
+    // dataSource.value = data;
     if (state === 'OutboundAdd') {
       dataSource.value.map((item) => {
         postWarehouseListApi().then((res) => {
