@@ -49,7 +49,7 @@ export const achieveList: TabItem[] = [
 // })();
 
 //列表
-export function tableColumns(ifIssue: any): BasicColumn[] {
+export function tableColumns(ifIssue: any, handleClick: Function): BasicColumn[] {
   return [
     {
       title: '工单编号',
@@ -74,6 +74,13 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
     {
       title: '关联计划',
       dataIndex: 'overhaulPlanName',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.overhaulPlanName}
+          </a>
+        );
+      },
     },
     {
       title: '工单状态',

@@ -227,7 +227,7 @@ export function getFormSchema(): FormSchema[] {
 }
 
 //工单信息
-export function WorkDetail(): DescItem[] {
+export function WorkDetail(handleRouteDetails): DescItem[] {
   return [
     // {
     //   field: '',
@@ -245,6 +245,9 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'upkeepPlanName',
       label: '关联保养计划',
+      render: (val) => {
+        return <a onClick={handleRouteDetails}>{val}</a>;
+      },
     },
     {
       field: 'chargePeopleName',
