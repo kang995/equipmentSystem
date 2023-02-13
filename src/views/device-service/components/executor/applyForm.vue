@@ -1,9 +1,7 @@
 <template>
   <div class="mt-[12px]">
     <div class="font-black text-[#414960] text-[15px] my-[16px]">申请延期</div>
-    <div class="w-screen-sm">
-      <BasicForm @register="registerApply" />
-    </div>
+    <BasicForm @register="registerApply" />
   </div>
 </template>
 
@@ -14,8 +12,14 @@
   const [registerApply, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getApplyFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
-    baseColProps: {
-      span: 24,
+    // baseColProps: {
+    //   span: 24,
+    // },
+    labelCol: {
+      span: 6,
+    },
+    wrapperCol: {
+      span: 12,
     },
   });
 

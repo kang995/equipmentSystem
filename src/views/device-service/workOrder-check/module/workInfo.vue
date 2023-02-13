@@ -18,9 +18,9 @@
     <!-- 验收结果提交 -->
     <template v-if="status === '1'">
       <resultForm ref="submitRef" />
-      <div class="my-[12px] w-40 container mx-auto">
+      <div class="my-[12px] ml-[25%]">
         <a-button class="mr-4" type="primary" @click="handleSubmit">提交</a-button>
-        <a-button>取消</a-button>
+        <a-button @click="CloseFun">取消</a-button>
       </div>
     </template>
   </div>
@@ -76,9 +76,13 @@
     const [res] = await Promise.all([submitRef.value.submitFun()]);
     res['workOrderId'] = id;
     SaveAcceptResultApi(res).then(() => {
-      router.push({
-        name: 'workOrderCheck',
-      });
+      CloseFun();
+    });
+  }
+  //返回
+  function CloseFun() {
+    router.push({
+      name: 'workOrderCheck',
     });
   }
 </script>
