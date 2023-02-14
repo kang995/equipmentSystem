@@ -25,7 +25,7 @@ export const achieveList: TabItem[] = [
 ];
 
 //保养验收-待验收、已验收
-export function tableColumns(type: any): BasicColumn[] {
+export function tableColumns(type: any, handleClick: Function): BasicColumn[] {
   return [
     {
       title: '工单编号',
@@ -50,6 +50,13 @@ export function tableColumns(type: any): BasicColumn[] {
     {
       title: '关联计划',
       dataIndex: 'upkeepPlanName',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.upkeepPlanName}
+          </a>
+        );
+      },
     },
     {
       title: '工单状态',
@@ -148,7 +155,7 @@ export function getFormSchema(type: any): FormSchema[] {
 }
 
 //工单信息
-export function WorkDetail(): DescItem[] {
+export function WorkDetail(handleRouteDetails): DescItem[] {
   return [
     {
       field: 'code',
@@ -157,6 +164,9 @@ export function WorkDetail(): DescItem[] {
     {
       field: 'upkeepPlanName',
       label: '关联保养计划',
+      render: (val) => {
+        return <a onClick={handleRouteDetails}>{val}</a>;
+      },
     },
     {
       field: 'chargePeopleName',

@@ -155,11 +155,20 @@
       slots: { customRender: 'action' },
     },
   });
-
+  const handleRouteDetails = () => {
+    router.push({
+      name: 'planDetails',
+      query: {
+        status: infoData.value.approvalStatus, //1：待提交；2：审核中；3：审核通过；4：审核拒绝
+        mode: '1', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+        id: infoData.value.upkeepPlanId,
+      },
+    });
+  };
   let infoData = ref<any>({});
   const [register] = useDescription({
     data: infoData,
-    schema: WorkDetail(),
+    schema: WorkDetail(handleRouteDetails),
     bordered: false,
     column: 3,
     size: 'default',

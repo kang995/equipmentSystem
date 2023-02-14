@@ -66,10 +66,20 @@
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
-
+  //关联计划跳转
+  const handleClick = (record) => {
+    router.push({
+      name: 'planDetails',
+      query: {
+        id: record.upkeepPlanId,
+        status: record.approvalStatus, //审核状态
+        mode: '1',
+      },
+    });
+  };
   const [register, { getSelectRowKeys, getForm, getPaginationRef }] = useTable({
     api: props.ifIssue ? getStayAcceptApi : getAcceptApi,
-    columns: tableColumns(props.ifIssue),
+    columns: tableColumns(props.ifIssue, handleClick),
     rowKey: 'id',
     useSearchForm: true, //开启搜索表单
     showTableSetting: false, //开启表格设置工具
