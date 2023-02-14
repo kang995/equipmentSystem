@@ -1,6 +1,5 @@
 <template>
   <div>
-    代办事宜
     <common :isShow="'2'" />
   </div>
 </template>

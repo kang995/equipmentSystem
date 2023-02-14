@@ -1,6 +1,5 @@
 <template>
   <div>
-    流程设计
     <common :isShow="'6'" />
   </div>
 </template>

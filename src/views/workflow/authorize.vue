@@ -1,6 +1,5 @@
 <template>
   <div>
-    流程委托（应用端无此页面）
     <common :isShow="'5'" />
   </div>
 </template>
