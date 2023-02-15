@@ -83,7 +83,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { Descriptions } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
-  // import { useUserStore } from '/@/store/modules/user';
+  import { useUserStore } from '/@/store/modules/user';
 
   const { prefixCls } = useDesign('custom-messages');
   const DescriptionsItem = Descriptions.Item;
@@ -103,7 +103,7 @@
     },
   );
 
-  // const userStore = useUserStore();
+  const userStore = useUserStore();
 
   const [registerForm, { getFieldsValue }] = useForm({
     fieldMapToTime: [
@@ -160,7 +160,7 @@
         // 更新为已读
         notificationUpdateStateApi({ ids, state: '2' });
         // 更新未读消息数量
-        // userStore.refreshMessageCount();
+        userStore.refreshMessageCount();
       } catch (error) {}
     }
   }
@@ -237,7 +237,7 @@
       if (state == '2') {
         createMessage.success('已读');
         // 更新未读消息数量
-        // await userStore.refreshMessageCount();
+        await userStore.refreshMessageCount();
       } else if (state == '3') {
         createMessage.success('标记成功');
         reload();
@@ -294,7 +294,7 @@
             deleteTableDataRecord(ids);
             createMessage.success('删除成功');
             // 更新未读消息数量
-            // userStore.refreshMessageCount();
+            userStore.refreshMessageCount();
             clearSelectedRowKeys();
           });
         }

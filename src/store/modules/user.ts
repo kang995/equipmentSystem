@@ -18,6 +18,7 @@ import { isArray } from '/@/utils/is';
 import { h } from 'vue';
 import Cookies from 'js-cookie';
 import { useGlobSetting } from '/@/hooks/setting';
+import { noteUnreadApi } from '/@/api/workbench';
 
 const { useUserCenterLogin, loginToken } = useGlobSetting();
 interface UserState {
@@ -29,6 +30,7 @@ interface UserState {
   upkeepObj: object;
   repairObj: object;
   overhaulingObj: Object;
+  messageCount: number;
 }
 
 export const useUserStore = defineStore({
@@ -47,6 +49,7 @@ export const useUserStore = defineStore({
     upkeepObj: {}, //工单统计-保养统计
     repairObj: {}, //工单统计-维修统计
     overhaulingObj: {}, //工单统计-检修统计
+    messageCount: 0,
   }),
   getters: {
     //工单统计-保养统计
@@ -75,6 +78,9 @@ export const useUserStore = defineStore({
     },
     getLastUpdateTime(): number {
       return this.lastUpdateTime;
+    },
+    getMessageCount(): number {
+      return this.messageCount;
     },
   },
   actions: {
@@ -108,6 +114,9 @@ export const useUserStore = defineStore({
     },
     setSessionTimeout(flag: boolean) {
       this.sessionTimeout = flag;
+    },
+    setMessageCount(messageCount: number) {
+      this.messageCount = messageCount;
     },
     resetState() {
       this.userInfo = null;
@@ -210,6 +219,10 @@ export const useUserStore = defineStore({
           await this.logout(true);
         },
       });
+    },
+    async refreshMessageCount() {
+      const count = await noteUnreadApi();
+      this.setMessageCount(count);
     },
   },
 });
