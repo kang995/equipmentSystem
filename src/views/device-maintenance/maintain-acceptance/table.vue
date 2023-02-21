@@ -27,17 +27,22 @@
       <div class="flex flex-1 space-x-4">
         <a-tooltip>
           <template #title>不选择即导出全部数据</template>
-          <a-button
-            @click="exportTable"
-            :loading="exportLoading"
-            v-if="
-              hasPermission([
-                'device:upkeepWorkOrderAccept:stayAcceptExport',
-                'device:upkeepWorkOrderAccept:acceptExport',
-              ])
-            "
-            >批量导出</a-button
-          >
+          <template v-if="props.ifIssue">
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:upkeepWorkOrderAccept:stayAcceptExport'])"
+              >批量导出</a-button
+            >
+          </template>
+          <template v-else>
+            <a-button
+              @click="exportTable"
+              :loading="exportLoading"
+              v-if="hasPermission(['device:upkeepWorkOrderAccept:acceptExport'])"
+              >批量导出</a-button
+            >
+          </template>
         </a-tooltip>
       </div>
     </template>
