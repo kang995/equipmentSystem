@@ -19,9 +19,9 @@
   import { useRouter, useRoute } from 'vue-router';
   ///Users/gaolin/equipment-safety/src/api/sys/systemSetting/userManagement.ts
   import { getUserListApi } from '/@/api/sys/systemSetting/userManagement';
-  import { usePermission } from '/@/hooks/web/usePermission';
+  // import { usePermission } from '/@/hooks/web/usePermission';
 
-  const { hasPermission } = usePermission();
+  // const { hasPermission } = usePermission();
   const router = useRouter();
   const route = useRoute();
   const roleId = route.query.roleId as string;
@@ -44,11 +44,11 @@
       title: '操作',
       fixed: 'right',
       dataIndex: 'action',
-      defaultHidden: !hasPermission([
-        'system:user:detail',
-        'system:user:remove',
-        'system:user:addGroup',
-      ]),
+      // defaultHidden: !hasPermission([
+      //   'system:user:detail',
+      //   'system:user:remove',
+      //   'system:user:addGroup',
+      // ]),
       slots: { customRender: 'action' },
     },
   });
@@ -57,7 +57,7 @@
     return [
       {
         label: '详情',
-        auth: 'system:user:detail',
+        // auth: 'system:user:detail',
         onClick: detailEquipment.bind(null, record),
       },
     ];
