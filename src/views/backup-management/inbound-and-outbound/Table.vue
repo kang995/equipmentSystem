@@ -9,14 +9,14 @@
             label: '查看明细',
             onClick: handleDetail.bind(null, record),
             delBtn: true,
-            auth: ['device:outReceipt:detail', 'device:inReceipt:detail'],
+            auth: props.ifIssue ? 'device:outReceipt:detail' : 'device:inReceipt:detail',
           },
           {
             label: '作废',
             onClick: handleDiscard.bind(null, record),
             delBtn: true,
             ifShow: record.receiptStatus ? false : true,
-            auth: ['device:outReceipt:discard', 'device:inReceipt:discard'],
+            auth: props.ifIssue ? 'device:outReceipt:discard' : 'device:inReceipt:discard',
           },
           {
             label: '删除',
@@ -25,35 +25,68 @@
               title: '是否确认删除',
               confirm: handleDel.bind(null, record),
             },
-            auth: ['device:outReceipt:remove', 'device:inReceipt:remove'],
+            auth: props.ifIssue ? 'device:outReceipt:remove' : 'device:inReceipt:remove',
           },
         ]"
     /></template>
     <template #tableTitle>
-      <a-button
-        type="primary"
-        preIcon="gonggong_tianjia_xianxing|svg"
-        @click="handleAdd"
-        class="mr-4"
-        v-if="hasPermission(['device:outReceipt:save', 'device:inReceipt:save'])"
-        >新增</a-button
-      >
+      <template v-if="props.ifIssue">
+        <a-button
+          type="primary"
+          preIcon="gonggong_tianjia_xianxing|svg"
+          @click="handleAdd"
+          class="mr-4"
+          v-if="hasPermission(['device:outReceipt:save'])"
+          >新增</a-button
+        >
+      </template>
+      <template v-else>
+        <a-button
+          type="primary"
+          preIcon="gonggong_tianjia_xianxing|svg"
+          @click="handleAdd"
+          class="mr-4"
+          v-if="hasPermission(['device:inReceipt:save'])"
+          >新增</a-button
+        >
+      </template>
 
-      <a-button
-        :loading="exportLoading"
-        class="mr-4"
-        @click="handleModal"
-        v-if="hasPermission(['device:outReceipt:importExcel', 'device:inReceipt:importExcel'])"
-        >批量导入</a-button
-      >
+      <template v-if="props.ifIssue">
+        <a-button
+          :loading="exportLoading"
+          class="mr-4"
+          @click="handleModal"
+          v-if="hasPermission(['device:outReceipt:importExcel'])"
+          >批量导入</a-button
+        >
+      </template>
+      <template v-else>
+        <a-button
+          :loading="exportLoading"
+          class="mr-4"
+          @click="handleModal"
+          v-if="hasPermission(['device:inReceipt:importExcel'])"
+          >批量导入</a-button
+        >
+      </template>
       <a-tooltip>
         <template #title>不选择即导出全部数据</template>
-        <a-button
-          @click="handleExport"
-          :loading="loading"
-          v-if="hasPermission(['device:outReceipt:export', 'device:inReceipt:export'])"
-          >批量导出</a-button
-        >
+        <template v-if="props.ifIssue">
+          <a-button
+            @click="handleExport"
+            :loading="loading"
+            v-if="hasPermission(['device:outReceipt:export'])"
+            >批量导出</a-button
+          >
+        </template>
+        <template v-else>
+          <a-button
+            @click="handleExport"
+            :loading="loading"
+            v-if="hasPermission(['device:inReceipt:export'])"
+            >批量导出</a-button
+          >
+        </template>
       </a-tooltip>
     </template>
   </BasicTable>

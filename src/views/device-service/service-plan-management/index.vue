@@ -17,7 +17,11 @@
               ifShow: () => {
                 return record.approvalStatus === '1' || record.approvalStatus === '4';
               },
-              auth: ['device:overhaulPlan:update', 'device:overhaulPlan:anewUpdate'],
+              // auth: ['device:overhaulPlan:update', 'device:overhaulPlan:anewUpdate'],
+              auth:
+                record.approvalStatus === '1'
+                  ? 'device:overhaulPlan:update'
+                  : 'device:overhaulPlan:anewUpdate',
             },
             {
               label: '删除',

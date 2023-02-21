@@ -41,9 +41,8 @@
                 {
                   label: '详情',
                   onClick: handleDetails.bind(null, record),
-                  // auth: 'device:mechanical:detail',
                   delBtn: true,
-                  auth: ['device:mechanical:detail', 'device:special:detail'],
+                  auth: props.ifMechanics ? 'device:mechanical:detail' : 'device:special:detail',
                 },
               ]"
             />
@@ -59,12 +58,22 @@
             >
             <a-tooltip>
               <template #title>不选择即导出全部数据</template>
-              <a-button
-                @click="exportTable"
-                :loading="loading"
-                v-if="hasPermission(['device:mechanical:export', 'device:special:export'])"
-                >批量导出</a-button
-              >
+              <template v-if="props.ifMechanics">
+                <a-button
+                  @click="exportTable"
+                  :loading="loading"
+                  v-if="hasPermission(['device:mechanical:export'])"
+                  >批量导出</a-button
+                >
+              </template>
+              <template v-else>
+                <a-button
+                  @click="exportTable"
+                  :loading="loading"
+                  v-if="hasPermission(['device:special:export'])"
+                  >批量导出</a-button
+                >
+              </template>
             </a-tooltip>
           </template>
         </BasicTable>
