@@ -154,7 +154,7 @@
     Btnvalue &&
       getForm().setFieldsValue({
         executeTime: handleFun(Btnvalue),
-        finishTime: handleFun(Btnvalue),
+        // finishTime: handleFun(Btnvalue),
       });
   });
   //日期

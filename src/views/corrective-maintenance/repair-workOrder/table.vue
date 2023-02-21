@@ -133,7 +133,7 @@
     Btnvalue &&
       getForm().setFieldsValue({
         Time: handleFun(Btnvalue),
-        Time1: handleFun(Btnvalue),
+        // Time1: handleFun(Btnvalue),
       });
   });
   //日期
