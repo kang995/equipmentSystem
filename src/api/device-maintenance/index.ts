@@ -25,6 +25,8 @@ enum Api {
   PROCESSING_LIST = '/upkeepPlan/approval/pend/list', //待处理列表
   PROCESSED_LIST = '/upkeepPlan/approval/deal/list', //已处理列表
   APPROVAL_LIST = '/upkeepPlan/approval/approval', //计划审核
+
+  FULL_SUBMITID = '/workflow/myWorkflow/', //审批流程
 }
 
 //关联审批下拉
@@ -180,4 +182,10 @@ export const getApprovalListApi = (params) =>
   defHttp.post({
     url: Api.APPROVAL_LIST,
     params,
+  });
+
+//审批流程
+export const getFullSubmitApi = (params) =>
+  defHttp.post({
+    url: Api.FULL_SUBMITID + params,
   });

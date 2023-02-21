@@ -83,6 +83,7 @@
         id: record.id,
         status: record.approvalStatus, //审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
         mode: '2', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+        fullSubmitId: record.fullSubmitId, //审批流程id
       },
     });
   }

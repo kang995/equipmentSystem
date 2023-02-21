@@ -7,8 +7,8 @@
       <a-tab-pane key="2" :tab="tabLabel">
         <maintain-device />
       </a-tab-pane>
-      <a-tab-pane key="3" tab="审批流程">
-        <review-process />
+      <a-tab-pane key="3" tab="审批流程" v-if="fullSubmitId">
+        <review-process :fullSubmitId="fullSubmitId" />
       </a-tab-pane>
       <a-tab-pane key="4" tab="关联工单" v-if="(mode === '1' || mode === '3') && status === '3'">
         <work-order />
@@ -29,6 +29,7 @@
   const route = useRoute();
   const status = route.query?.status as string;
   const mode = route.query?.mode as string;
+  const fullSubmitId = route.query?.fullSubmitId as string;
   const tabLabel = computed(() => {
     return mode === '1' || mode === '2' ? '保养设备' : '检修设备';
   });
