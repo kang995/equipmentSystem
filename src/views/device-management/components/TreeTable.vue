@@ -3,14 +3,17 @@
     <Row :gutter="16">
       <Col :span="6">
         <Card>
-          <Tree
-            class="treeData"
-            v-model:selectedKeys="selectedKeys"
-            :tree-data="treeData"
-            :defaultExpandAll="true"
-            :field-names="{ children: 'children', title: 'label', key: 'id' }"
-            @select="getSelect"
-        /></Card>
+          <div style="max-height: 960px; overflow-y: scroll">
+            <Tree
+              class="treeData"
+              v-model:selectedKeys="selectedKeys"
+              :tree-data="treeData"
+              :defaultExpandAll="true"
+              :field-names="{ children: 'children', title: 'label', key: 'id' }"
+              @select="getSelect"
+            />
+          </div>
+        </Card>
       </Col>
       <Col :span="18">
         <BasicTable @register="register">
