@@ -11,6 +11,7 @@
                 @change="getRankData"
                 value-format="YYYY"
                 style="width: 120px; margin-right: 10px"
+                :allowClear="false"
               />
               <RadioButtonGroup
                 :options="options"

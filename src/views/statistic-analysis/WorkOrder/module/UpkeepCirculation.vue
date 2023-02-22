@@ -8,7 +8,7 @@
             :options="optionList"
             style="width: 120px"
             @change="handleChange"
-            allowClear
+            :allowClear="false"
           />
           <RadioButtonGroup
             :options="options"
