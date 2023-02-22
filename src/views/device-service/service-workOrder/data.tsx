@@ -229,7 +229,7 @@ export function getFormSchema(): FormSchema[] {
       label: '工单完成时间',
       labelWidth: 96,
       componentProps: {
-        showTime: true,
+        // showTime: true,
         format: 'YYYY-MM-DD',
       },
     },

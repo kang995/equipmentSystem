@@ -96,7 +96,7 @@
       },
       fieldMapToTime: [
         //更改RangePicker的返回字段
-        ['createTime', ['createStartTime', 'createEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['createTime', ['createStartTime', 'createEndTime'], 'YYYY-MM-DD'],
       ],
     },
   });

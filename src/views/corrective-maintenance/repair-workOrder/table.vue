@@ -124,8 +124,8 @@
       },
       fieldMapToTime: [
         //更改RangePicker的返回字段
-        ['Time', ['jobStartTime', 'jobEndTime'], 'YYYY-MM-DD HH:mm:ss'],
-        ['Time1', ['overStartTime', 'overEndTime'], 'YYYY-MM-DD HH:mm:ss'],
+        ['Time', ['jobStartTime', 'jobEndTime'], 'YYYY-MM-DD'],
+        ['Time1', ['overStartTime', 'overEndTime'], 'YYYY-MM-DD'],
       ],
     },
   });
