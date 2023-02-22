@@ -60,7 +60,8 @@
       graphic: [
         {
           type: 'text',
-          left: props.isDistance ? '28%' : '25%',
+          // left: props.isDistance ? '28%' : '25%',
+          left: 'center',
           top: 'center',
           style: {
             text: `${data[0].percent}%${props.flag === 1 ? '返工率' : '延期率'}`,
@@ -74,7 +75,7 @@
           // name: 'Access From',
           type: 'pie',
           radius: ['50%', '70%'],
-          center: ['35%', '50%'],
+          // center: ['35%', '50%'],
           color: ['#ffaa00', '#5B8FF9'],
           avoidLabelOverlap: false,
           label: {
