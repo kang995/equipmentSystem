@@ -76,6 +76,7 @@
     clickToRowSelect: false, //是否开启点击行选中
     rowSelection: {
       type: 'checkbox',
+      columnWidth: 60,
     },
     actionColumn: {
       title: '操作',

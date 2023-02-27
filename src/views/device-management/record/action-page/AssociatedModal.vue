@@ -31,6 +31,7 @@
     useSearchForm: true,
     rowSelection: {
       type: 'checkbox',
+      columnWidth: 60,
     },
     formConfig: {
       schemas: formSchema,

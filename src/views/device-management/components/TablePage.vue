@@ -49,6 +49,7 @@
     inTabs: true, //取消table搜索form顶部边框及圆角
     rowSelection: {
       type: 'checkbox',
+      columnWidth: 60,
     },
     actionColumn: {
       title: '操作',

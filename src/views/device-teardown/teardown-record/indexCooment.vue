@@ -63,6 +63,7 @@
     clickToRowSelect: false, //是否开启点击行选中
     rowSelection: {
       type: 'checkbox',
+      columnWidth: 60,
     },
     inTabs: true,
     actionColumn: {

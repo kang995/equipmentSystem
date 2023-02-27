@@ -142,6 +142,7 @@
     searchInfo: searchInfoList,
     rowSelection: {
       type: 'checkbox',
+      columnWidth: 60,
     },
     actionColumn: {
       width: 280,

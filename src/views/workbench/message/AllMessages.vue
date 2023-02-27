@@ -191,7 +191,7 @@
     pagination: {
       showQuickJumper: false,
     },
-    rowSelection: { type: 'checkbox' },
+    rowSelection: { type: 'checkbox', columnWidth: 60 },
     clickToRowSelect: false, //是否开启点击行选中
     useSearchForm: false, //是否开启form搜索表单
     searchInfo: searchInfoList,

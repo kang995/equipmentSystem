@@ -115,6 +115,7 @@
     clickToRowSelect: false, //是否开启点击行选中
     rowSelection: {
       type: 'checkbox',
+      columnWidth: 60,
     },
     actionColumn: {
       title: '操作',
@@ -260,11 +261,11 @@
   }
 </script>
 <style scoped lang="less">
-  :deep(thead tr > th:first-child) {
-    padding: 0 16px;
-  }
+  // :deep(thead tr > th:first-child) {
+  //   padding: 0 16px;
+  // }
 
-  :deep(tbody tr > td:first-child) {
-    padding: 0 16px;
-  }
+  // :deep(tbody tr > td:first-child) {
+  //   padding: 0 16px;
+  // }
 </style>

@@ -62,6 +62,7 @@
     rowSelection: {
       //多选框的配置
       type: 'checkbox',
+      columnWidth: 60,
     },
     actionColumn: {
       //右边操作功能配置
