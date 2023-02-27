@@ -3,7 +3,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { SvgIcon } from '/@/components/Icon';
 import { h } from 'vue';
 import { Tinymce } from '/@/components/Tinymce';
-import { Row, Image } from 'ant-design-vue';
+import { Row, Image, Badge } from 'ant-design-vue';
 import {
   getDictionarySelectType,
   getMechanicalDeviceApi,
@@ -1226,10 +1226,24 @@ export const tabletMechanicaColumns: BasicColumn[] = [
   {
     title: '设备状态',
     dataIndex: 'useStatusText',
+    customRender: ({ record }) => {
+      if (record.useStatus === '1') {
+        return <Badge status="success" text={record.useStatusText} />;
+      } else {
+        return <Badge status="error" text={record.useStatusText} />;
+      }
+    },
   },
   {
     title: '绑定模型状态',
     dataIndex: 'bindStateName',
+    customRender: ({ record }) => {
+      if (record.bindStateName === '已绑定') {
+        return <Badge status="success" text={record.bindStateName} />;
+      } else {
+        return <Badge status="error" text={record.bindStateName} />;
+      }
+    },
   },
 ];
 //机械设备查询
@@ -1316,9 +1330,23 @@ export const tableSpecialColumns: BasicColumn[] = [
   {
     title: '设备状态',
     dataIndex: 'useStatusText',
+    customRender: ({ record }) => {
+      if (record.useStatus === '1') {
+        return <Badge status="success" text={record.useStatusText} />;
+      } else {
+        return <Badge status="error" text={record.useStatusText} />;
+      }
+    },
   },
   {
     title: '绑定模型状态',
     dataIndex: 'bindStateName',
+    customRender: ({ record }) => {
+      if (record.bindStateName === '已绑定') {
+        return <Badge status="success" text={record.bindStateName} />;
+      } else {
+        return <Badge status="error" text={record.bindStateName} />;
+      }
+    },
   },
 ];

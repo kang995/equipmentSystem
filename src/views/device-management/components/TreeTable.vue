@@ -1,6 +1,6 @@
 <template>
   <PageWrapper>
-    <Row :gutter="16">
+    <Row :gutter="0">
       <Col :span="6">
         <Card>
           <div style="max-height: 960px; overflow-y: scroll">

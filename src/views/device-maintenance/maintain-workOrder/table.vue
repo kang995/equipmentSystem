@@ -259,4 +259,12 @@
       });
   }
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  :deep(thead tr > th:first-child) {
+    padding: 0 16px;
+  }
+
+  :deep(tbody tr > td:first-child) {
+    padding: 0 16px;
+  }
+</style>

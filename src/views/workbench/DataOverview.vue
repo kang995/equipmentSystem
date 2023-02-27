@@ -4,6 +4,7 @@
       <Title :titleList="titleList">
         <template #QueryBtn>
           <RadioButtonGroup
+            :class="`${prefixCls}-Btn`"
             :options="options"
             v-model:value="Btnvalue"
             buttonStyle="button"
@@ -219,6 +220,10 @@
       padding: 0;
       display: flex;
       width: 100%;
+    }
+
+    &-Btn {
+      padding-right: 16px;
     }
 
     &-box {

@@ -12,7 +12,8 @@
         >
           <ACard :class="`${prefixCls}-box-card`" :bordered="false" @click="getClick(item.name)">
             <div :class="`${prefixCls}-box-data`">
-              <SvgIcon :name="item.icon" size="20" :class="`${prefixCls}-SvgIcon`" />
+              <!-- <SvgIcon :name="item.icon" size="20" :class="`${prefixCls}-SvgIcon`" /> -->
+              <img :src="item.icon" :class="`${prefixCls}-SvgIcon`" />
               <div :class="`${prefixCls}-text`"> {{ item.title }} </div>
             </div>
           </ACard>
@@ -22,12 +23,16 @@
   </ACard>
 </template>
 <script lang="ts" setup>
-  import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
+  // import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
   import Title from './components/Title.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { Row, Card, Col } from 'ant-design-vue';
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import faultConfirm from '/@/assets/images/faultConfirm.png';
+  import auditDetail from '/@/assets/images/auditDetail.png';
+  import servicePlanAudit from '/@/assets/images/servicePlanAudit.png';
+
   const ARow = Row;
   const ACol = Col;
   const ACard = Card;
@@ -40,10 +45,11 @@
     },
   ];
 
-  const buttonList = ref([
+  const buttonList: any = ref([
     {
       title: '故障确认',
-      icon: 'yewu_danyuan',
+      // icon: 'yewu_danyuan',
+      icon: faultConfirm,
       name: 'faultConfirm',
     },
     // {
@@ -53,12 +59,12 @@
     // },
     {
       title: '保养计划审核',
-      icon: 'yewu_danyuan',
+      icon: auditDetail,
       name: 'auditDetail',
     },
     {
       title: '检修计划审核',
-      icon: 'yewu_danyuan',
+      icon: servicePlanAudit,
       name: 'servicePlanAudit',
     },
   ]);
@@ -110,8 +116,8 @@
     }
 
     &-SvgIcon {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     &-text {

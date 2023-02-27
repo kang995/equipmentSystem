@@ -5,7 +5,7 @@
         <BasicForm @register="registerForm" />
       </Card>
     </div>
-    <Row :gutter="16">
+    <Row :gutter="0">
       <Col :span="6">
         <Card>
           <a-menu

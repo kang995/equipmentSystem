@@ -1,6 +1,6 @@
 <template>
   <div class="px-4">
-    <div class="absolute right-20 top-22 w-17">
+    <div class="absolute right-12 top-20 w-17">
       <img :src="handleStatus(AuditStatus)" alt="" />
     </div>
     <!-- 审核信息 -->

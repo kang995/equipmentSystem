@@ -3,10 +3,11 @@
     <div class="mt-2 mb-6">
       <span class="mr-2">年度</span>
       <a-year-picker
+        class="bg-white w-[120px]"
         v-model:value="selectYear"
         @change="getRankData"
         value-format="YYYY"
-        style="width: 120px"
+        :allowClear="false"
       />
     </div>
     <div>
