@@ -1,6 +1,6 @@
 <template>
   <div :class="`${prefixCls}`">
-    <img src="/@/assets/images/zanwu.png" :class="`${prefixCls}-img`" />
+    <img :src="zanwu" :class="`${prefixCls}-img`" />
     <div>
       <div :class="`${prefixCls}-empty-text`">暂无数据</div>
     </div>
@@ -8,6 +8,7 @@
 </template>
 <script lang="ts" setup>
   import { useDesign } from '/@/hooks/web/useDesign';
+  import zanwu from '/@/assets/images/zanwu.png';
   const { prefixCls } = useDesign('empty-state');
 </script>
 <style lang="less" scoped>
