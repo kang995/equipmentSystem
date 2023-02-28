@@ -81,27 +81,14 @@ export const dictionaryTypeFormSchemas: FormSchema[] = [
       placeholder: '当前没有父级',
     },
   },
-  {
-    field: 'itemValue',
-    component: 'Input',
-    label: '分类编码',
-    componentProps: {
-      placeholder: '选填，不填自动生成',
-    },
-    // rules: [
-    //   {
-    //     validator: async (_rule, val) => {
-    //       if (val != null) {
-    //         if (/[^\w]/g.test(val)) {
-    //           return Promise.reject('只能输入英文，数字');
-    //         }
-    //       }
-    //       return Promise.resolve();
-    //     },
-    //     trigger: 'blur',
-    //   },
-    // ],
-  },
+  // {
+  //   field: 'itemValue',
+  //   component: 'Input',
+  //   label: '分类编码',
+  //   componentProps: {
+  //     placeholder: '选填，不填自动生成',
+  //   },
+  // },
   {
     field: 'type',
     component: 'Input',
@@ -114,20 +101,6 @@ export const dictionaryTypeFormSchemas: FormSchema[] = [
         },
       };
     },
-    // rules: [
-    //   {
-    //     required: true,
-    //     validator: async (_rule, val) => {
-    //       if (val != null) {
-    //         if (/[^\w]/g.test(val)) {
-    //           return Promise.reject('只能输入英文，数字');
-    //         }
-    //       }
-    //       return Promise.resolve();
-    //     },
-    //     trigger: 'blur',
-    //   },
-    // ],
   },
   {
     field: 'itemName',
