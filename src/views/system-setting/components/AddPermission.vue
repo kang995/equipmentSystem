@@ -27,7 +27,6 @@
           :treeData="treeData"
           checkable
           defaultExpandAll
-          @check="onCheck"
           v-model:checkedKeys="checkedKeys"
         />
       </DescriptionsItem>
