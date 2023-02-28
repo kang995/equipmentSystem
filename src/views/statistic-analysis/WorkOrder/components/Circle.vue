@@ -43,7 +43,7 @@
       legend: {
         orient: 'vertical',
         top: 'center',
-        right: '25',
+        right: props.isDistance ? '25' : '-10',
         formatter: (name) => {
           let percent = '';
           let value = '';
