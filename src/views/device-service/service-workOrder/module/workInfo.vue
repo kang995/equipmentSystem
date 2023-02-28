@@ -199,13 +199,10 @@
   async function handleSubmitApply() {
     let [res] = await Promise.all([appplyRef.value.handleSubmitApply()]);
     res['workOrderId'] = id;
-    UpkeepWorkOrderApplyDelayApi(res)
-      .then(() => {
-        createMessage.success('已提交');
-      })
-      .finally(() => {
-        CloseFun();
-      });
+    UpkeepWorkOrderApplyDelayApi(res).then(() => {
+      createMessage.success('已提交');
+      CloseFun();
+    });
   }
   //提交验收（检修结果）
   const accept = ref<boolean>(false);

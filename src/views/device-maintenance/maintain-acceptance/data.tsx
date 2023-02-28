@@ -262,6 +262,7 @@ export function MaintenanceFormSchema(): FormSchema[] {
       component: 'RadioGroup',
       label: '验收结果',
       required: true,
+      defaultValue: '0',
       componentProps: {
         options: [
           {
@@ -279,6 +280,7 @@ export function MaintenanceFormSchema(): FormSchema[] {
       field: 'acceptImgList',
       component: 'Upload',
       label: '图片',
+      required: true,
       componentProps: {
         maxNumber: 5,
         accept: '.jpg,.jpeg,.png',
@@ -290,7 +292,7 @@ export function MaintenanceFormSchema(): FormSchema[] {
       field: 'acceptContent',
       component: 'InputTextArea',
       label: '验收内容（备注）',
-      required: true,
+      // required: true,
       componentProps: {
         placeholder: '请输入验收内容（备注）',
         rows: 4,
@@ -324,14 +326,14 @@ export function MaintenanceFormSchema(): FormSchema[] {
   ];
 }
 
-const titleStyle: any = {
-  paddingTop: '16px',
-  fontSize: '15px',
-  fontWeight: '600',
-  position: 'relative',
-  left: '0px',
-};
+// const titleStyle: any = {
+//   paddingTop: '16px',
+//   fontSize: '15px',
+//   fontWeight: '600',
+//   position: 'relative',
+//   left: '0px',
+// };
 
-const ImageBox: any = {
-  width: '80px',
-};
+// const ImageBox: any = {
+//   width: '80px',
+// };

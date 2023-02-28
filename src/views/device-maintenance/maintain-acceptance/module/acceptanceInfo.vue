@@ -90,13 +90,10 @@
     await validate();
     const obj = getFieldsValue();
     obj['workOrderId'] = id;
-    getSaveAcceptResultApi(obj)
-      .then(() => {
-        createMessage.success('已提交');
-      })
-      .finally(() => {
-        CloseFun();
-      });
+    getSaveAcceptResultApi(obj).then(() => {
+      createMessage.success('已提交');
+      CloseFun();
+    });
   }
 
   //详情跳转
