@@ -1,5 +1,5 @@
 <template>
-  <div class="m-4">
+  <div class="p-4">
     <a-descriptions :column="2">
       <template #title>
         <span>基本信息</span>
@@ -10,7 +10,7 @@
       <!-- <a-descriptions-item label="所属用户组">{{ titleList.userGroup }}</a-descriptions-item> -->
       <a-descriptions-item label="创建时间">{{ titleList.createTime }}</a-descriptions-item>
       <a-descriptions-item label="状态">
-        {{ titleList.status === '0' ? '启用' : '禁用' }}
+        {{ titleList.statusName }}
       </a-descriptions-item>
     </a-descriptions>
   </div>
@@ -25,7 +25,7 @@
     department: string;
     userGroup: string;
     createTime: string;
-    status: string;
+    statusName: string;
   }
   defineProps<{
     titleList: TitleParams;

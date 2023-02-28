@@ -4,7 +4,7 @@
     @register="register"
     :canFullscreen="false"
     :maskClosable="false"
-    title="选择用户"
+    title="选择用户组"
     width="700px"
     @ok="handleOk"
   >
@@ -25,8 +25,7 @@
   import { ref } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { Transfer } from 'ant-design-vue';
-  import { getSelectUserListApi, getRoleUserApi } from '/@/api/systemSetting/roleManagement';
-  import { getUserGroupTree } from '/@/api/systemSetting/userGroupManagement';
+  import { getModalListApi } from '/@/api/systemSetting/userManagement';
   const ATransfer = Transfer;
   interface LabelItem {
     children: string;
@@ -40,6 +39,7 @@
     key: string;
     title: string;
   }
+
   const id = ref('');
   const selectValue = ref<Item[]>([]);
   const isNotShow = ref<Boolean>(false);
@@ -48,33 +48,23 @@
   const [register, { closeModal }] = useModalInner(async (data) => {
     id.value = data.id;
     const keys = [];
-    getSelectUserListApi().then((res) => {
+    getModalListApi(data.id).then((res) => {
       const list = [] as any;
-      res.map((item) => {
+      res.userGroupList?.map((item) => {
         list.push({
           key: item.id,
           title: item.name,
         });
       });
+      isNotShow.value = true;
       mockData.value = list;
+      if (data.id.length == 1) {
+        targetKeys.value = res.checkIds;
+      }
+      console.log(list);
     });
     targetKeys.value = keys;
     selectValue.value = [];
-    // 回显
-    if (data.type === 'userGroup') {
-      getUserGroupTree(data.id).then((res) => {
-        targetKeys.value = res;
-        console.log('回显回显回显回显', targetKeys.value);
-        isNotShow.value = true;
-      });
-    } else {
-      getRoleUserApi(data.id).then((res) => {
-        targetKeys.value = res;
-        console.log('回显回显回显回显9', targetKeys.value);
-        console.log(targetKeys.value);
-        isNotShow.value = true;
-      });
-    }
   });
   // 确认
   const emit = defineEmits(['handleOk', 'register']);

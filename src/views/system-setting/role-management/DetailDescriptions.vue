@@ -1,5 +1,5 @@
 <template>
-  <div class="m-4">
+  <div class="p-4">
     <a-descriptions :column="2">
       <template #title>
         <span>基本信息</span>

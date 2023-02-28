@@ -36,3 +36,10 @@ export interface GetUserInfoModel {
   // 介绍
   desc?: string;
 }
+export interface logListParams {
+  operTime: string;
+  operName: string;
+  operIp: string;
+  title: string;
+  businessType: string;
+}

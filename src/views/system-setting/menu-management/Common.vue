@@ -10,8 +10,8 @@
   import { useRouter, useRoute } from 'vue-router';
   import { useTabs } from '/@/hooks/web/useTabs';
   import { formSchema } from './data';
-  import { menuAddApi, menuDetailApi, menuEditApi } from '/@/api/sys/systemSetting/menuManagement';
-  import { saveMenuRootParams } from '/@/api/sys/systemSetting/model';
+  import { menuAddApi, menuDetailApi, menuEditApi } from '/@/api/systemSetting/menuManagement';
+  import { saveMenuRootParams } from '/@/api/systemSetting/model';
   const router = useRouter();
   const route = useRoute();
   //id存在为编辑

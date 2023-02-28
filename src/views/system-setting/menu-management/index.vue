@@ -2,16 +2,9 @@
   <PageWrapper contentFullHeight>
     <BasicTable @register="registerTable">
       <template #toolbar>
-        <div class="flex flex-1 justify-start pt-1 pb-1">
-          <!-- v-if="hasPermission(['system:menu:add'])" -->
+        <div class="flex flex-1 justify-start">
           <a-button type="primary" @click="handleCreate"> 新增 </a-button>
-          <a-button
-            class="ml-4"
-            @click="handleDeletes"
-            v-if="hasPermission(['system:menu:remove'])"
-          >
-            批量删除
-          </a-button>
+          <a-button class="ml-4" @click="handleDeletes"> 批量删除 </a-button>
         </div>
       </template>
       <template #action="{ record }">
@@ -21,14 +14,14 @@
             {
               label: '编辑',
               onClick: handleEdit.bind(null, record),
-              auth: 'system:menu:edit',
+              // auth: 'system:menu:edit',
             },
             {
               label: '删除',
               color: 'error',
-              auth: 'system:menu:remove',
+              // auth: 'system:menu:remove',
               popConfirm: {
-                title: '删除选中项后，选中项的子项也将会删除。请确认是否删除？',
+                title: '是否确认删除？',
                 okText: '删除',
                 confirm: handleDelete.bind(null, record),
               },
@@ -44,11 +37,11 @@
   import { useRouter } from 'vue-router';
   import { columns } from './data';
   import { useMessage } from '/@/hooks/web/useMessage';
-  import { menuDelApi, menuListApi } from '/@/api/sys/systemSetting/menuManagement';
+  import { menuDelApi, menuListApi } from '/@/api/systemSetting/menuManagement';
   import { h } from 'vue';
   import { PageWrapper } from '/@/components/Page';
-  import { usePermission } from '/@/hooks/web/usePermission';
-  const { hasPermission } = usePermission();
+  // import { usePermission } from '/@/hooks/web/usePermission';
+  // const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
   const [registerTable, { reload, getSelectRowKeys, clearSelectedRowKeys }] = useTable({
@@ -60,13 +53,12 @@
     bordered: true,
     rowSelection: {
       type: 'checkbox',
-      columnWidth: 60,
     },
     actionColumn: {
       title: '操作',
       dataIndex: 'action',
       width: 150,
-      //defaultHidden: !hasPermission(['system:menu:edit', 'system:menu:remove']),
+      // defaultHidden: !hasPermission(['system:menu:edit', 'system:menu:remove']),
       slots: { customRender: 'action' },
     },
   });
@@ -91,14 +83,14 @@
       createConfirm({
         iconType: 'warning',
         title: () => h('span', '提示'),
-        content: () => h('span', `删除选中项后，选中项的子项也将会删除。请确认是否删除？`),
+        content: () => h('span', `您确定要删除多条记录吗？`),
         okText: '删除',
         onOk: async () => {
           deleted(selectedRowKeys);
         },
       });
     } else {
-      createMessage.warning('请选择需要删除的数据');
+      createMessage.warning('请选择要删除的选项');
     }
   };
   function deleted(ids) {

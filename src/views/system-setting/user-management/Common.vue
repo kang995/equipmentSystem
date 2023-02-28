@@ -8,7 +8,7 @@
   import { PageWrapper } from '/@/components/Page';
   import { useForm, BasicForm } from '/@/components/Form/index';
   import { useRouter } from 'vue-router';
-  import { AddUserAddApi } from '/@/api/sys/systemSetting/userManagement';
+  import { AddUserAddApi } from '/@/api/systemSetting/userManagement';
   import { message } from 'ant-design-vue';
   import { schemasForm } from './data';
   const router = useRouter();

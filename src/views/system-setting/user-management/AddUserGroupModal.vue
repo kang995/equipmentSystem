@@ -44,7 +44,7 @@
   import { ref, reactive } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { Transfer } from 'ant-design-vue';
-  import { getModalListApi } from '/@/api/sys/systemSetting/userManagement';
+  import { getModalListApi } from '/@/api/systemSetting/userManagement';
 
   interface MockData {
     key: string;

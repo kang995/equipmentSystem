@@ -3,7 +3,7 @@ import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
 import { Icon } from '/@/components/Icon';
-import { menuListApi } from '/@/api/sys/systemSetting/menuManagement';
+import { menuListApi } from '/@/api/systemSetting/menuManagement';
 export const columns: BasicColumn[] = [
   {
     title: '菜单名称',
@@ -13,7 +13,7 @@ export const columns: BasicColumn[] = [
   {
     title: '图标',
     dataIndex: 'icon',
-    width: 80,
+    width: 50,
     customRender: ({ record }) => {
       if (record.icon) {
         return h(Icon, { icon: record.icon });
@@ -22,7 +22,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '菜单类型',
-    width: 100,
+    width: 80,
     dataIndex: 'menuType',
     customRender: ({ record }) => {
       const { menuType } = record;
@@ -35,7 +35,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '排序',
-    width: 80,
+    width: 50,
     dataIndex: 'sortNo',
   },
   {
@@ -50,7 +50,7 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '启用标识',
-    width: 100,
+    width: 80,
     dataIndex: 'enabled',
     customRender: ({ record }) => {
       const { enabled } = record;

@@ -1,5 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import { LoginParams, LoginResultModel, GetUserInfoModel, logListParams } from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
 
@@ -10,7 +10,9 @@ enum Api {
   GetPermCode = '/system/login/getMenuPerms',
   TestRetry = '/testRetry',
   GET_USER_CENTER_URL = '/iot/getUserCenterUrl', // 获取用户中心链接
-  GET_LOGOUT_URL = '/iot/getLogoutUrl',
+  GET_LOGOUT_URL = '/iot/getLogoutUrl', //注销账号
+  LOG_LIST = '/monitor/operlog/logList', //操作日志列表
+  LOG_LIST_EXPORT = '/monitor/operlog/export',
 }
 
 /**
@@ -63,3 +65,24 @@ export const getLogoutUrlApi = () =>
   defHttp.get({
     url: Api.GET_LOGOUT_URL,
   });
+
+//操作日志列表
+export const LogListApi = (params: logListParams) =>
+  defHttp.post({
+    url: Api.LOG_LIST,
+    params,
+    headers: {
+      ignoreCancelToken: 'true',
+    },
+  });
+
+export const logListExport = (params: any) => {
+  return defHttp.post(
+    {
+      url: Api.LOG_LIST_EXPORT,
+      params,
+      responseType: 'arraybuffer',
+    },
+    { isTransformResponse: false },
+  );
+};

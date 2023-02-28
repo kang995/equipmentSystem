@@ -12,6 +12,11 @@
           </a-button>
         </div>
       </template>
+      <template #bodyCell="{ column, record }">
+        <span v-if="column.dataIndex">
+          {{ record[column.dataIndex] ? record[column.dataIndex] : '-' }}
+        </span>
+      </template>
       <!-- 表格右操作 -->
       <template #action="{ record }">
         <TableAction
@@ -40,10 +45,9 @@
     addRoleUserApi,
     deleteRoleApi,
     getRoleManagementListApi,
-  } from '/@/api/sys/systemSetting/roleManagement';
+  } from '/@/api/systemSetting/roleManagement';
   import AddRoleUserModal from '../components/AddUserModal.vue';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import { message } from 'ant-design-vue';
 
   const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
@@ -51,7 +55,7 @@
   const [registerModal, { openModal: openModal }] = useModal();
 
   //表格配置
-  const [registerTable, { getSelectRows, setLoading, reload }] = useTable({
+  const [registerTable, { getSelectRows, setLoading, reload, clearSelectedRowKeys }] = useTable({
     api: getRoleManagementListApi, //后台路径
     rowKey: 'roleId',
     clickToRowSelect: false, //是否开启点击行选中
@@ -62,7 +66,6 @@
     rowSelection: {
       //多选框的配置
       type: 'checkbox',
-      columnWidth: 60,
     },
     actionColumn: {
       //右边操作功能配置
@@ -86,7 +89,7 @@
       {
         label: '编辑',
         auth: 'system:role:edit',
-        ifShow: record.admin === true ? false : true,
+        ifShow: !record.admin,
         onClick: editEquipment.bind(null, record),
       },
       {
@@ -96,11 +99,11 @@
       },
       {
         label: '删除',
-        ifShow: record.admin === true ? false : true,
+        ifShow: !record.admin,
         color: 'error',
         auth: 'system:role:remove',
         popConfirm: {
-          title: '确认删除吗？',
+          title: '确定删除吗？',
           okText: '删除',
           confirm: handleDelete.bind(null, record),
         },
@@ -117,7 +120,7 @@
       },
       {
         label: '添加权限',
-        ifShow: record.admin === true ? false : true,
+        ifShow: !record.admin,
         onClick: toAddPermission.bind(null, record),
         auth: 'system:role:addMenu',
       },
@@ -198,7 +201,7 @@
       createConfirm({
         iconType: 'warning',
         title: () => h('span', '提示'),
-        content: () => h('span', `您确定要删除多条记录吗？`),
+        content: () => h('span', '您确定要删除多条数据吗？'),
         okText: '删除',
         onOk: async () => {
           deleteApi(ids.value);
@@ -212,7 +215,8 @@
     setLoading(true);
     deleteRoleApi(ids)
       .then(() => {
-        message.success('删除成功');
+        clearSelectedRowKeys();
+        createMessage.success('删除成功');
         reload();
       })
       .finally(() => {

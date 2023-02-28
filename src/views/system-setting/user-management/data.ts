@@ -1,9 +1,9 @@
 import { FormProps, FormSchema } from '/@/components/Table';
 import { BasicColumn } from '/@/components/Table/src/types/table';
-//import { getGroupListApi } from '/@/api/sys/systemSetting/userManagement';
+//import { getGroupListApi } from '/@/api/systemSetting/userManagement';
 import { DescItem } from '/@/components/Description/index';
 //import { useMessage } from '/@/hooks/web/useMessage';
-//import { getInvokeUserAddApi } from '/@/api/sys/systemSetting/userManagement';
+//import { getInvokeUserAddApi } from '/@/api/systemSetting/userManagement';
 ////import { h } from 'vue';
 //import { Switch } from 'ant-design-vue';
 //const { createMessage } = useMessage();
@@ -59,10 +59,10 @@ export const getBasicColumns: BasicColumn[] = [
   //   title: '部门',
   //   dataIndex: 'department',
   // },
-  // {
-  //   title: '所属用户组',
-  //   dataIndex: 'userGroup',
-  // },
+  {
+    title: '所属用户组',
+    dataIndex: 'userGroup',
+  },
   {
     title: '创建时间',
     dataIndex: 'createTime',

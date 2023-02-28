@@ -39,7 +39,7 @@
   import {
     addManagementDictionary,
     updateManagementDictionary,
-  } from '/@/api/sys/systemSetting/dictionaryType';
+  } from '/@/api/systemSetting/dictionaryType';
   import { useMessage } from '/@/hooks/web/useMessage';
   const { createMessage } = useMessage();
   const emits = defineEmits(['reload', 'register']);
@@ -81,9 +81,9 @@
     sortParams = { id, params };
     if (id === 'addChildren') {
       modalTitle.value = '新增下级';
-      setFieldsValue({ parentName: params.itemName, type: params.type });
       setUpdateForm('type', false);
       setUpdateForm('itemValue', true);
+      setFieldsValue({ parentName: params.itemName, type: params.type });
     } else if (id === 'editChildren') {
       if (params.parentId === '0') {
         modalTitle.value = '编辑父级';
@@ -94,7 +94,7 @@
         modalTitle.value = '编辑下级';
         setUpdateForm('type', false);
         setUpdateForm('itemValue', true);
-        setFieldsValue({ parentName: params.itemName, ...params });
+        setFieldsValue({ parentName: params.ParentName, ...params });
       }
     } else if (id === 'add') {
       modalTitle.value = '新增父级';

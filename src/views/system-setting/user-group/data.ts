@@ -1,16 +1,16 @@
 import { FormProps } from '/@/components/Table';
 import { BasicColumn } from '/@/components/Table/src/types/table';
-import { FormSchema } from '/@/components/Form/index';
-import { DescItem } from '/@/components/Description';
+import { FormSchema } from '/@/components/Form';
+
 //新建
 export const schemas: FormSchema[] = [
   {
-    field: 'roleName',
+    field: 'name',
     component: 'Input',
-    label: '角色名称',
+    label: '用户组名称',
+
     componentProps: {
-      placeholder: '请输入角色名称',
-      maxlength: '30',
+      placeholder: '请输入用户组名称',
     },
     required: true,
   },
@@ -21,7 +21,6 @@ export const schemas: FormSchema[] = [
     componentProps: {
       placeholder: '请输入备注',
       rows: 4,
-      maxlength: '5000',
     },
   },
 ];
@@ -29,13 +28,13 @@ export const schemas: FormSchema[] = [
 export function getBasicColumns(): BasicColumn[] {
   return [
     {
-      title: '角色',
-      dataIndex: 'roleName',
+      title: '用户组名称',
+      dataIndex: 'name',
     },
     {
       title: '用户数量',
-      dataIndex: 'userNum',
-      slots: { customRender: 'userNumSlots' },
+      dataIndex: 'peopleNum',
+      slots: { customRender: 'peopleNumSlots' },
     },
     {
       title: '备注',
@@ -50,15 +49,13 @@ export function getBasicColumns(): BasicColumn[] {
 //列表页表单项
 export function getFormConfig(): Partial<FormProps> {
   return {
-    showAdvancedButton: true, //是否开启收起按钮
-    submitOnReset: true, //是否开启重置时提交表单
-    autoSubmitOnEnter: true,
-    compact: false, //是否是紧凑类型表单
-    baseColProps: {
-      span: 6,
-    },
     rowProps: {
       gutter: 16,
+    },
+    autoSubmitOnEnter: true,
+    baseColProps: {
+      span: 6, //设置子项的样式
+      style: { paddingRight: '8px' },
     },
     resetButtonOptions: {
       preIcon: 'gonggong_zhongzhi|svg',
@@ -66,41 +63,31 @@ export function getFormConfig(): Partial<FormProps> {
     submitButtonOptions: {
       preIcon: 'gonggong_sousuo|svg',
     },
+    // wrapperCol: { style: { maxWidth: '500px' } },
     schemas: [
       {
-        field: 'roleName',
-        label: '角色名称',
+        field: `name`,
+        label: `用户组名称`,
         component: 'Input',
-        componentProps: {
-          placeholder: '请输入角色名称',
-        },
+        defaultValue: '',
       },
     ],
   };
 }
-export const schemaDetail: DescItem[] = [
-  {
-    field: 'name',
-    label: '用户组名称',
-  },
-  {
-    field: 'remark',
-    label: '备注',
-  },
-];
+
 export const BasicColumns: BasicColumn[] = [
   {
-    title: '登陆账号',
+    title: '登录账号',
     dataIndex: 'userName',
   },
   {
     title: '姓名',
     dataIndex: 'nickName',
   },
-  // {
-  //   title: '部门',
-  //   dataIndex: 'department',
-  // },
+  {
+    title: '部门',
+    dataIndex: 'department',
+  },
   {
     title: '状态',
     dataIndex: 'statusName',

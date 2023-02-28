@@ -4,16 +4,17 @@
 <script lang="ts" setup>
   import { BasicTable, useTable } from '/@/components/Table';
   import { onMounted, ref } from 'vue';
-  import { basicColumns } from './data';
-  import { getGroupByUserIdApi } from '/@/api/systemSetting/userManagement';
+  import { BasicColumns } from './data';
   import { useRoute } from 'vue-router';
+  import { getUserByGroupId } from '/@/api/systemSetting/userGroupManagement';
+  // const router = useRouter();
   const route = useRoute();
-  const userId = route.query.userId as string;
-
+  const id = route.query.id as string;
+  // const checkedKeys = ref<Array<string | number>>([]);
   const dataSource = ref([]);
   const [registerTableArray] = useTable({
     dataSource: dataSource,
-    columns: basicColumns, //表单列信息
+    columns: BasicColumns, //表单列信息
     useSearchForm: false, //是否表单
     showIndexColumn: false, //是否序列
     rowKey: 'userId',
@@ -21,7 +22,7 @@
     pagination: false,
   });
   onMounted(() => {
-    getGroupByUserIdApi(userId).then((res) => {
+    getUserByGroupId(id).then((res) => {
       dataSource.value = res;
     });
   });

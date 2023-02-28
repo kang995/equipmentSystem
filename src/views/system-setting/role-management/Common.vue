@@ -10,7 +10,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { PageWrapper } from '/@/components/Page';
   import { useRouter, useRoute } from 'vue-router';
-  import { addRoleApi, detailRoleApi, editRoleApi } from '/@/api/sys/systemSetting/roleManagement';
+  import { addRoleApi, detailRoleApi, editRoleApi } from '/@/api/systemSetting/roleManagement';
   const { createMessage } = useMessage();
 
   const router = useRouter();
@@ -31,7 +31,7 @@
       span: 14,
     },
     submitButtonOptions: {
-      text: '提交',
+      text: '保存',
     },
     resetButtonOptions: {
       text: '取消',
