@@ -659,7 +659,7 @@ export function getCommonFormSchema(): FormSchema[] {
       field: 'deviceIdList',
       component: 'Input',
       label: '保养设备',
-      // required: true,
+      required: true,
       slot: 'tableSlot',
     },
   ];

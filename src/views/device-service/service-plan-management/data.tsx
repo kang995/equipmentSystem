@@ -516,8 +516,8 @@ export function getCommonFormSchema(): FormSchema[] {
     {
       field: 'checkDate',
       component: 'Input',
-      label: '保养设备',
-      // required: true,
+      label: '检修设备',
+      required: true,
       slot: 'tableSlot',
     },
   ];
