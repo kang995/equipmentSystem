@@ -62,7 +62,7 @@
   });
 
   const targetKeys = ref<any>([]);
-  let tData: any = [];
+  let tData: any = ref([]);
 
   //确认
   const dataSourceList = ref<any>([]);
@@ -77,8 +77,8 @@
   });
   function funTreeSelect() {
     postTreeSelectApi().then((res) => {
-      tData = getData(res);
-      flatten(JSON.parse(JSON.stringify(tData)));
+      tData.value = getData(res);
+      flatten(JSON.parse(JSON.stringify(tData.value)));
     });
   }
   function getData(res) {
@@ -118,7 +118,7 @@
   let dataSource = ref<any>(transferDataSource);
   // 树结构
   let treeData = computed<TreeProps['treeData']>(() => {
-    return handleTreeData(tData, targetKeys.value);
+    return handleTreeData(tData.value, targetKeys.value);
   });
   const onChecked = (e: any, checkedKeys: string[], onItemSelect: (n: any, c: boolean) => void) => {
     const { eventKey } = e.node;
