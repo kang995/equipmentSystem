@@ -64,6 +64,8 @@ export function tableColumns(): BasicColumn[] {
         } else if (record.approvalStatus === '4') {
           //审核拒绝
           return <Badge status="error" text={record.approvalStatusText} />;
+        } else if (record.approvalStatus === '5') {
+          return '--';
         }
       },
     },
