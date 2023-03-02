@@ -3,7 +3,7 @@
     <Row :gutter="0">
       <Col :span="6">
         <Card>
-          <div style="max-height: 960px; overflow-y: scroll">
+          <div style="max-height: 952px; overflow-y: scroll" v-if="treeData.length">
             <Tree
               class="treeData"
               v-model:selectedKeys="selectedKeys"
@@ -13,6 +13,7 @@
               @select="getSelect"
             />
           </div>
+          <Empty v-else />
         </Card>
       </Col>
       <Col :span="18">
@@ -91,7 +92,7 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useRouter } from 'vue-router';
   import { onMounted, ref, toRefs } from 'vue';
-  import { Tooltip, Row, Col, Card, Tree } from 'ant-design-vue';
+  import { Tooltip, Row, Col, Card, Tree, Empty } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
   import { postUnitFacilityTreeApi } from '/@/api/device-management/installation';
   import {

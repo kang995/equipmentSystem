@@ -150,7 +150,7 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import selectDevice from '/@/views/backup-management/components/SelectDevice.vue';
-  import { useTabs } from '/@/hooks/web/useTabs';
+  // import { useTabs } from '/@/hooks/web/useTabs';
   import { putPlanListApi } from '/@/api/device-maintenance/index';
   import { useMessage } from '/@/hooks/web/useMessage';
   import {
@@ -164,7 +164,7 @@
   } from '/@/api/device-maintenance/index';
   // const RadioGroup =  Radio.Group;
   const { createMessage } = useMessage();
-  const { closeCurrent } = useTabs();
+  // const { closeCurrent } = useTabs();
   const router = useRouter();
   const route = useRoute();
   const isEdit = route.query?.isEdit as string;
@@ -376,7 +376,8 @@
 
   //取消
   async function resetSubmitFunc() {
-    closeCurrent();
+    // closeCurrent();
+    router.go(-1);
   }
   //详情
   function handleDetails(record) {
