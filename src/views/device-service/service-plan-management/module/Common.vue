@@ -244,6 +244,7 @@
     DeviceVal.value = val;
     openDeviceModal(false);
   }
+  const targetKeys = ref<any>([]);
   //详情
   id &&
     OverhaulPlanDetailsApi({ id }).then((res) => {
@@ -276,6 +277,9 @@
 
   //保存
   async function sumitForm() {
+    setFieldsValue({
+      deviceIdList: DeviceVal.value.length ? DeviceVal.value : undefined,
+    });
     await validate();
     let params = getFieldsValue();
     params['deviceIdList'] = [...DeviceVal.value]; //保养设备idList
@@ -317,11 +321,18 @@
   }
   //取消
   async function resetSubmitFunc() {
-    closeCurrent();
+    // closeCurrent();
+    router.go(-1);
   }
   //选择设备
   function handleModal() {
-    openDeviceModal(true);
+    const data = getDataSource();
+    const ids = [] as any; //deviceId
+    data.map((v) => {
+      ids.push(v.deviceId);
+    });
+    targetKeys.value = ids;
+    openDeviceModal(true, targetKeys.value);
   }
   //详情
   function handleDetails(record) {
@@ -336,6 +347,7 @@
   function handleDelete(index) {
     const data = getDataSource();
     data.splice(index, 1);
+    DeviceVal.value.splice(index, 1);
     setTableData(data);
   }
 </script>

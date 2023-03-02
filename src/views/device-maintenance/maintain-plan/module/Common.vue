@@ -315,6 +315,9 @@
     });
   //提交
   async function sumitForm() {
+    setFieldsValue({
+      deviceIdList: DeviceVal.value.length ? DeviceVal.value : undefined,
+    });
     await validate();
     let params = getFieldsValue();
     params['deviceIdList'] = [...DeviceVal.value]; //保养设备idList
@@ -360,6 +363,7 @@
   function handleDelete(index) {
     const data = getDataSource();
     data.splice(index, 1);
+    DeviceVal.value.splice(index, 1);
     setTableData(data);
   }
 

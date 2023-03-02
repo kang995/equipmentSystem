@@ -662,6 +662,7 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'Input',
       label: '保养设备',
       required: true,
+      // rules: [{ required: true }],
       slot: 'tableSlot',
     },
   ];
