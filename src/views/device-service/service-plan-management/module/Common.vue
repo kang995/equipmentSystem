@@ -121,7 +121,7 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import selectDevice from '/@/views/backup-management/components/SelectDevice.vue';
-  import { useTabs } from '/@/hooks/web/useTabs';
+  // import { useTabs } from '/@/hooks/web/useTabs';
   import { useMessage } from '/@/hooks/web/useMessage';
   import {
     getDictionarySelectTypeApi,
@@ -136,7 +136,7 @@
     OverhaulPlanDetailsApi,
   } from '/@/api/device-service/index';
   const { createMessage } = useMessage();
-  const { closeCurrent } = useTabs();
+  // const { closeCurrent } = useTabs();
   const router = useRouter();
   const route = useRoute();
   const isEdit = route.query?.isEdit as string;
