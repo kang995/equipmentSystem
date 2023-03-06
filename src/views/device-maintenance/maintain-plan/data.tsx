@@ -579,7 +579,7 @@ export function getCommonFormSchema(): FormSchema[] {
       required: true,
       ifShow: true,
       componentProps: ({ formActionType }) => {
-        const { updateSchema } = formActionType; //setFieldsValue
+        const { updateSchema, setFieldsValue } = formActionType; //setFieldsValue
         return {
           placeholder: '请选择处理部门',
           api: getDepartmentSelectApi,
@@ -591,7 +591,7 @@ export function getCommonFormSchema(): FormSchema[] {
             children: 'children',
           },
           onChange: (e: any) => {
-            console.log(e);
+            setFieldsValue({ dealUserIdList: undefined });
             getPeopleSelectApi([e]).then((res) => {
               updateSchema({
                 field: 'dealUserIdList',
