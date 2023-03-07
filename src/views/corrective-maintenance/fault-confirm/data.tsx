@@ -141,6 +141,8 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -199,6 +201,8 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -214,6 +218,8 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -229,6 +235,8 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -245,6 +253,8 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
       ifShow: !ifIssue,
     },
@@ -392,6 +402,8 @@ export function confirmFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
       ifShow: ({ values }) => {
         return values?.troubleDetermine === '0';
@@ -493,6 +505,8 @@ export function confirmFormSchema(): FormSchema[] {
           resultField: 'data', //后台返回数据字段
           labelField: 'name',
           valueField: 'id',
+          showSearch: true,
+          optionFilterProp: 'label',
           onChange: (en) => {
             console.log(en);
             getStationPeopleSelectApi([en]).then((res) => {
@@ -610,6 +624,8 @@ export function confirmFormSchema(): FormSchema[] {
           resultField: 'data', //后台返回数据字段
           labelField: 'name',
           valueField: 'id',
+          showSearch: true,
+          optionFilterProp: 'label',
           onChange: (e: any) => {
             TroubleWorkOrderListApi({ id: e }).then((res) => {
               console.log('e', e);

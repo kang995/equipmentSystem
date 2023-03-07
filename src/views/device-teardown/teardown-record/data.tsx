@@ -60,6 +60,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -87,6 +89,8 @@ export function schemasAdd(routeId, codeId?): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {

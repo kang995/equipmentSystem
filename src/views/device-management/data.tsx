@@ -157,6 +157,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择所属项目组成部分',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -169,6 +171,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择所属区域',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -182,6 +186,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择类型',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -194,6 +200,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择重大危险源级别',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -206,6 +214,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择火灾危险性类别',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
     labelWidth: 120,
   },
@@ -219,6 +229,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择耐火等级',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
     labelWidth: 65,
   },
@@ -232,6 +244,8 @@ export const installationFormSchema: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择模型绑定状态',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -606,6 +620,8 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         valueField: 'id', //设置value字段
         placeholder: '请选择所属项目',
         disabled: dataSource === '1',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -620,6 +636,8 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         valueField: 'id', //设置value字段
         placeholder: '请选择所属装置设施',
         disabled: dataSource === '1',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -637,6 +655,8 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         valueField: 'itemValue', //设置value字段
         placeholder: '请选择设备类型',
         disabled: dataSource === '1',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -661,6 +681,8 @@ export function schemasAdd(dataSource: string): FormSchema[] {
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
         placeholder: '选择使用状态',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -1093,6 +1115,8 @@ export const formSchema: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择备件分类',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -1260,6 +1284,8 @@ export function formMechanicaSchema(state: string): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name', //设置label字段
         valueField: 'id', //设置value字段
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -1275,6 +1301,8 @@ export function formMechanicaSchema(state: string): FormSchema[] {
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
         placeholder: '请选择设备类型',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -1290,6 +1318,8 @@ export function formMechanicaSchema(state: string): FormSchema[] {
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
         placeholder: '请选择设备性质',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -1305,6 +1335,8 @@ export function formMechanicaSchema(state: string): FormSchema[] {
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
         placeholder: '请选择绑定模型状态',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];

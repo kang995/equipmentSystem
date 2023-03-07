@@ -103,6 +103,8 @@ export function getAgainFormSchema(): FormSchema[] {
           resultField: 'data', //后台返回数据字段
           labelField: 'name',
           valueField: 'id',
+          showSearch: true,
+          optionFilterProp: 'label',
           getPopupContainer: () => document.body,
           onChange: (en) => {
             console.log(en);

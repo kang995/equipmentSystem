@@ -749,6 +749,8 @@ export const failureFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
     labelWidth: 64,
   },
@@ -782,6 +784,8 @@ export const failureFormSchema: FormSchema[] = [
       resultField: 'records', //后台返回数据字段
       labelField: 'itemName',
       valueField: 'itemValue',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -797,6 +801,8 @@ export const failureFormSchema: FormSchema[] = [
       resultField: 'records', //后台返回数据字段
       labelField: 'itemName',
       valueField: 'itemValue',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -812,6 +818,8 @@ export const failureFormSchema: FormSchema[] = [
       resultField: 'records', //后台返回数据字段
       labelField: 'itemName',
       valueField: 'itemValue',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -901,6 +909,8 @@ export const overhaulFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -918,6 +928,8 @@ export const overhaulFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -933,6 +945,8 @@ export const overhaulFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -1033,6 +1047,8 @@ export const maintenanceFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -1050,6 +1066,8 @@ export const maintenanceFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -1075,6 +1093,8 @@ export const maintenanceFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -1147,6 +1167,8 @@ export const emergencyFormSchema: FormSchema[] = [
       resultField: 'data', //后台返回数据字段
       labelField: 'name',
       valueField: 'id',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -1250,6 +1272,8 @@ export function associatedFormSchema(deviceId): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name', //设置label字段
         valueField: 'id', //设置value字段
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -1265,6 +1289,8 @@ export function associatedFormSchema(deviceId): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName', //设置label字段
         valueField: 'itemValue', //设置value字段
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];
@@ -1326,6 +1352,8 @@ export const sparePartFormSchema: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择备件分类',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {

@@ -104,6 +104,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -119,6 +121,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -135,6 +139,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];
@@ -479,6 +485,8 @@ export function getCommonFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -526,6 +534,8 @@ export function getCommonFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -597,6 +607,8 @@ export function getCommonFormSchema(): FormSchema[] {
                 field: 'dealUserIdList',
                 componentProps: {
                   options: res,
+                  showSearch: true,
+                  optionFilterProp: 'name',
                 },
               });
             });
@@ -618,6 +630,8 @@ export function getCommonFormSchema(): FormSchema[] {
           resultField: 'data', //后台返回数据字段
           labelField: 'name',
           valueField: 'id',
+          showSearch: true,
+          optionFilterProp: 'label',
           onChange: (en) => {
             console.log(en);
             getStationPeopleSelectApi([en]).then((res) => {
@@ -627,6 +641,8 @@ export function getCommonFormSchema(): FormSchema[] {
                 componentProps: {
                   options: res,
                   mode: 'multiple',
+                  showSearch: true,
+                  optionFilterProp: 'name',
                 },
               });
               formModel.dealUserIdList = res.map((item) => item.id);
@@ -645,6 +661,8 @@ export function getCommonFormSchema(): FormSchema[] {
         mode: 'multiple',
         options: [],
         fieldNames: { label: 'name', value: 'id' },
+        showSearch: true,
+        optionFilterProp: 'name',
       },
     },
     {

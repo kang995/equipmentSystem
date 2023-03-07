@@ -153,6 +153,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -170,6 +172,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -195,6 +199,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -211,6 +217,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {

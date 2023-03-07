@@ -120,6 +120,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'name',
         valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -154,8 +156,8 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         placeholder: '请选择所属装置设施',
         api: UnitFacilityApi,
-        showSearch: true,
-        optionFilterProp: 'label',
+        // showSearch: true,
+        // optionFilterProp: 'label',
         fieldNames: {
           value: 'id',
           key: 'id',
@@ -178,6 +180,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -193,6 +197,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -208,6 +214,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
     {
@@ -224,6 +232,8 @@ export function getFormSchema(): FormSchema[] {
         resultField: 'data', //后台返回数据字段
         labelField: 'itemName',
         valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];

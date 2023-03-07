@@ -359,6 +359,8 @@ export const backupFormSchema: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择备件分类',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -455,6 +457,8 @@ export const formSchemaIssue: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择出库类型',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -489,6 +493,8 @@ export const formSchemaWarehousing: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择入库类型',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -538,6 +544,8 @@ export const sparePartAdd: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择备件分类',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -554,6 +562,8 @@ export const sparePartAdd: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择计量单位',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -710,6 +720,8 @@ export const inboundAdd: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择出库类型',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -764,6 +776,8 @@ export const OutboundAdd: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择入库类型',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -1068,6 +1082,8 @@ export const inventoryFormSchema: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择状态',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
 ];
@@ -1103,6 +1119,8 @@ export const schemasInventoryAdd: FormSchema[] = [
       labelField: 'name', //设置label字段
       valueField: 'id', //设置value字段
       placeholder: '请选择执行人',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
@@ -1117,6 +1135,8 @@ export const schemasInventoryAdd: FormSchema[] = [
       labelField: 'warehouseName', //设置label字段
       valueField: 'warehouseId', //设置value字段
       placeholder: '请选择仓库',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {

@@ -35,6 +35,8 @@ export const schemasSearch: FormSchema[] = [
       labelField: 'itemName', //设置label字段
       valueField: 'itemValue', //设置value字段
       placeholder: '请选择消息类型',
+      showSearch: true,
+      optionFilterProp: 'label',
     },
   },
   {
