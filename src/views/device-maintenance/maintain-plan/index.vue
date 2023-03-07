@@ -118,6 +118,7 @@
     rebackListApi,
   } from '/@/api/device-maintenance/index';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { resolve } from 'path';
   const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
@@ -247,10 +248,17 @@
       title: '保养计划提交',
       content: createVNode('span', { style: 'color:black;' }, '确认要提交保养计划？'),
       centered: true,
-      onOk() {
-        submitListApi({ id }).then(() => {
-          message.success('提交成功');
-          reload();
+      async onOk() {
+        return await new Promise((resolve, reject) => {
+          submitListApi({ id })
+            .then(() => {
+              message.success('提交成功');
+              reload();
+              resolve;
+            })
+            .catch(() => {
+              reject();
+            });
         });
       },
     });

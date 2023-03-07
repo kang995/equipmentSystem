@@ -189,10 +189,17 @@
       title: '检修计划提交',
       content: createVNode('span', { style: 'color:black;' }, '确认要提交检修计划？'),
       centered: true,
-      onOk() {
-        OverhaulSubmitApi({ id }).then(() => {
-          message.success('提交成功');
-          reload();
+      async onOk() {
+        return await new Promise((resolve, reject) => {
+          OverhaulSubmitApi({ id })
+            .then(() => {
+              message.success('提交成功');
+              reload();
+              resolve;
+            })
+            .catch(() => {
+              reject();
+            });
         });
       },
     });
