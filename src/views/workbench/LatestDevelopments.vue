@@ -68,7 +68,7 @@
   import { Card, List, Badge, TypographyParagraph } from 'ant-design-vue';
   import { onMounted, ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { notificationApi } from '/@/api/workbench/index';
+  import { notificationApi, notificationUpdateStateApi } from '/@/api/workbench/index';
   import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
 
@@ -109,6 +109,8 @@
   }
 
   function clickMessages(item) {
+    const ids = [item.id];
+    notificationUpdateStateApi({ ids, state: '2' });
     router.push({
       name: 'Message',
       params: {

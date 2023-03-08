@@ -152,18 +152,18 @@
     state: props.paramId ? '2' : props.tabActiveKey,
     id: props.paramId ? props.paramId : '',
   });
-  function messageTableDetail() {
-    //单条跳转查询
-    const ids = [props.paramId];
-    if (props.paramState == '1') {
-      try {
-        // 更新为已读
-        notificationUpdateStateApi({ ids, state: '2' });
-        // 更新未读消息数量
-        userStore.refreshMessageCount();
-      } catch (error) {}
-    }
-  }
+  // function messageTableDetail() {
+  //   //单条跳转查询
+  //   const ids = [props.paramId];
+  //   if (props.paramState == '1') {
+  //     try {
+  //       // 更新为已读
+  //       notificationUpdateStateApi({ ids, state: '2' });
+  //       // 更新未读消息数量
+  //       userStore.refreshMessageCount();
+  //     } catch (error) {}
+  //   }
+  // }
 
   //显示详情
   function detailData(dataSource) {
@@ -195,14 +195,14 @@
     clickToRowSelect: false, //是否开启点击行选中
     useSearchForm: false, //是否开启form搜索表单
     searchInfo: searchInfoList,
-    beforeFetch: (data) => {
-      if (props.paramId) {
-        messageTableDetail();
-        data.id = props.paramId;
-      } else {
-        data.state = props.tabActiveKey;
-      }
-    },
+    // beforeFetch: (data) => {
+    //   if (props.paramId) {
+    //     messageTableDetail();
+    //     data.id = props.paramId;
+    //   } else {
+    //     data.state = props.tabActiveKey;
+    //   }
+    // },
     afterFetch: () => {
       const { records } = getRawDataSource();
       detailData(records);
@@ -295,7 +295,7 @@
             createMessage.success('删除成功');
             // 更新未读消息数量
             userStore.refreshMessageCount();
-            clearSelectedRowKeys();
+            // clearSelectedRowKeys();
           });
         }
       },
