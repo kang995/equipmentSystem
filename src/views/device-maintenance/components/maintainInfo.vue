@@ -112,8 +112,10 @@
 
   const [planModal, { openModal: openPlanModal }] = useModal();
   const [RecallModal, { openModal: openRecallModal }] = useModal();
-  const [registerAgreeModel, { openModal: agreeOpenModal }] = useModal();
-  const [registerRejectModel, { openModal: rejectOpenModal }] = useModal();
+  const [registerAgreeModel, { openModal: agreeOpenModal, setModalProps: setModalAgreeProps }] =
+    useModal();
+  const [registerRejectModel, { openModal: rejectOpenModal, setModalProps: setModalRejectProps }] =
+    useModal();
   let dataSource = ref<any>([]);
   const [register] = useDescription({
     data: dataSource,
@@ -209,11 +211,17 @@
   }
   //拒绝、同意-提交
   function handleApproval(data) {
-    // console.log('数据',data);
-    (mode === '2' ? getApprovalListApi(data) : ApprovalAuditApi(data)).then(() => {
-      message.success('提交成功');
-      backFun();
-    });
+    setModalAgreeProps({ confirmLoading: true });
+    setModalRejectProps({ confirmLoading: true });
+    (mode === '2' ? getApprovalListApi(data) : ApprovalAuditApi(data))
+      .then(() => {
+        message.success('提交成功');
+        backFun();
+      })
+      .finally(() => {
+        setModalAgreeProps({ confirmLoading: false });
+        setModalRejectProps({ confirmLoading: false });
+      });
   }
   onMounted(() => {
     id && (mode === '1' || mode === '2') && getMaintainDetail();
