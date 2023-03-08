@@ -41,7 +41,7 @@
 </template>
 <script setup lang="ts">
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
-  import { tableColumns, getFormSchema, getFormSchemas } from './data';
+  import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
   import { Tooltip } from 'ant-design-vue';
   import { ref } from 'vue';
@@ -80,7 +80,7 @@
       slots: { customRender: 'action' },
     },
     formConfig: {
-      schemas: props.ifIssue ? getFormSchema() : getFormSchemas(),
+      schemas: getFormSchema(),
       autoSubmitOnEnter: true,
       showAdvancedButton: false, //是否显示收起展开按钮
       resetButtonOptions: {

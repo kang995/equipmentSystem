@@ -111,7 +111,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
     },
   ];
 }
-//维修工单--待验收
+//维修工单--待验收/已验收
 export function getFormSchema(): FormSchema[] {
   return [
     {
@@ -266,52 +266,52 @@ export function getFormSchema(): FormSchema[] {
   ];
 }
 //维修工单--已验收
-export function getFormSchemas(): FormSchema[] {
-  return [
-    {
-      field: 'code',
-      component: 'Input',
-      label: '工单单号',
-      componentProps: {
-        placeholder: '请输入工单单号',
-      },
-    },
-    {
-      field: 'chargePeopleId',
-      component: 'ApiSelect',
-      label: '负责人',
-      componentProps: {
-        placeholder: '请输入负责人',
-        api: getPersonSelectApi,
-        showSearch: true,
-        optionFilterProp: 'label',
-        params: {
-          // type: 'APPROVAL_STATUS',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
-      },
-    },
-    {
-      field: 'dealPeopleId',
-      component: 'ApiSelect',
-      label: '处理人',
-      componentProps: {
-        placeholder: '请输入处理人姓名',
-        api: getPersonSelectApi,
-        showSearch: true,
-        optionFilterProp: 'label',
-        params: {
-          // type: 'APPROVAL_STATUS',
-        },
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
-      },
-    },
-  ];
-}
+// export function getFormSchemas(): FormSchema[] {
+//   return [
+//     {
+//       field: 'code',
+//       component: 'Input',
+//       label: '工单单号',
+//       componentProps: {
+//         placeholder: '请输入工单单号',
+//       },
+//     },
+//     {
+//       field: 'chargePeopleId',
+//       component: 'ApiSelect',
+//       label: '负责人',
+//       componentProps: {
+//         placeholder: '请输入负责人',
+//         api: getPersonSelectApi,
+//         showSearch: true,
+//         optionFilterProp: 'label',
+//         params: {
+//           // type: 'APPROVAL_STATUS',
+//         },
+//         resultField: 'data', //后台返回数据字段
+//         labelField: 'name',
+//         valueField: 'id',
+//       },
+//     },
+//     {
+//       field: 'dealPeopleId',
+//       component: 'ApiSelect',
+//       label: '处理人',
+//       componentProps: {
+//         placeholder: '请输入处理人姓名',
+//         api: getPersonSelectApi,
+//         showSearch: true,
+//         optionFilterProp: 'label',
+//         params: {
+//           // type: 'APPROVAL_STATUS',
+//         },
+//         resultField: 'data', //后台返回数据字段
+//         labelField: 'name',
+//         valueField: 'id',
+//       },
+//     },
+//   ];
+// }
 //工单信息
 export function WorkDetail(): DescItem[] {
   return [
