@@ -15,9 +15,9 @@ enum Api {
   OVERHAULPLAN_DETAILS = '/overhaulPlan/detail', //检修计划详情
   OVERHAULPLAN_DEVICE = '/overhaulPlan/device/list', //查询检修设备
   //检修计划审核
-  APPROVAL_LIST_PEND = '/overhaulPlan/approval/pend/list', //分页查询待处理列表
-  APPROVAL_LIST_DEAL = '/overhaulPlan/approval/deal/list', //分页查询已处理列表
-  APPROVAL_AUDIT = '/overhaulPlan/approval/approval', //审核
+  APPROVAL_LIST_PEND = '/overhaulPlan/pend/list', //分页查询待处理列表
+  APPROVAL_LIST_DEAL = '/overhaulPlan/deal/list', //分页查询已处理列表
+  APPROVAL_AUDIT = '/overhaulPlan/approval', //审核
 }
 
 /* 1、检修计划管理 */

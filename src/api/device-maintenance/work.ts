@@ -11,12 +11,12 @@ enum Api {
   UPKEEP_DEAL_RESULT = '/upkeepWorkOrder/referDealResult', //提交处理结果
   UPKEEP_SHOW = '/upkeepWorkOrder/whetherShow', //判断展示负责或执行工单
   // 保养验收
-  ACCOPT_STAYACCEPT_LIST = '/upkeepWorkOrder/accept/stayAccept/list', //待验收工单列表
-  ACCOPT_ACCEPT_LIST = '/upkeepWorkOrder/accept/accept/list', //已验收工单列表
-  ACCOPT_STAYACCEPT_EXPORT = '/upkeepWorkOrder/accept/stayAccept/export', //待验收工单列表批量导出
-  ACCOPT_ACCEPT_EXPORT = '/upkeepWorkOrder/accept/accept/export', //已验收工单列表批量导出
-  ACCOPT_COUNT = '/upkeepWorkOrder/accept/accept/count', //查询待验收和已验收工单数量
-  ACCOPT_WORKORDER = '/upkeepWorkOrder/accept/saveAcceptResult', //验收
+  ACCOPT_STAYACCEPT_LIST = '/upkeepWorkOrder/stayAccept/list', //待验收工单列表
+  ACCOPT_ACCEPT_LIST = '/upkeepWorkOrder/accept/list', //已验收工单列表
+  ACCOPT_STAYACCEPT_EXPORT = '/upkeepWorkOrder/stayAccept/export', //待验收工单列表批量导出
+  ACCOPT_ACCEPT_EXPORT = '/upkeepWorkOrder/accept/export', //已验收工单列表批量导出
+  ACCOPT_COUNT = '/upkeepWorkOrder/accept/count', //查询待验收和已验收工单数量
+  ACCOPT_WORKORDER = '/upkeepWorkOrder/saveAcceptResult', //验收
   // 使用备件
   ORDER_SPARE_LIST = '/orderSpare/list', //工单备件使用列表查询
   SPARE_PART_LIST = '/sparePart/list', //备件列表
