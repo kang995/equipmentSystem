@@ -194,8 +194,8 @@
           OverhaulSubmitApi({ id })
             .then(() => {
               message.success('提交成功');
+              resolve({});
               reload();
-              resolve;
             })
             .catch(() => {
               reject();

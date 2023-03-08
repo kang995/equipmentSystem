@@ -118,7 +118,6 @@
     rebackListApi,
   } from '/@/api/device-maintenance/index';
   import { usePermission } from '/@/hooks/web/usePermission';
-  import { resolve } from 'path';
   const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
@@ -253,8 +252,8 @@
           submitListApi({ id })
             .then(() => {
               message.success('提交成功');
+              resolve({});
               reload();
-              resolve;
             })
             .catch(() => {
               reject();
