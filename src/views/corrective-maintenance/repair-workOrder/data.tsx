@@ -90,7 +90,7 @@ export function tableColumns(): BasicColumn[] {
       dataIndex: 'troubleTypeText',
     },
     {
-      title: '故障等级',
+      title: '紧急程度',
       dataIndex: 'urgentLevel',
       customRender: ({ record }) => {
         if (record.urgentLevel === '0') {

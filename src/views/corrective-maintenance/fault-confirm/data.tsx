@@ -64,7 +64,7 @@ export function tableColumns(ifIssue: any): BasicColumn[] {
       dataIndex: 'troubleTypeText',
     },
     {
-      title: '故障等级',
+      title: '紧急程度',
       dataIndex: 'urgentLevelText',
       customRender: ({ record }) => {
         if (record.urgentLevel === '0') {
