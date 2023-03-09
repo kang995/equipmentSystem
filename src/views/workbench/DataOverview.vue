@@ -145,7 +145,11 @@
     }[id]);
 
   function getRouterDate(id) {
-    router.push(toRoute(id));
+    try {
+      router.push(toRoute(id));
+    } catch (err) {
+      console.log(err);
+    }
   }
   onMounted(() => {
     funView();

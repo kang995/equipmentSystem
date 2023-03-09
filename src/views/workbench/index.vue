@@ -3,7 +3,9 @@
     <div :class="`${prefixCls}`">
       <div :class="`${prefixCls}-left`">
         <div :class="`${prefixCls}-left-data`"><DataOverview /> </div>
-        <div :class="`${prefixCls}-left-data`"><QuickEntry /> </div>
+        <div :class="`${prefixCls}-left-data`" v-if="isShow"
+          ><QuickEntry :routerList="routerList" />
+        </div>
         <div :class="`${prefixCls}-left-data`">
           <WorkOrderTrend />
         </div>
@@ -25,7 +27,30 @@
   import LatestDevelopments from './LatestDevelopments.vue';
   import GettingStarted from './GettingStarted.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { getMenuList } from '/@/api/sys/menu';
+  import { ref, onMounted } from 'vue';
   const { prefixCls } = useDesign('workbench-wrapper');
+
+  //判断快捷入口
+  const isShow = ref<any>(false);
+  const routerList = ref<Array<any>>([]);
+  function handleEntry() {
+    getMenuList().then((res) => {
+      res.map((item) => {
+        if (
+          item.name?.includes('correctiveMaintenance') ||
+          item.name?.includes('deviceMaintenance') ||
+          item.name?.includes('deviceService')
+        ) {
+          isShow.value = true;
+          routerList.value = res;
+        }
+      });
+    });
+  }
+  onMounted(() => {
+    handleEntry();
+  });
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{name-space}-workbench-wrapper';

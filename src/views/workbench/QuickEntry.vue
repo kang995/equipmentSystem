@@ -3,21 +3,17 @@
     <div :class="`${prefixCls}`" class="mt-4">
       <Title :titleList="titleList" />
       <ARow>
-        <ACol
-          :span="6"
-          :gutter="[16, 16]"
-          :class="`${prefixCls}-box `"
-          v-for="(item, index) in buttonList"
-          :key="index"
-        >
-          <ACard :class="`${prefixCls}-box-card`" :bordered="false" @click="getClick(item.name)">
-            <div :class="`${prefixCls}-box-data`">
-              <!-- <SvgIcon :name="item.icon" size="20" :class="`${prefixCls}-SvgIcon`" /> -->
-              <img :src="item.icon" :class="`${prefixCls}-SvgIcon`" />
-              <div :class="`${prefixCls}-text`"> {{ item.title }} </div>
-            </div>
-          </ACard>
-        </ACol>
+        <template v-for="item in newButtonList" :key="item.name">
+          <ACol :span="6" :gutter="[16, 16]" :class="`${prefixCls}-box `" v-if="item.isShow">
+            <ACard :class="`${prefixCls}-box-card`" :bordered="false" @click="getClick(item.name)">
+              <div :class="`${prefixCls}-box-data`">
+                <!-- <SvgIcon :name="item.icon" size="20" :class="`${prefixCls}-SvgIcon`" /> -->
+                <img :src="item.icon" :class="`${prefixCls}-SvgIcon`" />
+                <div :class="`${prefixCls}-text`"> {{ item.title }} </div>
+              </div>
+            </ACard>
+          </ACol>
+        </template>
       </ARow>
     </div>
   </ACard>
@@ -27,12 +23,15 @@
   import Title from './components/Title.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { Row, Card, Col } from 'ant-design-vue';
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
   import faultConfirm from '/@/assets/images/faultConfirm.png';
   import auditDetail from '/@/assets/images/auditDetail.png';
   import servicePlanAudit from '/@/assets/images/servicePlanAudit.png';
 
+  const props = defineProps<{
+    routerList?: Array<any>;
+  }>();
   const ARow = Row;
   const ACol = Col;
   const ACard = Card;
@@ -51,6 +50,7 @@
       // icon: 'yewu_danyuan',
       icon: faultConfirm,
       name: 'faultConfirm',
+      isShow: false,
     },
     // {
     //   title: '维修计划审核',
@@ -61,11 +61,13 @@
       title: '保养计划审核',
       icon: auditDetail,
       name: 'auditDetail',
+      isShow: false,
     },
     {
       title: '检修计划审核',
       icon: servicePlanAudit,
       name: 'servicePlanAudit',
+      isShow: false,
     },
   ]);
 
@@ -75,6 +77,28 @@
       name: data,
     });
   }
+  //判断快捷入口
+  const newButtonList = ref<any>([]);
+  function handleEntry() {
+    newButtonList.value = buttonList.value;
+    // console.log('routerList',props.routerList)
+    props.routerList?.map((item) => {
+      if (item.name === 'correctiveMaintenance') {
+        //故障维修
+        newButtonList.value[0].isShow = true;
+      } else if (item.name === 'deviceMaintenance') {
+        //设备保养
+        newButtonList.value[1].isShow = true;
+      } else if (item.name === 'deviceService') {
+        //设备检修
+        newButtonList.value[2].isShow = true;
+      }
+    });
+    // console.log('newButtonList.value',newButtonList.value)
+  }
+  onMounted(() => {
+    handleEntry();
+  });
 </script>
 <style lang="less" scoped>
   [data-theme='dark'] {
