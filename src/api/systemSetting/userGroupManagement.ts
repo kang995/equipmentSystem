@@ -14,9 +14,10 @@ enum Api {
   GROUP_GET_USER = '/system/group/getUserByGroupId/', // 通过用户组ID查询用户
 }
 // 添加用户成员时获取用户列表和已选中用户
-export const getUserByGroupId = (id: string) =>
+export const getUserByGroupId = (params) =>
   defHttp.post({
-    url: Api.GROUP_GET_USER + id,
+    url: Api.GROUP_GET_USER + params.id,
+    params,
   });
 // 添加用户成员时获取用户列表和已选中用户
 export const getUserGroupTree = (id: string) =>

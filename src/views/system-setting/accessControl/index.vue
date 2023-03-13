@@ -2,12 +2,7 @@
   <PageWrapper contentBackground contentFullHeight>
     <div class="mx-auto w-100 mt-10 font-bold text-size-[16px]">
       <span class="mr-5">选择模式:</span>
-      <a-radio-group
-        v-model:value="state"
-        :options="options"
-        button-style="solid"
-        :disabled="hasPermission(['system:videoMonitor:refresh']) ? true : false"
-      />
+      <a-radio-group v-model:value="state" :options="options" button-style="solid" />
       <!-- optionType="button" size="large" -->
       <div class="py-3">
         <span class="text-[#ccc] text-xs" v-if="state === '0'">备注：除了黑名单之外的都可访问</span>
@@ -21,14 +16,11 @@
   import { message, RadioGroup } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { getIpControlApi, postEditIpControlApi } from '/@/api/systemSetting/ip-list';
-  import { usePermission } from '/@/hooks/web/usePermission';
-  const { hasPermission } = usePermission();
   const ARadioGroup = RadioGroup;
 
   onMounted(() => {
     getIpControlApi().then((res) => {
       state.value = res.identity;
-      console.log('res', res);
       id.value = res.id;
       watch(
         () => state.value,

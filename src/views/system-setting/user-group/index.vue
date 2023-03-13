@@ -12,9 +12,15 @@
           preIcon="gonggong_tianjia_xianxing|svg"
           class="m-1"
           @click="addEquipment()"
+          v-if="hasPermission(['system:group:add'])"
           >新建</a-button
         >
-        <a-button class="m-1" @click="showDeleteConfirm(checkedKeys)">批量删除</a-button>
+        <a-button
+          class="m-1"
+          @click="showDeleteConfirm(checkedKeys)"
+          v-if="hasPermission(['system:group:remove'])"
+          >批量删除</a-button
+        >
       </template>
       <!--table-->
       <template #action="{ record }">

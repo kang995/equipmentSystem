@@ -3,8 +3,16 @@
     <BasicTable @register="registerTable">
       <template #toolbar>
         <div class="flex flex-1 justify-start">
-          <a-button type="primary" @click="handleCreate"> 新增 </a-button>
-          <a-button class="ml-4" @click="handleDeletes"> 批量删除 </a-button>
+          <a-button type="primary" @click="handleCreate" v-if="hasPermission(['system:menu:add'])">
+            新增
+          </a-button>
+          <a-button
+            class="ml-4"
+            @click="handleDeletes"
+            v-if="hasPermission(['system:menu:remove'])"
+          >
+            批量删除
+          </a-button>
         </div>
       </template>
       <template #action="{ record }">
@@ -14,12 +22,12 @@
             {
               label: '编辑',
               onClick: handleEdit.bind(null, record),
-              // auth: 'system:menu:edit',
+              auth: 'system:menu:edit',
             },
             {
               label: '删除',
               color: 'error',
-              // auth: 'system:menu:remove',
+              auth: 'system:menu:remove',
               popConfirm: {
                 title: '是否确认删除？',
                 okText: '删除',
@@ -40,8 +48,8 @@
   import { menuDelApi, menuListApi } from '/@/api/systemSetting/menuManagement';
   import { h } from 'vue';
   import { PageWrapper } from '/@/components/Page';
-  // import { usePermission } from '/@/hooks/web/usePermission';
-  // const { hasPermission } = usePermission();
+  import { usePermission } from '/@/hooks/web/usePermission';
+  const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   const router = useRouter();
   const [registerTable, { reload, getSelectRowKeys, clearSelectedRowKeys }] = useTable({
@@ -58,7 +66,6 @@
       title: '操作',
       dataIndex: 'action',
       width: 150,
-      // defaultHidden: !hasPermission(['system:menu:edit', 'system:menu:remove']),
       slots: { customRender: 'action' },
     },
   });

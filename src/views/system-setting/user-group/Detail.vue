@@ -4,7 +4,7 @@
     <div class="m-4">
       <a-tabs class="bg-white">
         <a-tab-pane key="device" tab="权限管理" force-render>
-          <a-button type="primary" class="my-4" @click="editClick">编辑</a-button>
+          <!--          <a-button type="primary" class="my-4" @click="editClick">编辑</a-button>-->
           <Descriptions
             size="default"
             :column="1"
@@ -54,28 +54,27 @@
     treeData.value = res.trees;
     menuIds.value = res.baseCodeList;
     dataScope.value = res.dataScopeName;
-    console.log(treeData.value);
 
-    const a = {
+    const userName = {
       title: '用户组名称',
       text: res.name,
     };
-    const b = {
+    const userNum = {
       title: '用户数量',
       text: res.peopleNum,
     };
-    const c = {
+    const userRemark = {
       title: '备注',
       text: res.remark,
     };
 
-    const d = {
+    const userTime = {
       title: '创建时间',
       text: res.createTime,
     };
 
     //userGroup
-    titleList.value.push(a, b, c, d);
+    titleList.value.push(userName, userNum, userRemark, userTime);
   });
   function editClick() {
     router.push({

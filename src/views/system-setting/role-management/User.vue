@@ -11,7 +11,7 @@
     showIndexColumn: false, //是否序列
     rowKey: 'userId',
     striped: false, // 斑马纹
-    pagination: false,
+    // pagination: false,
   });
 
   defineProps<{

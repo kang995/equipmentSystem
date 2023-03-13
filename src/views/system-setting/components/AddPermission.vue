@@ -27,6 +27,7 @@
           :treeData="treeData"
           checkable
           defaultExpandAll
+          @check="onCheck"
           v-model:checkedKeys="checkedKeys"
         />
       </DescriptionsItem>
@@ -96,14 +97,14 @@
   }
 
   //选中复选框方法
-  // let halfCheckedKey = [] as string[];
-  // const onCheck = (_checkedKeys: any, { halfCheckedKeys }) => {
-  //   // console.log(halfCheckedKeys);
-  //   halfCheckedKey = [...halfCheckedKeys];
-  // };
+  let halfCheckedKey = [] as string[];
+  const onCheck = (_checkedKeys: any, { halfCheckedKeys }) => {
+    // console.log(halfCheckedKeys);
+    halfCheckedKey = [...halfCheckedKeys];
+  };
   // 保存
   function saveClick() {
-    const dataScope = Array.from(new Set([...checkedKeys.value]));
+    const dataScope = Array.from(new Set([...checkedKeys.value, ...halfCheckedKey]));
     if (route.query.name === 'userGroup') {
       addUserGroup(dataScope);
     } else {
@@ -156,13 +157,33 @@
       getRoleMenuDetail(id).then((res) => {
         checkBoxValue.value = res.dataScope;
         selectValue.value = res.deptIds === null ? [] : res.deptIds;
-        checkedKeys.value = res.baseCodeList;
+        const keys = getkey(res.trees);
+        const baseCodeList = delParent(keys, res.baseCodeList);
+        checkedKeys.value = baseCodeList;
       });
     }
   });
-  // function checkChange() {
-  //   if (checkBoxValue.value !== '4') {
-  //     selectValue.value = [];
-  //   }
-  // }
+  //获取父级id
+  function getkey(trees) {
+    const keys = [] as any;
+    trees.forEach((v) => {
+      if (v.children) {
+        keys.push(v.key);
+        const chilKey = getkey(v.children);
+        if (chilKey) keys.push(...chilKey);
+      }
+    });
+    return keys;
+  }
+  //删除父级id
+  function delParent(keys, res) {
+    keys.forEach((k) => {
+      res.forEach((v, index) => {
+        if (v === k) {
+          res.splice(index, 1);
+        }
+      });
+    });
+    return res;
+  }
 </script>

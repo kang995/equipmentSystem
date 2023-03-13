@@ -52,28 +52,26 @@
   let sortParams = {} as sortParamsInterface;
 
   //form配置
-  const [registerForm, { setFieldsValue, validate, setProps, updateSchema, resetFields }] = useForm(
-    {
-      schemas: dictionaryTypeFormSchemas,
-      labelCol: {
-        span: 8,
-      },
-      wrapperCol: {
-        span: 10,
-      },
-      actionColOptions: {
-        offset: 8,
-        span: 15,
-        style: {
-          textAlign: 'left',
-        },
-      },
-      submitButtonOptions: {
-        text: '提交',
-      },
-      submitFunc: submitFunc,
+  const [registerForm, { setFieldsValue, validate, updateSchema, resetFields }] = useForm({
+    schemas: dictionaryTypeFormSchemas,
+    labelCol: {
+      span: 8,
     },
-  );
+    wrapperCol: {
+      span: 10,
+    },
+    actionColOptions: {
+      offset: 8,
+      span: 15,
+      style: {
+        textAlign: 'left',
+      },
+    },
+    submitButtonOptions: {
+      text: '提交',
+    },
+    submitFunc: submitFunc,
+  });
   //modal回调
   const [registerModal, { closeModal }] = useModalInner((data) => {
     resetFields();
@@ -81,9 +79,9 @@
     sortParams = { id, params };
     if (id === 'addChildren') {
       modalTitle.value = '新增下级';
+      setFieldsValue({ parentName: params.itemName, type: params.type });
       setUpdateForm('type', false);
       setUpdateForm('itemValue', true);
-      setFieldsValue({ parentName: params.itemName, type: params.type });
     } else if (id === 'editChildren') {
       if (params.parentId === '0') {
         modalTitle.value = '编辑父级';
@@ -105,11 +103,11 @@
   //提交方法
   async function submitFunc() {
     try {
-      setProps({
-        submitButtonOptions: {
-          loading: true,
-        },
-      });
+      // setProps({
+      // submitButtonOptions: {
+      // loading: true,
+      // },
+      // });
       const data = await validate();
       if (sortParams.id === 'addChildren' || sortParams.id === 'add') {
         addDictionaryApi(sortParams, data);
@@ -118,11 +116,11 @@
       }
     } catch (error) {
       console.error(error);
-      setProps({
-        submitButtonOptions: {
-          loading: false,
-        },
-      });
+      // setProps({
+      //   submitButtonOptions: {
+      //     loading: false,
+      //   },
+      // });
     }
   }
 
@@ -139,11 +137,11 @@
         reset('提交成功');
       })
       .finally(() => {
-        setProps({
-          submitButtonOptions: {
-            loading: false,
-          },
-        });
+        // setProps({
+        //   submitButtonOptions: {
+        //     loading: false,
+        //   },
+        // });
       });
   };
 
@@ -155,11 +153,11 @@
         reset('编辑成功');
       })
       .finally(() => {
-        setProps({
-          submitButtonOptions: {
-            loading: false,
-          },
-        });
+        // setProps({
+        //   submitButtonOptions: {
+        //     loading: false,
+        //   },
+        // });
       });
   };
 

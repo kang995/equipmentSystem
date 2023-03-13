@@ -4,8 +4,16 @@
       <!-- 表格按钮 -->
       <template #tableTitle>
         <div class="flex space-x-4">
-          <a-button type="primary" @click="handleAdd"> 新增 </a-button>
-          <a-button @click="handleDelEdit"> 批量删除 </a-button>
+          <a-button
+            type="primary"
+            @click="handleAdd"
+            v-if="hasPermission(['system:dictionary:add'])"
+          >
+            新增
+          </a-button>
+          <a-button @click="handleDelEdit" v-if="hasPermission(['system:dictionary:remove'])">
+            批量删除
+          </a-button>
         </div>
       </template>
       <!-- 表格右操作 -->
@@ -39,8 +47,9 @@
   import { getDictionaryTypeTableColumns, dictionaryTypeFormConfig } from './data';
   import { useModal } from '/@/components/Modal';
   import Common from './Common.vue';
-  // import { usePermission } from '/@/hooks/web/usePermission';
-  // const { hasPermission } = usePermission();
+  import { usePermission } from '/@/hooks/web/usePermission';
+  import { message } from 'ant-design-vue';
+  const { hasPermission } = usePermission();
   const { createMessage, createConfirm } = useMessage();
   //新增弹窗配置
   const [registerModal, { openModal: openModal }] = useModal();
@@ -51,7 +60,6 @@
       getSelectRowKeys,
       setLoading,
       collapseAll,
-      deleteTableDataRecord,
       reload,
       getPaginationRef,
       getForm,
@@ -78,12 +86,11 @@
       title: '操作',
       fixed: 'right',
       dataIndex: 'action',
-      // defaultHidden: !hasPermission([
-      //   'system:dictionary:addLevel',
-      //   'system:dictionary:edit',
-      //   'system:dictionary:remove',
-      // ]),
-      // defaultHidden: false,
+      defaultHidden: !hasPermission([
+        'system:dictionary:addLevel',
+        'system:dictionary:edit',
+        'system:dictionary:remove',
+      ]),
       slots: { customRender: 'action' },
     },
     //请求之前对参数进行处理
@@ -105,17 +112,17 @@
     return [
       {
         label: '添加下级',
-        // auth: 'system:dictionary:addLevel',
+        auth: 'system:dictionary:addLevel',
         onClick: handleAddChildren.bind(null, record),
       },
       {
         label: '编辑',
-        // auth: 'system:dictionary:edit',
+        auth: 'system:dictionary:edit',
         onClick: handleEdit.bind(null, record),
       },
       {
         label: '删除',
-        // auth: 'system:dictionary:remove',
+        auth: 'system:dictionary:remove',
         color: 'error',
         popConfirm: {
           title: '删除选中项后，选中项的子项也将会删除。请确认是否删除？',
@@ -130,7 +137,6 @@
     openModal(true, { id: 'add', params: { id: '0' } });
   };
   const ParentName = ref(''); //父级名称
-
   //编辑
   const handleEdit = (record: Recordable) => {
     const { id, itemName, type, parentId, itemValue } = record;
@@ -156,13 +162,13 @@
       if (data.length > 0) {
         ids.value = data;
       } else {
-        createMessage.warning('至少选择一个删除');
+        createMessage.warning('请选择需要删除的数据');
         return;
       }
       createConfirm({
         iconType: 'warning',
         title: () => h('span', '提示'),
-        content: () => h('span', `是否要删除${ids.value.length}条数据？`),
+        content: () => h('span', `删除选中项后，选中项的子项也将会删除。请确认是否删除？`),
         okText: '删除',
         onOk: async () => {
           deleteApi(ids.value);
@@ -176,8 +182,8 @@
     setLoading(true);
     deleteManagementDictionary(ids)
       .then(() => {
-        deleteTableDataRecord(ids);
-        reloadTable();
+        message.success('删除成功');
+        reload();
         clearSelectedRowKeys();
       })
       .finally(() => {
@@ -209,10 +215,9 @@
   //重写form提交按钮
   async function submitResetFunc() {
     const { itemName, type } = getForm().getFieldsValue();
-    const { current, pageSize } = getPaginationRef() as PaginationProps;
+    const { pageSize } = getPaginationRef() as PaginationProps;
     collapseAll();
     formTableLoading(true);
-    console.log(current);
     getManagementDictionaryList({
       parentId: 0,
       itemName,

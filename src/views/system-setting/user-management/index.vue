@@ -79,13 +79,13 @@
     return [
       {
         label: '详情',
-        // auth: 'system:user:getUserDetailById',
+        auth: 'system:user:getUserDetailById',
         onClick: detailEquipment.bind(null, record),
       },
       {
         label: '添加用户组',
         onClick: handleUserGroup.bind(null, record),
-        // auth: 'system:user:addGroup',
+        auth: 'system:user:addGroup',
       },
     ];
   };
