@@ -1,7 +1,7 @@
 import { DescItem } from '/@/components/Description';
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import DescItemTable from './inventory/DescItemTable.vue';
-import { Row, Image } from 'ant-design-vue';
+import { Row, Image, Badge } from 'ant-design-vue';
 import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
 import { getPeopleSelect } from '/@/api/sys/systemSetting/systemType';
 import { posWarehouseSpareApi } from '/@/api/backup-management/backup-details';
@@ -1044,11 +1044,32 @@ export const inventoryColumns: BasicColumn[] = [
   },
   {
     title: '状态',
-    dataIndex: 'stockStatus',
+    dataIndex: 'stockStatusText',
+    customRender: ({ record }) => {
+      if (record.stockStatus === '0') {
+        //0：未下发
+        return <Badge status="default" text={record.stockStatusText} />;
+      } else if (record.stockStatus === '1') {
+        //1：进行中
+        return <Badge status="processing" text={record.stockStatusText} />;
+      } else if (record.stockStatus === '2') {
+        //2：已完成
+        return <Badge status="success" text={record.stockStatusText} />;
+      } else if (record.stockStatus === '3') {
+        //3：已作废
+        return <Badge status="error" text={record.stockStatusText} />;
+      } else if (record.stockStatus === '4') {
+        //4：待执行
+        return <Badge color="gold" text={record.stockStatusText} />;
+      }
+    },
   },
   {
     title: '备注',
     dataIndex: 'remark',
+    customRender: ({ text }) => {
+      return text ? text : '--';
+    },
   },
 ];
 
@@ -1189,25 +1210,24 @@ export const inventoryDescItem: DescItem[] = [
     label: '盘点单编号',
   },
   {
-    field: 'stockStatus',
+    field: 'stockStatusText',
     label: '盘点单状态',
-    render: (data) => {
-      if (data) {
-        return data === 0 ? '未下发' : data === 1 ? '进行中' : data === 2 ? '已完成' : '已作废'; //0未下发,1进行中,2已完成,3已作废
-      }
-    },
+    // render: (data) => {
+    //   if (data) {
+    //     return data === 0 ? '未下发' : data === 1 ? '进行中' : data === 2 ? '已完成' : data === 3 ? '已作废':'待执行'; //0未下发,1进行中,2已完成,3已作废4待执行
+    //   }
+    // },
   },
   {
     field: 'stockName',
     label: '盘点名称',
   },
-
   {
     field: 'createTime',
     label: '创建时间',
   },
   {
-    field: 'hazardTypeText6',
+    field: 'deadlineTime',
     label: '截止时间',
   },
   {
@@ -1222,24 +1242,24 @@ export const inventoryDescItem: DescItem[] = [
     field: 'warehouseName',
     label: '盘点仓库',
   },
-  {
-    field: 'spareList',
-    label: '物品清单',
-    render: (val, data) => {
-      const status = data.stockStatus;
-      if (val) {
-        if (status === 2) {
-          return <DescItemTable dataSource={val} columns={inventoryTableColumns} />;
-        } else {
-          return <DescItemTable dataSource={val} columns={inventoryTableColumns1} />;
-        }
-      }
-    },
-  },
-  {
-    field: 'remark',
-    label: '备注',
-  },
+  // {
+  //   field: 'spareList',
+  //   label: '物品清单',
+  //   render: (val, data) => {
+  //     const status = data.stockStatus;
+  //     if (val) {
+  //       if (status === 2) {
+  //         return <DescItemTable dataSource={val} columns={inventoryTableColumns} />;
+  //       } else {
+  //         return <DescItemTable dataSource={val} columns={inventoryTableColumns1} />;
+  //       }
+  //     }
+  //   },
+  // },
+  // {
+  //   field: 'remark',
+  //   label: '备注',
+  // },
 ];
 //inbound
 //出库详情物品清单
@@ -1298,7 +1318,7 @@ const inboundTableColumns1: BasicColumn[] = [
   },
 ];
 //盘点详情物品清单
-const inventoryTableColumns: BasicColumn[] = [
+export const inventoryTableColumns: BasicColumn[] = [
   {
     title: '备件名称',
     dataIndex: 'spareName',
@@ -1317,48 +1337,48 @@ const inventoryTableColumns: BasicColumn[] = [
   },
   {
     title: '库存数量',
-    dataIndex: 'status',
-  },
-  // {
-  //   title: '实际数量',
-  //   dataIndex: 'status1',
-  //   //已完成时编辑状态
-  //   edit: true,
-  // },
-  // {
-  //   //已完成时
-  //   title: '盘点结果',
-  //   dataIndex: 'status',
-  // },
-  {
-    //已完成时
-    title: '图片',
-    dataIndex: 'status',
-  },
-];
-const inventoryTableColumns1: BasicColumn[] = [
-  {
-    title: '备件名称',
-    dataIndex: 'spareName',
-  },
-  {
-    title: '备件类型',
-    dataIndex: 'spareClassify',
-  },
-  {
-    title: '规格型号',
-    dataIndex: 'specification',
-  },
-  {
-    title: '所在仓库',
-    dataIndex: 'warehouseName',
-  },
-  {
-    title: '库存数量',
-    dataIndex: 'status',
+    dataIndex: 'number',
   },
   {
     title: '实际数量',
-    dataIndex: 'status1',
+    dataIndex: 'realNum',
+    //已完成时编辑状态
+    // edit: true,
+  },
+  {
+    //已完成时
+    title: '盘点结果',
+    dataIndex: 'stockResultText',
+  },
+  {
+    //已完成时
+    title: '图片',
+    dataIndex: 'stockImgList',
+  },
+];
+export const inventoryTableColumns1: BasicColumn[] = [
+  {
+    title: '备件名称',
+    dataIndex: 'spareName',
+  },
+  {
+    title: '备件类型',
+    dataIndex: 'spareClassify',
+  },
+  {
+    title: '规格型号',
+    dataIndex: 'specification',
+  },
+  {
+    title: '所在仓库',
+    dataIndex: 'warehouseName',
+  },
+  {
+    title: '库存数量',
+    dataIndex: 'number',
+  },
+  {
+    title: '实际数量',
+    dataIndex: 'realNum',
   },
 ];

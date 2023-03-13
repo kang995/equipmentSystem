@@ -12,8 +12,12 @@
               delBtn: true,
             },
           ]"
-        /> </template
-    ></BasicTable>
+        />
+      </template>
+      <template #bodyCell="{ text }">
+        <slot name="ImgListSlot" :text="text"></slot>
+      </template>
+    </BasicTable>
   </div>
   <div v-else>
     <BasicTable @register="registerTable" />

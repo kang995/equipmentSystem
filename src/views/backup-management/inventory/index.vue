@@ -37,11 +37,13 @@
             {
               label: '删除',
               delBtn: true,
+              color: 'error',
               popConfirm: {
                 title: '是否确认删除',
                 confirm: handleDel.bind(null, record),
               },
-              ifShow: () => record.stockStatus == 1,
+              ifShow: () =>
+                record.stockStatus == 0 || record.stockStatus == 3 || record.stockStatus == 4,
             },
           ]"
         />
@@ -82,7 +84,7 @@
   const ATooltip = Tooltip;
   const { createMessage } = useMessage();
   const loading = ref<boolean>(false);
-  const [register, { getSelectRowKeys, reload }] = useTable({
+  const [register, { getSelectRowKeys, reload, getForm }] = useTable({
     api: postTakeStockListApi,
     columns: inventoryColumns,
     rowKey: 'id',
@@ -155,7 +157,7 @@
     let data = {
       ids: ids,
     };
-    Object.assign(data);
+    Object.assign(data, getForm().getFieldsValue());
     exportTakeStockApi(data)
       .then((res) => {
         downloadByData(res, '盘点列表.xlsx');

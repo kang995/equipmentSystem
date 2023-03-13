@@ -80,7 +80,7 @@
   });
   async function resetFunc() {
     const data = getFieldsValue();
-    data['stockStatus'] = '1';
+    data['stockStatus'] = '4';
     postTakeStockAddApi(data).then(() => {
       message.success('下发成功');
       getRouter();
