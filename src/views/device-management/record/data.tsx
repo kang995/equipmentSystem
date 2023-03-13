@@ -1296,40 +1296,49 @@ export function associatedFormSchema(deviceId): FormSchema[] {
   ];
 }
 // 备件更换记录
-export const sparePartColumns: BasicColumn[] = [
-  {
-    title: '备件名称',
-    dataIndex: 'name',
-  },
-  {
-    title: '备件类型',
-    dataIndex: 'productName',
-  },
-  {
-    title: '规格型号',
-    dataIndex: 'status',
-  },
-  {
-    title: '单位',
-    dataIndex: 'status',
-  },
-  {
-    title: '使用数量',
-    dataIndex: 'status',
-  },
-  {
-    title: '关联工单',
-    dataIndex: 'status',
-  },
-  {
-    title: '处理人',
-    dataIndex: 'status',
-  },
-  {
-    title: '完成时间',
-    dataIndex: 'status',
-  },
-];
+export function sparePartColumns(handleClick: Function): BasicColumn[] {
+  return [
+    {
+      title: '备件名称',
+      dataIndex: 'spareName',
+    },
+    {
+      title: '备件类型',
+      dataIndex: 'spareClassifyText',
+    },
+    {
+      title: '规格型号',
+      dataIndex: 'specification',
+    },
+    {
+      title: '单位',
+      dataIndex: 'measureUnitText',
+    },
+    {
+      title: '使用数量',
+      dataIndex: 'useNum',
+    },
+    {
+      title: '关联工单',
+      dataIndex: 'workOrderCode',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.workOrderCode}
+          </a>
+        );
+      },
+    },
+    {
+      title: '处理人',
+      dataIndex: 'peopleNameList',
+    },
+    {
+      title: '完成时间',
+      dataIndex: 'overTime',
+    },
+  ];
+}
 export const sparePartFormSchema: FormSchema[] = [
   {
     field: 'spareName',
