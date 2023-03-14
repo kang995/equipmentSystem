@@ -176,7 +176,7 @@ export function getPostponeFormSchema(): FormSchema[] {
 export function ResultSchemaDetail(): DescItem[] {
   return [
     {
-      field: 'acceptContent',
+      field: 'dealCase',
       label: '检修内容',
     },
     {
