@@ -13,12 +13,12 @@ enum Api {
   TROUBLE_DETAILS = '/trouble/detail/list', //检修工单-故障详情（关联故障）
 
   //检修工单验收
-  ACCEPT_STAYACCEPT = '/overhaulWorkOrder/accept/stayAccept/list', //分页查询待验收工单列表
-  ACCEPT_ACCEPTLIST = '/overhaulWorkOrder/accept/accept/list', //分页查询已验收工单列表
-  ACCEPT_STAYACCEPT_EXPET = '/overhaulWorkOrder/accept/stayAccept/export', //待验收工单列表批量导出
-  ACCEPT_ACCEPTLIST_EXPET = '/overhaulWorkOrder/accept/accept/export', //已验收工单列表批量导出
-  ACCEPT_COUNT = '/overhaulWorkOrder/accept/accept/count', //查询待验收和已验收工单数量
-  SAVEACCEPT_RESULT = '/overhaulWorkOrder/accept/saveAcceptResult', //验收
+  ACCEPT_STAYACCEPT = '/overhaulWorkOrder/stayAccept/list', //分页查询待验收工单列表
+  ACCEPT_ACCEPTLIST = '/overhaulWorkOrder/accept/list', //分页查询已验收工单列表
+  ACCEPT_STAYACCEPT_EXPET = '/overhaulWorkOrder/stayAccept/export', //待验收工单列表批量导出
+  ACCEPT_ACCEPTLIST_EXPET = '/overhaulWorkOrder/accept/export', //已验收工单列表批量导出
+  ACCEPT_COUNT = '/overhaulWorkOrder/accept/count', //查询待验收和已验收工单数量
+  SAVEACCEPT_RESULT = '/overhaulWorkOrder/saveAcceptResult', //验收
 }
 
 /* 1、检修工单 */
