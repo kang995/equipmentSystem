@@ -1201,6 +1201,9 @@ export const tableAddColumns: BasicColumn[] = [
   {
     title: '实际数量',
     dataIndex: 'realNum',
+    customRender: ({ text }) => {
+      return text ? text : '--';
+    },
   },
 ];
 //出库详情
