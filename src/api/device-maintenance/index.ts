@@ -22,9 +22,9 @@ enum Api {
   PLAN_DETAIL = '/upkeepPlan/detail', //保养计划详情
   SELECT_LIST_DEVICE = '/upkeepPlan/device/list', //查询保养设备
   //保养计划审核
-  PROCESSING_LIST = '/upkeepPlan/approval/pend/list', //待处理列表
-  PROCESSED_LIST = '/upkeepPlan/approval/deal/list', //已处理列表
-  APPROVAL_LIST = '/upkeepPlan/approval/approval', //计划审核
+  PROCESSING_LIST = '/upkeepPlan/pend/list', //待处理列表
+  PROCESSED_LIST = '/upkeepPlan/deal/list', //已处理列表
+  APPROVAL_LIST = '/upkeepPlan/approval', //计划审核
 
   FULL_SUBMITID = '/workflow/myWorkflow/', //审批流程
 }
