@@ -14,7 +14,7 @@
       :columns="mockData.stockStatus === '2' ? inventoryTableColumns : inventoryTableColumns1"
     >
       <template #ImgListSlot="{ text }">
-        <TableImg :size="60" :simpleShow="true" :imgList="text" />
+        <TableImg :size="60" :simpleShow="true" :imgList="text.map((item) => item.url)" />
       </template>
     </DescItemTable>
     <!-- 备注 -->
@@ -107,6 +107,7 @@
         return daizhixing;
     }
   }
+
   // function getSubmit() {
   //   getRouter();
   // }

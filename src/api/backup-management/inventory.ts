@@ -8,6 +8,7 @@ enum Api {
   INVENTORY_DISCARD = '/deviceTakeStock/cancellation', //作废
   INVENTORY_ISSUE = '/deviceTakeStock/issue', //下发
   INVENTORY_EXPORT = '/deviceTakeStock/export', //批量导出
+  INVENTORY_SPARE_LIST = '/deviceTakeStock/spareList', //通过仓库Id查询备件列表信息
 }
 //分页动态查询备件列表
 export const postTakeStockListApi = (params) =>
@@ -55,3 +56,9 @@ export const exportTakeStockApi = (params) =>
     },
     { isTransformResponse: false },
   );
+//通过仓库Id查询备件列表信息
+export const stockSpareListApi = (params) =>
+  defHttp.post({
+    url: Api.INVENTORY_SPARE_LIST,
+    params,
+  });

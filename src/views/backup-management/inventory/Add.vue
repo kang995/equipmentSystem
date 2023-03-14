@@ -7,6 +7,7 @@
           mode="multiple"
           placeholder="请选择仓库"
           :options="options"
+          @change="handleChange"
       /></template>
       <template #tableSlot>
         <AFormItemRest> <BasicTable @register="registerTable" /> </AFormItemRest
@@ -23,7 +24,7 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import { ref, onMounted } from 'vue';
   import { Form, message, Select } from 'ant-design-vue';
-  import { postTakeStockAddApi } from '/@/api/backup-management/inventory';
+  import { postTakeStockAddApi, stockSpareListApi } from '/@/api/backup-management/inventory';
   import { posWarehouseSpareApi } from '/@/api/backup-management/backup-details';
   const AFormItemRest = Form.ItemRest;
 
@@ -31,7 +32,7 @@
 
   const router = useRouter();
   const dataSource = ref([{}]);
-  const options = ref([]);
+  const options = ref<any>([]);
   const WarehouseSelect = ref<any>([]);
   onMounted(() => {
     funSelect();
@@ -78,6 +79,19 @@
     resetFunc: resetFunc,
     submitFunc: sumitForm,
   });
+  //合并数组
+  function initFun(arr) {
+    let newArr: any = [];
+    return newArr.concat(...arr.map((x) => x.spareList));
+  }
+  //选择仓库
+  function handleChange(val) {
+    stockSpareListApi({ idList: val }).then((res) => {
+      dataSource.value = initFun(res);
+      // console.log('dataSource.value',dataSource.value)
+    });
+  }
+
   async function resetFunc() {
     const data = getFieldsValue();
     data['stockStatus'] = '4';

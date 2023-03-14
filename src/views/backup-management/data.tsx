@@ -1188,7 +1188,7 @@ export const tableAddColumns: BasicColumn[] = [
   },
   {
     title: '备件类型',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '规格型号',
@@ -1196,11 +1196,11 @@ export const tableAddColumns: BasicColumn[] = [
   },
   {
     title: '仓库数量',
-    dataIndex: 'status',
+    dataIndex: 'number',
   },
   {
     title: '实际数量',
-    dataIndex: 'status',
+    dataIndex: 'realNum',
   },
 ];
 //出库详情

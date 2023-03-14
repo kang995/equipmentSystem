@@ -14,13 +14,16 @@
           ]"
         />
       </template>
-      <template #bodyCell="{ text }">
-        <slot name="ImgListSlot" :text="text"></slot>
-      </template>
     </BasicTable>
   </div>
   <div v-else>
-    <BasicTable @register="registerTable" />
+    <BasicTable @register="registerTable">
+      <template #bodyCell="{ column, text }">
+        <template v-if="column.key === 'stockImgList'">
+          <slot name="ImgListSlot" :text="text"></slot>
+        </template>
+      </template>
+    </BasicTable>
   </div>
 </template>
 <script lang="ts" setup>
