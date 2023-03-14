@@ -1345,6 +1345,9 @@ export const inventoryTableColumns: BasicColumn[] = [
   {
     title: '实际数量',
     dataIndex: 'realNum',
+    customRender: ({ text }) => {
+      return text ? text : '--';
+    },
     //已完成时编辑状态
     // edit: true,
   },
@@ -1383,5 +1386,8 @@ export const inventoryTableColumns1: BasicColumn[] = [
   {
     title: '实际数量',
     dataIndex: 'realNum',
+    customRender: ({ text }) => {
+      return text ? text : '--';
+    },
   },
 ];
