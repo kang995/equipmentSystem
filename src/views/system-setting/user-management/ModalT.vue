@@ -5,7 +5,7 @@
     :canFullscreen="false"
     :maskClosable="false"
     title="选择用户组"
-    width="700px"
+    width="900px"
     @ok="handleOk"
   >
     <a-transfer
