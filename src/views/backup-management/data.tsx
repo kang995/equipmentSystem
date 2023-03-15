@@ -219,13 +219,13 @@ export const informationDescItem: DescItem[] = [
   },
   {
     label: '计量单位',
-    field: 'measureUnit',
+    field: 'measureUnitText',
     //计量单位：0个，1件，2台，3组，4套
-    render: (data) => {
-      if (data) {
-        return data === 0 ? '个' : data === 1 ? '件' : data === 2 ? '台' : data === 3 ? '组' : '套';
-      }
-    },
+    // render: (data) => {
+    //   if (data) {
+    //     return data === 0 ? '个' : data === 1 ? '件' : data === 2 ? '台' : data === 3 ? '组' : '套';
+    //   }
+    // },
   },
   {
     label: '规格',
@@ -241,19 +241,19 @@ export const informationDescItem: DescItem[] = [
   },
   {
     label: '备件分类',
-    field: 'spareClassify',
+    field: 'spareClassifyText',
     //0易损备件，1事故备件，2常用备件，3大修备件
-    render: (data) => {
-      if (data) {
-        return data === 0
-          ? '易损备件'
-          : data === 1
-          ? '事故备件'
-          : data === 2
-          ? '常用备件'
-          : '大修备件';
-      }
-    },
+    // render: (data) => {
+    //   if (data) {
+    //     return data === 0
+    //       ? '易损备件'
+    //       : data === 1
+    //       ? '事故备件'
+    //       : data === 2
+    //       ? '常用备件'
+    //       : '大修备件';
+    //   }
+    // },
   },
   {
     label: '生产厂商',
@@ -263,7 +263,7 @@ export const informationDescItem: DescItem[] = [
     label: '参考价',
     field: 'referencePrice',
     render: (text) => {
-      return `${text}元`;
+      return text ? `${text}元` : '';
     },
   },
   {

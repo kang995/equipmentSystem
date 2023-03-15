@@ -86,7 +86,7 @@
     router.push({
       name: 'BackupDetails',
       query: {
-        id: record.id,
+        id: record.spareId,
       },
     });
   }
