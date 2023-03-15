@@ -192,7 +192,7 @@ export function ResultSchemaDetail(): DescItem[] {
                   if (item.url) {
                     return (
                       <div class="flex flex-1">
-                        <Image width={100} src={item.url} />
+                        <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {
@@ -213,12 +213,12 @@ export function ResultSchemaDetail(): DescItem[] {
       },
     },
     {
-      field: 'acceptPeopleNameStr',
-      label: '验收人',
-    },
-    {
       field: 'finishTime',
       label: '检修完成时间',
+    },
+    {
+      field: 'acceptPeopleNameStr',
+      label: '验收人',
     },
   ];
 }
@@ -292,7 +292,7 @@ export function ResultsSchemas(): DescItem[] {
                   if (item.url) {
                     return (
                       <div class="flex flex-1">
-                        <Image width={100} src={item.url} />
+                        <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {

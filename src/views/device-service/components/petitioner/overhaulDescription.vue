@@ -2,7 +2,7 @@
   <div class="mt-[24px]">
     <template v-for="(item, index) in props.acceptList" :key="item.id">
       <div class="font-black text-[#414960] text-[15px] my-[16px]">检修结果({{ index + 1 }})</div>
-      <Description :column="2" :bordered="false" :data="item" :schema="ResultSchemaDetail()" />
+      <Description :column="3" :bordered="false" :data="item" :schema="ResultSchemaDetail()" />
     </template>
   </div>
 </template>

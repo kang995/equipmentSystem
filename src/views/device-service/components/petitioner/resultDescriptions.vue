@@ -3,7 +3,7 @@
     <!-- <Description @register="registerResult" /> -->
     <template v-for="(item, index) in props.acceptList" :key="item.id">
       <div class="font-black text-[#414960] text-[15px] my-[16px]">验收结果({{ index + 1 }})</div>
-      <Description :column="2" :bordered="false" :data="item" :schema="ResultsSchemas()" />
+      <Description :column="3" :bordered="false" :data="item" :schema="ResultsSchemas()" />
     </template>
   </div>
 </template>

@@ -26,14 +26,14 @@
       <!-- 维修结果 -->
       <div class="mt-[12px]" v-if="status === '2' || status === '3' || status === '4'">
         <template v-for="(item, index) in repair" :key="item.id">
-          <Description :bordered="false" :column="2" :data="item" :schema="RepairDetail(index)" />
+          <Description :bordered="false" :column="3" :data="item" :schema="RepairDetail(index)" />
         </template>
         <!-- <Description @register="registerRepair" /> -->
       </div>
       <!-- 验收结果 -->
       <div class="mt-[12px]" v-if="status === '3' || status === '4'">
         <template v-for="(item, index) in result" :key="item.id">
-          <Description :bordered="false" :column="2" :data="item" :schema="ResultDetail(index)" />
+          <Description :bordered="false" :column="3" :data="item" :schema="ResultDetail(index)" />
         </template>
         <!-- <Description @register="registerResult" /> -->
       </div>

@@ -641,9 +641,9 @@ export function RepairDetail(index: number): DescItem[] {
       field: '',
       label: '',
       labelMinWidth: 0,
-      span: 2,
+      span: 3,
       render: () => {
-        return <span style={titleStyle}>维修结果{index + 1}</span>;
+        return <span style={titleStyle}>维修结果({index + 1})</span>;
       },
     },
     {
@@ -713,9 +713,9 @@ export function ResultDetail(index: number): DescItem[] {
       field: '',
       label: '',
       labelMinWidth: 0,
-      span: 2,
+      span: 3,
       render: () => {
-        return <span style={titleStyle}>验收结果{index + 1}</span>;
+        return <span style={titleStyle}>验收结果({index + 1})</span>;
       },
     },
     {

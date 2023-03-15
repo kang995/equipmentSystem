@@ -613,7 +613,7 @@ export function maintainSchemaDetail(): DescItem[] {
       label: '保养完成时间',
     },
     {
-      field: 'acceptPeopleIdList',
+      field: 'acceptPeopleNameStr',
       label: '验收人',
     },
   ];
@@ -650,6 +650,14 @@ export function receiveSchemaDetail(): DescItem[] {
           return <div style={noFileBox}>暂无图片</div>;
         }
       },
+    },
+    {
+      field: 'acceptTime',
+      label: '验收时间',
+    },
+    {
+      field: 'acceptPeopleNameStr',
+      label: '验收人',
     },
   ];
 }
