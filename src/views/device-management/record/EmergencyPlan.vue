@@ -10,45 +10,50 @@
       <a-button class="mb-4" type="primary" preIcon="gonggong_tianjia_xianxing|svg" @click="addTap">
         关联应急预案
       </a-button>
-      <a-row :gutter="16">
-        <a-col :span="12" v-for="(item, index) in itemList" :key="index">
-          <a-card style="margin-bottom: 16px" hoverable>
-            <div class="card_title">{{ item.planName }}</div>
-            <div class="mb-10px">
-              <span class="card_left">预案编号：</span>
-              <span class="card_right">{{ item.planNum }}</span>
-            </div>
-            <!-- <div class="mb-10px">
-              <span class="card_left">事件类别：</span>
-              <span class="card_right">{{ item.accidentTypeValue }}</span>
-            </div> -->
-            <div class="mb-10px">
-              <span class="card_left">预案类型：</span>
-              <span class="card_right">{{ item.planTypeValue }}</span>
-            </div>
-            <div class="mb-10px">
-              <span class="card_left">预案响应等级</span>
-              <span class="card_right">{{ item.gradeValue }}</span>
-            </div>
-            <div class="mb-10px">
-              <span class="card_left">适用事件类型：</span>
-              <span class="card_right">{{ item.accidentTypeValue }}</span>
-            </div>
-            <div class="mb-10px">
-              <span class="card_left">相关危化品：</span>
-              <span class="card_right">{{ item.chemsValue }}</span>
-            </div>
-            <div>
-              <span class="card_left">更新时间：</span>
-              <span class="card_right">{{ item.updateTime }}</span>
-            </div>
-            <template #actions>
-              <!-- 特种设备时显示启用 -->
-              <!-- <a-button type="link">启用</a-button> -->
-              <a-button type="link" @click="detailTap(item)">详情</a-button>
-            </template>
-          </a-card>
-        </a-col>
+      <a-row :gutter="16" :class="[itemList.length ? '' : 'flex justify-center']">
+        <template v-if="itemList.length">
+          <a-col :span="12" v-for="(item, index) in itemList" :key="index">
+            <a-card style="margin-bottom: 16px" hoverable>
+              <div class="card_title">{{ item.planName }}</div>
+              <div class="mb-10px">
+                <span class="card_left">预案编号：</span>
+                <span class="card_right">{{ item.planNum }}</span>
+              </div>
+              <!-- <div class="mb-10px">
+                <span class="card_left">事件类别：</span>
+                <span class="card_right">{{ item.accidentTypeValue }}</span>
+              </div> -->
+              <div class="mb-10px">
+                <span class="card_left">预案类型：</span>
+                <span class="card_right">{{ item.planTypeValue }}</span>
+              </div>
+              <div class="mb-10px">
+                <span class="card_left">预案响应等级</span>
+                <span class="card_right">{{ item.gradeValue }}</span>
+              </div>
+              <div class="mb-10px">
+                <span class="card_left">适用事件类型：</span>
+                <span class="card_right">{{ item.accidentTypeValue }}</span>
+              </div>
+              <div class="mb-10px">
+                <span class="card_left">相关危化品：</span>
+                <span class="card_right">{{ item.chemsValue }}</span>
+              </div>
+              <div>
+                <span class="card_left">更新时间：</span>
+                <span class="card_right">{{ item.updateTime }}</span>
+              </div>
+              <template #actions>
+                <!-- 特种设备时显示启用 -->
+                <!-- <a-button type="link">启用</a-button> -->
+                <a-button type="link" @click="detailTap(item)">详情</a-button>
+              </template>
+            </a-card>
+          </a-col>
+        </template>
+        <template v-else>
+          <Empty :image="simpleImage" />
+        </template>
       </a-row>
       <div style="display: flex; flex-direction: row-reverse">
         <a-pagination
@@ -71,7 +76,7 @@
 <script lang="ts" setup>
   import { ref, onMounted } from 'vue';
   import { installationFormSchemas } from '../data';
-  import { Card, Row, Col, Pagination } from 'ant-design-vue';
+  import { Card, Row, Col, Pagination, Empty } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import PartModel from './meetModal.vue';
   import { useModal } from '/@/components/Modal';
@@ -92,6 +97,7 @@
   const route = useRoute();
   const deviceId = route.query.id as string;
   const DeviceRef = ref();
+  const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
 
   const itemList = ref<any>([
     // { planName: '2' },
