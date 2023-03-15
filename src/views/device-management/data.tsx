@@ -1097,9 +1097,9 @@ export const formSchema: FormSchema[] = [
   {
     field: 'spareName',
     component: 'Input',
-    label: '备件姓名',
+    label: '备件名称',
     componentProps: {
-      placeholder: '请输入备件姓名',
+      placeholder: '请输入备件名称',
     },
   },
   {
