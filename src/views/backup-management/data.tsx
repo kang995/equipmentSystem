@@ -1328,7 +1328,7 @@ export const inventoryTableColumns: BasicColumn[] = [
   },
   {
     title: '备件类型',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '规格型号',
@@ -1369,7 +1369,7 @@ export const inventoryTableColumns1: BasicColumn[] = [
   },
   {
     title: '备件类型',
-    dataIndex: 'spareClassify',
+    dataIndex: 'spareClassifyText',
   },
   {
     title: '规格型号',
