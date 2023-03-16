@@ -34,7 +34,7 @@
     dataSource: dataSource,
     columns: stockColumns,
     rowKey: 'id',
-
+    pagination: false,
     actionColumn: {
       width: 280,
       title: '操作',
