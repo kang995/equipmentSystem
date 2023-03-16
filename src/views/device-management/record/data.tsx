@@ -693,40 +693,49 @@ export const patrolInspectionFormSchema: FormSchema[] = [
   },
 ];
 // 故障记录
-export const failureColumns: BasicColumn[] = [
-  {
-    title: '故障单号',
-    dataIndex: 'troubleCode',
-  },
-  {
-    title: '上报人',
-    dataIndex: 'createBy',
-  },
-  {
-    title: '上报时间',
-    dataIndex: 'createTime',
-  },
-  {
-    title: '故障类型',
-    dataIndex: 'troubleTypeText',
-  },
-  {
-    title: '故障等级',
-    dataIndex: 'urgentLevelText',
-  },
-  {
-    title: '故障描述',
-    dataIndex: 'description',
-  },
-  {
-    title: '处理状态',
-    dataIndex: 'troubleDetermineText',
-  },
-  {
-    title: '关联工单',
-    dataIndex: 'jobCode',
-  },
-];
+export function failureColumns(handleClick: Function): BasicColumn[] {
+  return [
+    {
+      title: '故障单号',
+      dataIndex: 'troubleCode',
+    },
+    {
+      title: '上报人',
+      dataIndex: 'createBy',
+    },
+    {
+      title: '上报时间',
+      dataIndex: 'createTime',
+    },
+    {
+      title: '故障类型',
+      dataIndex: 'troubleTypeText',
+    },
+    {
+      title: '故障等级',
+      dataIndex: 'urgentLevelText',
+    },
+    {
+      title: '故障描述',
+      dataIndex: 'description',
+    },
+    {
+      title: '处理状态',
+      dataIndex: 'troubleDetermineText',
+    },
+    {
+      title: '关联工单',
+      dataIndex: 'code',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.code}
+          </a>
+        );
+      },
+    },
+  ];
+}
 export const failureFormSchema: FormSchema[] = [
   {
     field: 'troubleCode',
@@ -864,28 +873,37 @@ export const patrolInspectionReportSchema: DescItem[] = [
   },
 ];
 // 检修记录
-export const overhaulColumns: BasicColumn[] = [
-  {
-    title: '工单编号',
-    dataIndex: 'code',
-  },
-  {
-    title: '负责人',
-    dataIndex: 'chargePeopleName',
-  },
-  {
-    title: '处理人',
-    dataIndex: 'dealUserName',
-  },
-  {
-    title: '完成时间',
-    dataIndex: 'finishTime',
-  },
-  {
-    title: '关联计划',
-    dataIndex: 'overhaulPlanName',
-  },
-];
+export function overhaulColumns(handleClick: Function): BasicColumn[] {
+  return [
+    {
+      title: '工单编号',
+      dataIndex: 'code',
+    },
+    {
+      title: '负责人',
+      dataIndex: 'chargePeopleName',
+    },
+    {
+      title: '处理人',
+      dataIndex: 'dealUserName',
+    },
+    {
+      title: '完成时间',
+      dataIndex: 'finishTime',
+    },
+    {
+      title: '关联计划',
+      dataIndex: 'overhaulPlanName',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.overhaulPlanName}
+          </a>
+        );
+      },
+    },
+  ];
+}
 export const overhaulFormSchema: FormSchema[] = [
   {
     field: 'code',
@@ -1002,28 +1020,37 @@ export const timingDetectionFormSchema: FormSchema[] = [
   },
 ];
 //  保养记录
-export const maintenanceColumns: BasicColumn[] = [
-  {
-    title: '保养工单编号',
-    dataIndex: 'code',
-  },
-  {
-    title: '负责人',
-    dataIndex: 'chargePeopleName',
-  },
-  {
-    title: '处理人',
-    dataIndex: 'dealUserName',
-  },
-  {
-    title: '完成时间',
-    dataIndex: 'finishTime',
-  },
-  {
-    title: '关联计划',
-    dataIndex: 'upkeepPlanName',
-  },
-];
+export function maintenanceColumns(handleClick: Function): BasicColumn[] {
+  return [
+    {
+      title: '保养工单编号',
+      dataIndex: 'code',
+    },
+    {
+      title: '负责人',
+      dataIndex: 'chargePeopleName',
+    },
+    {
+      title: '处理人',
+      dataIndex: 'dealUserName',
+    },
+    {
+      title: '完成时间',
+      dataIndex: 'finishTime',
+    },
+    {
+      title: '关联计划',
+      dataIndex: 'upkeepPlanName',
+      customRender({ record }) {
+        return (
+          <a class="pointer" onClick={handleClick.bind(null, record)}>
+            {record.upkeepPlanName}
+          </a>
+        );
+      },
+    },
+  ];
+}
 export const maintenanceFormSchema: FormSchema[] = [
   {
     field: 'code',

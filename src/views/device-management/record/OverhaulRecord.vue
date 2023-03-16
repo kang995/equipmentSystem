@@ -4,7 +4,7 @@
     :api-export="DeviceExportListApi"
     textExport="检修记录"
     :dataSource="dataSource"
-    :columns="overhaulColumns"
+    :columns="overhaulColumns(handleClick)"
     :formSchema="overhaulFormSchema"
   >
     <template #tableAction="record">
@@ -34,6 +34,18 @@
   } from '/@/api/device-management/special-equipment';
   const router = useRouter();
   const dataSource = ref([{}]);
+
+  //关联计划跳转
+  const handleClick = (record) => {
+    router.push({
+      name: 'planManagementDetails',
+      query: {
+        id: record.overhaulPlanId,
+        status: record.approvalStatus, //审核状态
+        mode: '3',
+      },
+    });
+  };
   function handleDetails({ record }) {
     //跳转到设备检修-检修工单详情
     router.push({

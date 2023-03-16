@@ -2,7 +2,7 @@
   <TablePage
     :api="DeviceTroubleListApi"
     :dataSource="dataSource"
-    :columns="failureColumns"
+    :columns="failureColumns(handleClick)"
     :formSchema="failureFormSchema"
     :ifExport="true"
   >
@@ -30,7 +30,17 @@
   import { DeviceTroubleListApi } from '/@/api/device-management/special-equipment';
   const router = useRouter();
   const dataSource = ref([]);
-
+  //关联工单跳转
+  const handleClick = (record) => {
+    router.push({
+      name: 'repairDetail',
+      query: {
+        id: record.workOrderId,
+        status: record.maintainStatus,
+        identity: '1',
+      },
+    });
+  };
   //详情
   function handleDetails({ record }) {
     router.push({

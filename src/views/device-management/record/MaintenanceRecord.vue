@@ -4,7 +4,7 @@
     :api-export="UpkeepExportListApi"
     textExport="保养记录"
     :dataSource="dataSource"
-    :columns="maintenanceColumns"
+    :columns="maintenanceColumns(handleClick)"
     :formSchema="maintenanceFormSchema"
   >
     <template #tableAction="record">
@@ -35,6 +35,17 @@
   const router = useRouter();
   const dataSource = ref([]);
 
+  //关联计划跳转
+  const handleClick = (record) => {
+    router.push({
+      name: 'planDetails',
+      query: {
+        id: record.upkeepPlanId,
+        status: record.approvalStatus, //审核状态
+        mode: '1',
+      },
+    });
+  };
   //详情
   function handleDetails({ record }) {
     // console.log('record',record)
