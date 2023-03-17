@@ -354,6 +354,7 @@ export function WorkDetails(): DescItem[] {
     {
       field: 'dealStationName',
       label: '处理岗位',
+      contentMinWidth: 200,
       show: (values) => {
         return values.designateType === '2' ? true : false;
       },
@@ -361,6 +362,7 @@ export function WorkDetails(): DescItem[] {
     {
       field: 'dealDeptName',
       label: '处理部门',
+      contentMinWidth: 200,
       show: (values) => {
         return values.designateType === '1' ? true : false;
       },
@@ -372,6 +374,7 @@ export function WorkDetails(): DescItem[] {
     {
       field: 'plantName',
       label: '所属装置设施',
+      contentMinWidth: 200,
       show: (values) => {
         return values.plantName ? true : false;
       },
@@ -424,11 +427,11 @@ export function WorkDetails(): DescItem[] {
         if (data) {
           return (
             <ARow gutter={24}>
-              <div class="flex-col pl-4">
+              <div class="flex flex-1">
                 {data.map((item) => {
                   if (item.url) {
                     return (
-                      <div class="flex flex-1">
+                      <div class="pl-2">
                         <Image width={100} src={item.url} />
                       </div>
                     );
