@@ -41,7 +41,7 @@
               </div>
               <div>
                 <span class="card_left">更新时间：</span>
-                <span class="card_right">{{ item.updateTime }}</span>
+                <span class="card_right">{{ item.updateTime ? item.updateTime : '--' }}</span>
               </div>
               <template #actions>
                 <!-- 特种设备时显示启用 -->

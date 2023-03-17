@@ -100,6 +100,9 @@ export const partTableColumns: BasicColumn[] = [
   {
     title: '更新时间',
     dataIndex: 'updateTime',
+    customRender({ text }) {
+      return text ? text : '--';
+    },
   },
 ];
 
