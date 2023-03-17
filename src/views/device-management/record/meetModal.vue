@@ -21,6 +21,9 @@
   import { partTableColumns, getPartFormSchema } from './data';
   import { contingencyPlanApi } from '/@/api/device-management/special-equipment';
   import { useRoute } from 'vue-router';
+  import { useMessage } from '/@/hooks/web/useMessage';
+
+  const { createMessage } = useMessage();
   const route = useRoute();
   const deviceId = route.query.id as string;
   const emit = defineEmits(['register', 'eventOpen']);
@@ -64,6 +67,10 @@
   async function submitForm() {
     const data = getSelectRows();
     console.log('data', data);
+    if (!data.length) {
+      createMessage.warn('至少选择一项！');
+      return;
+    }
     emit('eventOpen', data);
     closeModal();
   }
