@@ -34,6 +34,7 @@
                   label: '预览模型',
                   onClick: handleModal.bind(null, record),
                   delBtn: true,
+                  ifShow: record?.modelNameList ? true : false,
                 },
                 {
                   label: '新增检测记录',
@@ -117,9 +118,9 @@
   }>();
   const { ifButton } = toRefs(props);
   const searchInfoList = ref<any>({});
-
   const treeData = ref([]);
   const selectedKeys = ref();
+
   onMounted(() => {
     getTree();
   });
@@ -242,8 +243,9 @@
       },
     });
   }
-  function handleModal() {
-    openModal(true);
+  function handleModal(record) {
+    console.log('预览模型', record);
+    openModal(true, record);
   }
 
   function exportTable() {
