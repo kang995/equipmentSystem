@@ -121,6 +121,7 @@
         span: 6,
         style: {
           textAlign: 'left',
+          marginLeft: '35px',
         },
       },
       fieldMapToTime: [

@@ -121,7 +121,7 @@
     });
   //维修结果、验收结果
   id &&
-    (troubleStatus === '2' || troubleStatus === '3') &&
+    troubleDetermine === '0' &&
     MaintainDetailApi({ id: workOrderId }).then((res) => {
       resultData.value = res.acceptList;
     });
