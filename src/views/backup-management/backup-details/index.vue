@@ -168,6 +168,12 @@
       rowProps: {
         gutter: 16,
       },
+      actionColOptions: {
+        span: 6,
+        style: {
+          textAlign: 'left',
+        },
+      },
     },
   });
   function getWarehouseSpare() {

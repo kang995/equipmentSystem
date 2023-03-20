@@ -129,6 +129,12 @@
       rowProps: {
         gutter: 16,
       },
+      actionColOptions: {
+        span: 6,
+        style: {
+          textAlign: 'left',
+        },
+      },
       fieldMapToTime: [['time', ['startTime', 'endTime'], 'YYYY-MM-DD HH:mm:ss']],
     },
   });

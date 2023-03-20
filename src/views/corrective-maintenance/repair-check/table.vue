@@ -95,6 +95,12 @@
       rowProps: {
         gutter: 16,
       },
+      actionColOptions: {
+        span: 6,
+        style: {
+          textAlign: 'left',
+        },
+      },
       fieldMapToTime: [
         //更改RangePicker的返回字段
         ['createTime', ['createStartTime', 'createEndTime'], 'YYYY-MM-DD'],
