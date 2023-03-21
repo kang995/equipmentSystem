@@ -2,7 +2,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { Image, Row } from 'ant-design-vue';
 import {
-  deviceTreeSelectApi,
+  // deviceTreeSelectApi,
   deviceNameSelectApi,
   UnitFacilityApi,
 } from '/@/api/corrective-maintenance/fault';
@@ -256,33 +256,34 @@ export function getCommonFormSchema(): FormSchema[] {
       component: 'ApiTreeSelect',
       label: '关联设备',
       required: true,
-      componentProps: ({ formModel }) => {
-        // const { updateSchema, setFieldsValue } = formActionType;
-        return {
-          placeholder: '请输入关联设备',
-          api: deviceTreeSelectApi,
-          fieldNames: {
-            label: 'label',
-            key: 'id',
-            value: 'id',
-            children: 'children',
-          },
-          onChange: (id: string) => {
-            deviceTreeSelectApi().then((res) => {
-              const pos = res.find((item) => item.id === id);
-              // console.log('pos',pos)
-              formModel.position = pos.position;
-            });
-          },
-        };
-      },
-      // slot: 'treeSlot',
+      slot: 'deviceSlot',
+      // componentProps: ({ formModel }) => {
+      //   // const { updateSchema, setFieldsValue } = formActionType;
+      //   return {
+      //     placeholder: '请输入关联设备',
+      //     api: deviceTreeSelectApi,
+      //     fieldNames: {
+      //       label: 'label',
+      //       key: 'id',
+      //       value: 'id',
+      //       children: 'children',
+      //     },
+      //     onChange: (id: string) => {
+      //       deviceTreeSelectApi().then((res) => {
+      //         const pos = res.find((item) => item.id === id);
+      //         // console.log('pos',pos)
+      //         formModel.position = pos.position;
+      //       });
+      //     },
+      //   };
+      // },
     },
     {
       field: 'position',
       component: 'Input',
       label: '安装位置',
       // required: true,
+      dynamicDisabled: true,
       componentProps: {
         placeholder: '请输入安装位置',
       },

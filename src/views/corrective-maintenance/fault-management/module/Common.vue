@@ -2,18 +2,22 @@
   <PageWrapper>
     <Card>
       <BasicForm @register="registerFrom">
-        <!-- <template #treeSlot="{ model, field }">
-          <ATreeSelect
+        <!-- 关联设备 -->
+        <template #deviceSlot="{ model, field }">
+          <a-tree-select
             v-model:value="model[field]"
-            style="width: 100%"
-            placeholder="请输入关联设备"
-            allow-clear
-            tree-default-expand-all
-            :tree-data="treeData"
-            :fieldNames="{ children: 'children', label: 'label', value: 'id' }"
-            @change="handleChange"
+            :tree-data="gasList"
+            @change="handleChangeTree"
+            :dropdownMatchSelectWidth="false"
+            placeholder="请选择设备"
+            :fieldNames="{
+              value: 'id',
+              key: 'id',
+              label: 'label',
+              children: 'children',
+            }"
           />
-        </template> -->
+        </template>
       </BasicForm>
     </Card>
   </PageWrapper>
@@ -22,7 +26,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { PageWrapper } from '/@/components/Page';
-  import { Card } from 'ant-design-vue';
+  import { Card, TreeSelect } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { getCommonFormSchema } from '../data';
   import { useTabs } from '/@/hooks/web/useTabs';
@@ -32,28 +36,52 @@
     putFaultAddListApi,
     putFaultUpdateListApi,
     TroubleDetailApi,
+    deviceTreeSelectApi,
   } from '/@/api/corrective-maintenance/fault';
+  const ATreeSelect = TreeSelect;
   const { createMessage } = useMessage();
   const { closeCurrent } = useTabs();
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id as string;
   const versionVal = ref<any>(); //版本号
-  // import { TreeSelect } from 'ant-design-vue';
-  // import { deviceTreeSelectApi } from "/@/api/corrective-maintenance/fault"
-  // const ATreeSelect = TreeSelect;
 
-  // const treeData = ref<any[]>([]);
-  // async function treeQuery() {
-  //   deviceTreeSelectApi().then((res) => {
-  //     // console.log('res:', res);
-  //     treeData.value = res;
-  //   });
-  // }
-  // onMounted(() => {
-  //   treeQuery();
-  // });
-  //
+  // 添加disabled
+  const handleDisabled = (tree) => {
+    tree &&
+      tree.forEach((node) => {
+        if (node.type && node.type !== 3) {
+          //type为3才可选择
+          node.disabled = true;
+          node.children && handleDisabled(node.children);
+        }
+      });
+    return tree;
+  };
+  const gasList = ref<any>([]);
+  deviceTreeSelectApi().then((res) => {
+    gasList.value = handleDisabled(res);
+  });
+
+  // 树结构转列表
+  const treeTolist = (tree, result = [] as any, level = 0) => {
+    tree.forEach((node) => {
+      result.push(node);
+      node.level = level + 1;
+      node.children && treeTolist(node.children, result, level + 1);
+    });
+    return result;
+  };
+  //获取设备安装位置
+  function handleChangeTree(e) {
+    // console.log('e',e)
+    deviceTreeSelectApi().then((res) => {
+      const data = treeTolist(res).filter((item) => item.id === e);
+      setFieldsValue({
+        position: data[0].position,
+      });
+    });
+  }
 
   const [registerFrom, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: getCommonFormSchema(), //表单配置
