@@ -19,10 +19,12 @@ import { joinTimestamp, formatRequestDate } from './helper';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const globSetting = useGlobSetting();
 const urlPrefix = globSetting.urlPrefix;
 const { createMessage, createErrorModal, createSuccessModal } = useMessage();
+const { useUserCenterLogin, loginToken } = useGlobSetting();
 
 /**
  * @description: 数据处理，方便区分多种处理方式
@@ -74,6 +76,10 @@ const transform: AxiosTransform = {
     let timeoutMsg = '';
     switch (code) {
       case ResultEnum.TIMEOUT:
+        if (useUserCenterLogin) {
+          // 清除cookie中的token
+          Cookies.remove(loginToken);
+        }
         timeoutMsg = t('sys.api.timeoutMessage');
         const userStore = useUserStoreWithOut();
         userStore.setToken(undefined);

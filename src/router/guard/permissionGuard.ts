@@ -8,6 +8,7 @@ import { useUserStoreWithOut } from '/@/store/modules/user';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
 
 import { RootRoute } from '/@/router/routes';
+import { useGlobSetting } from '/@/hooks/setting';
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
 
@@ -18,6 +19,8 @@ const whitePathList: PageEnum[] = [LOGIN_PATH];
 export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
+  const { useUserCenterLogin } = useGlobSetting();
+
   router.beforeEach(async (to, from, next) => {
     if (
       from.path === ROOT_PATH &&
@@ -27,6 +30,13 @@ export function createPermissionGuard(router: Router) {
     ) {
       next(userStore.getUserInfo.homePath);
       return;
+    }
+
+    if (useUserCenterLogin) {
+      if (to.path === LOGIN_PATH) {
+        next();
+        return;
+      }
     }
 
     const token = userStore.getToken;
