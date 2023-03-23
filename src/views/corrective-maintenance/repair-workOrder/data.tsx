@@ -465,7 +465,13 @@ export function getAgainFormSchemas(): FormSchema[] {
           labelField: 'itemName',
           valueField: 'itemValue',
           onChange: (e) => {
-            formModel.disposePeopleIdList = undefined;
+            formModel.dealUserIdList = undefined;
+            updateSchema({
+              field: 'dealUserIdList',
+              componentProps: {
+                options: [],
+              },
+            });
             if (e === '2') {
               formModel.dealDeptId = undefined;
               updateSchema({

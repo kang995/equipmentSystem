@@ -428,7 +428,8 @@ export function confirmFormSchema(): FormSchema[] {
       label: '任务指派',
       required: true,
       defaultValue: '1',
-      componentProps: ({ formModel }) => {
+      componentProps: ({ formModel, formActionType }) => {
+        const { updateSchema } = formActionType; //setFieldsValue
         return {
           api: getDictionarySelectTypeApi, //后台路径
           params: {
@@ -439,6 +440,12 @@ export function confirmFormSchema(): FormSchema[] {
           valueField: 'itemValue',
           onChange: (e) => {
             formModel.dealUserIdList = undefined;
+            updateSchema({
+              field: 'dealUserIdList',
+              componentProps: {
+                options: [],
+              },
+            });
             if (e === '2') {
               formModel.dealDeptId = undefined;
             } else {
