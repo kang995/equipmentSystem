@@ -625,6 +625,9 @@ export function receiveSchemaDetail(): DescItem[] {
     {
       field: 'acceptResult',
       label: '验收结果',
+      render: (curVal) => {
+        return curVal === '0' ? '通过' : '拒绝';
+      },
     },
     {
       field: 'acceptContent',
