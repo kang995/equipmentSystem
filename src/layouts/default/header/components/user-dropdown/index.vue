@@ -24,10 +24,18 @@
           :text="t('layout.header.tooltipLock')"
           icon="ion:lock-closed-outline"
         />
+        <!-- 退出系统、返回 -->
         <MenuItem
+          v-if="!useUserCenterLogin"
           key="logout"
           :text="t('layout.header.dropdownItemLoginOut')"
           icon="ion:power-outline"
+        />
+        <MenuItem
+          v-if="useUserCenterLogin"
+          key="logout"
+          :text="t('返回')"
+          icon="gonggong_fanhui|svg"
         />
       </Menu>
     </template>
@@ -54,6 +62,8 @@
   import { openWindow } from '/@/utils';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
+  import { useGlobSetting } from '/@/hooks/setting';
+  const { useUserCenterLogin } = useGlobSetting();
 
   type MenuEvent = 'logout' | 'doc' | 'lock';
 
@@ -118,6 +128,7 @@
         getShowDoc,
         register,
         getUseLockPage,
+        useUserCenterLogin,
       };
     },
   });
