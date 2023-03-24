@@ -260,18 +260,18 @@ export const informationDescItem: DescItem[] = [
       if (data) {
         return (
           <ARow gutter={24}>
-            <div class="flex-col pl-4">
+            <div class="flex flex-1">
               {data.map((item) => {
                 const name = item.url.substring(item.url.lastIndexOf('.') + 1);
                 if (name == 'png' || name == 'jpg' || name == 'jpeg') {
                   return (
-                    <div class="flex flex-1">
+                    <div class="pl-2">
                       <Image width={100} src={item.url} />
                     </div>
                   );
                 } else {
                   return (
-                    <div class="flex flex-1">
+                    <div class="pl-2">
                       <a href={item.url}>{item.name}</a>
                     </div>
                   );

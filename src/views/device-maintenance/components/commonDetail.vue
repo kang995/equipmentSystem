@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper contentBackground contentFullHeight>
+  <PageWrapper contentBackground>
     <a-tabs v-model:activeKey="activeKey" :tabBarStyle="tabBarStyle">
       <a-tab-pane key="1" tab="计划详情">
         <maintain-info />

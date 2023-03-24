@@ -193,16 +193,16 @@ export function ResultSchemaDetail(): DescItem[] {
         if (data) {
           return (
             <ARow gutter={24}>
-              <div class="flex-col pl-4">
+              <div class="flex flex-1">
                 {data.map((item) => {
                   if (item.url) {
                     return (
-                      <div class="flex flex-1">
+                      <div class="pl-2">
                         <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {
-                    return '111';
+                    return '';
                   }
                 })}
               </div>
@@ -293,16 +293,16 @@ export function ResultsSchemas(): DescItem[] {
         if (data) {
           return (
             <ARow gutter={24}>
-              <div class="flex-col pl-4">
+              <div class="flex flex-1">
                 {data.map((item) => {
                   if (item.url) {
                     return (
-                      <div class="flex flex-1">
+                      <div class="pl-2">
                         <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {
-                    return '111';
+                    return '';
                   }
                 })}
               </div>

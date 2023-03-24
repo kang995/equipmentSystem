@@ -432,7 +432,7 @@ export function WorkDetails(): DescItem[] {
                   if (item.url) {
                     return (
                       <div class="pl-2">
-                        <Image width={100} src={item.url} />
+                        <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {

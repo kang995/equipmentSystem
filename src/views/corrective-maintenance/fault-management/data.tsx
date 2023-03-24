@@ -462,12 +462,12 @@ export function faultDetailSchemas(): DescItem[] {
         if (data) {
           return (
             <ARow gutter={24}>
-              <div class="flex-col pl-4">
+              <div class="flex flex-1">
                 {data.map((item) => {
                   if (item.url) {
                     return (
-                      <div class="flex flex-1">
-                        <Image width={100} src={item.url} />
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {
@@ -519,12 +519,12 @@ export function faultschema(
         if (data) {
           return (
             <ARow gutter={24}>
-              <div class="flex-col pl-4">
+              <div class="flex flex-1">
                 {data.map((item) => {
                   if (item.url) {
                     return (
-                      <div class="flex flex-1">
-                        <Image width={100} src={item.url} />
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
                       </div>
                     );
                   } else {
@@ -634,20 +634,25 @@ export function resultschema(index: number): DescItem[] {
       field: 'beforeDealImgList',
       label: '维修前图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
@@ -655,20 +660,25 @@ export function resultschema(index: number): DescItem[] {
       field: 'dealImgList',
       label: '维修后图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
