@@ -2,7 +2,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import confirming from './confirming/index.vue';
 import confirmed from './confirmed/index.vue';
 import { DescItem } from '/@/components/Description';
-import { Image } from 'ant-design-vue';
+import { Image, Row } from 'ant-design-vue';
 import {
   getDictionarySelectTypeApi,
   getPersonSelectApi,
@@ -335,20 +335,25 @@ export function confirmdedDetails(): DescItem[] {
       label: '图片',
       span: 2,
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
@@ -701,20 +706,25 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
       field: 'imgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
       show: () => troubleDetermine === '1',
