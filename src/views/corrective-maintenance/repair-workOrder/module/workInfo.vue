@@ -122,7 +122,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { Description, useDescription } from '/@/components/Description';
@@ -167,7 +167,18 @@
     isShow && (apply.value = true);
     // isSbumit && (SubmitAccept.value = true);
   });
-
+  const props = defineProps<{
+    partFlag: Boolean;
+  }>();
+  //监听partFlag
+  watch(
+    () => props.partFlag,
+    (newVal) => {
+      if (newVal) {
+        SubmitAccept.value = false;
+      }
+    },
+  );
   //审核icon
   function handleStatus(status) {
     switch (status) {

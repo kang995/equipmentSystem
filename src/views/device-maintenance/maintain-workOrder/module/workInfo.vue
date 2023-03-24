@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { Description, useDescription } from '/@/components/Description';
@@ -154,6 +154,19 @@
   const status = route.query?.status as string;
   const identity = route.query?.identity as string;
   const delayFlag = route.query?.delayFlag as string;
+
+  const props = defineProps<{
+    partFlag: Boolean;
+  }>();
+  //监听partFlag
+  watch(
+    () => props.partFlag,
+    (newVal) => {
+      if (newVal) {
+        Refuse.value = false;
+      }
+    },
+  );
 
   //保养设备
   const dataSource = ref([{}]);

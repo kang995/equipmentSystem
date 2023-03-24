@@ -118,7 +118,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
   import { Description, useDescription } from '/@/components/Description';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { BasicForm, useForm } from '/@/components/Form/index';
@@ -162,6 +162,18 @@
   onMounted(() => {
     isShow && (apply.value = true);
   });
+  const props = defineProps<{
+    partFlag: Boolean;
+  }>();
+  //监听partFlag
+  watch(
+    () => props.partFlag,
+    (newVal) => {
+      if (newVal) {
+        SubmitAccept.value = false;
+      }
+    },
+  );
 
   //审核icon
   function handleStatus(identity, status, delayFlag) {

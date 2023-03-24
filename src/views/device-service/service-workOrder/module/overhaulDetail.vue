@@ -2,7 +2,7 @@
   <PageWrapper contentBackground>
     <a-tabs v-model:activeKey="activeKey" :tabBarStyle="tabBarStyle">
       <a-tab-pane key="1" tab="工单信息">
-        <work-info ref="infoRef" @event-change="handleChange" />
+        <work-info ref="infoRef" :partFlag="partFlag" @event-change="handleChange" />
       </a-tab-pane>
       <a-tab-pane key="2" tab="使用备件">
         <work-part v-if="partFlag" />
@@ -17,8 +17,9 @@
     </a-tabs>
     <!-- 提交结果 -->
     <template v-if="!partFlag && (activeKey === '1' || activeKey === '2')">
-      <div class="ml-[26%] mt-[-32px] mb-[12px]">
-        <a-button type="primary" @click="handleSubmit">提交</a-button>
+      <div :class="[!partFlag && activeKey === '1' ? 'ml-[26%] mt-[-32px] mb-[12px]' : 'm-[12px]']">
+        <a-button class="mr-2" type="primary" @click="handleSubmit">提交</a-button>
+        <a-button @click="handleBack">取消</a-button>
       </div>
     </template>
   </PageWrapper>
@@ -78,6 +79,10 @@
         name: 'serviceWorkOrder',
       });
     });
+  }
+  //取消
+  function handleBack() {
+    partFlag.value = true;
   }
 </script>
 
