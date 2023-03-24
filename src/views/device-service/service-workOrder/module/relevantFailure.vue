@@ -1,9 +1,12 @@
 <template>
   <div class="px-4">
-    <template v-for="(item, index) in dataSource" :key="index">
-      <div class="font-black text-[#414960] text-[15px] my-[16px]">故障信息{{ index + 1 }}</div>
-      <Description :column="2" :bordered="true" :data="item" :schema="WorkInfoSchema()" />
+    <template v-if="dataSource.length">
+      <template v-for="(item, index) in dataSource" :key="index">
+        <div class="font-black text-[#414960] text-[15px] my-[16px]">故障信息{{ index + 1 }}</div>
+        <Description :column="2" :bordered="true" :data="item" :schema="WorkInfoSchema()" />
+      </template>
     </template>
+    <Empty v-else />
   </div>
 </template>
 
@@ -13,6 +16,7 @@
   import { WorkInfoSchema } from '../data';
   import { useRoute } from 'vue-router';
   import { TroubleDetailsApi } from '/@/api/device-service/service';
+  import { Empty } from 'ant-design-vue';
   const route = useRoute();
   const id = route.query?.id as string;
   const dataSource = ref<any>([]);

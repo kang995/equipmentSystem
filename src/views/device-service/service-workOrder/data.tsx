@@ -2,7 +2,7 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
-import { Image, Tag, Badge } from 'ant-design-vue';
+import { Image, Tag, Badge, Row } from 'ant-design-vue';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { whetherShowApi } from '/@/api/device-service/service';
 
@@ -485,36 +485,41 @@ export function WorkInfoSchema(): DescItem[] {
       field: 'imgList',
       label: '图片',
       render: (data) => {
+        const ARow = Row;
         if (data) {
           return (
-            <>
-              {data.map((item) => {
-                return (
-                  <div class={fileBox}>
-                    <Image style={ImageBox} src={item.url} alt="" />
-                  </div>
-                );
-              })}
-            </>
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
           );
-        } else {
-          return <div style={noFileBox}>暂无图片</div>;
         }
       },
     },
   ];
 }
 
-const titleStyle: any = {
-    paddingTop: '16px',
-    fontSize: '15px',
-    fontWeight: '600',
-    position: 'relative',
-    left: '0px',
-  },
-  ImageBox: any = {
-    width: '80px',
-  };
+// const titleStyle: any = {
+//     paddingTop: '16px',
+//     fontSize: '15px',
+//     fontWeight: '600',
+//     position: 'relative',
+//     left: '0px',
+//   },
+//   ImageBox: any = {
+//     width: '80px',
+//   };
 const fileBox = {
   padding: '0px',
   height: '100px',
