@@ -101,8 +101,10 @@
             >提交验收</a-button
           >
           <div class="ml-[25%]">
-            <a-button class="mr-4" v-if="apply" @click="handleClose">取消</a-button>
-            <a-button type="primary" v-if="apply" @click="handleSubmitApply">提交</a-button>
+            <a-button class="mr-4" type="primary" v-if="apply" @click="handleSubmitApply"
+              >提交</a-button
+            >
+            <a-button v-if="apply" @click="handleClose">取消</a-button>
             <!-- <a-button type="primary" v-if="accept" @click="handleSubmitAccept">提交</a-button> -->
           </div>
         </template>
@@ -170,7 +172,8 @@
     () => props.partFlag,
     (newVal) => {
       if (newVal) {
-        SubmitAccept.value = false;
+        status === '2' ? (accept.value = false) : (SubmitAccept.value = false);
+        // SubmitAccept.value = false;
       }
     },
   );
