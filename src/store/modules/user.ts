@@ -185,6 +185,7 @@ export const useUserStore = defineStore({
      * @description: logout
      */
     async logout(goLogin = false) {
+      console.log('logout 退出登录');
       if (this.getToken) {
         try {
           await doLogout();
@@ -199,7 +200,8 @@ export const useUserStore = defineStore({
       if (useUserCenterLogin) {
         Cookies.remove(loginToken);
         // 通知用户中心退出登录；获取用户中心url；
-        window.location.href = await getLogoutUrlApi();
+        // window.location.href = await getLogoutUrlApi();
+        window.location.href = window.location.origin + PageEnum.LOGOUT_URL; // 重定向到后台接口
       } else {
         goLogin && router.push(PageEnum.BASE_LOGIN);
       }
