@@ -41,7 +41,7 @@
       <!-- 保养结果、验收结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
         <maintainDescription :acceptList="acceptList" />
-        <receiveDescription :acceptList="acceptList" />
+        <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" />
       </template>
       <div class="my-[24px]">
         <template v-if="status === '2'">
@@ -79,7 +79,7 @@
       <!-- 保养结果、验收结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
         <maintainDescription :acceptList="acceptList" />
-        <receiveDescription :acceptList="acceptList" />
+        <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" />
       </template>
 
       <!-- 保养结果重新提交 -->
