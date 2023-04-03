@@ -158,7 +158,7 @@
   recordCode &&
     mechanicalAbnormalListApi({
       recordCode,
-      abnormalState: '1', //（巡检详情：1 发现异常：2）
+      // abnormalState: '1', //（巡检详情：1 发现异常：2）
     }).then((res) => {
       cardListData.value = res.records;
     });

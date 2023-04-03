@@ -854,20 +854,41 @@ export const patrolInspectionReportSchema: DescItem[] = [
     label: '巡检班组',
   },
   {
-    field: 'startDate',
-    label: '巡检开始时间',
+    field: 'timeData',
+    label: '巡检时间',
+    render: (_val, data) => {
+      const { startDate, endDate } = data;
+      return (
+        (startDate !== null && startDate !== undefined ? startDate : '') +
+        ' —— ' +
+        (endDate !== null && endDate !== undefined ? endDate : '')
+      );
+    },
   },
   {
     field: 'patrolDuration',
     label: '巡检时长',
+    render: (val, data) => {
+      const { overtime } = data;
+      if (val >= 0) {
+        return (
+          <div class="flex space-x-4">
+            <span>{val}分钟</span>
+            {overtime === '1' ? (
+              <Tag color="error">超时</Tag>
+            ) : overtime === '2' ? (
+              <Tag color="success">未超时</Tag>
+            ) : (
+              <Tag color="success">未巡检</Tag>
+            )}
+          </div>
+        );
+      }
+    },
   },
   {
     field: 'chargeName',
     label: '负责人',
-  },
-  {
-    field: 'endDate',
-    label: '巡检结束时间',
   },
   //列表带过来
   {
@@ -877,6 +898,21 @@ export const patrolInspectionReportSchema: DescItem[] = [
   {
     field: 'inspectorName',
     label: '巡检人员',
+    render: (curVal, record) => {
+      const { signPicture } = record;
+      if (signPicture) {
+        return (
+          <div class="flex items-center">
+            <div>{curVal}</div>
+            <div class="ml-2">
+              <Image width="50px" src={signPicture.url} />
+            </div>
+          </div>
+        );
+      } else {
+        return curVal;
+      }
+    },
   },
 ];
 // 检修记录
