@@ -311,7 +311,7 @@
   }
   const beforeUpload: UploadProps['beforeUpload'] = (file) => {
     let typeList: Array<string> = props.accept.replaceAll('.', '').split(',');
-    // console.log(props.accept);
+    // console.log(props.accept,typeList);
     if (props.accept.includes('jpg')) {
       typeList.push('JPG');
     }
@@ -320,6 +320,15 @@
     }
     if (props.accept.includes('jpg')) {
       typeList.push('JPEG');
+    }
+    if (props.accept.includes('pdf')) {
+      typeList.push('PDF');
+    }
+    if (props.accept.includes('rar')) {
+      typeList.push('RAR');
+    }
+    if (props.accept.includes('zip')) {
+      typeList.push('ZIP');
     }
     if (props.accept.includes('image/*')) {
       typeList.push(...['jpg', 'jpeg', 'png', 'GIF', 'JPG', 'PNG']);
