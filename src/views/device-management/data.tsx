@@ -343,7 +343,7 @@ export const installationSchemas: DescItem[] = [
   },
   //
   {
-    field: 'name',
+    field: 'facilitiesName',
     label: '所属装置设施',
   },
   {
