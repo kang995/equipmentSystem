@@ -473,29 +473,29 @@ export const installationSchema: DescItem[] = [
   {
     field: 'basicInformat',
     label: '基本信息',
-    render: (val) => {
-      if (val) {
-        return <div v-html={val}></div>;
-      }
+    contentMinWidth: 400,
+    render: (val: string) => {
+      return <div class="overflow-auto max-h-[150px]" v-html={val}></div>;
     },
   },
   {
     field: 'pictureList',
     label: '图纸',
+    contentMinWidth: 400,
     render: (data) => {
       const ARow = Row;
       if (data) {
         return (
           <ARow gutter={24}>
-            <div class="flex flex-1 items-center">
-              {data.map((item) => {
-                return (
-                  <div class="pl-4 pr-4">
-                    <Image width={100} src={item} />
-                  </div>
-                );
-              })}
-            </div>
+            {/* <div class="flex flex-1 items-center"> */}
+            {data.map((item) => {
+              return (
+                <div class="pl-4 pr-4">
+                  <Image width={100} src={item} />
+                </div>
+              );
+            })}
+            {/* </div> */}
           </ARow>
         );
       }
