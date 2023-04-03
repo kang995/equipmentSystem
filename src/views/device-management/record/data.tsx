@@ -367,7 +367,7 @@ export const mechanicsDescItem: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'positionList',
+    field: 'siteList',
     label: '经纬度',
     render: (val) => {
       console.log('val: ', val);
@@ -386,13 +386,15 @@ export const mechanicsDescItem: DescItem[] = [
   {
     field: 'basicInformat',
     label: '基本信息',
+    contentMinWidth: 400,
     render: (val: string) => {
       return <div class="overflow-auto max-h-[150px]" v-html={val}></div>;
     },
   },
   {
-    field: 'blueprintList',
+    field: 'pictureList',
     label: '图纸',
+    contentMinWidth: 400,
     render: (data) => {
       console.log('data:333 ', data);
       const ARow = Row;
@@ -560,7 +562,7 @@ export const equipmentDescItem: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'positionList',
+    field: 'siteList',
     label: '经纬度',
     render: (val) => {
       console.log('val: ', val);
@@ -579,6 +581,7 @@ export const equipmentDescItem: DescItem[] = [
   {
     field: 'basicInformat',
     label: '基本信息',
+    contentMinWidth: 400,
     render: (val: string) => {
       return <div class="overflow-auto max-h-[150px]" v-html={val}></div>;
     },
@@ -586,6 +589,7 @@ export const equipmentDescItem: DescItem[] = [
   {
     field: 'pictureList',
     label: '图纸',
+    contentMinWidth: 400,
     render: (data) => {
       const ARow = Row;
       if (data) {

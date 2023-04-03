@@ -48,8 +48,8 @@
     openModal(true);
   }
 
-  // mechanicsDescItem 机械设备 state:1,2
-  //  equipmentDescItem 特种设备
+  // equipmentDescItem 机械设备 state:1,2
+  // mechanicsDescItem 特种设备
 
   const mockData = ref<any>([]);
   const [register] = useDescription({
