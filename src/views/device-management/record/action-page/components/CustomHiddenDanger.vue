@@ -26,11 +26,11 @@
               <Col :span="24" class="font-semibold pb-2"
                 >图片/视频上传：
                 <div class="flex-1">
-                  <Image
-                    class="!w-100px"
-                    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                  /> </div
-              ></Col>
+                  <template v-for="(val, _index) in item.hiddenPicList" :key="_index">
+                    <Image class="!w-100px" :src="val.url" />
+                  </template>
+                </div>
+              </Col>
             </Row>
           </Card>
         </ListItem>
