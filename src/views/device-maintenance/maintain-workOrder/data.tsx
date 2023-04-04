@@ -558,7 +558,7 @@ export function deviceTableColumns(): BasicColumn[] {
     },
     {
       title: '备件分类',
-      dataIndex: 'spareClassify',
+      dataIndex: 'spareClassifyText',
     },
     {
       title: '规格型号',
