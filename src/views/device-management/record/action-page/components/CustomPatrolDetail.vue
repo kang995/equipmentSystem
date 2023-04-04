@@ -28,9 +28,9 @@
                 <!-- <Col :span="12" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col> -->
                 <Col :span="12" class="font-semibold">
                   关联摄像头：
-                  <div class="flex-1">
+                  <div class="flex flex-1">
                     <template v-for="(val, _index) in item.cameraList" :key="_index">
-                      <div class="ext-base font-medium text-[#171b25] mb-2">{{ val.name }}</div>
+                      <div class="ext-base font-medium text-[#171b25] mb-2">{{ val.name }}、</div>
                     </template>
                   </div>
                 </Col>
