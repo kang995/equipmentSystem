@@ -697,7 +697,7 @@ export const patrolInspectionFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'patrolResultMessage',
+    field: 'patrolResult',
     component: 'Select',
     label: '巡检结果',
     componentProps: {
