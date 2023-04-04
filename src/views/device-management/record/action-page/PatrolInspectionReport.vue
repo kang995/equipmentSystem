@@ -62,7 +62,7 @@
   const activeKey = ref('1');
   const route = useRoute();
   const id = route.query.id as string;
-  const patrolResult = route.query.patrolResult as string;
+  const patrolResultMessage = route.query.patrolResultMessage as string;
 
   const descriptionsData = ref({
     abnormalNum: '',
@@ -82,8 +82,8 @@
   async function getRecordBaseData() {
     mechanicalpatrolBaseListApi({ id }).then((res) => {
       descriptionsData.value = res;
-      descriptionsData.value['hazardTypeText'] =
-        patrolResult === '0' ? '正常' : patrolResult === '1' ? '异常' : '-'; //巡检结果（0:正常 1:异常,-1:代表未上报，显示-）
+      descriptionsData.value['hazardTypeText'] = patrolResultMessage;
+      // patrolResultMessage === '0' ? '正常' : patrolResultMessage === '1' ? '异常' : '-'; //巡检结果（0:正常 1:异常,-1:代表未上报，显示-）
       if (descriptionsData.value.patrolType === '3') {
         activeKey.value = '3';
       }

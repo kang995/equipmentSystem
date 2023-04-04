@@ -656,16 +656,26 @@ export const patrolInspectionColumns: BasicColumn[] = [
   },
   {
     title: '巡检结果',
-    dataIndex: 'patrolResult', //巡检结果（0代表正常，1代表异常 -1代表未上报显示 - 即可）
+    dataIndex: 'patrolResultMessage', //正常 显示绿色,  -- 显示黑色, 除了这2个就是异常数据显示红色即可
     customRender: ({ record }) => {
-      if (record.patrolResult === '0') {
+      if (record.patrolResultMessage === '正常') {
         return <Tag color={'green'}>{'正常'}</Tag>;
-      } else if (record.patrolResult === '1') {
-        return <Tag color={'red'}>{'异常'}</Tag>;
-      } else if (record.patrolResult === '-1') {
+      } else if (record.patrolResultMessage === '--') {
         return '--';
+      } else {
+        return <Tag color={'red'}>{record.patrolResultMessage}</Tag>;
       }
     },
+    //巡检结果（0代表正常，1代表异常 -1代表未上报显示 - 即可）
+    // customRender: ({ record }) => {
+    //   if (record.patrolResultMessage === '0') {
+    //     return <Tag color={'green'}>{'正常'}</Tag>;
+    //   } else if (record.patrolResultMessage === '1') {
+    //     return <Tag color={'red'}>{'异常'}</Tag>;
+    //   } else if (record.patrolResultMessage === '-1') {
+    //     return '--';
+    //   }
+    // },
   },
 ];
 export const patrolInspectionFormSchema: FormSchema[] = [
@@ -687,7 +697,7 @@ export const patrolInspectionFormSchema: FormSchema[] = [
     },
   },
   {
-    field: 'patrolResult',
+    field: 'patrolResultMessage',
     component: 'Select',
     label: '巡检结果',
     componentProps: {
@@ -695,6 +705,7 @@ export const patrolInspectionFormSchema: FormSchema[] = [
       options: [
         { label: '正常', value: '0' },
         { label: '异常', value: '1' },
+        { label: '其它', value: '2' },
       ],
     },
   },
@@ -894,6 +905,15 @@ export const patrolInspectionReportSchema: DescItem[] = [
   {
     field: 'hazardTypeText',
     label: '巡检结果',
+    render: (curVal) => {
+      if (curVal === '正常') {
+        return <Tag color={'green'}>{'正常'}</Tag>;
+      } else if (curVal === '--') {
+        return '--';
+      } else {
+        return <Tag color={'red'}>{curVal}</Tag>;
+      }
+    },
   },
   {
     field: 'inspectorName',

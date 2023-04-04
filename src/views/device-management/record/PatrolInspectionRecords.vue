@@ -59,7 +59,7 @@
       query: {
         id: record.id,
         recordCode: record.recordCode,
-        patrolResult: record.patrolResult,
+        patrolResultMessage: record.patrolResultMessage,
       },
     });
   }
