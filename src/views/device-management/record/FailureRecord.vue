@@ -47,8 +47,9 @@
       name: 'faultDetails',
       query: {
         id: record.id,
+        workOrderId: record.workOrderId,
         troubleDetermine: record.troubleDetermine, //确认结果：0:自修、1：委外维修 2：列入检修计划
-        status: record.troubleStatus, //故障状态：0:待确认、1：待处理、2：处理中、3：已解决、4：已转计划
+        troubleStatus: record.troubleStatus, //故障状态：0:待确认、1：待处理、2：处理中、3：已解决、4：已转计划
       },
     });
   }
