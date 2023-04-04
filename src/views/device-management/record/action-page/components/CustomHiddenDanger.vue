@@ -62,6 +62,7 @@
       recordCode,
     }).then((res) => {
       cardListData.value = res.records;
+      totalNum.value = res.total;
     });
 
   const paginationProp = ref({

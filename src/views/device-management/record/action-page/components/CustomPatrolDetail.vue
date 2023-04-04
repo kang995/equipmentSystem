@@ -134,8 +134,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-  import { List, Card, Row, Col, Select, Badge, Collapse, Image } from 'ant-design-vue';
-  import { ref, onMounted } from 'vue';
+  import { List, Card, Row, Col, Badge, Collapse, Image } from 'ant-design-vue';
+  import { ref } from 'vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useRoute } from 'vue-router';
   import { CheckCircleOutlined, MinusCircleOutlined } from '@ant-design/icons-vue';
@@ -143,7 +143,7 @@
 
   const { prefixCls } = useDesign('custom-card-list');
   const BadgeRibbon = Badge.Ribbon;
-  const pointSelectOptions = ref([]);
+  // const pointSelectOptions = ref([]);
   const ListItem = List.Item;
   const CollapsePanel = Collapse.Panel;
   const route = useRoute();
@@ -151,6 +151,7 @@
   const cardListData = ref([{}]);
   const page = ref(1);
   const pageSize = ref(10);
+  const totalNum = ref(0);
   const paginationProp = ref({});
   const pointIdVal = ref('');
 
@@ -161,6 +162,8 @@
       // abnormalState: '1', //（巡检详情：1 发现异常：2）
     }).then((res) => {
       cardListData.value = res.records;
+      totalNum.value = res.total;
+      getProblemReportData(pointIdVal.value);
     });
 
   async function getProblemReportData(pointId) {
@@ -168,7 +171,7 @@
       showQuickJumper: true,
       pageSize,
       current: page,
-      total: 10,
+      total: totalNum,
       showTotal: (total) => `总 ${total} 条`,
       onChange: pageChange,
       onShowSizeChange: pageSizeChange,

@@ -164,6 +164,7 @@
       abnormalState: '2', //（巡检详情：1 发现异常：2）
     }).then((res) => {
       cardListData.value = res.records;
+      totalNum.value = res.total;
     });
 
   const paginationProp = ref({
