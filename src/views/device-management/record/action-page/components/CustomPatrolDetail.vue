@@ -25,7 +25,15 @@
                 <Col :span="12" class="font-semibold">点位：{{ item.pointName }}</Col>
                 <Col :span="12" class="font-semibold">驻留时间：{{ item.stayDate }}</Col>
                 <Col :span="12" class="font-semibold">巡检路线：{{ item.routeName }}</Col>
-                <Col :span="12" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col>
+                <!-- <Col :span="12" class="font-semibold">关联摄像头：{{ item.cameraName }}</Col> -->
+                <Col :span="12" class="font-semibold">
+                  关联摄像头：
+                  <div class="flex-1">
+                    <template v-for="(val, _index) in item.cameraList" :key="_index">
+                      <div class="ext-base font-medium text-[#171b25] mb-2">{{ val.name }}</div>
+                    </template>
+                  </div>
+                </Col>
               </Row>
               <Collapse expandIconPosition="right" class="!my-4" v-if="item.patrolType !== '3'">
                 <CollapsePanel header="巡检内容和结果">
