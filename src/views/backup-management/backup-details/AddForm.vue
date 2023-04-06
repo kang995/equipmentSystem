@@ -33,7 +33,7 @@
   const route = useRoute();
   const router = useRouter();
   const id = route.query?.id;
-
+  const version = ref<string>('');
   const { createMessage } = useMessage();
 
   const options = ref<any>([]);
@@ -56,6 +56,7 @@
     if (id) {
       postWarehouseDetailApi({ id: id }).then((res) => {
         setFieldsValue(res);
+        version.value = res.version;
       });
     }
   });
@@ -63,7 +64,7 @@
     const { phone } = PeopleSelect.value.find((item) => item.id == val);
     setFieldsValue({ principalPhone: phone });
   }
-  const [register, { setFieldsValue, getFieldsValue }] = useForm({
+  const [register, { setFieldsValue, getFieldsValue, setProps }] = useForm({
     labelCol: {
       span: 8,
     },
@@ -95,6 +96,7 @@
     const data = getFieldsValue();
     if (id) {
       data['id'] = id;
+      data['version'] = version.value;
       funDetails(data);
     } else {
       funAdd(data);
@@ -107,15 +109,41 @@
     });
   }
   function funAdd(data) {
-    posWarehouseAddApi(data).then(() => {
-      createMessage.success('新增成功');
-      getRoute();
+    setProps({
+      submitButtonOptions: {
+        loading: true,
+      },
     });
+    posWarehouseAddApi(data)
+      .then(() => {
+        createMessage.success('新增成功');
+        getRoute();
+      })
+      .finally(() => {
+        setProps({
+          submitButtonOptions: {
+            loading: false,
+          },
+        });
+      });
   }
   function funDetails(data) {
-    posWarehouseEditApi(data).then(() => {
-      createMessage.success('修改成功');
-      getRoute();
+    setProps({
+      submitButtonOptions: {
+        loading: true,
+      },
     });
+    posWarehouseEditApi(data)
+      .then(() => {
+        createMessage.success('修改成功');
+        getRoute();
+      })
+      .finally(() => {
+        setProps({
+          submitButtonOptions: {
+            loading: false,
+          },
+        });
+      });
   }
 </script>
