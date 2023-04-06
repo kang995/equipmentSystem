@@ -230,7 +230,7 @@
         }).then((res) => {
           // console.log('res',res)
           // data[index].stock = res.records[0].number;
-          data[index].stock = res.records.length ? res.records[0].number : null;
+          data[index].stock = res.records.length ? res.records[0].number : '0'; //接口返回值为空数组时，仓库显示0
           setTableData(data);
         });
       }
