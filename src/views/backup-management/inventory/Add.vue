@@ -25,7 +25,8 @@
   import { ref, onMounted } from 'vue';
   import { Form, message, Select } from 'ant-design-vue';
   import { postTakeStockAddApi, stockSpareListApi } from '/@/api/backup-management/inventory';
-  import { posWarehouseSpareApi } from '/@/api/backup-management/backup-details';
+  // import { posWarehouseSpareApi } from '/@/api/backup-management/backup-details';
+  import { postWarehouseListApi } from '/@/api/backup-management/backup-details';
   const AFormItemRest = Form.ItemRest;
 
   const { closeCurrent } = useTabs();
@@ -33,19 +34,25 @@
   const router = useRouter();
   const dataSource = ref([{}]);
   const options = ref<any>([]);
-  const WarehouseSelect = ref<any>([]);
+  // const WarehouseSelect = ref<any>([]);
   onMounted(() => {
     funSelect();
   });
   function funSelect() {
-    posWarehouseSpareApi().then((res) => {
-      WarehouseSelect.value = res.records;
+    postWarehouseListApi().then((res) => {
       options.value = res.records.map((v) => {
         return {
           value: v.warehouseId,
           label: v.warehouseName,
         };
       });
+      // WarehouseSelect.value = res.records;
+      // options.value = res.records.map((v) => {
+      //   return {
+      //     value: v.warehouseId,
+      //     label: v.warehouseName,
+      //   };
+      // });
     });
   }
 
