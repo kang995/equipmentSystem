@@ -5,6 +5,7 @@ import { Row, Image, Badge } from 'ant-design-vue';
 import { getDictionarySelectType } from '/@/api/sys/systemSetting/dictionaryType';
 import { getPeopleSelect } from '/@/api/sys/systemSetting/systemType';
 import { posWarehouseSpareApi } from '/@/api/backup-management/backup-details';
+// import dayjs, { Dayjs } from 'dayjs';
 export const tableColumns: BasicColumn[] = [
   {
     title: '设备名称',
@@ -1127,6 +1128,11 @@ export const schemasInventoryAdd: FormSchema[] = [
     required: true,
     componentProps: {
       placeholder: '请选择截止时间',
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      showTime: true,
+      // disabledDate: (current: Dayjs) => {
+      //   return current && current < dayjs().subtract(1, 'day');
+      // },
     },
   },
   {
