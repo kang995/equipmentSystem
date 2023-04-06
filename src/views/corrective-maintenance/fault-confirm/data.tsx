@@ -316,10 +316,12 @@ export function confirmdedDetails(): DescItem[] {
     {
       field: 'description',
       label: '故障描述',
+      contentMinWidth: 600,
     },
     {
       field: 'expression',
       label: '表新症状',
+      contentMinWidth: 600,
     },
     {
       field: 'reason',
@@ -685,6 +687,7 @@ export function confirmdingDetail(troubleDetermine: string, troubleStatus: strin
     {
       field: 'troubleDetermineText',
       label: '确认结果',
+      contentMinWidth: 200,
     },
     //委外维修
     {
