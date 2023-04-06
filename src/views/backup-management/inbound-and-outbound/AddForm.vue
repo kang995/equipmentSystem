@@ -7,6 +7,9 @@
           mode="multiple"
           placeholder="请选择经手人"
           :options="optionsSelect"
+          :show-search="true"
+          :allow-clear="true"
+          option-filter-prop="label"
       /></template>
       <template #tableSlot>
         <BasicTable @register="registerTable">
