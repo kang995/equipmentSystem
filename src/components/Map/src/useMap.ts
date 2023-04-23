@@ -24,7 +24,8 @@ export function useMap(): UseMapReturnType {
       version?: string; // Loca 版本，缺省 1.3.2
     };
   }) {
-    const key = '26e663425c7f341b695d5b5c57d5e07f'; //首次load key为必填
+    // const key = '26e663425c7f341b695d5b5c57d5e07f'; //首次load key为必填
+    const key = 'd11bfe86f5e20e86e5292f5448cf7122'; //替换成公司的key
     const version = '2.0'; // 版本号
     const plugins = ['AMap.Scale', 'AMap.ControlBar', 'AMap.ToolBar']; // 插件
     console.log('plugins', plugins);
