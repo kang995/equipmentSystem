@@ -20,7 +20,12 @@
             },
             {
               label: '删除',
-              onClick: handleDelete.bind(null, index),
+              popConfirm: {
+                title: '是否确认删除',
+                confirm: handleDelete.bind(null, index),
+              },
+              color: 'error',
+              delBtn: true,
             },
           ]"
         />

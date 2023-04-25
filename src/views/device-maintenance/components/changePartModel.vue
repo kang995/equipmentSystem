@@ -19,7 +19,9 @@
   // import { BasicForm, useForm } from '/@/components/Form';
   import { partTableColumns, getPartFormSchema } from './fileld';
   import { getSpartPartListApi } from '/@/api/device-maintenance/work';
+  import { useMessage } from '/@/hooks/web/useMessage';
 
+  const { createMessage } = useMessage();
   const emit = defineEmits(['register', 'eventOpen']);
   const [registerModalc, { closeModal }] = useModalInner(async () => {
     // console.log(111, data);
@@ -69,6 +71,10 @@
   //提交
   async function submitForm() {
     const data = getSelectRows();
+    if (!data.length) {
+      createMessage.warn('至少选择一项！');
+      return;
+    }
     emit('eventOpen', data);
     closeModal();
     // console.log('数据', data);
