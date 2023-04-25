@@ -368,9 +368,13 @@
     // console.log(record);
     // console.log(/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf)$/.test(record.url));
     if (type === '1') {
-      if (/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf|mp4)$/.test(record.url)) {
+      if (/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf|mp4|docx|doc)$/.test(record.url)) {
         console.log(record.url);
-        window.open(record.url);
+        if (/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf|mp4)$/.test(record.url)) {
+          window.open(record.url);
+        } else {
+          window.open(`https://view.officeapps.live.com/op/view.aspx?src=${record.url}`);
+        }
       }
     } else {
       downloadByOssUrl({ url: record.url, fileName: record.name || 'download' });
