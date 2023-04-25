@@ -1,7 +1,7 @@
 <template>
   <div :class="`${prefixCls}`">
     <a-card>
-      <a-row :gutter="16">
+      <a-row :gutter="16" class="pt-8">
         <a-col :span="12">
           <a-card class="h-full">
             <template #title>

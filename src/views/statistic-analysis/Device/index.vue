@@ -19,9 +19,9 @@
     <div class="block">
       <WorkCirculation :year="selectYear" />
     </div>
-    <div class="block">
+    <!-- <div class="block">
       <DepartmentCount :year="selectYear" />
-    </div>
+    </div> -->
   </PageWrapper>
 </template>
 <script setup lang="ts">
@@ -31,7 +31,7 @@
   import WorkCount from './module/WorkCount.vue';
   import TypeCount from './module/TypeCount.vue';
   import WorkCirculation from './module/WorkCirculation.vue';
-  import DepartmentCount from './module/DepartmentCount.vue';
+  // import DepartmentCount from './module/DepartmentCount.vue';
   import dayjs from 'dayjs';
 
   const AYearPicker = DatePicker.YearPicker;
