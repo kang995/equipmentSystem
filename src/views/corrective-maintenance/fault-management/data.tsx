@@ -153,18 +153,19 @@ export function getFormSchema(): FormSchema[] {
       component: 'ApiTreeSelect',
       label: '所属装置设施',
       labelWidth: 96,
-      componentProps: {
-        placeholder: '请选择所属装置设施',
-        api: UnitFacilityApi,
-        // showSearch: true,
-        // optionFilterProp: 'label',
-        fieldNames: {
-          value: 'id',
-          key: 'id',
-          label: 'label',
-          children: 'children',
-        },
-      },
+      slot: 'deviceSlot',
+      // componentProps: {
+      //   placeholder: '请选择所属装置设施',
+      //   api: UnitFacilityApi,
+      //   // showSearch: true,
+      //   // optionFilterProp: 'label',
+      //   fieldNames: {
+      //     value: 'id',
+      //     key: 'id',
+      //     label: 'label',
+      //     children: 'children',
+      //   },
+      // },
     },
     {
       field: 'troubleType',

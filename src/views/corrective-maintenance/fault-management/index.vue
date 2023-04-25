@@ -1,6 +1,21 @@
 <template>
   <PageWrapper>
     <BasicTable @register="register">
+      <!-- 所属装置设施 -->
+      <template #form-deviceSlot="{ model, field }">
+        <a-tree-select
+          v-model:value="model[field]"
+          :tree-data="gasList"
+          :dropdownMatchSelectWidth="false"
+          placeholder="请选择所属装置设施"
+          :fieldNames="{
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
+          }"
+        />
+      </template>
       <template #action="{ record }">
         <TableAction
           :divider="false"
@@ -66,13 +81,16 @@
   import { Tooltip } from 'ant-design-vue';
   import { downloadByData } from '/@/utils/file/download';
   import { useMessage } from '/@/hooks/web/useMessage';
+  import { TreeSelect } from 'ant-design-vue';
   import {
     TroubleListApi,
     TroubleExportApi,
     TroubleRemoveApi,
+    UnitFacilityApi,
   } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
   import { getTimeByType } from '/@/utils/public';
+  const ATreeSelect = TreeSelect;
   const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
@@ -147,6 +165,23 @@
       '5': getTimeByType('year'),
     }[num];
   }
+
+  // 添加disabled
+  const handleDisabled = (tree) => {
+    tree &&
+      tree.forEach((node) => {
+        if (node.type && node.type !== 2) {
+          //type为2才可选择
+          node.disabled = true;
+          node.children && handleDisabled(node.children);
+        }
+      });
+    return tree;
+  };
+  const gasList = ref<any>([]);
+  UnitFacilityApi().then((res) => {
+    gasList.value = handleDisabled(res);
+  });
 
   //新增
   function handleAdd() {
