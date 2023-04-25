@@ -185,6 +185,7 @@
         mode: '1', //保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
         id: record.id,
         fullSubmitId: record.fullSubmitId, //审批流程id
+        planStatus: record.planStatus, //计划状态:1：未开始；2：进行中；3：已停止；4：已完成
       },
     });
   }

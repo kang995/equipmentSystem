@@ -39,7 +39,10 @@
         <a-button v-if="status !== '4'" class="m-4" @click="handleBack">取消</a-button>
         <a-button v-if="status === '1'" type="primary" @click="handleSubmit(mode)">提交</a-button>
         <a-button v-if="status === '2'" type="primary" @click="handleRecall(mode)">撤回</a-button>
-        <a-button v-if="status === '3'" type="primary" @click="handleStopPlan(mode)"
+        <a-button
+          v-if="status === '3' && planStatus !== '3'"
+          type="primary"
+          @click="handleStopPlan(mode)"
           >停止计划</a-button
         >
       </template>
@@ -53,7 +56,10 @@
         <a-button v-if="status !== '4'" class="m-4" @click="handleBack">取消</a-button>
         <a-button v-if="status === '1'" type="primary" @click="handleSubmit(mode)">提交</a-button>
         <a-button v-if="status === '2'" type="primary" @click="handleRecall(mode)">撤回</a-button>
-        <a-button v-if="status === '3'" type="primary" @click="handleStopPlan(mode)"
+        <a-button
+          v-if="status === '3' && planStatus !== '3'"
+          type="primary"
+          @click="handleStopPlan(mode)"
           >停止计划</a-button
         >
       </template>
@@ -109,6 +115,7 @@
   const status = route.query?.status as string;
   const mode = route.query?.mode as string;
   const id = route.query?.id as string;
+  const planStatus = route.query?.planStatus as string;
 
   const [planModal, { openModal: openPlanModal }] = useModal();
   const [RecallModal, { openModal: openRecallModal }] = useModal();
