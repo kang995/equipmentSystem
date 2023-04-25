@@ -136,7 +136,7 @@ export function tableColumns(): BasicColumn[] {
     },
     {
       title: '处理人',
-      dataIndex: 'chargePeopleName',
+      dataIndex: 'dealUserNames',
     },
     {
       title: '完成时间',
