@@ -40,7 +40,7 @@
   import { deviceTableColumns } from '../data';
   const AInputNumber = InputNumber;
   const router = useRouter();
-  const dataSource = ref([]);
+  const dataSource = ref<any>([]);
   const [registerPartModal, { openModal: openPartModal }] = useModal();
   const [registerTable, { getDataSource, setTableData }] = useTable({
     dataSource: dataSource,
@@ -63,8 +63,10 @@
   }
   //备件回显
   function handleEcho(data) {
-    dataSource.value = data;
-    console.log('data', data);
+    // dataSource.value = data;
+    const DataArr = getDataSource();
+    dataSource.value = DataArr.push(...data);
+    console.log('dataSource.value', dataSource.value);
   }
   //提交处理结果
   function handleSubmitSpare() {
