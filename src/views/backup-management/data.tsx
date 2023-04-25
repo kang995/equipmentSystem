@@ -846,7 +846,7 @@ export const inboundAddTable: BasicColumn[] = [
     slots: { customRender: 'stockSlot' },
   },
   {
-    title: '使用数量',
+    title: '出库数量',
     dataIndex: 'numberInput',
     slots: { customRender: 'inputSlot' },
   },
@@ -880,7 +880,7 @@ export const AddTable: BasicColumn[] = [
     slots: { customRender: 'stockSlot' },
   },
   {
-    title: '使用数量',
+    title: '入库数量',
     dataIndex: 'numberInput',
     slots: { customRender: 'inputSlot' },
   },
