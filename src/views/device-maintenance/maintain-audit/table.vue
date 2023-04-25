@@ -17,8 +17,11 @@
             label: '详情',
             onClick: handleAudit.bind(null, record),
             ifShow: () => {
-              return record.approvalStatus !== '2';
+              return record.detailButtonShow === true;
             },
+            // ifShow: () => {
+            //   return record.approvalStatus !== '2';
+            // },
           },
         ]"
       />
