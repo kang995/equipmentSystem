@@ -1,10 +1,10 @@
 <template>
   <PageWrapper contentBackground contentClass="p-4">
     <Descriptions size="default" :column="1" :bordered="true" :label-style="{ width: '150px' }">
-      <!-- <DescriptionsItem label="管理范围"> -->
-      <!-- <a-radio-group v-model:value="checkBoxValue" :options="options" @change="checkChange" /> -->
-      <!-- </DescriptionsItem> -->
-      <DescriptionsItem label="部门选择" v-if="checkBoxValue === '4'">
+      <DescriptionsItem label="管理范围">
+        <a-radio-group v-model:value="checkBoxValue" :options="options" @change="checkChange" />
+      </DescriptionsItem>
+      <DescriptionsItem label="部门选择">
         <a-tree-select
           v-model:value="selectValue"
           show-search
@@ -14,6 +14,7 @@
           :show-checked-strategy="TreeSelect.SHOW_ALL"
           allow-clear
           multiple
+          :disabled="deptSelect"
           tree-default-expand-all
           :tree-data="deptData"
           :filterTreeNode="onSearch"
@@ -39,29 +40,30 @@
 <script lang="ts" setup>
   import { useRoute } from 'vue-router';
   import { onMounted, ref } from 'vue';
-  import { Descriptions, TreeSelect } from 'ant-design-vue';
+  import { Descriptions, TreeSelect, RadioGroup } from 'ant-design-vue';
   import { BasicTree } from '/@/components/Tree';
   import { PageWrapper } from '/@/components/Page';
   import {
     addPermGroupApi,
     detailPermGroupApi,
-    getUserGroupDetailApi,
+    // getUserGroupDetailApi,
   } from '/@/api/systemSetting/userGroupManagement';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { router } from '/@/router';
   import {
     addRoleMenuDetail,
     getRoleMenuDetail,
-    getRoleTreeDetail,
+    // getRoleTreeDetail,
     getDeptTreeApi,
   } from '/@/api/systemSetting/roleManagement';
   import { getDictionarySelectTypeApi } from '/@/api/device-maintenance';
   const ATreeSelect = TreeSelect;
-  // const ARadioGroup = RadioGroup;
+  const ARadioGroup = RadioGroup;
   const DescriptionsItem = Descriptions.Item;
   const route = useRoute();
   const options = ref<any['options']>([]);
   const checkBoxValue = ref('1');
+  const deptSelect = ref(true);
   const checkedKeys = ref([]);
   const selectValue = ref([]);
   const { createMessage } = useMessage();
@@ -85,16 +87,16 @@
     });
   });
   const treeData = ref([]);
-  if (route.query.name === 'userGroup') {
-    // 获取功能权限树
-    getUserGroupDetailApi(id).then((res) => {
-      treeData.value = res.trees ? res.trees : [];
-    });
-  } else {
-    getRoleTreeDetail(id).then((res) => {
-      treeData.value = res.trees ? res.trees : [];
-    });
-  }
+  // if (route.query.name === 'userGroup') {
+  //   // 获取功能权限树
+  //   getUserGroupDetailApi(id).then((res) => {
+  //     treeData.value = res.trees ? res.trees : [];
+  //   });
+  // } else {
+  //   getRoleTreeDetail(id).then((res) => {
+  //     treeData.value = res.trees ? res.trees : [];
+  //   });
+  // }
 
   //选中复选框方法
   let halfCheckedKey = [] as string[];
@@ -147,22 +149,29 @@
   }
   // 回显
   onMounted(() => {
+    getDetail();
+  });
+  function getDetail() {
     if (route.query.name === 'userGroup') {
       detailPermGroupApi(id).then((res) => {
+        treeData.value = res.trees ? res.trees : []; // 获取功能权限树
         checkBoxValue.value = res.dataScope;
         selectValue.value = res.deptIds === null ? [] : res.deptIds;
+        deptSelect.value = res.dataScope === '2' ? false : true;
         if (res.baseCode) checkedKeys.value = JSON.parse(res.baseCode);
       });
     } else {
       getRoleMenuDetail(id).then((res) => {
+        treeData.value = res.trees ? res.trees : []; // 获取功能权限树
         checkBoxValue.value = res.dataScope;
+        deptSelect.value = res.dataScope === '2' ? false : true;
         selectValue.value = res.deptIds === null ? [] : res.deptIds;
         const keys = getkey(res.trees);
         const baseCodeList = delParent(keys, res.baseCodeList);
         checkedKeys.value = baseCodeList;
       });
     }
-  });
+  }
   //获取父级id
   function getkey(trees) {
     const keys = [] as any;
@@ -185,5 +194,13 @@
       });
     });
     return res;
+  }
+  function checkChange() {
+    if (checkBoxValue.value !== '2') {
+      selectValue.value = [];
+      deptSelect.value = true;
+    } else {
+      deptSelect.value = false;
+    }
   }
 </script>
