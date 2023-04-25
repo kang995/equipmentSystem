@@ -480,11 +480,11 @@ export const equipmentDescItem: DescItem[] = [
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'medium',
     label: '介质',
   },
   {
-    field: 'hazardTypeText',
+    field: 'subjectTexture',
     label: '主体材质',
   },
 
@@ -529,14 +529,14 @@ export const equipmentDescItem: DescItem[] = [
   },
 
   {
-    field: 'hazardTypeText',
+    field: 'pressure',
     label: '操作压力（MPa）',
     show: (data) => {
       return data.deviceNature == '1';
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'temperature',
     label: '操作温度（°C）',
     show: (data) => {
       return data.deviceNature == '1';
@@ -544,21 +544,21 @@ export const equipmentDescItem: DescItem[] = [
   },
 
   {
-    field: 'hazardTypeText',
+    field: 'designPres',
     label: '设计压力（MPa）',
     show: (data) => {
       return data.deviceNature == '1';
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'designTemp',
     label: '设计温度（°C）',
     show: (data) => {
       return data.deviceNature == '1';
     },
   },
   {
-    field: 'hazardTypeText',
+    field: 'position',
     label: '地理位置',
   },
   {
