@@ -1036,12 +1036,22 @@ export const inventoryColumns: BasicColumn[] = [
     dataIndex: 'stockCode',
   },
   {
-    title: '盘点单名称',
+    title: '盘点名称',
     dataIndex: 'stockName',
+    customRender: ({ text }) => {
+      return text ? text : '--';
+    },
   },
   {
     title: '创建人',
     dataIndex: 'createBy',
+  },
+  {
+    title: '创建时间',
+    dataIndex: 'createTime',
+    customRender: ({ text }) => {
+      return text ? text : '--';
+    },
   },
   {
     title: '状态',
