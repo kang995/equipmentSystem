@@ -630,10 +630,10 @@ export function getPostponeFormSchema(): FormSchema[] {
     {
       field: 'reason',
       component: 'InputTextArea',
-      label: '拒绝原因',
+      label: '原因',
       required: true,
       componentProps: {
-        placeholder: '请输入拒绝原因',
+        placeholder: '请输入原因',
         rows: 4,
       },
     },
