@@ -91,6 +91,7 @@
         key: v.id,
         title: v.label,
         children: v?.children,
+        type: v.type,
       };
     });
     return data;
@@ -110,6 +111,10 @@
       item['disabled'] = targetKeys.includes(item.key as any);
       if (item.children) {
         handleTreeData(item.children, targetKeys);
+      }
+      //type：1、区域 2、装置设施 3、设备
+      if (item.type && item.type !== 3) {
+        item.disabled = true;
       }
     });
     return data;
