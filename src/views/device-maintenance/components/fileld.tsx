@@ -104,8 +104,8 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
       field: 'adventRemind',
       label: '临期提醒',
       render: (_curVal, data) => {
-        if (data.adventRemindUnit && data.adventRemindUnitText) {
-          return `${data.adventRemindUnit}/${data.adventRemindUnitText}`;
+        if (data.adventRemind && data.adventRemindUnitText) {
+          return `${data.adventRemind}/${data.adventRemindUnitText}`;
         } else {
           return '';
         }
@@ -115,8 +115,8 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
       field: 'timeoutRemind',
       label: '超时提醒间隔',
       render: (_curVal, data) => {
-        if (data.adventRemindUnit && data.adventRemindUnitText) {
-          return `${data.timeoutRemindUnit}/${data.timeoutRemindUnitText}`;
+        if (data.timeoutRemind && data.timeoutRemindUnitText) {
+          return `${data.timeoutRemind}/${data.timeoutRemindUnitText}`;
         } else {
           return '';
         }
