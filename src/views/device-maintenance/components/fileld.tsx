@@ -137,9 +137,20 @@ export function MaintainDetail(_state: string, mode: string): DescItem[] {
       //   }
       // },
     },
+    //根据任务指派判断处理部门或者处理岗位
+    {
+      field: 'dealStationName',
+      label: '处理岗位',
+      show: (values) => {
+        return values.designateType === '2' ? true : false;
+      },
+    },
     {
       field: 'dealDeptName',
       label: '处理部门',
+      show: (values) => {
+        return values.designateType === '1' ? true : false;
+      },
     },
     {
       field: 'dealUserName',
