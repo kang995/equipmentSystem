@@ -777,7 +777,7 @@ export function schemasAdd(dataSource: string): FormSchema[] {
       },
     },
     {
-      field: 'specifModels',
+      field: 'facilityModel',
       component: 'Input',
       label: '设备型号',
       componentProps: {
