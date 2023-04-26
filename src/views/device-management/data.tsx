@@ -25,6 +25,7 @@ import {
   contingencyLevelSelectApi,
 } from '/@/api/device-management/special-equipment';
 import { getBlob, saveAs } from '/@/utils/downloadFile';
+import dayjs, { Dayjs } from 'dayjs';
 
 export const installationColumns: BasicColumn[] = [
   {
@@ -1019,6 +1020,11 @@ export const testingAdd: FormSchema[] = [
     required: true,
     componentProps: {
       placeholder: '请选择检测时间',
+      valueFormat: 'YYYY-MM-DD HH:mm:ss',
+      showTime: true,
+      disabledDate: (current: Dayjs) => {
+        return current && current < dayjs().subtract(1, 'day');
+      },
     },
   },
   {
