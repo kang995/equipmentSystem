@@ -378,7 +378,7 @@
 </script>
 
 <style lang="less" scoped>
-  ::v-deep(.ant-form-item .ant-select) {
+  ::v-deep(.ant-pagination .ant-select) {
     width: auto;
   }
 </style>
