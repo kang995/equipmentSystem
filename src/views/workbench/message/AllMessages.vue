@@ -88,7 +88,7 @@
   const { prefixCls } = useDesign('custom-messages');
   const DescriptionsItem = Descriptions.Item;
   const resetButtonOptions = { preIcon: 'gonggong_zhongzhi|svg' } as ButtonProps;
-  const submitButtonOptions = { preIcon: 'gonggong_sousuo|svg' } as ButtonProps;
+  const submitButtonOptions = { preIcon: 'sousuo|svg' } as ButtonProps;
 
   const { createMessage } = useMessage();
   const descriptionsList = ref<any>([]);
@@ -295,7 +295,7 @@
             createMessage.success('删除成功');
             // 更新未读消息数量
             userStore.refreshMessageCount();
-            // clearSelectedRowKeys();
+            reload();
           });
         }
       },
