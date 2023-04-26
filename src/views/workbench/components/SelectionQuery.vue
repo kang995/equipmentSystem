@@ -30,7 +30,7 @@
   import { schemasSearch } from '../props';
   import { ButtonProps } from '/@/components/Button';
   import { DatePicker, Form, Space } from 'ant-design-vue';
-  const submitButtonOptions = { preIcon: 'gonggong_sousuo|svg' } as ButtonProps;
+  const submitButtonOptions = { preIcon: 'sousuo|svg' } as ButtonProps;
   const emit = defineEmits(['submitFunc', 'register']);
   const ASpace = Space;
   const ADatePicker = DatePicker;

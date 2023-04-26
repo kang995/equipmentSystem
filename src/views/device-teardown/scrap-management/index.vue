@@ -114,7 +114,7 @@
         preIcon: 'gonggong_zhongzhi|svg',
       },
       submitButtonOptions: {
-        preIcon: 'gonggong_sousuo|svg',
+        preIcon: 'sousuo|svg',
       },
       baseColProps: {
         span: 6,

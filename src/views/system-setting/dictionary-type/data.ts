@@ -60,7 +60,7 @@ export function dictionaryTypeFormConfig(submitFunc: () => Promise<void>): Parti
       preIcon: 'gonggong_zhongzhi|svg',
     },
     submitButtonOptions: {
-      preIcon: 'gonggong_sousuo|svg',
+      preIcon: 'sousuo|svg',
     },
     fieldMapToTime: [
       //更改RangePicker的返回字段
