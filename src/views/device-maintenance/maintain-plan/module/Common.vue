@@ -418,4 +418,8 @@
   }
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  ::v-deep(.ant-form-item .ant-select) {
+    width: auto;
+  }
+</style>
