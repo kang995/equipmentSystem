@@ -7,7 +7,12 @@
         </div>
       </template>
       <template #useNumSlot="{ record }">
-        <a-input-number placeholder="请输入数量" v-model:value="record.useNum" />
+        <a-input-number
+          placeholder="请输入数量"
+          :min="1"
+          :max="99999999"
+          v-model:value="record.useNum"
+        />
       </template>
       <template #action="{ record, index }">
         <TableAction
@@ -43,6 +48,8 @@
   import PartModel from '/@/views/device-maintenance/components/changePartModel.vue';
   import { useRouter } from 'vue-router';
   import { deviceTableColumns } from '../data';
+  // import { useMessage } from '/@/hooks/web/useMessage';
+  // const { createMessage } = useMessage();
   const AInputNumber = InputNumber;
   const router = useRouter();
   const dataSource = ref<any>([]);
@@ -62,15 +69,20 @@
     },
   });
   //选择备件
+  const targetKeys = ref<any>([]);
   function handleOpen() {
-    // console.log('表格数据',getDataSource())
-    openPartModal(true);
+    const data = getDataSource();
+    const ids = [] as any; //deviceId
+    data.map((v) => {
+      ids.push(v.id);
+    });
+    targetKeys.value = Array.from(new Set(ids));
+    openPartModal(true, targetKeys.value);
   }
   //备件回显
   function handleEcho(data) {
-    // dataSource.value = data;
-    const DataArr = getDataSource();
-    dataSource.value = DataArr.push(...data);
+    const arr = data.map((item) => ({ ...item })); //deepCopy
+    dataSource.value.push(...arr);
     console.log('dataSource.value', dataSource.value);
   }
   //提交处理结果
@@ -97,6 +109,13 @@
       },
     });
   }
+  //使用数量
+  // function handleChange(value: number | string,index:number){
+  //   console.log('value',value,index)
+  //   if (Number(value) > dataSource.value[index].inventorySum) {
+  //     createMessage.warn('使用数量不能大于库存数量！');
+  //   }
+  // }
   defineExpose({
     handleSubmitSpare,
   });

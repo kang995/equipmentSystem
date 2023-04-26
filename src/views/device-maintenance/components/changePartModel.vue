@@ -2,8 +2,8 @@
   <BasicModal
     v-bind="$attrs"
     title="选择备件"
-    :destroy-on-close="true"
     :mask-closable="false"
+    :canFullscreen="false"
     @ok="submitForm"
     @cancel="goBack"
     width="1200px"
@@ -23,10 +23,11 @@
 
   const { createMessage } = useMessage();
   const emit = defineEmits(['register', 'eventOpen']);
-  const [registerModalc, { closeModal }] = useModalInner(async () => {
-    // console.log(111, data);
+  const [registerModalc, { closeModal }] = useModalInner(async (data) => {
+    console.log('data', data);
+    setSelectedRowKeys(data);
   });
-  const [registerTable, { getSelectRows }] = useTable({
+  const [registerTable, { getSelectRows, setSelectedRowKeys }] = useTable({
     // dataSource: dataSource,
     api: getSpartPartListApi,
     columns: partTableColumns(),
@@ -71,6 +72,7 @@
   //提交
   async function submitForm() {
     const data = getSelectRows();
+    console.log('data', data);
     if (!data.length) {
       createMessage.warn('至少选择一项！');
       return;
