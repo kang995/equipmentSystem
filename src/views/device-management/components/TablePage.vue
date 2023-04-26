@@ -37,7 +37,7 @@
     textExport?: string;
   }>();
 
-  const [register, { getSelectRowKeys, reload, getRawDataSource }] = useTable({
+  const [register, { getSelectRowKeys, reload, getRawDataSource, setLoading }] = useTable({
     api: props.api,
     searchInfo: {
       deviceId,
@@ -96,6 +96,7 @@
   }
   defineExpose({
     reload,
+    setLoading,
   });
 </script>
 <style scoped lang="less"></style>

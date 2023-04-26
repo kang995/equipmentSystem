@@ -30,6 +30,7 @@ enum Api {
   RECORD_LIST = '/specialRecord/list', //分页查询特种设备检测记录
   RECORD_DETAIL = '/specialRecord/detail',
   RECORD_EXPORT = '/specialRecord/export', //批量导出
+  RECORD_REMOVE = '/specialRecord/remove', //删除
   //更换备件记录
   SPARE_LIST = '/mechanical/orderSpare/list',
   //关联备件
@@ -211,6 +212,12 @@ export const postSpecialRExportApi = (params) =>
     },
     { isTransformResponse: false },
   );
+//删除
+export const postSpecialRemovetApi = (params) =>
+  defHttp.post({
+    url: Api.RECORD_REMOVE,
+    params,
+  });
 
 //关联备件
 //分页查询设备关联备件列表
