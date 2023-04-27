@@ -316,22 +316,22 @@
       typeList.push('JPG');
     }
     if (props.accept.includes('jpeg')) {
-      typeList.push('PNG');
-    }
-    if (props.accept.includes('jpg')) {
       typeList.push('JPEG');
     }
     if (props.accept.includes('pdf')) {
       typeList.push('PDF');
     }
-    if (props.accept.includes('rar')) {
-      typeList.push('RAR');
-    }
-    if (props.accept.includes('zip')) {
-      typeList.push('ZIP');
-    }
+    // if (props.accept.includes('rar')) {
+    //   typeList.push('RAR');
+    // }
+    // if (props.accept.includes('zip')) {
+    //   typeList.push('ZIP');
+    // }
     if (props.accept.includes('image/*')) {
       typeList.push(...['jpg', 'jpeg', 'png', 'GIF', 'JPG', 'PNG']);
+    }
+    if (props.accept.includes('application/msword')) {
+      typeList.push(...['DOCX', 'DOC', 'PPTX', 'PPT', 'XLSX', 'XLS']);
     }
     const fileType: string = file.name.split('.').pop() as string;
     const fileSize: number = file.size / 1024 / 1024;
@@ -368,7 +368,7 @@
     // console.log(record);
     // console.log(/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf)$/.test(record.url));
     if (type === '1') {
-      if (/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf|mp4|docx|doc)$/.test(record.url)) {
+      if (/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf|mp4|docx|doc|pptx|ppt|xlsx|xls)$/.test(record.url)) {
         console.log(record.url);
         if (/\.(jpg|jpeg|png|GIF|JPG|PNG|pdf|mp4)$/.test(record.url)) {
           window.open(record.url);

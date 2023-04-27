@@ -199,6 +199,7 @@ export function schemasAdd(routeId, codeId?): FormSchema[] {
         maxSize: 5,
         type: '',
         helpText: '请上传附件',
+        accept: '.docx,.doc,.pptx,.ppt,.xlsx,.xls,.pdf,application/msword',
       },
     },
     {
