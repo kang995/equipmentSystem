@@ -8,7 +8,6 @@
           :tree-data="gasList"
           @change="handleChangeTree"
           :dropdownMatchSelectWidth="false"
-          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
           show-search
           allow-clear
           treeNodeFilterProp="label"
