@@ -8,6 +8,10 @@
           :tree-data="gasList"
           @change="handleChangeTree"
           :dropdownMatchSelectWidth="false"
+          :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
+          show-search
+          allow-clear
+          treeNodeFilterProp="label"
           placeholder="请选择设备"
           :fieldNames="{
             value: 'id',

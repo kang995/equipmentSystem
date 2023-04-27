@@ -82,7 +82,7 @@ export function schemasAdd(location, routeId): FormSchema[] {
     {
       field: 'deviceId',
       label: '拆除设备',
-      component: 'ApiTreeSelect',
+      component: 'Input',
       required: true,
       ifShow: routeId ? false : true,
       slot: 'deviceSlot',
