@@ -208,7 +208,7 @@
     submitFunc: sumitForm,
     fieldMapToTime: [
       //更改RangePicker的返回字段
-      ['Time', ['effectStartDate', 'effectEndDate'], 'YYYY-MM-DD'],
+      ['Time', ['effectStartDate', 'effectEndDate'], 'YYYY-MM-DD HH:mm:ss'],
     ],
   });
   const AFormItemRest = Form.ItemRest;
