@@ -238,6 +238,7 @@
         createMessage.success('已读');
         // 更新未读消息数量
         await userStore.refreshMessageCount();
+        reload();
       } else if (state == '3') {
         createMessage.success('标记成功');
         reload();
