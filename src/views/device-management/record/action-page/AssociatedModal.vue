@@ -17,6 +17,9 @@
   import { postBackupListApi, postBackupOutListApi } from '/@/api/backup-management/backup';
   import { tableColumns, formSchema } from '../../data';
   import { useRoute } from 'vue-router';
+  import { useMessage } from '/@/hooks/web/useMessage';
+
+  const { createMessage } = useMessage();
   const route = useRoute();
   const state = route.query.state;
 
@@ -61,6 +64,10 @@
   function handleOk() {
     const ids = getSelectRowKeys();
     const data = getSelectRows();
+    if (!data.length) {
+      createMessage.warn('至少选择一项！');
+      return;
+    }
     emit('handleOk', ids, data);
   }
 </script>

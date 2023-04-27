@@ -72,14 +72,12 @@
   //提交
   async function submitForm() {
     const data = getSelectRows();
-    console.log('data', data);
     if (!data.length) {
       createMessage.warn('至少选择一项！');
       return;
     }
     emit('eventOpen', data);
     closeModal();
-    // console.log('数据', data);
   }
   //取消
   async function goBack() {

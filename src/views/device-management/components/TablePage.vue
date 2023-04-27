@@ -37,42 +37,43 @@
     textExport?: string;
   }>();
 
-  const [register, { getSelectRowKeys, reload, getRawDataSource, setLoading }] = useTable({
-    api: props.api,
-    searchInfo: {
-      deviceId,
-      dataSource: props.ifDataSource ? dataSource : '',
-    },
-    columns: props.columns,
-    rowKey: 'id',
-    useSearchForm: true,
-    inTabs: true, //取消table搜索form顶部边框及圆角
-    rowSelection: {
-      type: 'checkbox',
-      columnWidth: 60,
-    },
-    actionColumn: {
-      title: '操作',
-      dataIndex: 'action',
-      slots: { customRender: 'action' },
-    },
-    formConfig: {
-      schemas: props.formSchema,
-      autoSubmitOnEnter: true,
-      resetButtonOptions: {
-        preIcon: 'gonggong_zhongzhi|svg',
+  const [register, { getSelectRowKeys, reload, getRawDataSource, setLoading, getDataSource }] =
+    useTable({
+      api: props.api,
+      searchInfo: {
+        deviceId,
+        dataSource: props.ifDataSource ? dataSource : '',
       },
-      submitButtonOptions: {
-        preIcon: 'sousuo|svg',
+      columns: props.columns,
+      rowKey: 'id',
+      useSearchForm: true,
+      inTabs: true, //取消table搜索form顶部边框及圆角
+      rowSelection: {
+        type: 'checkbox',
+        columnWidth: 60,
       },
-      baseColProps: {
-        span: 6,
+      actionColumn: {
+        title: '操作',
+        dataIndex: 'action',
+        slots: { customRender: 'action' },
       },
-      rowProps: {
-        gutter: 16,
+      formConfig: {
+        schemas: props.formSchema,
+        autoSubmitOnEnter: true,
+        resetButtonOptions: {
+          preIcon: 'gonggong_zhongzhi|svg',
+        },
+        submitButtonOptions: {
+          preIcon: 'sousuo|svg',
+        },
+        baseColProps: {
+          span: 6,
+        },
+        rowProps: {
+          gutter: 16,
+        },
       },
-    },
-  });
+    });
 
   function exportTable() {
     const ids = getSelectRowKeys();
@@ -97,6 +98,7 @@
   defineExpose({
     reload,
     setLoading,
+    getDataSource,
   });
 </script>
 <style scoped lang="less"></style>

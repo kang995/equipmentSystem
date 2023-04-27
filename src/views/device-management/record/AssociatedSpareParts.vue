@@ -65,8 +65,16 @@
       },
     });
   }
+  //关联备件
+  const targetKeys = ref<any>([]);
   function getModal() {
-    openModal(true);
+    const data = spareRef.value.getDataSource();
+    const ids = [] as any; //deviceId
+    data.map((v) => {
+      ids.push(v.id);
+    });
+    targetKeys.value = Array.from(new Set(ids));
+    openModal(true, targetKeys.value);
   }
   function handleOk(ids, _data) {
     // console.log('ids: ', ids);
