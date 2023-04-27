@@ -47,7 +47,7 @@
         >
       </template>
       <!-- 保养计划审核 -->
-      <template v-if="mode === '2' && status === '2'">
+      <template v-if="mode === '2' && approvalButtonShow">
         <a-button class="m-4" @click="handleOpenModel('1')">拒绝</a-button>
         <a-button type="primary" @click="handleOpenModel('2')">同意</a-button>
       </template>
@@ -64,7 +64,7 @@
         >
       </template>
       <!-- 检修计划审核 -->
-      <template v-if="mode === '4' && status === '2'">
+      <template v-if="mode === '4' && approvalButtonShow">
         <a-button class="m-4" @click="handleOpenModel('1')">拒绝</a-button>
         <a-button type="primary" @click="handleOpenModel('2')">同意</a-button>
       </template>
@@ -236,12 +236,14 @@
   });
 
   const AuditStatus = ref<any>();
+  const approvalButtonShow = ref<any>();
   //保养计划管理、保养计划审核详情
   function getMaintainDetail() {
     getPlanDetailApi({ id }).then((res) => {
       dataSource.value = res;
       // 审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
       AuditStatus.value = res.approvalStatus;
+      approvalButtonShow.value = res.approvalButtonShow;
     });
   }
   //检修计划管理、检修计划审核详情
@@ -250,6 +252,7 @@
       dataSource.value = res;
       // 审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
       AuditStatus.value = res.approvalStatus;
+      approvalButtonShow.value = res.approvalButtonShow;
     });
   }
 </script>
