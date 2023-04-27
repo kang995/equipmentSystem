@@ -81,6 +81,11 @@
       flatten(JSON.parse(JSON.stringify(tData.value)));
     });
   }
+  //拼接label
+  function initFun(lable, scrapOrRemove) {
+    const labelName = scrapOrRemove === '1' ? '报废' : '拆除';
+    return scrapOrRemove ? `${lable}（${labelName}）` : `${lable}`;
+  }
   function getData(res) {
     const data = res.map((v) => {
       if (v.children) {
@@ -89,9 +94,11 @@
       }
       return {
         key: v.id,
-        title: v.label,
+        // title: v.label,
+        title: initFun(v.label, v.scrapOrRemove),
         children: v?.children,
         type: v.type,
+        scrapOrRemove: v.scrapOrRemove, //scrapOrRemove:"1：报废  2：拆除"
       };
     });
     return data;
@@ -115,6 +122,8 @@
       //type：1、区域 2、装置设施 3、设备
       if (item.type && item.type !== 3) {
         item.disabled = true;
+      } else {
+        item.scrapOrRemove ? (item.disabled = true) : (item.disabled = false);
       }
     });
     return data;
