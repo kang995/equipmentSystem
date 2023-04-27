@@ -3,7 +3,11 @@ import { DescItem } from '/@/components/Description';
 // import { BasicTable, useTable, TableAction } from '/@/components/Table';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
-import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
+import {
+  getDictionarySelectTypeApi,
+  getPersonSelectApi,
+  getRelevanceApi,
+} from '/@/api/device-maintenance/index';
 import { upkeepShowApi } from '/@/api/device-maintenance/work';
 import { Badge } from 'ant-design-vue';
 export interface TabItem {
@@ -229,6 +233,24 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         // showTime: true,
         format: 'YYYY-MM-DD',
+      },
+    },
+    {
+      field: 'upkeepPlanId',
+      component: 'ApiSelect',
+      label: '关联计划',
+      labelWidth: 96,
+      componentProps: {
+        placeholder: '请选择关联计划',
+        api: getRelevanceApi,
+        // params: {
+        //   type: 'DELAY_FLAG',
+        // },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];

@@ -79,10 +79,13 @@
   function handleOk(ids, _data) {
     // console.log('ids: ', ids);
     // dataSource.value = data;
-    SpareAddApi({ ids, deviceId }).then(() => {
-      closeModal();
-      spareRef.value.reload();
-    });
+    SpareAddApi({ ids, deviceId })
+      .then(() => {
+        spareRef.value.reload();
+      })
+      .finally(() => {
+        closeModal();
+      });
   }
   //移除
   function handleDel({ record }) {

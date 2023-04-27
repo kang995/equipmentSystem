@@ -3,7 +3,11 @@ import { DescItem } from '/@/components/Description';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 import { Image, Tag, Badge, Row } from 'ant-design-vue';
-import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
+import {
+  getDictionarySelectTypeApi,
+  getPersonSelectApi,
+  getRelevancesApi,
+} from '/@/api/device-maintenance/index';
 import { whetherShowApi } from '/@/api/device-service/service';
 
 export interface TabItem {
@@ -239,6 +243,24 @@ export function getFormSchema(): FormSchema[] {
       componentProps: {
         // showTime: true,
         format: 'YYYY-MM-DD',
+      },
+    },
+    {
+      field: 'overhaulPlanId',
+      component: 'ApiSelect',
+      label: '关联计划',
+      labelWidth: 96,
+      componentProps: {
+        placeholder: '请选择关联计划',
+        api: getRelevancesApi,
+        // params: {
+        //   type: 'DELAY_FLAG',
+        // },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];

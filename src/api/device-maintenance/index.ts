@@ -21,6 +21,8 @@ enum Api {
   PLAN_LIST_REUPDATE = '/upkeepPlan/anew/update', //重新编辑保养计划
   PLAN_DETAIL = '/upkeepPlan/detail', //保养计划详情
   SELECT_LIST_DEVICE = '/upkeepPlan/device/list', //查询保养设备
+  SELECT_LIST_RELEVANCE = '/mechanical/upkeepPlan/select', //保养工单-关联计划
+  SELECT_LIST_RELEVANCES = '/mechanical/overhaulPlan/select', //检修工单-关联计划
   //保养计划审核
   PROCESSING_LIST = '/upkeepPlan/pend/list', //待处理列表
   PROCESSED_LIST = '/upkeepPlan/deal/list', //已处理列表
@@ -29,6 +31,16 @@ enum Api {
   FULL_SUBMITID = '/workflow/myWorkflow/', //审批流程
 }
 
+//保养工单-关联计划
+export const getRelevanceApi = () =>
+  defHttp.post({
+    url: Api.SELECT_LIST_RELEVANCE,
+  });
+//检修工单-关联计划
+export const getRelevancesApi = () =>
+  defHttp.post({
+    url: Api.SELECT_LIST_RELEVANCES,
+  });
 //关联审批下拉
 export const getWorkFlowApi = () =>
   defHttp.post({
