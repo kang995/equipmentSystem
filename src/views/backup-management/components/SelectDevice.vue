@@ -61,6 +61,7 @@
   const emit = defineEmits(['handleOk', 'register']);
   const [registerModal] = useModalInner(async (data) => {
     targetKeys.value = data;
+    isNotShow.value = true;
   });
 
   const targetKeys = ref<any>([]);
