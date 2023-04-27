@@ -24,12 +24,14 @@
         height: '400px',
       }"
       :render="(item) => item.title"
-      :showSelectAll="false"
+      :show-select-all="true"
+      :show-search="true"
       @change="onChange"
+      @search="handleSearch"
     >
       <template #children="{ direction, selectedKeys, onItemSelect }">
         <Tree
-          v-if="direction === 'left'"
+          v-if="direction === 'left' && isNotShow"
           block-node
           checkable
           check-strictly
@@ -62,6 +64,7 @@
   });
 
   const targetKeys = ref<any>([]);
+  let isNotShow = ref<boolean>(true);
   let tData: any = ref([]);
 
   //确认
@@ -138,8 +141,19 @@
     const { eventKey } = e.node;
     onItemSelect(eventKey, !isChecked(checkedKeys, eventKey));
   };
-  const onChange = (keys: string[]) => {
+  const onChange = (keys: string[], direction, moveKeys) => {
     targetKeys.value = keys;
+    console.log(keys, direction, moveKeys);
+  };
+  //搜索
+  const handleSearch = (dir: string, value: string) => {
+    console.log(dir, value);
+    isNotShow.value = false;
+    if (dir === 'left' && !value) {
+      isNotShow.value = true;
+    } else if (dir === 'right') {
+      isNotShow.value = true;
+    }
   };
 </script>
 <style lang="less" scoped>
