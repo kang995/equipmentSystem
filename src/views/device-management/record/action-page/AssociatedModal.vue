@@ -64,7 +64,8 @@
   function handleOk() {
     const ids = getSelectRowKeys();
     const data = getSelectRows();
-    if (!data.length) {
+    console.log('data', data, ids);
+    if (!ids.length) {
       createMessage.warn('至少选择一项！');
       return;
     }
