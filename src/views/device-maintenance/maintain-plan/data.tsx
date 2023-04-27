@@ -194,8 +194,8 @@ export function getCommonFormSchema(): FormSchema[] {
       label: '计划生效时间',
       required: true,
       componentProps: {
-        // showTime: true,
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
         getPopupContainer: () => document.body,
       },
     },

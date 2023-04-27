@@ -188,8 +188,8 @@ export function getCommonFormSchema(): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: ['开始时间', '结束时间'],
-        // showTime: true,
-        format: 'YYYY-MM-DD',
+        showTime: true,
+        format: 'YYYY-MM-DD HH:mm:ss',
         getPopupContainer: () => document.body,
       },
     },
