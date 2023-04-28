@@ -1347,6 +1347,23 @@ export function formMechanicaSchema(state: string): FormSchema[] {
         optionFilterProp: 'label',
       },
     },
+    {
+      field: 'useStatus',
+      component: 'ApiSelect',
+      label: '设备状态',
+      componentProps: {
+        api: getDictionarySelectType, //后台路径
+        params: {
+          type: 'USE_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName', //设置label字段
+        valueField: 'itemValue', //设置value字段
+        placeholder: '请选择设备状态',
+        showSearch: true,
+        optionFilterProp: 'label',
+      },
+    },
   ];
 }
 //特种设备台账 tableSpecialColumns, formSpecialSchema
