@@ -117,7 +117,10 @@
           textAlign: 'left',
         },
       },
-      fieldMapToTime: [['time', ['startDate', 'endDate'], 'YYYY-MM-DD HH:mm:ss']],
+      fieldMapToTime: [
+        ['time', ['startDate', 'endDate'], 'YYYY-MM-DD'],
+        ['Time', ['startTime', 'endTime'], 'YYYY-MM-DD'],
+      ],
     },
   });
   //详情

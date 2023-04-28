@@ -1,6 +1,25 @@
 <template>
   <PageWrapper>
     <BasicTable @register="register">
+      <!-- 所属装置设施 -->
+      <template #form-deviceSlot="{ model, field }">
+        <a-tree-select
+          v-model:value="model[field]"
+          :tree-data="gasList"
+          :dropdownMatchSelectWidth="false"
+          placeholder="请选择所属装置设施"
+          show-search
+          allow-clear
+          treeNodeFilterProp="label"
+          tree-default-expand-all
+          :fieldNames="{
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
+          }"
+        />
+      </template>
       <template #action="{ record }">
         <TableAction
           :divider="false"
@@ -75,7 +94,7 @@
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter } from 'vue-router';
-  import { Tooltip, message } from 'ant-design-vue';
+  import { Tooltip, message, TreeSelect } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
   import {
@@ -84,11 +103,13 @@
     revokeListApi,
     exportPlanDataApi,
   } from '/@/api/device-demolishi/data';
+  import { UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
   const { hasPermission } = usePermission();
   const { createMessage } = useMessage();
   const router = useRouter();
   const ATooltip = Tooltip;
+  const ATreeSelect = TreeSelect;
   const [register, { reload, getSelectRowKeys, getForm, getPaginationRef, setLoading }] = useTable({
     api: getDemolishiListApi,
     columns: tableColumns(),
@@ -135,8 +156,24 @@
           textAlign: 'left',
         },
       },
-      fieldMapToTime: [['time', ['startTime', 'endTime'], 'YYYY-MM-DD HH:mm:ss']],
+      fieldMapToTime: [['time', ['startTime', 'endTime'], 'YYYY-MM-DD']],
     },
+  });
+  // 添加disabled
+  const handleDisabled = (tree) => {
+    tree &&
+      tree.forEach((node) => {
+        if (node.type && node.type !== 2) {
+          //type为2才可选择
+          node.disabled = true;
+          node.children && handleDisabled(node.children);
+        }
+      });
+    return tree;
+  };
+  const gasList = ref<any>([]);
+  UnitFacilityApi().then((res) => {
+    gasList.value = handleDisabled(res);
   });
   //详情
   function handleDetails(record) {

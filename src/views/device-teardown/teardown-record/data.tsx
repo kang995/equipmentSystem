@@ -3,6 +3,7 @@ import { getDepartmentSelectApi, getPeopleSelectApi } from '/@/api/device-mainte
 import { getSelectApi } from '/@/api/device-removal/data';
 import { Row, Image } from 'ant-design-vue';
 import { DescItem } from '/@/components/Description';
+import { getPersonSelectApi } from '/@/api/device-maintenance/index';
 //列表
 export function tableColumns(handleClick?): BasicColumn[] {
   return [
@@ -48,11 +49,42 @@ export function tableColumns(handleClick?): BasicColumn[] {
 export function getFormSchema(): FormSchema[] {
   return [
     {
+      field: 'time',
+      component: 'RangePicker',
+      label: '拆除时间',
+    },
+    {
+      field: 'chargePeopleId',
+      component: 'ApiSelect',
+      label: '拆除负责人',
+      labelWidth: 80,
+      componentProps: {
+        placeholder: '请选择拆除负责人',
+        api: getPersonSelectApi,
+        params: {
+          // type: 'PLAN_STATUS'
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'name',
+        valueField: 'id',
+        showSearch: true,
+        optionFilterProp: 'label',
+      },
+    },
+    {
+      field: 'chargePeoplePhone',
+      component: 'Input',
+      label: '联系方式',
+      componentProps: {
+        placeholder: '请选择联系方式',
+      },
+    },
+    {
       field: 'demolishId',
       component: 'ApiSelect',
-      label: '关联拆除编号',
+      label: '关联拆除单号',
       componentProps: {
-        placeholder: '请选择拆除单编号',
+        placeholder: '请选择拆除单单号',
         api: getSelectApi,
         params: {
           type: '1',
@@ -65,9 +97,14 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
-      field: 'time',
+      field: 'Time',
       component: 'RangePicker',
-      label: '拆除时间',
+      label: '创建时间',
+      componentProps: {
+        format: 'YYYY-MM-DD',
+        placeholder: ['开始时间', '结束时间'],
+        // showTime: true,
+      },
     },
   ];
 }

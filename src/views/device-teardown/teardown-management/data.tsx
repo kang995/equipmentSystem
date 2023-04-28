@@ -1,8 +1,9 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { getDepartmentSelectApi, getPeopleSelectApi } from '/@/api/device-maintenance/index';
-import { treeListApi } from '/@/api/device-scrap/data';
+// import { treeListApi } from '/@/api/device-scrap/data';
 import { Row, Image } from 'ant-design-vue';
 import { DescItem } from '/@/components/Description';
+import { getDictionarySelectTypeApi } from '/@/api/device-maintenance/index';
 //列表
 export function tableColumns(): BasicColumn[] {
   return [
@@ -45,6 +46,7 @@ export function getFormSchema(): FormSchema[] {
       field: 'code',
       component: 'Input',
       label: '拆除单编号',
+      labelWidth: 80,
       componentProps: {
         placeholder: '请输入拆除单编号',
       },
@@ -57,12 +59,46 @@ export function getFormSchema(): FormSchema[] {
         placeholder: '请选择设备名称',
       },
     },
+    // {
+    //   field: 'facilityCode',
+    //   component: 'Input',
+    //   label: '设备编号',
+    //   componentProps: {
+    //     placeholder: '请输入设备编号',
+    //   },
+    // },
     {
-      field: 'facilityCode',
-      component: 'Input',
-      label: '设备编号',
+      field: 'facilitiesId',
+      component: 'ApiTreeSelect',
+      label: '所属装置设施',
+      slot: 'deviceSlot',
+    },
+    {
+      field: 'time',
+      component: 'RangePicker',
+      label: '创建时间',
       componentProps: {
-        placeholder: '请输入设备编号',
+        format: 'YYYY-MM-DD',
+        placeholder: ['开始时间', '结束时间'],
+        // showTime: true,
+      },
+    },
+    {
+      field: 'demolishStatus',
+      component: 'ApiSelect',
+      label: '状态',
+      labelWidth: 80,
+      componentProps: {
+        placeholder: '请选择状态',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'SCRAP_DEMOLISH_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
       },
     },
   ];
