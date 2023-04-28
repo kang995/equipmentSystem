@@ -243,6 +243,7 @@ export const informationDescItem: DescItem[] = [
   {
     label: '设备拆除时间',
     field: 'endDate',
+    contentMinWidth: 400,
     render(_val, data) {
       if (data) {
         return data.startDate + '至' + data.endDate;
@@ -252,6 +253,7 @@ export const informationDescItem: DescItem[] = [
   {
     label: '设备拆除情况',
     field: 'demolishSituation',
+    contentMinWidth: 400,
   },
   {
     label: '附件',
