@@ -17,7 +17,7 @@
   >
     <Transfer
       :data-source="dataSource"
-      :target-keys="targetKeys"
+      v-model:target-keys="targetKeys"
       :titles="['设备选择', '已经选择设备']"
       :list-style="{
         width: '100%',
@@ -32,9 +32,7 @@
       <template #children="{ direction, selectedKeys, onItemSelect }">
         <Tree
           v-if="direction === 'left' && isNotShow"
-          block-node
           checkable
-          check-strictly
           default-expand-all
           :checked-keys="[...selectedKeys, ...targetKeys]"
           :tree-data="treeData"
@@ -125,7 +123,7 @@
       }
       //type：1、区域 2、装置设施 3、设备
       if (item.type && item.type !== 3) {
-        item.disabled = true;
+        // item.disabled = true;
       } else {
         item.scrapOrRemove ? (item.disabled = true) : (item.disabled = false);
       }
@@ -138,10 +136,52 @@
   let treeData = computed<TreeProps['treeData']>(() => {
     return handleTreeData(tData.value, targetKeys.value);
   });
+  // 左侧树结构复选框选择
+  const peopleKey = ref<any>([]);
+  const arr = [] as any;
   const onChecked = (e: any, checkedKeys: string[], onItemSelect: (n: any, c: boolean) => void) => {
-    const { eventKey } = e.node;
-    onItemSelect(eventKey, !isChecked(checkedKeys, eventKey));
+    // const { eventKey } = e.node;
+    // onItemSelect(eventKey, !isChecked(checkedKeys, eventKey));
+    console.log('onChecked', checkedKeys, e);
+    peopleKey.value = [];
+    e.checkedNodes?.map((item) => {
+      if (item.type === 1) {
+        peopleKey.value.push(item.key);
+      }
+    });
+    const eventKey = [] as any;
+    const array = [];
+    e.checkedNodes?.map((item) => {
+      array.push(item.key);
+    });
+    if (!isChecked(array, e.node.eventKey)) {
+      arr.length = 0;
+      recursion([e.node.dataRef]);
+      console.log('arr', arr);
+      arr.map((item) => {
+        onItemSelect(item, false);
+      });
+      onItemSelect(arr, false);
+    } else {
+      let peoArr = [] as any;
+      peoArr = e.checkedNodes?.filter((item) => item.type === 3);
+      peoArr.map((item) => {
+        onItemSelect(item.key, !isChecked(checkedKeys, eventKey));
+      });
+    }
   };
+  function recursion(res) {
+    res.forEach((item) => {
+      const { key, type, children } = item;
+      if (type === 3) {
+        arr.push(key);
+      }
+      if (item.children && item.children.length !== 0) {
+        recursion(item.children);
+      }
+    });
+    // return arr;
+  }
   const onChange = (keys: string[], direction, moveKeys) => {
     targetKeys.value = keys;
     console.log(keys, direction, moveKeys);
