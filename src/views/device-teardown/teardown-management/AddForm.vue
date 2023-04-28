@@ -11,6 +11,7 @@
           show-search
           allow-clear
           treeNodeFilterProp="label"
+          :tree-default-expand-all="true"
           placeholder="请选择设备"
           :fieldNames="{
             value: 'id',
@@ -68,7 +69,11 @@
   onMounted(() => {
     routeId && getDetails();
   });
-
+  //拼接label
+  function initFun(lable, scrapOrRemove) {
+    const labelName = scrapOrRemove === '1' ? '报废' : '拆除'; //scrapOrRemove:"1：报废  2：拆除"
+    return scrapOrRemove ? `${lable}（${labelName}）` : `${lable}`;
+  }
   // 添加disabled
   const handleDisabled = (tree) => {
     tree &&
@@ -77,7 +82,10 @@
           //type为3才可选择
           node.disabled = true;
           node.children && handleDisabled(node.children);
+        } else {
+          node.scrapOrRemove ? (node.disabled = true) : (node.disabled = false);
         }
+        node.label = initFun(node.label, node.scrapOrRemove);
       });
     return tree;
   };
