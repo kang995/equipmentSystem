@@ -1,5 +1,24 @@
 <template>
   <BasicTable @register="register">
+    <!-- 所属装置设施 -->
+    <template #form-deviceSlot="{ model, field }">
+      <a-tree-select
+        v-model:value="model[field]"
+        :tree-data="gasList"
+        :dropdownMatchSelectWidth="false"
+        show-search
+        allow-clear
+        treeNodeFilterProp="label"
+        tree-default-expand-all
+        placeholder="请选择所属装置设施"
+        :fieldNames="{
+          value: 'id',
+          key: 'id',
+          label: 'label',
+          children: 'children',
+        }"
+      />
+    </template>
     <template #action="{ record }">
       <TableAction
         :divider="false"
@@ -62,7 +81,7 @@
   import { tableColumns, getFormSchema } from './data';
   import { useRouter, useRoute } from 'vue-router';
   import { ref, onMounted } from 'vue';
-  import { Tooltip } from 'ant-design-vue';
+  import { Tooltip, TreeSelect } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByData } from '/@/utils/file/download';
   import {
@@ -70,8 +89,10 @@
     MaintainExportApi,
     maintainAgainApi,
   } from '/@/api/corrective-maintenance/repair';
+  import { UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
   import { getTimeByType } from '/@/utils/public';
+  const ATreeSelect = TreeSelect;
   const { hasPermission } = usePermission();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
   const { createMessage } = useMessage();
@@ -135,6 +156,22 @@
         ['Time1', ['overStartTime', 'overEndTime'], 'YYYY-MM-DD'],
       ],
     },
+  });
+  // 添加disabled
+  const handleDisabled = (tree) => {
+    tree &&
+      tree.forEach((node) => {
+        if (node.type && node.type !== 2) {
+          //type为2才可选择
+          node.disabled = true;
+          node.children && handleDisabled(node.children);
+        }
+      });
+    return tree;
+  };
+  const gasList = ref<any>([]);
+  UnitFacilityApi().then((res) => {
+    gasList.value = handleDisabled(res);
   });
   onMounted(() => {
     Btnvalue &&

@@ -4,7 +4,7 @@ import { Image, Row } from 'ant-design-vue';
 import {
   // deviceTreeSelectApi,
   deviceNameSelectApi,
-  UnitFacilityApi,
+  // UnitFacilityApi,
 } from '/@/api/corrective-maintenance/fault';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { Tag, Badge } from 'ant-design-vue';

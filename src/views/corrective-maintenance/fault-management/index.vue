@@ -7,6 +7,10 @@
           v-model:value="model[field]"
           :tree-data="gasList"
           :dropdownMatchSelectWidth="false"
+          show-search
+          allow-clear
+          treeNodeFilterProp="label"
+          tree-default-expand-all
           placeholder="请选择所属装置设施"
           :fieldNames="{
             value: 'id',

@@ -179,18 +179,19 @@ export function getFormSchema(): FormSchema[] {
       component: 'ApiSelect',
       label: '所属装置设施',
       labelWidth: 96,
-      componentProps: {
-        placeholder: '请选择所属装置设施',
-        api: UnitFacilityApi,
-        fieldNames: {
-          value: 'id',
-          key: 'id',
-          label: 'label',
-          children: 'children',
-        },
-        showSearch: true,
-        optionFilterProp: 'label',
-      },
+      slot: 'deviceSlot',
+      // componentProps: {
+      //   placeholder: '请选择所属装置设施',
+      //   api: UnitFacilityApi,
+      //   fieldNames: {
+      //     value: 'id',
+      //     key: 'id',
+      //     label: 'label',
+      //     children: 'children',
+      //   },
+      //   showSearch: true,
+      //   optionFilterProp: 'label',
+      // },
     },
     {
       field: 'troubleType',
