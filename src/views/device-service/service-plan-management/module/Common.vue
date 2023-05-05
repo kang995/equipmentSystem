@@ -381,4 +381,8 @@
   ::v-deep(.ant-pagination .ant-select) {
     width: auto;
   }
+
+  ::v-deep(.ant-popover-message-title) {
+    white-space: nowrap;
+  }
 </style>
