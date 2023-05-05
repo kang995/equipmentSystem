@@ -225,6 +225,7 @@
   //申请延期
   function handlePostpone(record) {
     openMaintainModal(true, {
+      executeEndTime: record.executeEndTime,
       id: record.id,
       title: '保养工单延期申请',
     });

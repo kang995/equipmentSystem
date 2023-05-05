@@ -437,7 +437,9 @@ export function postponeFormSchema(): FormSchema[] {
       component: 'DatePicker',
       label: '原截止时间',
       componentProps: {
-        // placeholder: '请输入',
+        valueFormat: 'YYYY-MM-DD HH:mm:ss',
+        showTime: true,
+        disabled: true,
         getPopupContainer: () => document.body,
       },
     },

@@ -23,8 +23,11 @@
   const delayData = ref<any>({});
   const [registerModalc, { closeModal }] = useModalInner(async (data) => {
     delayData.value = data;
+    setFieldsValue({
+      oldEndTime: data.executeEndTime,
+    });
   });
-  const [registerForm, { validate, getFieldsValue }] = useForm({
+  const [registerForm, { validate, getFieldsValue, setFieldsValue }] = useForm({
     schemas: postponeFormSchema(),
     baseColProps: {
       span: 22,

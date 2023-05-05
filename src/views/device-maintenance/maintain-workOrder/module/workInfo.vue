@@ -228,10 +228,6 @@
     upkeepDetailsApi({ id }).then((res) => {
       console.log('res', res);
       infoData.value = { ...res.workOrderInfoVO, ...res.upkeepPlanInfoVO };
-      // let {upkeepTypeText,upkeepContent,upkeepStandard,safeRule } = res.upkeepPlanInfoVO;
-      // infoDatas.value = res.upkeepPlanInfoVO;
-      // console.log('infoDatas.value',infoDatas.value)
-
       dataSource.value = res.upkeepPlanInfoVO.deviceList;
       delayData.value = res.delay;
       acceptList.value = res.acceptList;
@@ -272,6 +268,11 @@
   const Postpone = ref<boolean>(false);
   function handlePostpones() {
     Postpone.value = true;
+    setTimeout(() => {
+      setFieldsValuePostpone({
+        oldEndTime: infoData.value.executeEndTime,
+      });
+    });
   }
   //申请延期--提交
   async function handleSubmitApply() {
@@ -288,7 +289,11 @@
   }
   const [
     registerPostponeFrom,
-    { validate: validatePostpone, getFieldsValue: getFieldsValuePostpone },
+    {
+      validate: validatePostpone,
+      getFieldsValue: getFieldsValuePostpone,
+      setFieldsValue: setFieldsValuePostpone,
+    },
   ] = useForm({
     schemas: postponeFormSchema(), //表单配置
     showActionButtonGroup: false, //是否显示操作按钮(重置/提交)

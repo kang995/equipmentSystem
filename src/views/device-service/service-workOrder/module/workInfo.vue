@@ -159,7 +159,6 @@
   const status = route.query?.status as string;
   const identity = route.query?.identity as string;
   const delayFlag = route.query?.delayFlag as string;
-  // const oldEndTime = ref<any>();
 
   onMounted(() => {
     isShow && (apply.value = true);
@@ -195,8 +194,6 @@
       dataSource.value = res.overhaulPlanInfoVO.deviceList; //检修设备
       delayData.value = res.delay; //延期申请
       acceptList.value = res.acceptList; //检修结果和验收结果
-      //原截止时间
-      // oldEndTime.value = res.delay.oldEndTime;
     });
 
   //执行人
@@ -204,11 +201,11 @@
   const apply = ref<boolean>(false);
   function handleApply() {
     apply.value = true;
-    // setTimeout(() => {
-    //   appplyRef.value.setFieldsValue({
-    //     oldEndTime: oldEndTime.value,
-    //   });
-    // });
+    setTimeout(() => {
+      appplyRef.value.setFieldsValue({
+        oldEndTime: infoData.value.executeEndTime,
+      });
+    });
   }
   //申请延期--提交
   async function handleSubmitApply() {
