@@ -318,11 +318,13 @@ export function confirmdedDetails(): DescItem[] {
       field: 'description',
       label: '故障描述',
       contentMinWidth: 600,
+      labelMinWidth: 100,
     },
     {
       field: 'expression',
       label: '表新症状',
       contentMinWidth: 600,
+      labelMinWidth: 100,
     },
     {
       field: 'reason',
