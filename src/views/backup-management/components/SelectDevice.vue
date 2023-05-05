@@ -210,4 +210,16 @@
     box-sizing: border-box;
     height: 500px;
   }
+
+  ::v-deep(.ant-transfer-list-header) {
+    background: #e2e4ea;
+    color: #414960;
+  }
+
+  ::v-deep(*:not(:last-child) .ant-transfer-list-header > *:not(:last-child)) {
+    display: none;
+  }
+  // ::v-deep(.ant-transfer-list:nth-of-type(1) .ant-transfer-list-header .ant-transfer-list-checkbox) {
+  //   display: none;
+  // }
 </style>
