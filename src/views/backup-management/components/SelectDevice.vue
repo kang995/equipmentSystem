@@ -108,6 +108,12 @@
   const transferDataSource: any = [];
   function flatten(list: TransferProps['dataSource'] = []) {
     list.forEach((item) => {
+      //type：1、区域 2、装置设施 3、设备(数据源:添加禁用)
+      if (item.type !== 3) {
+        item.disabled = false;
+      } else {
+        item.scrapOrRemove ? (item.disabled = true) : (item.disabled = false);
+      }
       transferDataSource.push(item);
       flatten(item.children);
     });
@@ -121,9 +127,9 @@
       if (item.children) {
         handleTreeData(item.children, targetKeys);
       }
-      //type：1、区域 2、装置设施 3、设备
+      //type：1、区域 2、装置设施 3、设备(树结构:初始化时添加禁用)
       if (item.type && item.type !== 3) {
-        // item.disabled = true;
+        item.disabled = false;
       } else {
         item.scrapOrRemove ? (item.disabled = true) : (item.disabled = false);
       }
@@ -145,7 +151,7 @@
     console.log('onChecked', checkedKeys, e);
     peopleKey.value = [];
     e.checkedNodes?.map((item) => {
-      if (item.type === 1) {
+      if (item.type === 3) {
         peopleKey.value.push(item.key);
       }
     });
@@ -172,7 +178,7 @@
   };
   function recursion(res) {
     res.forEach((item) => {
-      const { key, type, children } = item;
+      const { key, type } = item;
       if (type === 3) {
         arr.push(key);
       }
