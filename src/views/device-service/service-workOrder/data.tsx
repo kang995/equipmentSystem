@@ -8,8 +8,9 @@ import {
   getPersonSelectApi,
   getRelevancesApi,
 } from '/@/api/device-maintenance/index';
-import { whetherShowApi } from '/@/api/device-service/service';
-
+// import { whetherShowApi } from '/@/api/device-service/service';
+import { usePermission } from '/@/hooks/web/usePermission';
+const { hasPermission } = usePermission();
 export interface TabItem {
   key: string;
   name: string;
@@ -29,17 +30,17 @@ export const achieveList: TabItem[] = [
 ];
 //根据状态判断当前用户身份
 (() => {
-  whetherShowApi().then((res) => {
-    //type 1显示负责工单 2显示执行工单 3都显示
-    const { type } = res;
-    // console.log('身份',type)
-    if (type === '1') {
-      achieveList.splice(1, 1);
-    } else if (type === '2') {
-      achieveList.splice(0, 1);
-      achieveList[0].key = '1';
-    }
-  });
+  //设备检修-负责工单:device:overhaulWorkOrder:responsible 设备检修-执行工单:device:overhaulWorkOrder:execute
+  if (
+    hasPermission(['device:overhaulWorkOrder:responsible']) &&
+    hasPermission(['device:overhaulWorkOrder:execute'])
+  ) {
+  } else if (hasPermission(['device:overhaulWorkOrder:responsible'])) {
+    achieveList.splice(1, 1);
+  } else if (hasPermission(['device:overhaulWorkOrder:execute'])) {
+    achieveList.splice(0, 1);
+    achieveList[0].key = '1';
+  }
 })();
 
 // (() => {

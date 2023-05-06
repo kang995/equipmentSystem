@@ -13,9 +13,10 @@ import {
   getStationPeopleSelectApi,
   getPersonSelectApi,
 } from '/@/api/device-maintenance/index';
-import { maintainIsshowApi } from '/@/api/corrective-maintenance/repair';
+// import { maintainIsshowApi } from '/@/api/corrective-maintenance/repair';
 import { Tag, Badge } from 'ant-design-vue';
-
+import { usePermission } from '/@/hooks/web/usePermission';
+const { hasPermission } = usePermission();
 export interface TabItem {
   key: string;
   name: string;
@@ -35,17 +36,18 @@ export const achieveList: TabItem[] = [
 ];
 //根据状态判断当前用户身份
 (() => {
-  maintainIsshowApi().then((res) => {
-    //type 1显示负责工单 2显示执行工单 3都显示
-    const { type } = res;
-    // console.log('身份',type)
-    if (type === '1') {
-      achieveList.splice(1, 1);
-    } else if (type === '2') {
-      achieveList.splice(0, 1);
-      achieveList[0].key = '1';
-    }
-  });
+  //故障维修-负责工单:device:troubleWorkOrder:responsible 故障维修-执行工单:device:troubleWorkOrder:execute
+  if (
+    hasPermission(['device:troubleWorkOrder:responsible']) &&
+    hasPermission(['device:troubleWorkOrder:execute'])
+  ) {
+  } else if (hasPermission(['device:troubleWorkOrder:responsible'])) {
+    achieveList.splice(1, 1);
+  } else if (hasPermission(['device:troubleWorkOrder:execute'])) {
+    achieveList.splice(0, 1);
+    achieveList[0].key = '1';
+  }
+  // console.log('按钮',hasPermission(['device:troubleWorkOrder:responsible']),hasPermission(['device:troubleWorkOrder:execute']))
 })();
 
 // (() => {
