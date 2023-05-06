@@ -47,7 +47,8 @@
     router.push({
       name: 'BackupDetails',
       query: {
-        id: record.spareId,
+        id: record.id,
+        type: '详情',
       },
     });
   }
