@@ -283,6 +283,10 @@ export const informationDescItem: DescItem[] = [
 //备件台账详情-库存
 export const stockColumns: BasicColumn[] = [
   {
+    title: '仓库名称',
+    dataIndex: 'warehouseName',
+  },
+  {
     title: '所在地点',
     dataIndex: 'warehouseSite',
   },
