@@ -345,6 +345,10 @@ export const informationDescItem: DescItem[] = [
     field: 'dangerousFactorAnalysis',
   },
   {
+    label: '拆除原因',
+    field: 'demolishReason',
+  },
+  {
     label: '拆除方案计划',
     field: 'plan',
   },
