@@ -309,7 +309,7 @@ export const informationDescItem: DescItem[] = [
     field: 'createByName',
   },
   {
-    label: '申请时间',
+    label: '创建时间',
     field: 'createTime',
   },
   {
