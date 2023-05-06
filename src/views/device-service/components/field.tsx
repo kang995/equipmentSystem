@@ -345,6 +345,7 @@ export function getApplyFormSchema(): FormSchema[] {
         placeholder: '请选择时间',
         valueFormat: 'YYYY-MM-DD HH:mm:ss',
         showTime: true,
+        getPopupContainer: () => document.body,
       },
     },
     {

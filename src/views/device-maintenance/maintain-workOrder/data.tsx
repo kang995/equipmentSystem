@@ -450,6 +450,7 @@ export function postponeFormSchema(): FormSchema[] {
       required: true,
       componentProps: {
         placeholder: '请选择时间',
+        showTime: true,
         getPopupContainer: () => document.body,
       },
     },
