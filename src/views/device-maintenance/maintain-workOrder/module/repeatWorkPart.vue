@@ -81,8 +81,9 @@
   }
   //备件回显
   function handleEcho(data) {
-    const arr = data.map((item) => ({ ...item })); //deepCopy
-    dataSource.value.push(...arr);
+    // const arr = data.map((item) => ({ ...item })); //deepCopy
+    // dataSource.value.push(...arr);
+    dataSource.value = data;
     console.log('dataSource.value', dataSource.value);
   }
   //提交处理结果
