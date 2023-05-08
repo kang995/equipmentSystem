@@ -117,7 +117,7 @@
     ({
       //待确认故障
       1: {
-        name: 'faultManagement',
+        name: 'faultConfirm',
         query: {
           Btnvalue: Btnvalue.value,
           // alarmTime: dateTime,//故障状态：待确认

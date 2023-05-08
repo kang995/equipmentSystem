@@ -46,10 +46,13 @@
 <script setup lang="ts">
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
-  import { useRouter } from 'vue-router';
-  import { ref } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
+  import { ref, onMounted } from 'vue';
   import { TroubleListApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
   import { TreeSelect } from 'ant-design-vue';
+  import { getTimeByType } from '/@/utils/public';
+  const route = useRoute();
+  const Btnvalue = route.query.Btnvalue as string;
   const router = useRouter();
   // const props = defineProps({
   //   activeKey: { type: String, default: '' },
@@ -58,7 +61,7 @@
   const props = defineProps<{
     ifIssue?: any;
   }>();
-  const [register] = useTable({
+  const [register, { getForm }] = useTable({
     api: TroubleListApi,
     // 额外的请求参数
     searchInfo: {
@@ -107,6 +110,21 @@
       ],
     },
   });
+  onMounted(() => {
+    Btnvalue &&
+      getForm().setFieldsValue({
+        Time: handleFun(Btnvalue),
+      });
+  });
+  //日期
+  function handleFun(num) {
+    return {
+      '1': getTimeByType('day'),
+      '2': getTimeByType('week'),
+      '3': getTimeByType('month'),
+      '5': getTimeByType('year'),
+    }[num];
+  }
   // 添加disabled
   const handleDisabled = (tree) => {
     tree &&
