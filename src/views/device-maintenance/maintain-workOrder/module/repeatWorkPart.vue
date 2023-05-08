@@ -6,12 +6,18 @@
           <a-button type="primary" @click="handleOpen">选择备件</a-button>
         </div>
       </template>
-      <template #useNumSlot="{ record }">
-        <a-input-number
+      <template #useNumSlot="{ record, index }">
+        <!-- <a-input-number
           placeholder="请输入数量"
           :min="1"
           :max="99999999"
           v-model:value="record.useNum"
+        /> -->
+        <Input
+          :controls="false"
+          v-model:value="record.useNum"
+          placeholder="请输入数量"
+          @change="handleLimt(record.useNum, index)"
         />
       </template>
       <template #action="{ record, index }">
@@ -42,15 +48,15 @@
 
 <script setup lang="ts">
   import { ref } from 'vue';
-  import { InputNumber } from 'ant-design-vue';
+  import { Input } from 'ant-design-vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useModal } from '/@/components/Modal';
   import PartModel from '/@/views/device-maintenance/components/changePartModel.vue';
   import { useRouter } from 'vue-router';
   import { deviceTableColumns } from '../data';
-  // import { useMessage } from '/@/hooks/web/useMessage';
-  // const { createMessage } = useMessage();
-  const AInputNumber = InputNumber;
+  import { useMessage } from '/@/hooks/web/useMessage';
+  const { createMessage } = useMessage();
+  // const AInputNumber = InputNumber;
   const router = useRouter();
   const dataSource = ref<any>([]);
   const [registerPartModal, { openModal: openPartModal }] = useModal();
@@ -113,12 +119,32 @@
     });
   }
   //使用数量
-  // function handleChange(value: number | string,index:number){
-  //   console.log('value',value,index)
-  //   if (Number(value) > dataSource.value[index].inventorySum) {
-  //     createMessage.warn('使用数量不能大于库存数量！');
-  //   }
-  // }
+  function handleLimt(num, index) {
+    const data = getDataSource();
+    console.log(num, data[index].stock);
+    handleNum(String(num));
+    // if (Number(num) > data[index].stock) {
+    //   createMessage.warn('使用数量不能大于库存数量！');
+    // }
+  }
+  // 限制提示
+  function handleNum(value) {
+    // console.log('value',value)
+    if (!value) {
+      return true;
+    } else {
+      if (value.length > 6) {
+        createMessage.warn('使用数量为最大6位数');
+        return false;
+      }
+      const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
+      if (!IsNumber.test(value)) {
+        createMessage.warn('使用数量只能为数字');
+        return false;
+      }
+    }
+    return true;
+  }
   defineExpose({
     handleSubmitSpare,
   });

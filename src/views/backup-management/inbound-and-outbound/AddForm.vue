@@ -189,13 +189,13 @@
       })
       .finally(() => {});
   }
-  //使用数量
+  //出库数量
   function handleLimt(num, index) {
     const data = getDataSource();
     console.log(num, data[index].stock);
     handleNum(String(num));
     if (state === 'InboundAdd' && Number(num) > data[index].stock) {
-      createMessage.warn('使用数量不能大于库存数量！');
+      createMessage.warn('出库数量不能大于库存数量！');
     }
   }
   // 限制提示
@@ -205,12 +205,12 @@
       return true;
     } else {
       if (value.length > 6) {
-        createMessage.warn('使用数量为最大6位数');
+        createMessage.warn('出库数量为最大6位数');
         return false;
       }
       const IsNumber = /(^(([0-9]+)|([0-9]+\.[0-9]{1,2}))$)/;
       if (!IsNumber.test(value)) {
-        createMessage.warn('使用数量只能为数字');
+        createMessage.warn('出库数量只能为数字');
         return false;
       }
     }
