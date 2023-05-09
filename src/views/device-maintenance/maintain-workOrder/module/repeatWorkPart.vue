@@ -87,10 +87,20 @@
   }
   //备件回显
   function handleEcho(data) {
-    const arr = data.map((item) => ({ ...item })); //deepCopy
-    dataSource.value.push(...arr);
-    // dataSource.value = data;
-    console.log('dataSource.value', dataSource.value);
+    const dataSourceId = dataSource.value.map((item) => item.id);
+    let newArr = data.filter((x) => {
+      if (dataSourceId.includes(x.id)) {
+        return true;
+      }
+    });
+    if (newArr.length) {
+      createMessage.warn('同一个备件不可重复添加');
+    } else {
+      const arr = data.map((item) => ({ ...item })); //deepCopy
+      dataSource.value.push(...arr);
+    }
+    // console.log('newArr',newArr);
+    // console.log('dataSource.value', dataSource.value);
   }
   //提交处理结果
   function handleSubmitSpare() {
