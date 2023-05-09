@@ -11,12 +11,7 @@ import {
   getStationSelectApi,
   getStationPeopleSelectApi,
 } from '/@/api/device-maintenance/index';
-import {
-  deviceNameSelectApi,
-  UnitFacilityApi,
-  TroublePlanListApi,
-  TroubleWorkOrderListApi,
-} from '/@/api/corrective-maintenance/fault';
+import { TroublePlanListApi, TroubleWorkOrderListApi } from '/@/api/corrective-maintenance/fault';
 import { Tag, Badge } from 'ant-design-vue';
 export interface TabItem {
   key: string;
@@ -157,17 +152,18 @@ export function getFormSchema(ifIssue: any): FormSchema[] {
     },
     {
       field: 'deviceId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '关联设备',
-      componentProps: {
-        placeholder: '请选择关联设备',
-        api: deviceNameSelectApi,
-        showSearch: true,
-        optionFilterProp: 'label',
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
-      },
+      slot: 'deviceSlots',
+      // componentProps: {
+      //   placeholder: '请选择关联设备',
+      //   api: deviceNameSelectApi,
+      //   showSearch: true,
+      //   optionFilterProp: 'label',
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'name',
+      //   valueField: 'id',
+      // },
     },
     {
       field: 'plantId',

@@ -1,6 +1,25 @@
 <template>
   <PageWrapper>
     <BasicTable @register="register">
+      <!-- 关联设备 -->
+      <template #form-deviceSlots="{ model, field }">
+        <a-tree-select
+          v-model:value="model[field]"
+          :tree-data="deviceList"
+          :dropdownMatchSelectWidth="false"
+          show-search
+          allow-clear
+          treeNodeFilterProp="label"
+          tree-default-expand-all
+          placeholder="请选择关联设备"
+          :fieldNames="{
+            value: 'id',
+            key: 'id',
+            label: 'label',
+            children: 'children',
+          }"
+        />
+      </template>
       <!-- 所属装置设施 -->
       <template #form-deviceSlot="{ model, field }">
         <a-tree-select
@@ -91,6 +110,7 @@
     TroubleExportApi,
     TroubleRemoveApi,
     UnitFacilityApi,
+    deviceTreeSelectApi,
   } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
   const ATreeSelect = TreeSelect;
@@ -148,7 +168,24 @@
       ],
     },
   });
-  // 添加disabled
+  // 添加disabled-关联设备
+  const handleDisableds = (tree) => {
+    tree &&
+      tree.forEach((node) => {
+        if (node.type && node.type !== 3) {
+          //type为3才可选择
+          node.disabled = true;
+          node.children && handleDisableds(node.children);
+        }
+      });
+    return tree;
+  };
+  const deviceList = ref<any>([]);
+  deviceTreeSelectApi().then((res) => {
+    deviceList.value = handleDisableds(res);
+  });
+
+  // 添加disabled-所属装置设施
   const handleDisabled = (tree) => {
     tree &&
       tree.forEach((node) => {

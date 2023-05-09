@@ -4,7 +4,7 @@ import { Image, Row } from 'ant-design-vue';
 import chargeOrder from './chargeOrder/index.vue';
 import executeOrder from './executeOrder/index.vue';
 // import { getAgainFormSchema } from '/@/views/device-service/components/field';
-import { deviceTreeSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
+// import { deviceTreeSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
 import {
   getDictionarySelectTypeApi,
   getDepartmentSelectApi,
@@ -197,18 +197,19 @@ export function getFormSchema(): FormSchema[] {
       field: 'deviceId',
       component: 'ApiTreeSelect',
       label: '关联设备',
-      componentProps: {
-        placeholder: '请选择关联设备',
-        api: deviceTreeSelectApi,
-        showSearch: true,
-        optionFilterProp: 'label',
-        fieldNames: {
-          value: 'id',
-          key: 'id',
-          label: 'label',
-          children: 'children',
-        },
-      },
+      slot: 'deviceSlots',
+      // componentProps: {
+      //   placeholder: '请选择关联设备',
+      //   api: deviceTreeSelectApi,
+      //   showSearch: true,
+      //   optionFilterProp: 'label',
+      //   fieldNames: {
+      //     value: 'id',
+      //     key: 'id',
+      //     label: 'label',
+      //     children: 'children',
+      //   },
+      // },
     },
     {
       field: 'plantId',

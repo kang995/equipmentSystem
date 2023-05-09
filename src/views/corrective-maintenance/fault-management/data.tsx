@@ -1,11 +1,11 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { Image, Row } from 'ant-design-vue';
-import {
-  // deviceTreeSelectApi,
-  deviceNameSelectApi,
-  // UnitFacilityApi,
-} from '/@/api/corrective-maintenance/fault';
+// import {
+//   // deviceTreeSelectApi,
+//   deviceNameSelectApi,
+//   // UnitFacilityApi,
+// } from '/@/api/corrective-maintenance/fault';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { Tag, Badge } from 'ant-design-vue';
 
@@ -136,17 +136,18 @@ export function getFormSchema(): FormSchema[] {
     },
     {
       field: 'deviceId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '关联设备',
-      componentProps: {
-        placeholder: '请选择关联设备',
-        api: deviceNameSelectApi,
-        showSearch: true,
-        optionFilterProp: 'label',
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
-      },
+      slot: 'deviceSlots',
+      // componentProps: {
+      //   placeholder: '请选择关联设备',
+      //   api: deviceNameSelectApi,
+      //   showSearch: true,
+      //   optionFilterProp: 'label',
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'name',
+      //   valueField: 'id',
+      // },
     },
     {
       field: 'plantId',

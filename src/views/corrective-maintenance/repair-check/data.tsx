@@ -3,7 +3,7 @@ import { DescItem } from '/@/components/Description';
 import accepting from './accepting/index.vue';
 import accepted from './accepted/index.vue';
 import { Image, Row } from 'ant-design-vue';
-import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
+// import { deviceNameSelectApi, UnitFacilityApi } from '/@/api/corrective-maintenance/fault';
 import { getDictionarySelectTypeApi, getPersonSelectApi } from '/@/api/device-maintenance/index';
 import { Tag, Badge } from 'ant-design-vue';
 import { RepairDetail, ResultDetail } from '/@/views/corrective-maintenance/repair-workOrder/data';
@@ -162,17 +162,18 @@ export function getFormSchema(): FormSchema[] {
     },
     {
       field: 'deviceId',
-      component: 'ApiSelect',
+      component: 'ApiTreeSelect',
       label: '关联设备',
-      componentProps: {
-        placeholder: '请选择关联设备',
-        api: deviceNameSelectApi,
-        resultField: 'data', //后台返回数据字段
-        labelField: 'name',
-        valueField: 'id',
-        showSearch: true,
-        optionFilterProp: 'label',
-      },
+      slot: 'deviceSlots',
+      // componentProps: {
+      //   placeholder: '请选择关联设备',
+      //   api: deviceNameSelectApi,
+      //   resultField: 'data', //后台返回数据字段
+      //   labelField: 'name',
+      //   valueField: 'id',
+      //   showSearch: true,
+      //   optionFilterProp: 'label',
+      // },
     },
     {
       field: 'plantId',
