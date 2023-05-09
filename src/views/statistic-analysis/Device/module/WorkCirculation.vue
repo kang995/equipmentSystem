@@ -96,6 +96,15 @@
       applyData.value = res.deviceMaintain; //	设备维修情况统计
       workStatusData.value = res.deviceType; //设备类型占比
       acceptanceData.value = res.deviceNature; //	设备性质占比
+      //重组结构
+      let newArr = workLiveData.value.map((item) => {
+        return {
+          showName: item.showName,
+          showValue: workLiveData.value.map((x) => x.showValue),
+        };
+      });
+      workLiveData.value = newArr;
+      // console.log('数组',workLiveData.value)
     });
   }
   onMounted(() => {

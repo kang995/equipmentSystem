@@ -29,52 +29,28 @@
 
   function setData(data) {
     setOptions({
-      tooltip: {},
-      // legend: {
-      //   orient: 'vertical',
-      //   top: 'center',
-      //   right: '25',
-      //   formatter: (name) => {
-      //     let percent = '';
-      //     let value = '';
-      //     toRaw(data).forEach((item) => {
-      //       if (item.showName === name) {
-      //         percent = item.percent;
-      //         value = item.showValue;
-      //       }
-      //     });
-      //     console.log(name, percent);
-      //     return `${name}\xa0\xa0\xa0\xa0\xa0${value}(${percent}%)`;
-      //   },
-      // },
-      // legend: {
-      //   bottom: 0,
-      //   data:data.map((x) => {
-      //     return {
-      //       name: x.showName,
-      //     };
-      //   }),
-      // },
+      tooltip: {
+        trigger: 'item',
+      },
       radar: {
-        radius: '60%',
-        splitNumber: 8,
+        // radius: '60%',
+        // splitNumber: 8,
         indicator: data.map((x) => {
           return {
             name: x.showName,
-            // value: x.showValue,
           };
         }),
       },
       series: [
         {
           type: 'radar',
-          symbolSize: 0,
+          // symbolSize: 0,
           areaStyle: {
-            shadowBlur: 0,
-            shadowColor: 'rgba(0,0,0,.2)',
-            shadowOffsetX: 0,
-            shadowOffsetY: 10,
-            opacity: 1,
+            // shadowBlur: 0,
+            // shadowColor: 'rgba(0,0,0,.2)',
+            // shadowOffsetX: 20,
+            // shadowOffsetY: 10,
+            // opacity: 1,
           },
           data: data.map((x) => {
             return {
@@ -82,6 +58,22 @@
               value: x.showValue,
             };
           }),
+          // data: [
+          //   {
+          //     value: [90, 50, 86, 40, 50, 20],
+          //     name: 'Visits',
+          //     itemStyle: {
+          //       color: '#9f8ed7',
+          //     },
+          //   },
+          //   {
+          //     value: [70, 75, 70, 76, 20, 85],
+          //     name: 'Sales',
+          //     itemStyle: {
+          //       color: '#1edec5',
+          //     },
+          //   },
+          // ],
         },
       ],
     });
