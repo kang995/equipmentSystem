@@ -68,7 +68,7 @@
 
   const { prefixCls } = useDesign('enterprise-personnel');
   const workLiveTitle = ref<any>([{ title: '设备故障类型' }]);
-  const applyTitle = ref<any>([{ title: '保养类型占比' }]);
+  const applyTitle = ref<any>([{ title: '设备维修情况统计' }]);
   const workStatusTitle = ref<any>([{ title: '设备类型占比' }]);
   const acceptanceTitle = ref<any>([{ title: '设备性质占比' }]);
 
