@@ -64,7 +64,7 @@
             label: '申请延期',
             onClick: handlePostpone.bind(null, record),
             ifShow: () => {
-              return !props.ifIssue && record.maintainStatus === '1'; // 根据业务控制是否显示
+              return !props.ifIssue && record.maintainStatus === '0'; // 根据业务控制是否显示
             },
             auth: 'device:troubleWorkOrder:delay',
           },

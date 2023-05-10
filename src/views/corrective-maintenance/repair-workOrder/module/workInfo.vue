@@ -97,12 +97,8 @@
         <!-- <BasicForm @register="registerSubmitAccept" /> -->
       </div>
       <div class="my-[24px]">
-        <template v-if="status === '0' || status === '1'">
-          <a-button
-            class="mr-4"
-            type="primary"
-            v-if="status === '1' && !apply && !accept"
-            @click="handleApply"
+        <template v-if="status === '0'">
+          <a-button class="mr-4" type="primary" v-if="!apply && !accept" @click="handleApply"
             >申请延期</a-button
           >
           <a-button class="" type="primary" v-if="!apply && !accept" @click="handleAccept"
