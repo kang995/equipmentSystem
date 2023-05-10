@@ -22,7 +22,7 @@ export function getColumns(): BasicColumn[] {
 
 export const schemasSearch: FormSchema[] = [
   {
-    field: `messageType`,
+    field: `serviceMessageType`,
     label: `消息类型`,
     component: 'ApiSelect',
     //字典接口
@@ -49,7 +49,7 @@ export const schemasSearch: FormSchema[] = [
     },
   },
   {
-    field: `title`,
+    field: `topicContent`,
     label: `标题/内容`,
     component: 'Input',
     componentProps: {

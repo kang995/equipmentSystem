@@ -20,7 +20,7 @@
           <ListItem :class="`${prefixCls}-ListItem`" @click="clickMessages(item)">
             <template #extra>
               <div :class="`${prefixCls}-SvgIcon-border`">
-                <a-badge :dot="item.state === '1'">
+                <a-badge :dot="item.state === '2'">
                   <SvgIcon name="gonggong_youjiantou_xianxing" size="16" />
                 </a-badge>
               </div>
@@ -30,21 +30,23 @@
               <template #description>
                 <div
                   :class="{
-                    box: item.messageType,
-                    boxUpdate: ['1', '2', '3', '7'].includes(item.messageType),
-                    boxRed: ['4', '6'].includes(item.messageType),
-                    yellowColor: item.messageTypeText === '5',
+                    box: item.title,
+                    boxUpdate: ['行政通知', '教育培训', '系统更新', '任务通知'].includes(
+                      item.title,
+                    ),
+                    boxRed: ['特别提示', '报警消息'].includes(item.title),
+                    yellowColor: ['临时通知'].includes(item.title),
                   }"
                 >
                   <span class="text-xs leading-[20px] text-center m-0">{{
-                    item.messageTypeText
+                    item.title.split(']')[1]
                   }}</span>
                 </div>
               </template>
               <template #title>
                 <a-typography-paragraph
                   class="text-body1"
-                  :class="item.state === '1' ? 'font-semibold' : 'font-normal'"
+                  :class="item.state === '2' ? 'font-semibold' : 'font-normal'"
                   style="width: 100%; margin-bottom: 0 !important"
                   :style="{ cursor: 'pointer' }"
                   :ellipsis="{ tooltip: true }"
@@ -71,7 +73,9 @@
   import { notificationApi, notificationUpdateStateApi } from '/@/api/workbench/index';
   import SvgIcon from '/@/components/Icon/src/SvgIcon.vue';
   import { useDesign } from '/@/hooks/web/useDesign';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore: any = useUserStore();
   const { prefixCls } = useDesign('workbench-wrapper');
   const ListItem = List.Item;
   const ListItemMeta = List.Item.Meta;
@@ -85,17 +89,23 @@
     getNotificationData();
   });
   async function getNotificationData() {
-    const { records } = await notificationApi({ page: 1, pageSize: 5, state: '1' });
+    const { records } = await notificationApi({
+      organId: userStore.userInfo.comId, //企业ID(必填)
+      userId: userStore.userInfo.userId, //用户ID(必填)
+      page: 1,
+      pageSize: 5,
+      state: '2',
+    });
     console.log('records: 333333', records);
     dynamicInfoItems.value = records.map((item) => {
       return {
-        id: item.id,
-        state: item.state,
-        day: item.createTime.split('-')[2].split(' ')[0],
-        month: item.createTime.split('-')[1],
-        title: item.title,
-        messageType: item.messageType,
-        messageTypeText: item.messageTypeText,
+        id: item.id, //主键id
+        state: item.readOrNo, //是否已读，1（已读）/2（未读）
+        day: item.createTime.split('-')[2].split(' ')[0], //接收时间
+        month: item.createTime.split('-')[1], //接收时间
+        title: item.title, //标题
+        // messageType: item.messageType,//消息类型
+        // messageTypeText: item.messageTypeText,//消息类型
       };
     });
   }
@@ -110,12 +120,12 @@
 
   function clickMessages(item) {
     const ids = [item.id];
-    notificationUpdateStateApi({ ids, state: '2' });
+    notificationUpdateStateApi({ ids, userId: userStore.userInfo.userId });
     router.push({
       name: 'Message',
       params: {
         id: item.id,
-        state: item.state,
+        state: item.readOrNo,
         tabActiveKey: '-1', // 查看单条消息
       },
     });

@@ -24,28 +24,28 @@
               <a-button
                 class="mr-4"
                 @click="handleState"
-                v-if="tabActiveKey === '' || tabActiveKey === '1'"
+                v-if="tabActiveKey === '' || tabActiveKey === '2'"
               >
                 选择已读
               </a-button>
-              <a-button class="mr-4" @click="handleSign('3', '标记')" v-if="tabActiveKey !== '3'">
+              <!-- <a-button class="mr-4" @click="handleSign('3', '标记')" v-if="tabActiveKey !== '3'">
                 选择标记
               </a-button>
-              <a-button class="mr-4" @click="handleSign('4', '取消标记')">取消标记 </a-button>
+              <a-button class="mr-4" @click="handleSign('4', '取消标记')">取消标记 </a-button> -->
             </template>
             <template #titleSlots="{ record }">
               <Badge
-                v-if="record.state === '1'"
+                v-if="record.readOrNo === '2'"
                 :text="record.title"
                 color="#ff5b56"
                 class="font-bold text-body1"
               />
-              <span v-if="record.state == '2'" :class="`${prefixCls}-titleSlots-read`">
+              <span v-if="record.readOrNo == '1'" :class="`${prefixCls}-titleSlots-read`">
                 {{ record.title }}
               </span>
-              <span v-if="record.state == '3'" :class="`${prefixCls}-titleSlots-sign`">
+              <!-- <span v-if="record.state == '3'" :class="`${prefixCls}-titleSlots-sign`">
                 {{ record.title }}
-              </span>
+              </span> -->
             </template>
           </BasicTable>
         </div>
@@ -53,10 +53,10 @@
         <div :class="`${prefixCls}-descriptions`">
           <Descriptions :column="1" v-for="item in descriptionsList" :key="item">
             <template #title>
-              <span :class="`${prefixCls}-title`">{{ item.title }}</span>
+              <span :class="`${prefixCls}-title`">{{ item?.title }}</span>
             </template>
             <DescriptionsItem value="userName" :class="`${prefixCls}-detail`">
-              <span class="cursor-pointer"> {{ item.detail }}</span>
+              <span class="cursor-pointer"> {{ item?.content }}</span>
             </DescriptionsItem>
           </Descriptions>
         </div>
@@ -103,7 +103,7 @@
     },
   );
 
-  const userStore = useUserStore();
+  const userStore: any = useUserStore();
 
   const [registerForm, { getFieldsValue }] = useForm({
     fieldMapToTime: [
@@ -128,29 +128,38 @@
   }
   //自定义查询
   async function submitFunc() {
-    const { title, messageType, startTime, endTime } = getFieldsValue();
-    searchInfoList.value.title = title;
-    searchInfoList.value.messageType = messageType;
+    const { topicContent, serviceMessageType, startTime, endTime } = getFieldsValue();
+    searchInfoList.value.topicContent = topicContent;
+    searchInfoList.value.serviceMessageType = serviceMessageType;
     searchInfoList.value.startTime = startTime;
     searchInfoList.value.endTime = endTime;
     reload();
   }
   //查询接口
   async function projectQuery() {
-    searchInfoList.value.title = '';
-    searchInfoList.value.messageType = '';
+    searchInfoList.value.topicContent = '';
+    searchInfoList.value.serviceMessageType = '';
     searchInfoList.value.startTime = '';
     searchInfoList.value.endTime = '';
     searchInfoList.value.page = 1;
   }
 
   const searchInfoList = ref<any>({
-    title: '',
-    messageType: '',
+    // title: '',
+    // messageType: '',
+    // startTime: '',
+    // endTime: '',
+    // state: props.paramId ? '2' : props.tabActiveKey,
+    // id: props.paramId ? props.paramId : '',
+
+    organId: userStore.userInfo.comId, //企业ID(必填)
+    userId: userStore.userInfo.userId, //用户ID(必填)
+    readOrNo: props.paramId ? '1' : props.tabActiveKey,
+    id: props.paramId ? props.paramId : '',
+    topicContent: '', //内容/标题（选填）
+    serviceMessageType: '', //消息类型
     startTime: '',
     endTime: '',
-    state: props.paramId ? '2' : props.tabActiveKey,
-    id: props.paramId ? props.paramId : '',
   });
   // function messageTableDetail() {
   //   //单条跳转查询
@@ -170,7 +179,7 @@
     if (dataSource.length == 0) {
       descriptionsList.value = [{}];
     } else {
-      Detail(dataSource[0].id);
+      Detail(dataSource[0]);
     }
   }
 
@@ -203,9 +212,15 @@
     //     data.state = props.tabActiveKey;
     //   }
     // },
-    afterFetch: () => {
+    afterFetch: (data) => {
       const { records } = getRawDataSource();
       detailData(records);
+      //消息类型
+      let arr = data.map((item) => {
+        item['messageTypeText'] = item.title.split(']')[1];
+        return item;
+      });
+      return arr;
     },
   });
 
@@ -216,47 +231,52 @@
     val.className = 'current-row';
     const id = val.id;
     //详情
-    Detail(id);
+    console.log('详情', val);
+    Detail(val);
     //已读
-    if (val.state == '1') {
-      notiState([id], '2', val);
+    if (val.readOrNo === '2') {
+      //1（已读）/2（未读）
+      notiState([id], '1', val);
     }
   }
 
   //详情
-  function Detail(id = '') {
-    notificationDetailApi(id).then((res) => {
-      descriptionsList.value = [res];
-    });
+  function Detail(item: any) {
+    // notificationDetailApi(id).then((res) => {
+    //   descriptionsList.value = [res];
+    // });
+    descriptionsList.value = [item];
   }
   //改变状态：已读，标记
   async function notiState(ids = [] as any, state = '', ifShow?) {
     console.log('ids: ', ids);
     try {
-      await notificationUpdateStateApi({ ids, state });
-      if (state == '2') {
+      await notificationUpdateStateApi({ ids, userId: userStore.userInfo.userId });
+      if (state == '1') {
         createMessage.success('已读');
         // 更新未读消息数量
         await userStore.refreshMessageCount();
         reload();
-      } else if (state == '3') {
-        createMessage.success('标记成功');
-        reload();
-      } else if (state == '4') {
-        createMessage.success('取消标记成功');
-        reload();
       }
+      // else if (state == '3') {
+      //   createMessage.success('标记成功');
+      //   reload();
+      // } else if (state == '4') {
+      //   createMessage.success('取消标记成功');
+      //   reload();
+      // }
     } catch (error) {
       console.log(error);
     }
     clearSelectedRowKeys();
-    if (props.tabActiveKey == '1') {
+    if (props.tabActiveKey == '2') {
+      //未读
     } else {
       if (ifShow) {
         const tableData = getDataSource();
         tableData.forEach((item) => {
           if (item.id == ifShow.id) {
-            item.state = '2';
+            // item.readOrNo = '1';
           }
         });
       }
@@ -265,13 +285,13 @@
 
   //批量已读
   function handleState() {
-    handle('2', '已读');
+    handle('1', '已读');
   }
 
   //批量标记
-  function handleSign(val, text) {
-    handle(val, text);
-  }
+  // function handleSign(val, text) {
+  //   handle(val, text);
+  // }
 
   //批量删除
   function handleDelEdit() {

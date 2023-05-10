@@ -1,10 +1,10 @@
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  NOTI_LIST = '/system/notify/list', //   消息通知列表
+  NOTI_LIST = '/system/message/list', //消息通知列表(/system/notify/list)
   NOTI_DETAIL = '/system/notify/detail/', //详情
-  NOTI_STATE = '/system/notify/updateState', //修改状态
-  NOTI_REMOVE = '/system/notify/remove', // 删除
+  NOTI_STATE = '/system/message/batchMsgReadSetting', //修改状态（/system/notify/updateState）
+  NOTI_REMOVE = '/system/message/deleteMessage', // 删除（/system/notify/remove）
   NOTI_UNREAD = '/system/notify/unread', // 未读消息数量
   DATAOVERVIEW = '/workbench/dataOverview', //数据概览
   DATAOVERVIEW_ORDER = '/workbench/workOrderTrend', //工单趋势

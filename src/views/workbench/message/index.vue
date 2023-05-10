@@ -31,17 +31,17 @@
       name: '全部消息',
     },
     {
-      value: '1',
+      value: '2',
       name: '未读',
     },
     {
-      value: '2',
+      value: '1',
       name: '已读',
     },
-    {
-      value: '3',
-      name: '标记',
-    },
+    // {
+    //   value: '3',
+    //   name: '标记',
+    // },
   ];
   const ATabs = Tabs;
   const ATabPane = Tabs.TabPane;
