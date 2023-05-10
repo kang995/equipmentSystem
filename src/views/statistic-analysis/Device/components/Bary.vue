@@ -46,7 +46,7 @@
       },
       yAxis: {
         type: 'category',
-        data: data.map((item: any) => item.showName), //[...new Array(12)].map((_item, index) => `${index + 1}月`),
+        data: data.map((item: any) => item.showName).reverse(), //[...new Array(12)].map((_item, index) => `${index + 1}月`),
         // max: 100,
         // splitNumber: 10,
         // interval: 20,
@@ -54,7 +54,7 @@
       series: [
         {
           name: '数据',
-          data: data.map((item: any) => item.showValue),
+          data: data.map((item: any) => item.showValue).reverse(),
           type: 'bar',
           barMaxWidth: 20,
           itemStyle: {
