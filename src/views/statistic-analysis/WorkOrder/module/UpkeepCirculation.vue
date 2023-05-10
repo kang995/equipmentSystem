@@ -3,13 +3,16 @@
     <a-card>
       <template #title>
         <div class="w-full flex justify-between">
-          <a-select
-            v-model:value="optionValue"
-            :options="optionList"
-            style="width: 120px"
-            @change="handleChange"
-            :allowClear="false"
-          />
+          <div class="flex items-center">
+            <div>计划名称：</div>
+            <a-select
+              v-model:value="optionValue"
+              :options="optionList"
+              style="width: 120px"
+              @change="handleChange"
+              :allowClear="false"
+            />
+          </div>
           <RadioButtonGroup
             :options="options"
             v-model:value="Btnvalue"
