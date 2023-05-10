@@ -31,11 +31,11 @@
                 <div
                   :class="{
                     box: item.title,
-                    boxUpdate: ['行政通知', '教育培训', '系统更新', '任务通知'].includes(
-                      item.title,
+                    boxUpdate: ['行政通知!', '教育培训!', '系统更新!', '任务通知!'].includes(
+                      item.title.split(']')[1],
                     ),
-                    boxRed: ['特别提示', '报警消息'].includes(item.title),
-                    yellowColor: ['临时通知'].includes(item.title),
+                    boxRed: ['特别提示!', '报警消息!'].includes(item.title.split(']')[1]),
+                    yellowColor: ['临时通知!'].includes(item.title.split(']')[1]),
                   }"
                 >
                   <span class="text-xs leading-[20px] text-center m-0">{{
