@@ -41,9 +41,10 @@
         trigger: 'item',
       },
       legend: {
-        orient: 'vertical',
-        top: 'center',
-        right: props.isDistance ? '10' : '-6',
+        orient: 'horizontal', //vertical
+        left: 'center',
+        bottom: '0',
+        // right: props.isDistance ? '10' : '-6',
         formatter: (name) => {
           let percent = '';
           let value = '';
