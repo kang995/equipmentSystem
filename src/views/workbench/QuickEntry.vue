@@ -2,7 +2,7 @@
   <ACard>
     <div :class="`${prefixCls}`" class="mt-4">
       <Title :titleList="titleList" />
-      <ARow>
+      <ARow class="flex justify-center">
         <template v-for="item in newButtonList" :key="item.name">
           <ACol :span="6" :gutter="[16, 16]" :class="`${prefixCls}-box `" v-if="item.isShow">
             <ACard :class="`${prefixCls}-box-card`" :bordered="false" @click="getClick(item.name)">
