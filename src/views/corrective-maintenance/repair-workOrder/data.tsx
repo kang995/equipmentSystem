@@ -508,7 +508,7 @@ export function getAgainFormSchemas(): FormSchema[] {
       label: '处理部门',
       required: true,
       ifShow: true,
-      componentProps: ({ formActionType }) => {
+      componentProps: ({ formModel, formActionType }) => {
         const { updateSchema } = formActionType; //setFieldsValue
         return {
           placeholder: '请选择处理部门',
@@ -522,7 +522,7 @@ export function getAgainFormSchemas(): FormSchema[] {
           },
           getPopupContainer: () => document.body,
           onChange: (e: any) => {
-            // console.log(e);
+            formModel.dealUserIdList = undefined;
             getPeopleSelectApi([e]).then((res) => {
               updateSchema({
                 field: 'dealUserIdList',
