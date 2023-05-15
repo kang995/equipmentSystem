@@ -6,7 +6,7 @@ enum Api {
   // NOTI_DETAIL = '/system/notify/detail/', //详情
   NOTI_STATE = '/system/message/batchMsgReadSetting', //修改状态（/system/notify/updateState）
   NOTI_REMOVE = '/system/message/deleteMessage', // 删除（/system/notify/remove）
-  NOTI_UNREAD = '/system/notify/unread', // 未读消息数量
+  NOTI_UNREAD = '/system/message/unread', // 未读消息数量 （/system/notify/unread）
   DATAOVERVIEW = '/workbench/dataOverview', //数据概览
   DATAOVERVIEW_ORDER = '/workbench/workOrderTrend', //工单趋势
 }
