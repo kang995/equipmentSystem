@@ -44,6 +44,14 @@
         :stopButtonPropagation="true"
         :actions="[
           {
+            label: '审核',
+            onClick: handleAudit.bind(null, record),
+            ifShow: () => {
+              return props.ifIssue && record.maintainStatus === '1'; // 根据业务控制是否显示
+            },
+            auth: 'device:upkeepWorkOrder:delayAudit',
+          },
+          {
             label: '重新下发',
             onClick: handleAgain.bind(null, record),
             ifShow: () => {
@@ -92,10 +100,13 @@
   </BasicTable>
   <!-- 重新下发 -->
   <basicModel @register="IssuedModal" @event="handleIssue" />
+  <!-- 延期审核 -->
+  <delayModal @register="delayModals" @events="handleDelay" />
 </template>
 <script setup lang="ts">
   import { useModal } from '/@/components/Modal';
   import basicModel from './module/IssuedModal.vue';
+  import delayModal from '/@/views/device-service/components/petitioner/postponeModal.vue';
   import { BasicTable, useTable, TableAction, PaginationProps } from '/@/components/Table';
   import { tableColumns, getFormSchema } from './data';
   import { useRouter, useRoute } from 'vue-router';
@@ -107,6 +118,7 @@
     maintainListApi,
     MaintainExportApi,
     maintainAgainApi,
+    maintainAuditApi,
   } from '/@/api/corrective-maintenance/repair';
   import { UnitFacilityApi, deviceTreeSelectApi } from '/@/api/corrective-maintenance/fault';
   import { usePermission } from '/@/hooks/web/usePermission';
@@ -114,6 +126,7 @@
   const ATreeSelect = TreeSelect;
   const { hasPermission } = usePermission();
   const [IssuedModal, { openModal: openIssuedModal }] = useModal();
+  const [delayModals, { openModal: openDelayModal }] = useModal();
   const { createMessage } = useMessage();
   const router = useRouter();
   const route = useRoute();
@@ -236,6 +249,25 @@
         // status: '2', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
       },
     });
+  }
+  //延期审核
+  function handleAudit(record) {
+    openDelayModal(true, {
+      id: record.id,
+    });
+  }
+  //延期审核-确认
+  function handleDelay(data) {
+    console.log('data11', data);
+    data['workOrderId'] = data.id;
+    maintainAuditApi(data)
+      .then(() => {
+        createMessage.success('已提交审核');
+      })
+      .finally(() => {
+        openDelayModal(false);
+        reload();
+      });
   }
   //重新下发
   function handleAgain(record) {
