@@ -550,6 +550,9 @@ export function confirmFormSchema(): FormSchema[] {
         mode: 'multiple',
         options: [],
         fieldNames: { label: 'name', value: 'id' },
+        showSearch: true,
+        allowClear: true,
+        optionFilterProp: 'name',
       },
       ifShow: ({ values }) => {
         return values?.troubleDetermine === '0';

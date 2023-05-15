@@ -524,6 +524,7 @@ export function getCommonFormSchema(): FormSchema[] {
         options: [],
         fieldNames: { label: 'name', value: 'id' },
         showSearch: true,
+        allowClear: true,
         optionFilterProp: 'name',
       },
     },
