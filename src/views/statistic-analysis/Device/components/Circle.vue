@@ -33,9 +33,9 @@
         trigger: 'item',
       },
       legend: {
-        orient: 'vertical',
-        top: 'center',
-        right: '25',
+        orient: 'horizontal', //vertical
+        left: 'center',
+        bottom: '0',
         formatter: (name) => {
           let percent = '';
           let value = '';
@@ -66,7 +66,7 @@
           // name: 'Access From',
           type: 'pie',
           radius: ['50%', '70%'],
-          center: ['35%', '50%'],
+          center: ['50%', '50%'],
           color: ['#ffaa00', '#5B8FF9'],
           avoidLabelOverlap: false,
           label: {

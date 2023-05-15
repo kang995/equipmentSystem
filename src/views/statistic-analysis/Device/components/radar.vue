@@ -32,6 +32,16 @@
       tooltip: {
         trigger: 'item',
       },
+      // legend: {
+      //   orient: 'horizontal',//vertical
+      //   left:'center',
+      //   bottom: '0',
+      //   data: data.map((x) => {
+      //     return {
+      //       name: x.showName,
+      //     };
+      //   })
+      // },
       radar: {
         // radius: '60%',
         // splitNumber: 8,

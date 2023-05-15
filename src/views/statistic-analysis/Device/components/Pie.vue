@@ -33,9 +33,9 @@
         trigger: 'item',
       },
       legend: {
-        orient: 'vertical',
-        top: 'center',
-        right: '25',
+        orient: 'horizontal', //vertical
+        left: 'center',
+        bottom: '0',
         formatter: (name) => {
           let percent = null;
           let value = null;
@@ -56,7 +56,7 @@
         {
           type: 'pie',
           radius: '50%',
-          center: ['30%', '50%'],
+          center: ['48%', '50%'],
           data: data.map((x) => {
             return {
               name: x.showName,
