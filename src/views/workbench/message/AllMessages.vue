@@ -75,7 +75,8 @@
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
   import {
     notificationApi,
-    notificationDetailApi,
+    notificatMsgDetailApi,
+    // notificationDetailApi,
     notificationRemoveApi,
     notificationUpdateStateApi,
   } from '/@/api/workbench/index';
@@ -161,19 +162,6 @@
     startTime: '',
     endTime: '',
   });
-  // function messageTableDetail() {
-  //   //单条跳转查询
-  //   const ids = [props.paramId];
-  //   if (props.paramState == '1') {
-  //     try {
-  //       // 更新为已读
-  //       notificationUpdateStateApi({ ids, state: '2' });
-  //       // 更新未读消息数量
-  //       userStore.refreshMessageCount();
-  //     } catch (error) {}
-  //   }
-  // }
-
   //显示详情
   function detailData(dataSource) {
     if (dataSource.length == 0) {
@@ -194,7 +182,7 @@
       reload,
     },
   ] = useTable({
-    api: notificationApi,
+    api: props.paramId ? notificatMsgDetailApi : notificationApi,
     columns: getColumns(),
     rowKey: 'id', //唯一值
     pagination: {
@@ -204,14 +192,6 @@
     clickToRowSelect: false, //是否开启点击行选中
     useSearchForm: false, //是否开启form搜索表单
     searchInfo: searchInfoList,
-    // beforeFetch: (data) => {
-    //   if (props.paramId) {
-    //     messageTableDetail();
-    //     data.id = props.paramId;
-    //   } else {
-    //     data.state = props.tabActiveKey;
-    //   }
-    // },
     afterFetch: (data) => {
       const { records } = getRawDataSource();
       detailData(records);
