@@ -64,7 +64,7 @@
           },
           data: data.map((x) => {
             return {
-              name: x.showName,
+              name: '类型',
               value: x.showValue,
             };
           }),
