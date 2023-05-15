@@ -777,7 +777,7 @@ export function ResultDetail(index: number): DescItem[] {
 export function getApplyFormSchema(): FormSchema[] {
   return [
     {
-      field: 'oldEndTime',
+      field: 'jobEndTime',
       component: 'DatePicker',
       label: '原截止时间',
       componentProps: {

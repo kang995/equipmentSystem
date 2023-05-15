@@ -198,7 +198,7 @@
   }
 
   //工单详情
-  const oldEndTime = ref<any>();
+  const jobEndTime = ref<any>();
   const maintainStatus = ref<string>('');
   id &&
     maintainDetailApi({ id }).then((res) => {
@@ -208,11 +208,11 @@
       result.value = res.acceptList; //验收结果
       maintainStatus.value = res.maintainStatus;
       //原截止时间
-      oldEndTime.value = res.delay.oldEndTime;
+      jobEndTime.value = res.jobEndTime;
       isShow &&
         setTimeout(() => {
           setFieldsValueApply({
-            oldEndTime: oldEndTime.value,
+            jobEndTime: jobEndTime.value,
           });
         });
     });
@@ -224,7 +224,7 @@
     apply.value = true;
     setTimeout(() => {
       setFieldsValueApply({
-        oldEndTime: oldEndTime.value,
+        jobEndTime: jobEndTime.value,
       });
     });
   }
