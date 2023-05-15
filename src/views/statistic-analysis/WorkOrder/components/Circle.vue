@@ -65,7 +65,7 @@
           left: 'center',
           top: 'center',
           style: {
-            text: `${data[0].percent}%${props.flag === 1 ? '返工率' : '延期率'}`,
+            text: `${data[1].percent}%${props.flag === 1 ? '返工率' : '延期率'}`,
             fontSize: 20,
             lineHeight: 16,
           },
