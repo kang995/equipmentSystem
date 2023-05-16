@@ -143,8 +143,14 @@
     UpkeepWorkOrderDelayAuditApi,
     UpkeepWorkOrderApplyDelayApi,
   } from '/@/api/device-service/service';
-  import daixiafa from '/@/assets/images/daixiafa@2x.png';
+  // import daixiafa from '/@/assets/images/daixiafa@2x.png';
   import shenqingyanqi from '/@/assets/images/shenqingyanqi@2x.png';
+  import weikaishi from '/@/assets/images/weikaishi.png';
+  import daizhixing from '/@/assets/images/daizhixing.png';
+  import daiyanshou from '/@/assets/images/daiyanshou@2x.png';
+  import tongguo from '/@/assets/images/tongguo@2x.png';
+  import weitongguo from '/@/assets/images/weitongguo@2x.png';
+  import zhongzhi from '/@/assets/images/zhongzhi.png';
 
   const postponeRef = ref();
   const reIssueRef = ref();
@@ -181,8 +187,19 @@
   function handleStatus(identity, status, delayFlag) {
     if (identity === '1' && status === '2' && delayFlag === '2') {
       return shenqingyanqi;
-    } else if (identity === '1' && status === '2') {
-      return daixiafa;
+    }
+    if (status === '1') {
+      return weikaishi;
+    } else if (status === '2') {
+      return daizhixing;
+    } else if (status === '3') {
+      return daiyanshou;
+    } else if (status === '4') {
+      return tongguo;
+    } else if (status === '5') {
+      return weitongguo;
+    } else if (status === '6') {
+      return zhongzhi;
     }
   }
   // 详情
