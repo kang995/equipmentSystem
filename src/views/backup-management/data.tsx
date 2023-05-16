@@ -472,6 +472,7 @@ export const formSchemaIssue: FormSchema[] = [
     label: '出库时间',
     componentProps: {
       placeholder: '请选择出库时间',
+      valueFormat: 'YYYY-MM-DD',
     },
   },
 ];
@@ -508,6 +509,7 @@ export const formSchemaWarehousing: FormSchema[] = [
     label: '入库时间',
     componentProps: {
       placeholder: '请选择入库时间',
+      valueFormat: 'YYYY-MM-DD',
     },
   },
 ];
