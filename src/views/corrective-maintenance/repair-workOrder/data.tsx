@@ -137,6 +137,10 @@ export function tableColumns(): BasicColumn[] {
       },
     },
     {
+      title: '是否延期',
+      dataIndex: 'delayFlagText',
+    },
+    {
       title: '处理人',
       dataIndex: 'dealUserNames',
     },
@@ -283,10 +287,28 @@ export function getFormSchema(): FormSchema[] {
       },
     },
     {
+      field: 'delayFlag',
+      component: 'ApiSelect',
+      label: '工单延期',
+      labelWidth: 96,
+      componentProps: {
+        placeholder: '请选择工单延期',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'DELAY_FLAG',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
+      },
+    },
+    {
       field: 'dealPeopleId',
       component: 'ApiSelect',
       label: '处理人',
-      labelWidth: 96,
+      labelWidth: 64,
       componentProps: {
         placeholder: '请输入处理人姓名',
         api: getPersonSelectApi,

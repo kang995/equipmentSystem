@@ -18,7 +18,7 @@
         <BasicForm @register="registerFrom" />
       </div>
       <!-- 延期审核 -->
-      <div class="mt-[12px]" v-if="status === '1' && !again">
+      <div class="mt-[12px]" v-if="status === '0' && delayFlag === '2' && !again">
         <Description @register="registerPostpone" />
         <div class="font-black text-[#414960] text-[15px] my-[16px]">延期审核</div>
         <BasicForm @register="registerPostponeFrom" />
@@ -38,12 +38,12 @@
         <!-- <Description @register="registerResult" /> -->
       </div>
       <div class="my-[24px]">
-        <template v-if="status === '0' || status === '1'">
-          <div :class="[status === '1' ? 'ml-[25%]' : '']">
+        <template v-if="status === '0'">
+          <div :class="[delayFlag === '2' ? 'ml-[25%]' : '']">
             <a-button class="mr-4" type="primary" v-if="!again" @click="handleAgain"
               >重新下发</a-button
             >
-            <template v-if="status === '1'">
+            <template v-if="delayFlag === '2'">
               <a-button type="primary" v-if="!again" @click="handleAudit">完成审核</a-button>
             </template>
           </div>
@@ -162,6 +162,7 @@
   const status = route.query?.status as string;
   const identity = route.query?.identity as string;
   const id = route.query?.id as string;
+  const delayFlag = route.query?.delayFlag as string;
   // const determineId = route.query?.determineId as string;
 
   const emit = defineEmits(['eventChange']);

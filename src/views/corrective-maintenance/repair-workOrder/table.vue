@@ -47,7 +47,7 @@
             label: '审核',
             onClick: handleAudit.bind(null, record),
             ifShow: () => {
-              return props.ifIssue && record.maintainStatus === '1'; // 根据业务控制是否显示
+              return props.ifIssue && record.maintainStatus === '0' && record.delayFlag === '2'; // 根据业务控制是否显示
             },
             auth: 'device:upkeepWorkOrder:delayAudit',
           },
@@ -246,6 +246,7 @@
         id: record.id, //维修工单id
         status: record.maintainStatus, //0:待处理、 1：待处理(延期申请)、2：待验收、3：验收未通过、4：完成
         identity: props.ifIssue ? '1' : '2', //负责人：1、执行人：2
+        delayFlag: record.delayFlag, //工单延期-- 0:否 1：是 2：延期审核
         // status: '2', //待处理：1、延期申请：2、待验收：3、验收未通过：4、验收通过：5
       },
     });
