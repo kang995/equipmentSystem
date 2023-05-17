@@ -55,15 +55,19 @@
       dataIndex: 'disLocationName',
     },
   ];
-
+  const sourceObj = ref<any>({});
+  const sourceList = ref<any>([]);
+  const [registerModal, { closeModal }] = useModalInner(async (res) => {
+    sourceObj.value = res;
+    sourceList.value = res.dataSourceList;
+    // console.log('sourceObj.value',sourceObj.value)
+  });
   // 表格
   const [registerTable, { getSelectRows, clearSelectedRowKeys }] = useTable({
     columns: columns,
-    dataSource: props.dataSourceList,
+    dataSource: sourceList,
     pagination: false, //取消分页
   });
-
-  const [registerModal, { closeModal }] = useModalInner(() => {});
   function clickOk() {
     const rowId = getSelectRows();
     const dataId = ref<any>([]);
@@ -72,7 +76,7 @@
     });
     loading.value = true;
     if (dataId.value.length > 0) {
-      if (props.activeKey === '1') {
+      if (sourceObj.value.activeKey === '1') {
         //保养统计
         upkeepExportApi({
           num: dataId.value,
@@ -93,7 +97,7 @@
           });
         clearSelectedRowKeys();
         closeModal();
-      } else if (props.activeKey === '2') {
+      } else if (sourceObj.value.activeKey === '2') {
         //维修统计
         console.log('维修统计');
         troubleExportApi({

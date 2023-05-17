@@ -19,12 +19,7 @@
       </div>
     </div>
     <component :is="activeComponent" />
-    <ModalExport
-      @register="registerModal"
-      :dataSourceList="dataSource"
-      :activeKey="activeKey"
-      :key="count"
-    />
+    <ModalExport @register="registerModal" :dataSourceList="dataSource" :activeKey="activeKey" />
   </PageWrapper>
 </template>
 
@@ -58,7 +53,7 @@
     return TabList.filter((item) => item.key == activeKey.value)[0].component;
   });
 
-  const count = ref(0); //更新组件
+  // const count = ref(0); //更新组件
   const dataSource = ref<any>([]);
   // 保养统计
   const dataSource1 = ref<any>([
@@ -97,8 +92,9 @@
         dataSource.value = dataSource3.value;
         break;
     }
-    count.value++;
-    // console.log('key',key,dataSource.value,count.value)
+    // setTimeout(()=>{
+    //   count.value++;
+    // })
   }
 
   onBeforeMount(() => {
@@ -109,7 +105,10 @@
 
   //导出
   function exportTable() {
-    openModal(true);
+    openModal(true, {
+      dataSourceList: dataSource.value,
+      activeKey: activeKey.value,
+    });
   }
 </script>
 
