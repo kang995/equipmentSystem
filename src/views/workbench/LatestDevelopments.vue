@@ -125,7 +125,7 @@
       name: 'Message',
       params: {
         id: item.id,
-        state: item.readOrNo,
+        state: item.state,
         tabActiveKey: '-1', // 查看单条消息
       },
     });
