@@ -36,7 +36,7 @@
         router.push({
           name: 'Message',
           params: {
-            tabActiveKey: '1',
+            tabActiveKey: '2',
           },
         });
       }
