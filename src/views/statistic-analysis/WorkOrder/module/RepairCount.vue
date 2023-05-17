@@ -136,6 +136,7 @@
   //维修工单数量--年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
+    Btnvalue.value = '-1'; //重置btn
     selectYear.value = val;
     val && getWorkCount(val);
     const params = userStore.getRepair;
@@ -163,6 +164,7 @@
   //维修方式占比--年度
   const selectYears = ref<string>(dayjs().format('YYYY'));
   function getRankDatas(val) {
+    Btnvalue1.value = '-1'; //重置btn
     selectYears.value = val;
     val && getWorkCounts(val);
     const params = userStore.getRepair;

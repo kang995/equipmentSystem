@@ -82,6 +82,7 @@
   //年度
   const selectYear = ref<string>(dayjs().format('YYYY'));
   function getRankData(val) {
+    Btnvalue.value = '-1'; //重置btn
     selectYear.value = val;
     val && getWorkCount(val);
     const params = userStore.getOverhauling;
