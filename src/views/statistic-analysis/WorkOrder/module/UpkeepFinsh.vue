@@ -11,6 +11,9 @@
                 :options="optionList"
                 style="width: 120px"
                 @change="handleChange"
+                :allowClear="false"
+                :show-search="true"
+                option-filter-prop="label"
               />
             </div>
           </template>
