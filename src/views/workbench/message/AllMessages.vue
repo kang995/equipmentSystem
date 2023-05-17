@@ -291,7 +291,7 @@
         if (state) {
           notiState(ids, state);
         } else {
-          notificationRemoveApi({ ids: ids }).then(() => {
+          notificationRemoveApi({ idList: ids }).then(() => {
             deleteTableDataRecord(ids);
             createMessage.success('删除成功');
             // 更新未读消息数量
