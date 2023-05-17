@@ -63,7 +63,7 @@
     pagination: false, //取消分页
   });
 
-  const [registerModal, { closeModal }] = useModalInner(async () => {});
+  const [registerModal, { closeModal }] = useModalInner(() => {});
   function clickOk() {
     const rowId = getSelectRows();
     const dataId = ref<any>([]);
