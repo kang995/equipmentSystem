@@ -467,11 +467,11 @@ export const formSchemaIssue: FormSchema[] = [
     },
   },
   {
-    field: 'inOutTime',
-    component: 'DatePicker',
+    field: '[startTime,endTime]',
+    component: 'RangePicker',
     label: '出库时间',
     componentProps: {
-      placeholder: '请选择出库时间',
+      placeholder: ['开始时间', '结束时间'],
       valueFormat: 'YYYY-MM-DD',
     },
   },
@@ -504,11 +504,11 @@ export const formSchemaWarehousing: FormSchema[] = [
     },
   },
   {
-    field: 'inOutTime',
-    component: 'DatePicker',
+    field: '[startTime,endTime]',
+    component: 'RangePicker',
     label: '入库时间',
     componentProps: {
-      placeholder: '请选择入库时间',
+      placeholder: ['开始时间', '结束时间'],
       valueFormat: 'YYYY-MM-DD',
     },
   },
