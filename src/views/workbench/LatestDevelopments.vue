@@ -96,7 +96,6 @@
       pageSize: 5,
       state: '2',
     });
-    console.log('records: 333333', records);
     dynamicInfoItems.value = records.map((item) => {
       return {
         id: item.id, //主键id
