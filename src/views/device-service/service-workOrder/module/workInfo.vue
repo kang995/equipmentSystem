@@ -152,6 +152,8 @@
   import weitongguo from '/@/assets/images/weitongguo@2x.png';
   import zhongzhi from '/@/assets/images/zhongzhi.png';
 
+  const workOrderStatus: any = ref<any>('');
+  const delayFlags: any = ref<any>('');
   const postponeRef = ref();
   const reIssueRef = ref();
   const appplyRef = ref();
@@ -162,9 +164,9 @@
   const route = useRoute();
   const isShow = route.query?.isShow as string;
   const id = route.query?.id as string;
-  const status = route.query?.status as string;
-  const identity = route.query?.identity as string;
-  const delayFlag = route.query?.delayFlag as string;
+  const status = route.query?.status || (workOrderStatus as string);
+  const identity = route.query?.identity || ('1' as string);
+  const delayFlag = route.query?.delayFlag || (delayFlags as string);
 
   onMounted(() => {
     isShow && (apply.value = true);
@@ -211,6 +213,8 @@
       dataSource.value = res.overhaulPlanInfoVO.deviceList; //检修设备
       delayData.value = res.delay; //延期申请
       acceptList.value = res.acceptList; //检修结果和验收结果
+      workOrderStatus.value = res.workOrderInfoVO.workOrderStatus;
+      delayFlags.value = res.workOrderInfoVO.delayFlag;
     });
 
   //执行人

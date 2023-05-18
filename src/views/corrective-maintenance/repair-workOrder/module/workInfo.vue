@@ -154,15 +154,17 @@
   import weitongguo from '/@/assets/images/weitongguo@2x.png';
   import tongguo from '/@/assets/images/tongguo@2x.png';
 
+  const maintainStatus: any = ref<string>('');
+  const delayFlags: any = ref<any>('');
   const { createMessage } = useMessage();
   const router = useRouter();
   const route = useRoute();
   const isShow = route.query?.isShow as string;
   // const isSbumit = route.query?.isSbumit as string;
-  const status = route.query?.status as string;
-  const identity = route.query?.identity as string;
+  const status = route.query?.status || (maintainStatus as string);
+  const identity = route.query?.identity || ('1' as string);
   const id = route.query?.id as string;
-  const delayFlag = route.query?.delayFlag as string;
+  const delayFlag = route.query?.delayFlag || (delayFlags as string);
   // const determineId = route.query?.determineId as string;
 
   const emit = defineEmits(['eventChange']);
@@ -200,7 +202,6 @@
 
   //工单详情
   const jobEndTime = ref<any>();
-  const maintainStatus = ref<string>('');
   id &&
     maintainDetailApi({ id }).then((res) => {
       infoData.value = res; //工单信息
@@ -208,6 +209,7 @@
       repair.value = res.acceptList; //维修结果
       result.value = res.acceptList; //验收结果
       maintainStatus.value = res.maintainStatus;
+      delayFlags.value = res.delayFlag;
       //原截止时间
       jobEndTime.value = res.jobEndTime;
       isShow &&

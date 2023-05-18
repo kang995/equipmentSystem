@@ -152,6 +152,8 @@
   import weitongguo from '/@/assets/images/weitongguo@2x.png';
   import zhongzhi from '/@/assets/images/zhongzhi.png';
 
+  const workOrderStatus: any = ref<any>('');
+  const delayFlags: any = ref<any>('');
   const postponeRef = ref();
   const reIssueRef = ref();
   const { createMessage } = useMessage();
@@ -159,9 +161,9 @@
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id as string;
-  const status = route.query?.status as string;
-  const identity = route.query?.identity as string;
-  const delayFlag = route.query?.delayFlag as string;
+  const status = route.query?.status || (workOrderStatus as string);
+  const identity = route.query?.identity || ('1' as string);
+  const delayFlag = route.query?.delayFlag || (delayFlags as string);
 
   const props = defineProps<{
     partFlag: Boolean;
@@ -248,6 +250,8 @@
       dataSource.value = res.upkeepPlanInfoVO.deviceList;
       delayData.value = res.delay;
       acceptList.value = res.acceptList;
+      workOrderStatus.value = res.workOrderInfoVO.workOrderStatus;
+      delayFlags.value = res.workOrderInfoVO.delayFlag;
     });
 
   // 负责人

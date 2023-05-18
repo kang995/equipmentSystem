@@ -110,12 +110,14 @@
   import shenhezhong from '/@/assets/images/shenhezhong@2x.png';
   import weitijiao from '/@/assets/images/weitijiao@2x.png';
 
+  const AuditStatus: any = ref<any>();
+  const planStatus1: any = ref<any>();
   const route = useRoute();
   const router = useRouter();
-  const status = route.query?.status as string;
-  const mode = route.query?.mode as string;
+  const status = route.query?.status || (AuditStatus as string);
+  let mode = route.query?.mode as string;
   const id = route.query?.id as string;
-  const planStatus = route.query?.planStatus as string;
+  const planStatus = route.query?.planStatus || (planStatus1 as string);
 
   const [planModal, { openModal: openPlanModal }] = useModal();
   const [RecallModal, { openModal: openRecallModal }] = useModal();
@@ -124,6 +126,26 @@
   const [registerRejectModel, { openModal: rejectOpenModal, setModalProps: setModalRejectProps }] =
     useModal();
   let dataSource = ref<any>([]);
+
+  //三方跳转时判断mode
+  if (!mode) {
+    //mode--保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+    let url = window.location.href;
+    if (url.includes('plan-details')) {
+      //保养计划管理详情
+      mode = '1';
+    } else if (url.includes('maintain-details')) {
+      //保养计划审核详情
+      mode = '2';
+    } else if (url.includes('planManagement-details')) {
+      //检修计划管理详情
+      mode = '3';
+    } else if (url.includes('planAudit-details')) {
+      //检修计划审核详情
+      mode = '4';
+    }
+  }
+
   const [register] = useDescription({
     data: dataSource,
     schema: MaintainDetail(status, mode),
@@ -235,7 +257,6 @@
     id && (mode === '3' || mode === '4') && getServiceDetail();
   });
 
-  const AuditStatus = ref<any>();
   const approvalButtonShow = ref<any>();
   //保养计划管理、保养计划审核详情
   function getMaintainDetail() {
@@ -244,6 +265,7 @@
       // 审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
       AuditStatus.value = res.approvalStatus;
       approvalButtonShow.value = res.approvalButtonShow;
+      planStatus1.value = res.planStatus;
     });
   }
   //检修计划管理、检修计划审核详情
@@ -253,6 +275,7 @@
       // 审核状态（1：待提交；2：审核中；3：审核通过；4：审核拒绝）
       AuditStatus.value = res.approvalStatus;
       approvalButtonShow.value = res.approvalButtonShow;
+      planStatus1.value = res.planStatus;
     });
   }
 </script>

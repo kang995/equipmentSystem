@@ -56,7 +56,10 @@
               <span :class="`${prefixCls}-title`">{{ item?.title }}</span>
             </template>
             <DescriptionsItem value="userName" :class="`${prefixCls}-detail`">
-              <span class="cursor-pointer"> {{ item?.content }}</span>
+              <div class="flex flex-col items-start">
+                <span class="cursor-pointer"> {{ item?.content }}</span>
+                <Button class="mt-2" type="primary" @click="handCheck(item)">查看详情</Button>
+              </div>
             </DescriptionsItem>
           </Descriptions>
         </div>
@@ -71,7 +74,7 @@
   import { getColumns, schemasSearch } from './data';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { ButtonProps } from '/@/components/Button';
-  import { Modal, Card } from 'ant-design-vue';
+  import { Modal, Card, Button } from 'ant-design-vue';
   import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
   import {
     notificationApi,
@@ -203,7 +206,11 @@
       // return arr;
     },
   });
-
+  //详情跳转
+  function handCheck(item) {
+    window.location.href = item.webNotifyUrl;
+    // window.location.href = location.origin + '/device/#/device-service/service-workOrder/overhaul-details?id=1651423822949253120';
+  }
   //点击显示详情
   function rowClick(val) {
     const tableData = getDataSource();

@@ -44,12 +44,15 @@
   import yijiejue from '/@/assets/images/yijiejue@2x.png';
   import jianxiu from '/@/assets/images/jianxiu@2x.png';
 
+  const troubleDetermine1: any = ref<any>();
+  const troubleStatus1: any = ref<any>();
+
   const route = useRoute();
   const router = useRouter();
-  const troubleStatus = route.query.troubleStatus as string;
+  const troubleStatus = route.query.troubleStatus || (troubleStatus1 as string);
   const id = route.query.id as string; //故障id
   const workOrderId = route.query.workOrderId as string; //维修工单id
-  const troubleDetermine = route.query.troubleDetermine as string;
+  const troubleDetermine = route.query.troubleDetermine || (troubleDetermine1 as string);
   const faultData = ref<any>(); //故障确认
   const resultData = ref<any>(); //维修结果、验收结果
 
@@ -106,13 +109,15 @@
   //详情
   id &&
     TroubleDetailApi({ id }).then((res) => {
+      troubleStatus1.value = res.troubleStatus;
+      troubleDetermine1.value = res.troubleDetermine;
       //故障信息
       data.value = res;
       //故障确认 0:自修、1：委外维修 2：列入检修计划
       faultData.value =
-        troubleDetermine === '0'
+        res.troubleDetermine === '0'
           ? res.deviceTroubleOneselfVO
-          : troubleDetermine === '1'
+          : res.troubleDetermine === '1'
           ? res.deviceTroubleOutsourceVO
           : res.deviceTroubleOverhaulVO;
       console.log('faultData.value', faultData.value);
