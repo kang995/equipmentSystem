@@ -192,15 +192,15 @@
     clickToRowSelect: false, //是否开启点击行选中
     useSearchForm: false, //是否开启form搜索表单
     searchInfo: searchInfoList,
-    afterFetch: (data) => {
+    afterFetch: () => {
       const { records } = getRawDataSource();
       detailData(records);
       //消息类型
-      let arr = data.map((item) => {
-        item['messageTypeText'] = item.title.split(']')[1];
-        return item;
-      });
-      return arr;
+      // let arr = data.map((item) => {
+      //   item['messageTypeText'] = item.title.split(']')[1];
+      //   return item;
+      // });
+      // return arr;
     },
   });
 
