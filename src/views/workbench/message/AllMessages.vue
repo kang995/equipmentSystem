@@ -129,9 +129,9 @@
   }
   //自定义查询
   async function submitFunc() {
-    const { topicContent, serviceMessageType, startTime, endTime } = getFieldsValue();
+    const { topicContent, messageType, startTime, endTime } = getFieldsValue();
     searchInfoList.value.topicContent = topicContent;
-    searchInfoList.value.serviceMessageType = serviceMessageType;
+    searchInfoList.value.messageType = messageType;
     searchInfoList.value.startTime = startTime;
     searchInfoList.value.endTime = endTime;
     reload();
@@ -139,7 +139,7 @@
   //查询接口
   async function projectQuery() {
     searchInfoList.value.topicContent = '';
-    searchInfoList.value.serviceMessageType = '';
+    searchInfoList.value.messageType = '';
     searchInfoList.value.startTime = '';
     searchInfoList.value.endTime = '';
     searchInfoList.value.page = 1;
@@ -158,7 +158,7 @@
     readOrNo: props.paramId ? '1' : props.tabActiveKey,
     id: props.paramId ? props.paramId : '',
     topicContent: '', //内容/标题（选填）
-    serviceMessageType: '', //消息类型
+    messageType: '', //消息类型
     startTime: '',
     endTime: '',
   });
