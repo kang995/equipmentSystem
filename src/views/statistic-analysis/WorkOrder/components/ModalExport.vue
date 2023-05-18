@@ -145,3 +145,8 @@
     }
   }
 </script>
+<style scoped lang="less">
+  ::v-deep(.selected_number) {
+    bottom: -4px;
+  }
+</style>
