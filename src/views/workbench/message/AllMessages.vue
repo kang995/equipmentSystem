@@ -170,7 +170,7 @@
     if (dataSource.length == 0) {
       descriptionsList.value = [{}];
     } else {
-      Detail(dataSource[0]);
+      Detail(dataSource[0].id);
     }
   }
 
@@ -183,6 +183,7 @@
       getRawDataSource,
       getDataSource,
       reload,
+      setTableData,
     },
   ] = useTable({
     api: props.paramId ? notificatMsgDetailApi : notificationApi,
@@ -219,7 +220,7 @@
     const id = val.id;
     //详情
     console.log('详情', val);
-    Detail(val);
+    Detail(id);
     //已读
     if (val.readOrNo === '2') {
       //1（已读）/2（未读）
@@ -228,11 +229,11 @@
   }
 
   //详情
-  function Detail(item: any) {
-    // notificationDetailApi(id).then((res) => {
-    //   descriptionsList.value = [res];
-    // });
-    descriptionsList.value = [item];
+  function Detail(id: string) {
+    notificatMsgDetailApi({ id }).then((res) => {
+      descriptionsList.value = [res];
+    });
+    // descriptionsList.value = [item];
   }
   //改变状态：已读，标记
   async function notiState(ids = [] as any, state = '', ifShow?) {
@@ -243,7 +244,6 @@
         createMessage.success('已读');
         // 更新未读消息数量
         await userStore.refreshMessageCount();
-        reload();
       }
       // else if (state == '3') {
       //   createMessage.success('标记成功');
@@ -256,16 +256,18 @@
       console.log(error);
     }
     clearSelectedRowKeys();
-    if (props.tabActiveKey == '2') {
-      //未读
+    if (props.tabActiveKey == '1') {
+      //已读
     } else {
+      console.log('ifShow', ifShow);
       if (ifShow) {
         const tableData = getDataSource();
         tableData.forEach((item) => {
           if (item.id == ifShow.id) {
-            // item.readOrNo = '1';
+            item.readOrNo = '1'; //置为已读
           }
         });
+        setTableData(tableData);
       }
     }
   }
