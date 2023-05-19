@@ -10,7 +10,7 @@
     </div>
     <Card>
       <div class="grid-box">
-        <div class="box-flex">
+        <div :class="['box-flex', props.paramId ? 'mt-3' : '']">
           <BasicTable
             :row-class-name="(record: any) => record.className"
             style="padding: 0; margin: 0"
@@ -20,7 +20,9 @@
           >
             <!--按钮-->
             <template #tableTitle>
-              <a-button class="mr-4" @click="handleDelEdit">批量删除</a-button>
+              <a-button v-if="!props.paramId" class="mr-4" @click="handleDelEdit"
+                >批量删除</a-button
+              >
               <a-button
                 class="mr-4"
                 @click="handleState"
