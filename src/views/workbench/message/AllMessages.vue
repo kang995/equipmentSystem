@@ -10,7 +10,7 @@
     </div>
     <Card>
       <div class="grid-box">
-        <div :class="['box-flex', props.paramId ? 'mt-3' : '']">
+        <div class="box-flex">
           <BasicTable
             :row-class-name="(record: any) => record.className"
             style="padding: 0; margin: 0"
@@ -20,9 +20,7 @@
           >
             <!--按钮-->
             <template #tableTitle>
-              <a-button v-if="!props.paramId" class="mr-4" @click="handleDelEdit"
-                >批量删除</a-button
-              >
+              <a-button class="mr-4" @click="handleDelEdit">批量删除</a-button>
               <a-button
                 class="mr-4"
                 @click="handleState"
@@ -53,17 +51,22 @@
         </div>
 
         <div :class="`${prefixCls}-descriptions`">
-          <Descriptions :column="1" v-for="item in descriptionsList" :key="item">
-            <template #title>
-              <span :class="`${prefixCls}-title`">{{ item?.title }}</span>
-            </template>
-            <DescriptionsItem value="userName" :class="`${prefixCls}-detail`">
-              <div class="flex flex-col items-start">
-                <span class="cursor-pointer"> {{ item?.content }}</span>
-                <Button class="mt-2" type="primary" @click="handCheck(item)">查看详情</Button>
-              </div>
-            </DescriptionsItem>
-          </Descriptions>
+          <template v-if="descriptionsList.length">
+            <Descriptions :column="1" v-for="item in descriptionsList" :key="item">
+              <template #title>
+                <span :class="`${prefixCls}-title`">{{ item?.title }}</span>
+              </template>
+              <DescriptionsItem value="userName" :class="`${prefixCls}-detail`">
+                <div class="flex flex-col items-start">
+                  <span class="cursor-pointer"> {{ item?.content }}</span>
+                  <Button class="mt-2" type="primary" @click="handCheck(item)">查看详情</Button>
+                </div>
+              </DescriptionsItem>
+            </Descriptions>
+          </template>
+          <div class="flex justify-center mt-50" v-else>
+            <Empty :image="simpleImage" />
+          </div>
         </div>
       </div>
     </Card>
@@ -85,12 +88,13 @@
     notificationRemoveApi,
     notificationUpdateStateApi,
   } from '/@/api/workbench/index';
-  import { Badge } from 'ant-design-vue';
+  import { Badge, Empty } from 'ant-design-vue';
   import { useMessage } from '/@/hooks/web/useMessage';
   import { Descriptions } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useUserStore } from '/@/store/modules/user';
 
+  const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
   const { prefixCls } = useDesign('custom-messages');
   const DescriptionsItem = Descriptions.Item;
   const resetButtonOptions = { preIcon: 'gonggong_zhongzhi|svg' } as ButtonProps;
@@ -170,7 +174,7 @@
   //显示详情
   function detailData(dataSource) {
     if (dataSource.length == 0) {
-      descriptionsList.value = [{}];
+      descriptionsList.value = [];
     } else {
       Detail(dataSource[0].id);
     }
@@ -307,7 +311,11 @@
             createMessage.success('删除成功');
             // 更新未读消息数量
             userStore.refreshMessageCount();
-            reload();
+            if (props.paramId) {
+              descriptionsList.value = [];
+            } else {
+              reload();
+            }
           });
         }
       },
