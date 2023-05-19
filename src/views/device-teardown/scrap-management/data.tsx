@@ -262,6 +262,9 @@ export function schemasAdd(location, routeId): FormSchema[] {
         options: [],
         fieldNames: { label: 'name', value: 'id' },
         getPopupContainer: () => document.body,
+        showSearch: true,
+        allowClear: true,
+        optionFilterProp: 'name',
       },
     },
     {
