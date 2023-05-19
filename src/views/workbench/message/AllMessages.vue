@@ -274,6 +274,8 @@
           }
         });
         setTableData(tableData);
+      } else {
+        reload();
       }
     }
   }
@@ -313,6 +315,7 @@
             userStore.refreshMessageCount();
             if (props.paramId) {
               descriptionsList.value = [];
+              clearSelectedRowKeys();
             } else {
               reload();
             }
