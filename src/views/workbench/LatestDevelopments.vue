@@ -30,16 +30,13 @@
               <template #description>
                 <div
                   :class="{
-                    box: item.title,
-                    boxUpdate: ['行政通知!', '教育培训!', '系统更新!', '任务通知!'].includes(
-                      item.title.split(']')[1],
-                    ),
-                    boxRed: ['特别提示!', '报警消息!'].includes(item.title.split(']')[1]),
-                    yellowColor: ['临时通知!'].includes(item.title.split(']')[1]),
+                    box: item.messageType,
+                    boxUpdate: ['5', '6', '7', '8'].includes(item.messageType),
+                    boxRed: ['4'].includes(item.messageType),
                   }"
                 >
                   <span class="text-xs leading-[20px] text-center m-0">{{
-                    item.title.split(']')[1]
+                    item.messageTypeText
                   }}</span>
                 </div>
               </template>
@@ -103,8 +100,8 @@
         day: item.createTime.split('-')[2].split(' ')[0], //接收时间
         month: item.createTime.split('-')[1], //接收时间
         title: item.title, //标题
-        // messageType: item.messageType,//消息类型
-        // messageTypeText: item.messageTypeText,//消息类型
+        messageType: item.messageType, //消息类型
+        messageTypeText: item.messageTypeText,
       };
     });
   }
