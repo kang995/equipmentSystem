@@ -56,7 +56,8 @@
   const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
-  const status = route.query?.status as string;
+  const maintainStatus: any = ref<string>('');
+  const status = route.query?.status || (maintainStatus as string);
   const id = route.query?.id as string;
   // const determineId = route.query?.determineId as string;
   const repair = ref<any>([]); //维修结果
@@ -78,7 +79,6 @@
     }
   }
   //详情
-  const maintainStatus = ref<string>('');
   id &&
     maintainDetailApi({ id }).then((res) => {
       infoData.value = res; //工单信息

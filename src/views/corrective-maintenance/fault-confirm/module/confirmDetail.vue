@@ -50,13 +50,15 @@
   import yijiejue from '/@/assets/images/yijiejue@2x.png';
   import jianxiu from '/@/assets/images/jianxiu@2x.png';
 
+  const troubleStatus1: any = ref<any>();
+  const troubleDetermine1: any = ref<any>();
   const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
-  const troubleStatus = route.query?.troubleStatus as string; //故障状态
+  const troubleStatus = route.query?.troubleStatus || (troubleStatus1 as string); //故障状态
   // const flag = route.query?.flag as string; //待确认1 已确认2
   const id = route.query?.id as string;
-  const troubleDetermine = route.query.troubleDetermine as string; //确认结果
+  const troubleDetermine = route.query.troubleDetermine || (troubleDetermine1 as string); //确认结果
   const faultData = ref<any>({}); //故障确认
 
   //审核icon
@@ -78,6 +80,8 @@
   //详情
   id &&
     TroubleDetailApi({ id }).then((res) => {
+      troubleStatus1.value = res.troubleStatus;
+      troubleDetermine1.value = res.troubleDetermine;
       //待确认-故障信息
       data.value = res;
       // //已确认-故障信息
