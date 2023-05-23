@@ -105,5 +105,22 @@ export function getFormSchema(): FormSchema[] {
         optionFilterProp: 'label',
       },
     },
+    {
+      field: 'approvalStatus',
+      component: 'ApiSelect',
+      label: '审核状态',
+      componentProps: {
+        placeholder: '请选择审核状态',
+        api: getDictionarySelectTypeApi,
+        params: {
+          type: 'APPROVAL_STATUS',
+        },
+        resultField: 'data', //后台返回数据字段
+        labelField: 'itemName',
+        valueField: 'itemValue',
+        showSearch: true,
+        optionFilterProp: 'label',
+      },
+    },
   ];
 }
