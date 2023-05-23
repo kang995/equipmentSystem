@@ -334,8 +334,8 @@
           console.log(err);
         });
     } else {
-      // id && (params['id'] = id);
-      // params['version'] = versionVal.value;
+      id && (params['id'] = id);
+      params['version'] = versionVal.value;
       if (approvalStatus === '1') {
         //待提交
         updatePlanListApi(params)
