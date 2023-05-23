@@ -334,9 +334,9 @@
           console.log(err);
         });
     } else {
-      id && (params['id'] = id);
-      params['version'] = versionVal.value;
       if (approvalStatus === '1') {
+        id && (params['id'] = id);
+        params['version'] = versionVal.value;
         //待提交
         updatePlanListApi(params)
           .then(() => {
@@ -351,7 +351,7 @@
         reUpdatePlanListApi(params)
           .then(() => {
             router.go(-1);
-            createMessage.success('编辑成功');
+            createMessage.success('重新编辑成功');
           })
           .catch((err) => {
             console.log(err);
