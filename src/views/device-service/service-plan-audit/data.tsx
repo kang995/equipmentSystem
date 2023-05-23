@@ -70,7 +70,7 @@ export function tableColumns(): BasicColumn[] {
   ];
 }
 
-export function getFormSchema(): FormSchema[] {
+export function getFormSchema(ifIssue: boolean): FormSchema[] {
   return [
     {
       field: 'code',
@@ -120,6 +120,9 @@ export function getFormSchema(): FormSchema[] {
         valueField: 'itemValue',
         showSearch: true,
         optionFilterProp: 'label',
+      },
+      ifShow: ({}) => {
+        return !ifIssue;
       },
     },
   ];

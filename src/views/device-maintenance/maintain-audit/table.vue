@@ -62,7 +62,7 @@
       defaultHidden: !hasPermission(['device:upkeepPlanApproval:approval']),
     },
     formConfig: {
-      schemas: getFormSchema(),
+      schemas: getFormSchema(props.ifIssue),
       autoSubmitOnEnter: true,
       showAdvancedButton: false, //是否显示收起展开按钮
       resetButtonOptions: {
