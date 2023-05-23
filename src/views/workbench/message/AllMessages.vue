@@ -59,7 +59,9 @@
               <DescriptionsItem value="userName" :class="`${prefixCls}-detail`">
                 <div class="flex flex-col items-start">
                   <span class="cursor-pointer"> {{ item?.content }}</span>
-                  <Button class="mt-2" type="primary" @click="handCheck(item)">查看详情</Button>
+                  <Button v-if="false" class="mt-2" type="primary" @click="handCheck(item)"
+                    >查看详情</Button
+                  >
                 </div>
               </DescriptionsItem>
             </Descriptions>
@@ -74,6 +76,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { useRouter } from 'vue-router';
   import { ref, createVNode, withDefaults } from 'vue';
   import { BasicTable, useTable } from '/@/components/Table';
   import { getColumns, schemasSearch } from './data';
@@ -94,6 +97,7 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useUserStore } from '/@/store/modules/user';
 
+  const router = useRouter();
   const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
   const { prefixCls } = useDesign('custom-messages');
   const DescriptionsItem = Descriptions.Item;
@@ -213,8 +217,47 @@
       // return arr;
     },
   });
+  function handleJump(itemUrl) {
+    let id = '';
+    let code = '1'; //1:设备保养 2：故障维修 3：设备检修
+    let workState = '1'; //工单状态-- 1:未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+    let approvalStatus = '1'; //审批状态--1：待提交 2：审批中 3：审批通过 4：审批拒绝 5：其他
+    if (code === '1') {
+      //保养工单详情、保养验收详情
+      if (itemUrl.includes('/workOrder-details') || itemUrl.includes('/acceptance-details')) {
+        if (workState === '1' || workState === '2' || workState === '6') {
+          //保养工单详情
+          router.push({
+            name: 'workOrderDetail',
+            query: {
+              id,
+              identity: workState === '1' || workState === '6' ? '1' : '2', //负责人：1、执行人：2
+            },
+          });
+        } else {
+          //保养验收详情
+          router.push({
+            name: 'acceptanceDetail',
+            query: {
+              id,
+              status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
+            },
+          });
+        }
+      }
+
+      //保养计划详情、保养计划审批详情
+      if (itemUrl.includes('/plan-details') || itemUrl.includes('/maintain-details')) {
+        if (approvalStatus === '1' || approvalStatus === '5') {
+        }
+      }
+    } else if (code === '2') {
+    } else if (code === '3') {
+    }
+  }
   //详情跳转
   function handCheck(item) {
+    // handleJump(location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552');
     window.location.href = item.webNotifyUrl;
     // window.location.href = location.origin + '/device/#/device-service/service-workOrder/overhaul-details?id=1651423822949253120';
   }
