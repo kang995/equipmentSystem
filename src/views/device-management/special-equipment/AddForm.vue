@@ -136,6 +136,9 @@
     if (!data.affixList) {
       data['affixList'] = [];
     }
+    if (!data.blueprintList) {
+      data['blueprintList'] = [];
+    }
     const geographicalPositionValue = PositionData.value as any;
     if (
       geographicalPositionValue[0].longitude !== '' ||

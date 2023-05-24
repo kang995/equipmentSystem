@@ -100,6 +100,7 @@
   import { getPlanDetailApi } from '/@/api/device-maintenance/index';
   import { UpkeepWorkOrderDetailsApi } from '/@/api/device-service/service';
   import { OverhaulPlanDetailsApi } from '/@/api/device-service/index';
+  import { TroubleDetailApi } from '/@/api/corrective-maintenance/fault';
 
   const router = useRouter();
   const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
@@ -367,6 +368,7 @@
     //区分计划，工单类型：BYGD-保养工单 BY-保养计划 JX-检修计划 JXGD-检修工单  TZSB-特种设备 CG-故障确认 WX-维修工单 WXYS-维修验收
     let workOrderStatus; //工单状态
     let approvalStatus; //审批状态
+    let troubleStatus; //故障状态
     if (code === 'BYGD') {
       //保养工单
       upkeepDetailsApi({ id }).then((res) => {
@@ -407,6 +409,22 @@
           RouterJump('planAuditDetails', { id }); //检修计划审批详情
         }
       });
+    } else if (code === 'CG') {
+      //故障确认
+      TroubleDetailApi({ id }).then((res) => {
+        troubleStatus = res.troubleStatus;
+        if (troubleStatus) {
+          RouterJump('confirmDetail', { id }); //故障确认详情
+        }
+      });
+    } else if (code === 'WX') {
+      //维修工单
+      RouterJump('repairDetail', { id }); //维修工单详情
+    } else if (code === 'WXYS') {
+      //维修验收
+      RouterJump('checkDetails', { id }); //维修验收详情
+    } else if (code === 'TZSB') {
+      //特种设备
     }
   }
   //详情跳转
