@@ -96,6 +96,10 @@
   import { Descriptions } from 'ant-design-vue';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useUserStore } from '/@/store/modules/user';
+  import { upkeepDetailsApi } from '/@/api/device-maintenance/work';
+  import { getPlanDetailApi } from '/@/api/device-maintenance/index';
+  import { UpkeepWorkOrderDetailsApi } from '/@/api/device-service/service';
+  import { OverhaulPlanDetailsApi } from '/@/api/device-service/index';
 
   const router = useRouter();
   const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
@@ -217,153 +221,208 @@
       // return arr;
     },
   });
-  function handleJump(itemUrl) {
-    let id = '';
-    let code = '1'; //1:设备保养 2：故障维修 3：设备检修
-    let workState = '1'; //工单状态-- 1:未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
-    let approvalStatus = '1'; //审批状态--1：待提交 2：审批中 3：审批通过 4：审批拒绝 5：其他
-    //故障维修
-    let faultStatus = '0'; //故障状态-- 0：待确认 2：处理中 3：已解决 4：已转计划
-    let workState1 = '0'; //工单状态-- 0：待处理 1：待处理(延期申请) 2：待验收 3：验收未通过 4：完成
-    if (code === '1') {
-      //1、设备保养
-      //保养工单详情、保养验收详情
-      if (itemUrl.includes('workOrder-details') || itemUrl.includes('acceptance-details')) {
-        if (workState === '1' || workState === '2' || workState === '6') {
-          //保养工单详情
-          router.push({
-            name: 'workOrderDetail',
-            query: {
-              id,
-              identity: workState === '1' || workState === '6' ? '1' : '2', //负责人：1、执行人：2
-            },
-          });
-        } else {
-          //保养验收详情
-          router.push({
-            name: 'acceptanceDetail',
-            query: {
-              id,
-              // status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
-            },
-          });
-        }
-      }
+  // function handleJump(itemUrl) {
+  //   let id = '';
+  //   let code = '1'; //1:设备保养 2：故障维修 3：设备检修
+  //   let workState = '1'; //工单状态-- 1:未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+  //   let approvalStatus = '1'; //审批状态--1：待提交 2：审批中 3：审批通过 4：审批拒绝 5：其他
+  //   //故障维修
+  //   let faultStatus = '0'; //故障状态-- 0：待确认 2：处理中 3：已解决 4：已转计划
+  //   let workState1 = '0'; //工单状态-- 0：待处理 1：待处理(延期申请) 2：待验收 3：验收未通过 4：完成
+  //   if (code === '1') {
+  //     //1、设备保养
+  //     //保养工单详情、保养验收详情
+  //     if (itemUrl.includes('workOrder-details') || itemUrl.includes('acceptance-details')) {
+  //       if (workState === '1' || workState === '2' || workState === '6') {
+  //         //保养工单详情
+  //         router.push({
+  //           name: 'workOrderDetail',
+  //           query: {
+  //             id,
+  //             identity: workState === '1' || workState === '6' ? '1' : '2', //负责人：1、执行人：2
+  //           },
+  //         });
+  //       } else {
+  //         //保养验收详情
+  //         router.push({
+  //           name: 'acceptanceDetail',
+  //           query: {
+  //             id,
+  //             // status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
+  //           },
+  //         });
+  //       }
+  //     }
 
-      //保养计划详情、保养计划审批详情
-      if (itemUrl.includes('plan-details') || itemUrl.includes('maintain-details')) {
+  //     //保养计划详情、保养计划审批详情
+  //     if (itemUrl.includes('plan-details') || itemUrl.includes('maintain-details')) {
+  //       if (approvalStatus === '1' || approvalStatus === '5') {
+  //         //保养计划详情
+  //         router.push({
+  //           name: 'planDetails',
+  //           query: {
+  //             id,
+  //           },
+  //         });
+  //       } else {
+  //         //保养计划审批详情
+  //         router.push({
+  //           name: 'maintainDetails',
+  //           query: {
+  //             id,
+  //           },
+  //         });
+  //       }
+  //     }
+  //   } else if (code === '2') {
+  //     //2：故障维修
+  //     //故障确认详情
+  //     if (itemUrl.includes('confirm-details')) {
+  //       if (faultStatus) {
+  //         router.push({
+  //           name: 'confirmDetail',
+  //           query: {
+  //             id,
+  //           },
+  //         });
+  //       }
+  //     }
+
+  //     //维修工单详情、维修验收详情
+  //     if (itemUrl.includes('repair-details') || itemUrl.includes('check-details')) {
+  //       if (workState1 === '0' || workState1 === '1') {
+  //         //维修工单详情
+  //         router.push({
+  //           name: 'repairDetail',
+  //           query: {
+  //             id,
+  //             identity: '2', //负责人：1、执行人：2
+  //           },
+  //         });
+  //       } else {
+  //         //维修验收详情
+  //         router.push({
+  //           name: 'checkDetails',
+  //           query: {
+  //             id,
+  //           },
+  //         });
+  //       }
+  //     }
+  //   } else if (code === '3') {
+  //     //3：设备检修
+  //     //检修工单详情、检修验收详情
+  //     if (itemUrl.includes('overhaul-details') || itemUrl.includes('check-details')) {
+  //       if (workState === '1' || workState === '2' || workState === '6') {
+  //         //检修工单详情
+  //         router.push({
+  //           name: 'overhaulDetail',
+  //           query: {
+  //             id,
+  //             identity: workState === '1' || workState === '6' ? '1' : '2', //负责人：1、执行人：2
+  //           },
+  //         });
+  //       } else {
+  //         //检修验收详情
+  //         router.push({
+  //           name: 'checkDetail',
+  //           query: {
+  //             id,
+  //             // status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
+  //           },
+  //         });
+  //       }
+  //     }
+
+  //     //检修计划详情、检修计划审批详情
+  //     if (itemUrl.includes('planManagement-details') || itemUrl.includes('planAudit-details')) {
+  //       if (approvalStatus === '1' || approvalStatus === '5') {
+  //         //检修计划详情
+  //         router.push({
+  //           name: 'planManagementDetails',
+  //           query: {
+  //             id,
+  //           },
+  //         });
+  //       } else {
+  //         //检修计划审批详情
+  //         router.push({
+  //           name: 'planAuditDetails',
+  //           query: {
+  //             id,
+  //           },
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
+
+  function RouterJump(routerName: string, queryObj: any) {
+    router.push({
+      name: routerName,
+      query: queryObj,
+    });
+  }
+  function handleJump(id: string, code: string) {
+    //区分计划，工单类型：BYGD-保养工单 BY-保养计划 JX-检修计划 JXGD-检修工单  TZSB-特种设备 CG-故障确认 WX-维修工单 WXYS-维修验收
+    let workOrderStatus; //工单状态
+    let approvalStatus; //审批状态
+    if (code === 'BYGD') {
+      //保养工单
+      upkeepDetailsApi({ id }).then((res) => {
+        workOrderStatus = res.workOrderInfoVO.workOrderStatus;
+        if (workOrderStatus === '1' || workOrderStatus === '2' || workOrderStatus === '6') {
+          RouterJump('workOrderDetail', { id }); //保养工单详情
+        } else {
+          RouterJump('acceptanceDetail', { id }); //保养验收详情
+        }
+      });
+    } else if (code === 'BY') {
+      //保养计划
+      getPlanDetailApi({ id }).then((res) => {
+        approvalStatus = res.approvalStatus;
         if (approvalStatus === '1' || approvalStatus === '5') {
-          //保养计划详情
-          router.push({
-            name: 'planDetails',
-            query: {
-              id,
-            },
-          });
+          RouterJump('planDetails', { id }); //保养计划详情
         } else {
-          //保养计划审批详情
-          router.push({
-            name: 'maintainDetails',
-            query: {
-              id,
-            },
-          });
+          RouterJump('maintainDetails', { id }); //保养计划审批详情
         }
-      }
-    } else if (code === '2') {
-      //2：故障维修
-      //故障确认详情
-      if (itemUrl.includes('confirm-details')) {
-        if (faultStatus) {
-          router.push({
-            name: 'confirmDetail',
-            query: {
-              id,
-            },
-          });
-        }
-      }
-
-      //维修工单详情、维修验收详情
-      if (itemUrl.includes('repair-details') || itemUrl.includes('check-details')) {
-        if (workState1 === '0' || workState1 === '1') {
-          //维修工单详情
-          router.push({
-            name: 'repairDetail',
-            query: {
-              id,
-              identity: '2', //负责人：1、执行人：2
-            },
-          });
+      });
+    } else if (code === 'JXGD') {
+      //检修工单
+      UpkeepWorkOrderDetailsApi({ id }).then((res) => {
+        workOrderStatus = res.workOrderInfoVO.workOrderStatus;
+        if (workOrderStatus === '1' || workOrderStatus === '2' || workOrderStatus === '6') {
+          RouterJump('overhaulDetail', { id }); //检修工单详情
         } else {
-          //维修验收详情
-          router.push({
-            name: 'checkDetails',
-            query: {
-              id,
-            },
-          });
+          RouterJump('checkDetail', { id }); //检修验收详情
         }
-      }
-    } else if (code === '3') {
-      //3：设备检修
-      //检修工单详情、检修验收详情
-      if (itemUrl.includes('overhaul-details') || itemUrl.includes('check-details')) {
-        if (workState === '1' || workState === '2' || workState === '6') {
-          //检修工单详情
-          router.push({
-            name: 'overhaulDetail',
-            query: {
-              id,
-              identity: workState === '1' || workState === '6' ? '1' : '2', //负责人：1、执行人：2
-            },
-          });
-        } else {
-          //检修验收详情
-          router.push({
-            name: 'checkDetail',
-            query: {
-              id,
-              // status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
-            },
-          });
-        }
-      }
-
-      //检修计划详情、检修计划审批详情
-      if (itemUrl.includes('planManagement-details') || itemUrl.includes('planAudit-details')) {
+      });
+    } else if (code === 'BY') {
+      //检修计划
+      OverhaulPlanDetailsApi({ id }).then((res) => {
+        approvalStatus = res.approvalStatus;
         if (approvalStatus === '1' || approvalStatus === '5') {
-          //检修计划详情
-          router.push({
-            name: 'planManagementDetails',
-            query: {
-              id,
-            },
-          });
+          RouterJump('planManagementDetails', { id }); //检修计划详情
         } else {
-          //检修计划审批详情
-          router.push({
-            name: 'planAuditDetails',
-            query: {
-              id,
-            },
-          });
+          RouterJump('planAuditDetails', { id }); //检修计划审批详情
         }
-      }
+      });
     }
   }
   //详情跳转
   function handCheck(item) {
-    // let webNotifyUrl = location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1'
-    // let urlStr = webNotifyUrl.split('?')[1];
-    // console.log('urlStr',urlStr)
-    // let valArr = urlStr.split('&');
-    // let id = valArr[0].split('=')[1];
-    // let code = valArr[1].split('=')[1];
-    // console.log('参数',id,code)
+    let webNotifyUrl =
+      location.origin +
+      '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1';
+    let urlStr = webNotifyUrl.split('?')[1];
+    console.log('urlStr', urlStr);
+    let valArr = urlStr.split('&');
+    let id = valArr[0].split('=')[1];
+    let code = valArr[1].split('=')[1];
+    console.log('参数', id, code);
+    handleJump(id, code);
 
-    // handleJump(location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1');
-    window.location.href = item.webNotifyUrl;
+    // window.location.href = item.webNotifyUrl;
     // window.location.href = location.origin + '/device/#/device-service/service-workOrder/overhaul-details?id=1651423822949253120';
   }
   //点击显示详情

@@ -89,13 +89,13 @@
     getNotificationData();
   });
   async function getNotificationData() {
-    const { records } = await notificationApi({
-      organId: userStore.userInfo.comId, //企业ID(必填)
-      userId: userStore.userInfo.userId, //用户ID(必填)
-      page: 1,
-      pageSize: 5,
-      state: '2',
-    });
+    // const { records } = await notificationApi({
+    //   organId: userStore.userInfo.comId, //企业ID(必填)
+    //   userId: userStore.userInfo.userId, //用户ID(必填)
+    //   page: 1,
+    //   pageSize: 5,
+    //   state: '2',
+    // });
     // dynamicInfoItems.value = records.map((item) => {
     //   return {
     //     id: item.id, //主键id
