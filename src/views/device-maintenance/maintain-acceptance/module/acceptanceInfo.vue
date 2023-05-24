@@ -28,14 +28,14 @@
     <!-- 保养结果 -->
     <maintainDescription :acceptList="acceptList" />
     <!-- 验收结果 -->
-    <template v-if="status === '2'">
+    <template v-if="workOrderStatus !== '3'">
       <receiveDescription :acceptList="acceptList" />
     </template>
-    <div class="mt-[24px]" v-if="status === '1'">
+    <div class="mt-[24px]" v-if="workOrderStatus === '3'">
       <div class="font-black text-[#414960] text-[15px] mb-[16px]">验收结果</div>
       <BasicForm @register="registerFrom" />
     </div>
-    <div class="pb-[12px] w-40 w-40 ml-[25%]" v-if="status === '1'">
+    <div class="pb-[12px] w-40 w-40 ml-[25%]" v-if="workOrderStatus === '3'">
       <a-button class="mr-4" type="primary" @click="handleSubmit">提交</a-button>
       <a-button @click="CloseFun">取消</a-button>
     </div>
@@ -62,7 +62,7 @@
   const route = useRoute();
   const router = useRouter();
   const id = route.query?.id as string;
-  const status = route.query?.status as string;
+  // const status = route.query?.status as string;
   const workOrderStatus = ref<string>('');
   //审核icon
   function handleStatus(status) {

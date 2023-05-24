@@ -135,7 +135,7 @@
       name: 'acceptanceDetail',
       query: {
         id: record.id,
-        status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
+        // status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
       },
     });
   }
@@ -145,7 +145,7 @@
       name: 'acceptanceDetail',
       query: {
         id: record.id,
-        status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
+        // status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
       },
     });
   }

@@ -244,7 +244,7 @@
             name: 'acceptanceDetail',
             query: {
               id,
-              status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
+              // status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
             },
           });
         }
@@ -324,7 +324,7 @@
             name: 'checkDetail',
             query: {
               id,
-              status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
+              // status: workState === '3' ? '1' : '2', //待验收：1、已验收：2
             },
           });
         }

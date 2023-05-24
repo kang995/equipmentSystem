@@ -12,11 +12,11 @@
     <!-- 检修结果 -->
     <overhaulDescription :acceptList="acceptList" />
     <!-- 验收结果 -->
-    <template v-if="status === '2'">
+    <template v-if="workOrderStatus !== '3'">
       <resultDescriptions :acceptList="acceptList" />
     </template>
     <!-- 验收结果提交 -->
-    <template v-if="status === '1'">
+    <template v-if="workOrderStatus === '3'">
       <resultForm ref="submitRef" />
       <div class="my-[12px] ml-[25%]">
         <a-button class="mr-4" type="primary" @click="handleSubmit">提交</a-button>
@@ -43,7 +43,7 @@
   // const { createMessage } = useMessage();
   const route = useRoute();
   const router = useRouter();
-  const status = route.query?.status as string;
+  // const status = route.query?.status as string;
   const id = route.query?.id as string;
   const submitRef = ref();
   const workOrderStatus = ref<string>('');

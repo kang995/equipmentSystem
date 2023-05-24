@@ -136,8 +136,7 @@
       name: 'checkDetail',
       query: {
         id: record.id,
-        status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
-        // status: '1', //待验收：1、已通过：2、未通过：3
+        // status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
       },
     });
   }
@@ -147,7 +146,7 @@
       name: 'checkDetail',
       query: {
         id: record.id,
-        status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
+        // status: props.ifIssue ? '1' : '2', //待验收：1、已验收：2
       },
     });
   }
