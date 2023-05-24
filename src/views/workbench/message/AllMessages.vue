@@ -354,6 +354,14 @@
   }
   //详情跳转
   function handCheck(item) {
+    // let webNotifyUrl = location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1'
+    // let urlStr = webNotifyUrl.split('?')[1];
+    // console.log('urlStr',urlStr)
+    // let valArr = urlStr.split('&');
+    // let id = valArr[0].split('=')[1];
+    // let code = valArr[1].split('=')[1];
+    // console.log('参数',id,code)
+
     // handleJump(location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1');
     window.location.href = item.webNotifyUrl;
     // window.location.href = location.origin + '/device/#/device-service/service-workOrder/overhaul-details?id=1651423822949253120';
