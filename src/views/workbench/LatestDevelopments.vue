@@ -4,8 +4,11 @@
       <div class="flex items-center">
         <SvgIcon name="yewu_xiaoxi" size="24" />
         <span class="ml-1 text-body1 font-600 flex-1 text-sm">消息通知</span>
-        <span class="text-body2 cursor-pointer text-sm" @click="getMessageList">更多</span>
+        <span v-if="false" class="text-body2 cursor-pointer text-sm" @click="getMessageList"
+          >更多</span
+        >
         <SvgIcon
+          v-if="false"
           class="text-body2 cursor-pointer"
           name="gonggong_youjiantou_xianxing"
           size="24"
@@ -93,17 +96,17 @@
       pageSize: 5,
       state: '2',
     });
-    dynamicInfoItems.value = records.map((item) => {
-      return {
-        id: item.id, //主键id
-        state: item.readOrNo, //是否已读，1（已读）/2（未读）
-        day: item.createTime.split('-')[2].split(' ')[0], //接收时间
-        month: item.createTime.split('-')[1], //接收时间
-        title: item.title, //标题
-        messageType: item.messageType, //消息类型
-        messageTypeText: item.messageTypeText,
-      };
-    });
+    // dynamicInfoItems.value = records.map((item) => {
+    //   return {
+    //     id: item.id, //主键id
+    //     state: item.readOrNo, //是否已读，1（已读）/2（未读）
+    //     day: item.createTime.split('-')[2].split(' ')[0], //接收时间
+    //     month: item.createTime.split('-')[1], //接收时间
+    //     title: item.title, //标题
+    //     messageType: item.messageType, //消息类型
+    //     messageTypeText: item.messageTypeText,
+    //   };
+    // });
   }
   function getMessageList() {
     router.push({

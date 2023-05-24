@@ -1,6 +1,7 @@
 <template>
   <div :class="prefixCls" @click="handleJump">
     <Badge
+      v-if="false"
       :count="count"
       :overflowCount="99"
       title="未读消息"
