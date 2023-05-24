@@ -80,6 +80,12 @@
   async function sumitForm() {
     await validateFields();
     const data = getFieldsValue();
+    if (!data.affixList) {
+      data['affixList'] = [];
+    }
+    if (!data.imgList) {
+      data['imgList'] = [];
+    }
     if (routeId) {
       editListApi({
         ...data,

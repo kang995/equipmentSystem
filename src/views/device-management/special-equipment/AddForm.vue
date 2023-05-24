@@ -133,6 +133,9 @@
   async function sumitForm() {
     await validateFields();
     const data = getFieldsValue();
+    if (!data.affixList) {
+      data['affixList'] = [];
+    }
     const geographicalPositionValue = PositionData.value as any;
     if (
       geographicalPositionValue[0].longitude !== '' ||
