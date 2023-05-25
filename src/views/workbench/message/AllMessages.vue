@@ -101,6 +101,7 @@
   import { UpkeepWorkOrderDetailsApi } from '/@/api/device-service/service';
   import { OverhaulPlanDetailsApi } from '/@/api/device-service/index';
   import { TroubleDetailApi } from '/@/api/corrective-maintenance/fault';
+  import { postSpecialDetailApi } from '/@/api/device-management/special-equipment';
 
   const router = useRouter();
   const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
@@ -364,7 +365,7 @@
       query: queryObj,
     });
   }
-  function handleJump(id: string, code: string) {
+  function handleJump(id: string, code: string, dataSource: string) {
     //区分计划，工单类型：BYGD-保养工单 BY-保养计划 JX-检修计划 JXGD-检修工单  TZSB-特种设备 CG-故障确认 WX-维修工单 WXYS-维修验收
     let workOrderStatus; //工单状态
     let approvalStatus; //审批状态
@@ -425,20 +426,31 @@
       RouterJump('checkDetails', { id }); //维修验收详情
     } else if (code === 'TZSB') {
       //特种设备
+      postSpecialDetailApi({ id, dataSource }).then((res) => {
+        const natureType = res.deviceNature; //设备类型 1静0动
+        if (res.specialEquip === 'yes') {
+          if (natureType === '1') {
+            RouterJump('specialEquipmentDetails', { id, state: '3', dataSource }); //特种设备详情静
+          } else {
+            RouterJump('specialEquipmentDetailsMove', { id, state: '4', dataSource }); //特种设备详情动
+          }
+        }
+      });
     }
   }
   //详情跳转
   function handCheck(item) {
     let webNotifyUrl =
       location.origin +
-      '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1';
+      '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1&dataSource=2';
     let urlStr = webNotifyUrl.split('?')[1];
     console.log('urlStr', urlStr);
     let valArr = urlStr.split('&');
     let id = valArr[0].split('=')[1];
     let code = valArr[1].split('=')[1];
-    console.log('参数', id, code);
-    handleJump(id, code);
+    let dataSource = valArr[2].split('=')[1];
+    console.log('参数', id, code, dataSource);
+    handleJump(id, code, dataSource);
 
     // window.location.href = item.webNotifyUrl;
     // window.location.href = location.origin + '/device/#/device-service/service-workOrder/overhaul-details?id=1651423822949253120';

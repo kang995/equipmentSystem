@@ -29,9 +29,16 @@
   import SparePart from '../record/SparePart.vue';
   import { useRoute } from 'vue-router';
   const route = useRoute();
-  const state = route.query.state as string;
+  let state = route.query.state as string;
   const TabPane = Tabs.TabPane;
 
+  //三方跳转时判断state
+  if (!state) {
+    let url = window.location.href;
+    if (url.includes('special-equipment')) {
+      state = '3';
+    }
+  }
   interface TabItem {
     key: string;
     name: string;
