@@ -367,7 +367,7 @@ export const mechanicsDescItem: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'siteList',
+    field: 'positionList',
     label: '经纬度',
     render: (val) => {
       console.log('val: ', val);
@@ -392,7 +392,7 @@ export const mechanicsDescItem: DescItem[] = [
     },
   },
   {
-    field: 'pictureList',
+    field: 'blueprintList',
     label: '图纸',
     contentMinWidth: 400,
     render: (data) => {
@@ -562,7 +562,7 @@ export const equipmentDescItem: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'siteList',
+    field: 'positionList',
     label: '经纬度',
     render: (val) => {
       console.log('val: ', val);
@@ -587,7 +587,7 @@ export const equipmentDescItem: DescItem[] = [
     },
   },
   {
-    field: 'pictureList',
+    field: 'blueprintList',
     label: '图纸',
     contentMinWidth: 400,
     render: (data) => {
