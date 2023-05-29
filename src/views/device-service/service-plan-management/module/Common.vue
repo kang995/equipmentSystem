@@ -237,7 +237,7 @@
     });
   }
   //保养设备回显
-  const DeviceVal = ref([]);
+  const DeviceVal = ref<any>([]);
   function handleEcho(val, data) {
     console.log('回显', val, data);
     dataSourceList.value = data;
@@ -372,7 +372,8 @@
   function handleDelete(index) {
     const data = getDataSource();
     data.splice(index, 1);
-    DeviceVal.value.splice(index, 1);
+    // DeviceVal.value.splice(index, 1);
+    DeviceVal.value = data.map((item) => item.deviceId);
     setTableData(data);
   }
 </script>
