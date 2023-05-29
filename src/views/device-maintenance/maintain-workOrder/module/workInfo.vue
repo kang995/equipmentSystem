@@ -162,7 +162,7 @@
   const route = useRoute();
   const id = route.query?.id as string;
   const status = route.query?.status || (workOrderStatus as string);
-  const identity = route.query?.identity || ('1' as string);
+  const identity = ref(route.query?.identity as string);
   const delayFlag = route.query?.delayFlag || (delayFlags as string);
 
   const props = defineProps<{
@@ -252,6 +252,16 @@
       acceptList.value = res.acceptList;
       workOrderStatus.value = res.workOrderInfoVO.workOrderStatus;
       delayFlags.value = res.workOrderInfoVO.delayFlag;
+      //第三方跳转判断identity
+      if (!identity.value) {
+        if (workOrderStatus.value === '2') {
+          //待执行
+          identity.value = '2';
+        } else {
+          identity.value = '1';
+        }
+        // console.log('identity.value',identity.value)
+      }
     });
 
   // 负责人

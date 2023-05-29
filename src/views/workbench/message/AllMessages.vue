@@ -310,7 +310,7 @@
   //详情跳转
   function handCheck(item) {
     try {
-      // let webNotifyUrl = location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1651144002901430273&code=TZSB&dataSource=2';
+      // let webNotifyUrl = location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1651423822949253120&code=JXGD&dataSource=2';
       let webNotifyUrl = item.webNotifyUrl;
       let urlStr = webNotifyUrl.split('?')[1];
       let valArr = urlStr.split('&');
