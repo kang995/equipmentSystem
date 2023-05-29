@@ -684,7 +684,7 @@ export function confirmFormSchema(): FormSchema[] {
 }
 
 //故障详情--已确认
-export function confirmdingDetail(troubleDetermine: string, troubleStatus: string): DescItem[] {
+export function confirmdingDetail(troubleDetermine: any, troubleStatus: any): DescItem[] {
   return [
     {
       field: 'troubleDetermineText',

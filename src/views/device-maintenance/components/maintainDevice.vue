@@ -27,7 +27,7 @@
   const router = useRouter();
   const route = useRoute();
   const id = route.query?.id as string;
-  const mode = route.query?.mode as string;
+  let mode = route.query?.mode as string;
   const dataSource = ref([{}, {}]);
   const [register] = useTable({
     dataSource: dataSource,
@@ -43,6 +43,24 @@
       slots: { customRender: 'action' },
     },
   });
+  //三方跳转时判断mode
+  if (!mode) {
+    //mode--保养计划管理：1、保养计划审核：2、检修计划管理：3、检修计划审核：4
+    let url = window.location.href;
+    if (url.includes('plan-details')) {
+      //保养计划管理详情
+      mode = '1';
+    } else if (url.includes('maintain-details')) {
+      //保养计划审核详情
+      mode = '2';
+    } else if (url.includes('planManagement-details')) {
+      //检修计划管理详情
+      mode = '3';
+    } else if (url.includes('planAudit-details')) {
+      //检修计划审核详情
+      mode = '4';
+    }
+  }
 
   onMounted(() => {
     id && (mode === '1' || mode === '2') && getMaintaindEevice();

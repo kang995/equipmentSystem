@@ -348,13 +348,6 @@
       obj['workOrderId'] = id;
       resolve(obj);
     });
-    // upkeepDealResultApi(obj)
-    //   .then(() => {
-    //     createMessage.success('已提交');
-    //   })
-    //   .finally(() => {
-    //     CloseFun();
-    //   });
   }
   const [registerResultFrom, { validate: validateResult, getFieldsValue: getFieldsValueResult }] =
     useForm({

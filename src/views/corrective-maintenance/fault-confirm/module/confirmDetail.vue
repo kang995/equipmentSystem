@@ -87,11 +87,11 @@
       // //已确认-故障信息
       // datas.value = res;
       //故障确认 0:自修、1：委外维修 2：列入检修计划
-      troubleDetermine &&
+      res.troubleDetermine &&
         (faultData.value =
-          troubleDetermine === '0'
+          res.troubleDetermine === '0'
             ? res.deviceTroubleOneselfVO
-            : troubleDetermine === '1'
+            : res.troubleDetermine === '1'
             ? res.deviceTroubleOutsourceVO
             : res.deviceTroubleOverhaulVO);
       faultData.value['troubleDetermineText'] = res['troubleDetermineText']; //确认结果

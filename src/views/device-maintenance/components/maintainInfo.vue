@@ -119,6 +119,7 @@
   const id = route.query?.id as string;
   const planStatus = route.query?.planStatus || (planStatus1 as string);
 
+  const emit = defineEmits(['planEnent']);
   const [planModal, { openModal: openPlanModal }] = useModal();
   const [RecallModal, { openModal: openRecallModal }] = useModal();
   const [registerAgreeModel, { openModal: agreeOpenModal, setModalProps: setModalAgreeProps }] =
@@ -266,6 +267,7 @@
       AuditStatus.value = res.approvalStatus;
       approvalButtonShow.value = res.approvalButtonShow;
       planStatus1.value = res.planStatus;
+      emit('planEnent', res.fullSubmitId);
     });
   }
   //检修计划管理、检修计划审核详情
@@ -276,6 +278,7 @@
       AuditStatus.value = res.approvalStatus;
       approvalButtonShow.value = res.approvalButtonShow;
       planStatus1.value = res.planStatus;
+      emit('planEnent', res.fullSubmitId);
     });
   }
 </script>

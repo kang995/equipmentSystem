@@ -153,24 +153,22 @@
   import daiyanshou from '/@/assets/images/daiyanshou@2x.png';
   import weitongguo from '/@/assets/images/weitongguo@2x.png';
   import tongguo from '/@/assets/images/tongguo@2x.png';
-
+  // import { usePermission } from '/@/hooks/web/usePermission';
+  // const { hasPermission } = usePermission();
   const maintainStatus: any = ref<string>('');
   const delayFlags: any = ref<any>('');
   const { createMessage } = useMessage();
   const router = useRouter();
   const route = useRoute();
   const isShow = route.query?.isShow as string;
-  // const isSbumit = route.query?.isSbumit as string;
   const status = route.query?.status || (maintainStatus as string);
   const identity = route.query?.identity || ('1' as string);
   const id = route.query?.id as string;
   const delayFlag = route.query?.delayFlag || (delayFlags as string);
-  // const determineId = route.query?.determineId as string;
 
   const emit = defineEmits(['eventChange']);
   onMounted(() => {
     isShow && (apply.value = true);
-    // isSbumit && (SubmitAccept.value = true);
   });
   const props = defineProps<{
     partFlag: Boolean;
@@ -199,6 +197,19 @@
         return tongguo;
     }
   }
+  //第三方跳转判断identity
+  // if(!identity){
+  //   if (
+  //     hasPermission(['device:troubleWorkOrder:responsible']) &&
+  //     hasPermission(['device:troubleWorkOrder:execute'])
+  //   ) {
+  //     identity = '1';
+  //   } else if (hasPermission(['device:troubleWorkOrder:responsible'])) {
+  //     identity = '1';
+  //   } else if (hasPermission(['device:troubleWorkOrder:execute'])) {
+  //     identity = '2';
+  //   }
+  // }
 
   //工单详情
   const jobEndTime = ref<any>();

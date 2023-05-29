@@ -59,9 +59,7 @@
               <DescriptionsItem value="userName" :class="`${prefixCls}-detail`">
                 <div class="flex flex-col items-start">
                   <span class="cursor-pointer"> {{ item?.content }}</span>
-                  <Button v-if="false" class="mt-2" type="primary" @click="handCheck(item)"
-                    >查看详情</Button
-                  >
+                  <Button class="mt-2" type="primary" @click="handCheck(item)">查看详情</Button>
                 </div>
               </DescriptionsItem>
             </Descriptions>
@@ -365,8 +363,14 @@
       query: queryObj,
     });
   }
-  function handleJump(id: string, code: string, dataSource: string) {
-    //区分计划，工单类型：BYGD-保养工单 BY-保养计划 JX-检修计划 JXGD-检修工单  TZSB-特种设备 CG-故障确认 WX-维修工单 WXYS-维修验收
+  function handleJump(id: string, code: string, dataSource?: string) {
+    //1、设备保养、检修
+    //工单状态-- 1:未开始 2：待执行 3：待验收 4：已完成 5：验收未通过 6：计划终止
+    //审批状态--1：待提交 2：审批中 3：审批通过 4：审批拒绝 5：其他
+    //2、故障维修
+    //故障状态-- 0：待确认 2：处理中 3：已解决 4：已转计划
+    //工单状态-- 0：待处理 1：待处理(延期申请) 2：待验收 3：验收未通过 4：完成
+    //3、区分计划，工单类型：BYGD-保养工单 BY-保养计划 JX-检修计划 JXGD-检修工单  TZSB-特种设备 CG-故障确认 WX-维修工单 WXYS-维修验收
     let workOrderStatus; //工单状态
     let approvalStatus; //审批状态
     let troubleStatus; //故障状态
@@ -400,7 +404,7 @@
           RouterJump('checkDetail', { id }); //检修验收详情
         }
       });
-    } else if (code === 'BY') {
+    } else if (code === 'JX') {
       //检修计划
       OverhaulPlanDetailsApi({ id }).then((res) => {
         approvalStatus = res.approvalStatus;
@@ -440,20 +444,24 @@
   }
   //详情跳转
   function handCheck(item) {
-    let webNotifyUrl =
-      location.origin +
-      '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1660469003136663552&code=1&dataSource=2';
-    let urlStr = webNotifyUrl.split('?')[1];
-    console.log('urlStr', urlStr);
-    let valArr = urlStr.split('&');
-    let id = valArr[0].split('=')[1];
-    let code = valArr[1].split('=')[1];
-    let dataSource = valArr[2].split('=')[1];
-    console.log('参数', id, code, dataSource);
-    handleJump(id, code, dataSource);
-
-    // window.location.href = item.webNotifyUrl;
-    // window.location.href = location.origin + '/device/#/device-service/service-workOrder/overhaul-details?id=1651423822949253120';
+    try {
+      // let webNotifyUrl = location.origin + '/device/#/device-maintenance/maintain-workOrder/workOrder-details?id=1651144002901430273&code=TZSB&dataSource=2';
+      let webNotifyUrl = item.webNotifyUrl;
+      let urlStr = webNotifyUrl.split('?')[1];
+      let valArr = urlStr.split('&');
+      let id = valArr[0].split('=')[1];
+      let code = valArr[1].split('=')[1];
+      if (valArr[2]) {
+        let dataSource = valArr[2].split('=')[1];
+        handleJump(id, code, dataSource);
+      } else {
+        handleJump(id, code);
+      }
+      // console.log('urlStr', urlStr);
+      // console.log('参数', id, code, dataSource);
+    } catch (e) {
+      console.error('查看详情错误');
+    }
   }
   //点击显示详情
   function rowClick(val) {
