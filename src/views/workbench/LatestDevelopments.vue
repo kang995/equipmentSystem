@@ -91,7 +91,7 @@
       userId: userStore.userInfo.userId, //用户ID(必填)
       page: 1,
       pageSize: 5,
-      state: '2',
+      readOrNo: '2', //不传：全部；1：已读；2：未读
     });
     dynamicInfoItems.value = records.map((item) => {
       return {
