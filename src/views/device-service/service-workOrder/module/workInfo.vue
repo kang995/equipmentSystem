@@ -40,7 +40,7 @@
       </template>
       <!-- 检修结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
-        <overhaulDescription :acceptList="acceptList" :status="status" />
+        <overhaulDescription :acceptList="acceptList" />
       </template>
       <!-- 验收结果 -->
       <!-- <template v-if="status === '4' || status === '5'">

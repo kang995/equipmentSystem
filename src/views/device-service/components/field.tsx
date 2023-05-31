@@ -284,10 +284,12 @@ export function ResultsSchemas(): DescItem[] {
       render: (curVal) => {
         return curVal === '0' ? '通过' : '拒绝';
       },
+      show: (data) => data.acceptResult,
     },
     {
       field: 'acceptContent',
       label: '验收内容',
+      show: (data) => data.acceptContent,
     },
     {
       field: 'acceptImgList',
@@ -314,14 +316,17 @@ export function ResultsSchemas(): DescItem[] {
           );
         }
       },
+      show: (data) => data.acceptImgList,
     },
     {
       field: 'acceptTime',
       label: '验收时间',
+      show: (data) => data.acceptTime,
     },
     {
       field: 'acceptPeopleNameStr',
       label: '验收人',
+      show: (data) => data.acceptPeopleNameStr,
     },
   ];
 }

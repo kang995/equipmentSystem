@@ -753,17 +753,17 @@ export function RepairDetail(index: number, status: string): DescItem[] {
       render: () => {
         return <span style={titleStyle}>验收结果({index + 1})</span>;
       },
-      show: (_) => status === '3' || status === '4',
+      show: (data) => data.acceptResultText,
     },
     {
       field: 'acceptResultText',
       label: '验收结果',
-      show: (_) => status === '3' || status === '4',
+      show: (data) => data.acceptResultText,
     },
     {
       field: 'acceptContent',
       label: '验收描述',
-      show: (_) => status === '3' || status === '4',
+      show: (data) => data.acceptContent,
     },
     {
       field: 'acceptImgList',
@@ -790,7 +790,7 @@ export function RepairDetail(index: number, status: string): DescItem[] {
           );
         }
       },
-      show: (_) => status === '3' || status === '4',
+      show: (data) => data.acceptImgList,
     },
   ];
 }

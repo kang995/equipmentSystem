@@ -3,7 +3,7 @@
     <template v-for="(item, index) in props.acceptList" :key="item.id">
       <div class="font-black text-[#414960] text-[15px] my-[16px]">检修结果({{ index + 1 }})</div>
       <Description :column="3" :bordered="false" :data="item" :schema="ResultSchemaDetail()" />
-      <div v-if="props.status === '4' || props.status === '5'">
+      <div v-if="item.acceptResult">
         <div class="font-black text-[#414960] text-[15px] my-[16px]">验收结果({{ index + 1 }})</div>
         <Description :column="3" :bordered="false" :data="item" :schema="ResultsSchemas()" />
       </div>
@@ -18,9 +18,6 @@
     acceptList: {
       type: Object as any,
       default: () => {},
-    },
-    status: {
-      type: String,
     },
   });
   //检修结果

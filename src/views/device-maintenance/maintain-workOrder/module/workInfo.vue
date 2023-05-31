@@ -40,7 +40,7 @@
       </template>
       <!-- 保养结果、验收结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
-        <maintainDescription :acceptList="acceptList" :status="status" />
+        <maintainDescription :acceptList="acceptList" />
         <!-- <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" /> -->
       </template>
       <div class="my-[24px]">
