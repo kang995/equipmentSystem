@@ -40,12 +40,12 @@
       </template>
       <!-- 检修结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
-        <overhaulDescription :acceptList="acceptList" />
+        <overhaulDescription :acceptList="acceptList" :status="status" />
       </template>
       <!-- 验收结果 -->
-      <template v-if="status === '4' || status === '5'">
+      <!-- <template v-if="status === '4' || status === '5'">
         <resultDescriptions :acceptList="acceptList" />
-      </template>
+      </template> -->
       <div :class="['my-[24px]', 'flex', !again && !postpone ? 'w-15' : 'w-full']">
         <template v-if="status === '2'">
           <a-button type="primary" v-if="!again && !postpone" @click="handleAgain"
@@ -79,12 +79,12 @@
       </template>
       <!-- 检修结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
-        <overhaulDescription :acceptList="acceptList" />
+        <overhaulDescription :acceptList="acceptList" :status="status" />
       </template>
       <!-- 验收结果  -->
-      <template v-if="status === '4' || status === '5'">
+      <!-- <template v-if="status === '4' || status === '5'">
         <resultDescriptions :acceptList="acceptList" />
-      </template>
+      </template> -->
       <!-- 重新提交检修结果 -->
       <!-- <acceptForm v-if="SubmitAccept" /> -->
       <template v-if="SubmitAccept">
@@ -132,7 +132,7 @@
   import applyDescription from '/@/views/device-maintenance/components/petitioner/applyDescription.vue';
 
   import overhaulDescription from '../../components/petitioner/overhaulDescription.vue';
-  import resultDescriptions from '../../components/petitioner/resultDescriptions.vue';
+  // import resultDescriptions from '../../components/petitioner/resultDescriptions.vue';
   //执行人
   import applyForm from '../../components/executor/applyForm.vue';
   // import acceptForm from '../../components/executor/acceptForm.vue';

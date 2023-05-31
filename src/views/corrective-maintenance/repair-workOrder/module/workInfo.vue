@@ -26,17 +26,21 @@
       <!-- 维修结果 -->
       <div class="mt-[12px]" v-if="status === '2' || status === '3' || status === '4'">
         <template v-for="(item, index) in repair" :key="item.id">
-          <Description :bordered="false" :column="3" :data="item" :schema="RepairDetail(index)" />
+          <Description
+            :bordered="false"
+            :column="3"
+            :data="item"
+            :schema="RepairDetail(index, status)"
+          />
         </template>
         <!-- <Description @register="registerRepair" /> -->
       </div>
       <!-- 验收结果 -->
-      <div class="mt-[12px]" v-if="status === '3' || status === '4'">
+      <!-- <div class="mt-[12px]" v-if="status === '3' || status === '4'">
         <template v-for="(item, index) in result" :key="item.id">
           <Description :bordered="false" :column="3" :data="item" :schema="ResultDetail(index)" />
         </template>
-        <!-- <Description @register="registerResult" /> -->
-      </div>
+      </div> -->
       <div class="my-[24px]">
         <template v-if="status === '0'">
           <div :class="[delayFlag === '2' ? 'ml-[25%]' : '']">
@@ -75,21 +79,19 @@
           <Description
             v-if="!SubmitAccept"
             :bordered="false"
-            :column="2"
+            :column="3"
             :data="item"
-            :schema="RepairDetail(index)"
+            :schema="RepairDetail(index, status)"
           />
         </template>
         <!-- <Description @register="registerShowResult" /> -->
       </div>
       <!-- 验收结果 -->
-      <div class="mt-[12px]" v-if="status === '3' || status === '4'">
+      <!-- <div class="mt-[12px]" v-if="status === '3' || status === '4'">
         <template v-for="(item, index) in result" :key="item.id">
           <Description :bordered="false" :column="2" :data="item" :schema="ResultDetail(index)" />
         </template>
-        <!-- <Description @register="registerRepair" v-if="!SubmitAccept" /> -->
-        <!-- <Description @register="registerResult" /> -->
-      </div>
+      </div> -->
       <!-- 提交维修结果 -->
       <div v-if="SubmitAccept">
         <div class="font-black text-[#414960] text-[15px] my-[16px]">维修结果</div>
@@ -136,7 +138,7 @@
     PostponeDetail,
     getPostponeFormSchema,
     RepairDetail,
-    ResultDetail,
+    // ResultDetail,
     getApplyFormSchema,
     getAcceptFormSchema,
     // ShowResultDetail,
@@ -204,7 +206,7 @@
       infoData.value = res; //工单信息
       postpone.value = res.delay; //延期审核
       repair.value = res.acceptList; //维修结果
-      result.value = res.acceptList; //验收结果
+      // result.value = res.acceptList; //验收结果
       maintainStatus.value = res.maintainStatus;
       delayFlags.value = res.delayFlag;
       //原截止时间
@@ -296,7 +298,7 @@
 
   const [registerAccept, { validate: validateResult, getFieldsValue: getFieldsValueResult }] =
     useForm({
-      schemas: getAcceptFormSchema(status), //表单配置
+      schemas: getAcceptFormSchema(), //表单配置
       showActionButtonGroup: false, //是否显示操作按钮(重置/提交)
       // baseColProps: {
       //   span: 24,
@@ -393,7 +395,7 @@
   //   size: 'default',
   // });
   // 验收结果
-  let result = ref<any>([]);
+  // let result = ref<any>([]);
   // const [registerResult] = useDescription({
   //   data: result,
   //   schema: ResultDetail(),

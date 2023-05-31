@@ -670,7 +670,7 @@ export function getPostponeFormSchema(): FormSchema[] {
 }
 
 //工单信息-维修结果
-export function RepairDetail(index: number): DescItem[] {
+export function RepairDetail(index: number, status: string): DescItem[] {
   return [
     {
       field: '',
@@ -742,6 +742,55 @@ export function RepairDetail(index: number): DescItem[] {
     {
       field: 'acceptPeopleName',
       label: '验收人',
+      span: 2,
+    },
+    //验收结果
+    {
+      field: '',
+      label: '',
+      labelMinWidth: 0,
+      span: 3,
+      render: () => {
+        return <span style={titleStyle}>验收结果({index + 1})</span>;
+      },
+      show: (_) => status === '3' || status === '4',
+    },
+    {
+      field: 'acceptResultText',
+      label: '验收结果',
+      show: (_) => status === '3' || status === '4',
+    },
+    {
+      field: 'acceptContent',
+      label: '验收描述',
+      show: (_) => status === '3' || status === '4',
+    },
+    {
+      field: 'acceptImgList',
+      label: '图片',
+      render: (data) => {
+        const ARow = Row;
+        if (data) {
+          return (
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
+          );
+        }
+      },
+      show: (_) => status === '3' || status === '4',
     },
   ];
 }
@@ -837,7 +886,7 @@ export function getApplyFormSchema(): FormSchema[] {
   ];
 }
 //工单信息-维修结果
-export function getAcceptFormSchema(status: string): FormSchema[] {
+export function getAcceptFormSchema(): FormSchema[] {
   return [
     {
       field: 'dealCase',

@@ -40,8 +40,8 @@
       </template>
       <!-- 保养结果、验收结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
-        <maintainDescription :acceptList="acceptList" />
-        <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" />
+        <maintainDescription :acceptList="acceptList" :status="status" />
+        <!-- <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" /> -->
       </template>
       <div class="my-[24px]">
         <template v-if="status === '2'">
@@ -78,8 +78,8 @@
       </div>
       <!-- 保养结果、验收结果 -->
       <template v-if="status === '3' || status === '4' || status === '5'">
-        <maintainDescription :acceptList="acceptList" />
-        <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" />
+        <maintainDescription :acceptList="acceptList" :status="status" />
+        <!-- <receiveDescription :acceptList="acceptList" v-if="status === '4' || status === '5'" /> -->
       </template>
 
       <!-- 保养结果重新提交 -->
@@ -127,7 +127,7 @@
   //执行人
   // import applyForm from '/@/views/device-service/components/executor/applyForm.vue';
   import maintainDescription from '../../components/petitioner/maintainDescription.vue';
-  import receiveDescription from '../../components/petitioner/receiveDescription.vue';
+  // import receiveDescription from '../../components/petitioner/receiveDescription.vue';
   import {
     WorkDetails,
     WorkDetail,
