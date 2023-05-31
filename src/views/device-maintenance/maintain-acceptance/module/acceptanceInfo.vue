@@ -25,12 +25,12 @@
         />
       </template>
     </BasicTable>
-    <!-- 保养结果 -->
+    <!-- 保养结果、验收结果 -->
     <maintainDescription :acceptList="acceptList" />
     <!-- 验收结果 -->
-    <template v-if="workOrderStatus !== '3'">
+    <!-- <template v-if="workOrderStatus !== '3'">
       <receiveDescription :acceptList="acceptList" />
-    </template>
+    </template> -->
     <div class="mt-[24px]" v-if="workOrderStatus === '3'">
       <div class="font-black text-[#414960] text-[15px] mb-[16px]">验收结果</div>
       <BasicForm @register="registerFrom" />
@@ -53,7 +53,7 @@
   import { keepDeviceColumns } from '/@/views/device-maintenance/maintain-workOrder/data';
   import { upkeepDetailsApi, getSaveAcceptResultApi } from '/@/api/device-maintenance/work';
   import maintainDescription from '/@/views/device-maintenance/components/petitioner/maintainDescription.vue';
-  import receiveDescription from '/@/views/device-maintenance/components/petitioner/receiveDescription.vue';
+  // import receiveDescription from '/@/views/device-maintenance/components/petitioner/receiveDescription.vue';
   import tongguo from '/@/assets/images/tongguo@2x.png';
   import weitongguo from '/@/assets/images/weitongguo@2x.png';
   import daiyanshou from '/@/assets/images/daiyanshou@2x.png';

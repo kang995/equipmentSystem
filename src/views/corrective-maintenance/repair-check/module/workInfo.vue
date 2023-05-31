@@ -10,18 +10,18 @@
     <!-- 维修明细 -->
     <div class="font-black text-[#414960] text-[15px] py-[16px]">维修明细</div>
     <Description :bordered="true" :column="2" :data="infoData" :schema="WorkDetails()" />
-    <!-- 维修结果 -->
+    <!-- 维修结果、验收结果 -->
     <div class="mt-[12px]" v-if="status === '2' || status === '3' || status === '4'">
       <template v-for="(item, index) in repair" :key="item.id">
-        <Description :bordered="false" :column="2" :data="item" :schema="maintainDetail(index)" />
+        <Description :bordered="false" :column="3" :data="item" :schema="maintainDetail(index)" />
       </template>
     </div>
     <!-- 验收结果 -->
-    <div v-if="status === '3' || status === '4'">
+    <!-- <div v-if="status === '3' || status === '4'">
       <template v-for="(item, index) in repair" :key="item.id">
         <Description :bordered="false" :column="2" :data="item" :schema="maintainDetails(index)" />
       </template>
-    </div>
+    </div> -->
     <!-- 提交验收 -->
     <div class="mt-[12px]" v-if="status === '2'">
       <div class="font-black text-[#414960] text-[15px] my-[16px]">验收结果</div>
@@ -38,7 +38,7 @@
     WorkDetails,
     WorkDetail,
     getResultFormSchema,
-    maintainDetails,
+    // maintainDetails,
     maintainDetail,
   } from '../data';
   import { useRoute, useRouter } from 'vue-router';

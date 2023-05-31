@@ -670,7 +670,7 @@ export function getPostponeFormSchema(): FormSchema[] {
 }
 
 //工单信息-维修结果
-export function RepairDetail(index: number, status: string): DescItem[] {
+export function RepairDetail(index: number): DescItem[] {
   return [
     {
       field: '',

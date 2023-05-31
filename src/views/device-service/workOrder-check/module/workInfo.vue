@@ -9,12 +9,12 @@
     <template v-if="deviceList.length">
       <DeviceTable :deviceList="deviceList" />
     </template>
-    <!-- 检修结果 -->
+    <!-- 检修结果、验收结果 -->
     <overhaulDescription :acceptList="acceptList" />
     <!-- 验收结果 -->
-    <template v-if="workOrderStatus !== '3'">
+    <!-- <template v-if="workOrderStatus !== '3'">
       <resultDescriptions :acceptList="acceptList" />
-    </template>
+    </template> -->
     <!-- 验收结果提交 -->
     <template v-if="workOrderStatus === '3'">
       <resultForm ref="submitRef" />
@@ -32,7 +32,7 @@
   import workOrder from './WorkOrderDescription.vue';
   import DeviceTable from './DeviceTable.vue';
   import overhaulDescription from '/@/views/device-service/components/petitioner/overhaulDescription.vue';
-  import resultDescriptions from '/@/views/device-service/components/petitioner/resultDescriptions.vue';
+  // import resultDescriptions from '/@/views/device-service/components/petitioner/resultDescriptions.vue';
   import resultForm from './resultForm.vue';
   import { SaveAcceptResultApi, UpkeepWorkOrderDetailsApi } from '/@/api/device-service/service';
   // import { useMessage } from '/@/hooks/web/useMessage';
