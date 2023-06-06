@@ -623,7 +623,7 @@ export function resultschema(index: number): DescItem[] {
       field: '',
       label: '',
       labelMinWidth: 0,
-      span: 2,
+      span: 3,
       render: () => {
         return <span style={titleStyle}>维修结果{index + 1}</span>;
       },
@@ -700,14 +700,16 @@ export function resultschema(index: number): DescItem[] {
       field: '',
       label: '',
       labelMinWidth: 0,
-      span: 2,
+      span: 3,
       render: () => {
         return <span style={titleStyle}>验收结果{index + 1}</span>;
       },
+      show: (data) => data.acceptResultText,
     },
     {
       field: 'acceptResultText',
       label: '验收结果',
+      show: (data) => data.acceptResultText,
       // render: (curVal, data) => {
       //   return curVal === '0' ? '通过' : '不通过';
       // },
@@ -715,6 +717,34 @@ export function resultschema(index: number): DescItem[] {
     {
       field: 'acceptContent',
       label: '验收描述',
+      show: (data) => data.acceptContent,
+    },
+    {
+      field: 'acceptImgList',
+      label: '图片',
+      render: (data) => {
+        const ARow = Row;
+        if (data) {
+          return (
+            <ARow gutter={24}>
+              <div class="flex flex-1">
+                {data.map((item) => {
+                  if (item.url) {
+                    return (
+                      <div class="pl-2">
+                        <Image width={80} src={item.url} />
+                      </div>
+                    );
+                  } else {
+                    return '';
+                  }
+                })}
+              </div>
+            </ARow>
+          );
+        }
+      },
+      show: (data) => data.acceptImgList,
     },
   ];
 }

@@ -24,7 +24,7 @@
       <!-- 维修结果、验收结果 -->
       <template v-if="troubleStatus === '2' || troubleStatus === '3'">
         <template v-for="(item, index) in resultData" :key="item.id">
-          <Description :bordered="false" :column="2" :data="item" :schema="resultschema(index)" />
+          <Description :bordered="false" :column="3" :data="item" :schema="resultschema(index)" />
         </template>
       </template>
     </div>
