@@ -562,7 +562,7 @@ export const equipmentDescItem: DescItem[] = [
     label: '地理位置',
   },
   {
-    field: 'positionList',
+    field: 'siteList',
     label: '经纬度',
     render: (val) => {
       console.log('val: ', val);
