@@ -587,7 +587,7 @@ export const equipmentDescItem: DescItem[] = [
     },
   },
   {
-    field: 'blueprintList',
+    field: 'pictureList',
     label: '图纸',
     contentMinWidth: 400,
     render: (data) => {
